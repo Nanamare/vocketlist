@@ -1,0 +1,101 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    defaultConfig {
+        applicationId "com.sicamp.android.noti"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    productFlavors {
+        // Define separate dev and prod product flavors.
+        dev {
+            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
+            // to pre-dex each module and produce an APK that can be tested on
+            // Android Lollipop without time consuming dex merging processes.
+            minSdkVersion 21
+        }
+
+        prod {
+            // The actual minSdkVersion for the application.
+            minSdkVersion 16
+        }
+    }
+
+    buildTypes {
+        debug {
+            zipAlignEnabled true
+            debuggable true
+            multiDexEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project-debug.txt'
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            zipAlignEnabled true
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+//            signingConfig signingConfigs.release
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+
+        release {
+            storeFile file("nhn.keystore")
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
+    }
+}
+
+android.applicationVariants.all { variant ->
+    def df = new SimpleDateFormat("yyyyMMdd")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+
+    def buildTime = df.format(new Date())
+    def newApkName = 'noti-' + android.defaultConfig.versionName + '-' + variant.buildType.name + "-" + buildTime
+
+    variant.outputs.each { output ->
+        def newApkPath = output.outputFile.parent
+        def newAlignedApkPath = new File(newApkPath, 'aligned')
+        output.outputFile = new File(newAlignedApkPath, newApkName + '.apk')
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    testCompile 'junit:junit:4.12'
+
+    // 내부 라이브러리
+    compile project(':libraries:logger')
+    compile project(':libraries:network')
+
+    // Glide : (Image Load Library)[https://github.com/bumptech/glide]
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    // Butter Knife : [https://github.com/JakeWharton/butterknife]
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+}
