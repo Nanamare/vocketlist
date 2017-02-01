@@ -45,10 +45,25 @@
             </intent-filter>
         </activity>
 
+        <!-- FCM 수신 -->
+        <service
+            android:name=".firebase.message.PushService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <!-- FCM Token access -->
+        <service
+            android:name=".firebase.message.PushInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <!-- Glide모듈을 Custom하게 변경 -->
         <meta-data
             android:name=".GlideSetup"
             android:value="GlideModule" />
     </application>
-
 </manifest>
