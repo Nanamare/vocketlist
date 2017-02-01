@@ -23,7 +23,7 @@ android {
             minSdkVersion 21
         }
 
-        prod {
+        real {
             // The actual minSdkVersion for the application.
             minSdkVersion 16
         }
@@ -98,4 +98,9 @@ dependencies {
     // Butter Knife : [https://github.com/JakeWharton/butterknife]
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    // Firebase message
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
