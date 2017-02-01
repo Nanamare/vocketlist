@@ -33,7 +33,7 @@ dependencies {
     compile project(':libraries:logger')
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-io
-    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+    compile 'commons-io:commons-io:2.5'
 
     // Parser
     compile 'com.google.code.gson:gson:2.6.2'
