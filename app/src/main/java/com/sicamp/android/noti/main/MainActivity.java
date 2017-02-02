@@ -1,17 +1,18 @@
 package com.sicamp.android.noti.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sicamp.android.noti.BaseActivity;
 import com.sicamp.android.noti.R;
+import com.sicamp.android.noti.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +86,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
 

@@ -45,6 +45,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".login.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
         <!-- FCM 수신 -->
         <service
             android:name=".firebase.message.PushService">
@@ -66,4 +70,5 @@
             android:name=".GlideSetup"
             android:value="GlideModule" />
     </application>
+
 </manifest>
