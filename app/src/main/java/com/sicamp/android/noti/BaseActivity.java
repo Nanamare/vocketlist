@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class BaseActivity extends AppCompatActivity {
     private boolean mIsRootActivity = false;
     private boolean mCloseFlag = false;
+
+    protected FirebaseAnalytics mFirebaseAnalytics;
 
     private final Handler mCloseHandler = new Handler() {
         @Override
@@ -22,6 +27,13 @@ public class BaseActivity extends AppCompatActivity {
             mCloseFlag = false;
         }
     };
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

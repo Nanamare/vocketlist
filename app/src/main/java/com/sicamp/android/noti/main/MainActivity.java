@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.sicamp.android.noti.BaseActivity;
 import com.sicamp.android.noti.R;
 import com.sicamp.android.noti.login.LoginActivity;
@@ -30,6 +31,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
 
         initViews();
+        FirebaseCrash.log("Activity created");
     }
 
     private void initViews() {

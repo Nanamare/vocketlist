@@ -91,6 +91,7 @@ dependencies {
     // 내부 라이브러리
     compile project(':libraries:logger')
     compile project(':libraries:network')
+    compile project(':libraries:daummap')   // http://apis.map.daum.net/android/guide/
 
     // Glide : (Image Load Library)[https://github.com/bumptech/glide]
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -99,8 +100,14 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
-    // Firebase message
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    // Firebase (https://firebase.google.com/)
+    compile 'com.google.firebase:firebase-messaging:10.0.1' // Firebase message
+    compile 'com.google.firebase:firebase-crash:10.0.1'     // Firebase App Crash Report
+    compile 'com.google.firebase:firebase-core:10.0.1'      // Firebase Analytics
+
+    // Share
+    compile group: 'com.kakao.sdk', name: 'kakaolink', version: '1.1.0' // 카카오링크 (https://developers.kakao.com/)
+
 }
 
 apply plugin: 'com.google.gms.google-services'

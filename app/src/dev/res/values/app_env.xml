@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- sample-->
+    <string name="base_sample_host" translatable="false">https://jsonplaceholder.typicode.com/</string>
+
+    <!-- kakao -->
+    <string name="kakao_app_key">7351bf9dc3b70e15c55878821fd0a51d</string>
+    <string name="kakao_scheme">kakaoNoti</string>
+    <string name="kakaolink_host">kakaolink</string>
+</resources>

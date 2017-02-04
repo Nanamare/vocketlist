@@ -32,7 +32,7 @@ public final class RetrofitException extends RuntimeException {
         assertNotNull(exception);
         assertNotNull(retrofit);
 
-        String message = createMessage(url, null, Kind.HTTP, exception);
+        String message = createMessage(url, null, Kind.NETWORK, exception);
         return new RetrofitException(message, url, null, Kind.NETWORK, exception, retrofit);
     }
 
@@ -40,7 +40,7 @@ public final class RetrofitException extends RuntimeException {
         assertNotNull(url);
         assertNotNull(exception);
 
-        String message = createMessage(url, response, Kind.HTTP, exception);
+        String message = createMessage(url, response, Kind.UNEXPECTED, exception);
         return new RetrofitException(message, url, null, Kind.UNEXPECTED, exception, null);
     }
 
@@ -118,6 +118,7 @@ public final class RetrofitException extends RuntimeException {
         }
 
         builder.append("\nerror : " + exception.getMessage());
+        builder.append("\ncause : " + exception.getCause());
         builder.append("\nwifi network name : " + NetworkState.getInstance().getConnectedWifiNetowkName());
         builder.append("\nwifi strength level : " + NetworkState.getInstance().getConntectedWifiSignalLevel());
         builder.append("\nproxy Info : " + NetworkState.getInstance().getProxyHost() + ":" + NetworkState.getInstance().getProxyPort());

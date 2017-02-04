@@ -3,7 +3,6 @@ package com.sicamp.android.noti.login;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.sicamp.android.noti.BaseActivity;
 import com.sicamp.android.noti.R;
 import com.sicamp.android.roboguice.util.Ln;
@@ -26,13 +25,5 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            Ln.d("already signed in");
-        } else {
-            Ln.d("already signed in");
-            // not signed in
-        }
     }
 }
