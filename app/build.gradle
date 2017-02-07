@@ -6,7 +6,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.sicamp.android.noti"
+        applicationId "com.vongtome.android"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
@@ -70,7 +70,7 @@ android.applicationVariants.all { variant ->
     df.setTimeZone(TimeZone.getTimeZone("UTC"))
 
     def buildTime = df.format(new Date())
-    def newApkName = 'noti-' + android.defaultConfig.versionName + '-' + variant.buildType.name + "-" + buildTime
+    def newApkName = 'vongtome-' + android.defaultConfig.versionName + '-' + variant.buildType.name + "-" + buildTime
 
     variant.outputs.each { output ->
         def newApkPath = output.outputFile.parent
