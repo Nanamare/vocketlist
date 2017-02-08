@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.google.firebase.crash.FirebaseCrash;
 import com.vocketlist.android.BaseActivity;
 import com.vocketlist.android.R;
-import com.vocketlist.android.login.LoginActivity;
+import com.vongtome.android.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_login) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);

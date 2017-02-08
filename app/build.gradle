@@ -1,10 +1,12 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'     // ButterKnife (https://github.com/JakeWharton/butterknife)
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
+
     defaultConfig {
         applicationId "com.vocketlist.android"
         minSdkVersion 17
@@ -12,20 +14,16 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     productFlavors {
         // Define separate dev and prod product flavors.
         dev {
-            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
-            // to pre-dex each module and produce an APK that can be tested on
-            // Android Lollipop without time consuming dex merging processes.
-            minSdkVersion 16
         }
 
         real {
-            // The actual minSdkVersion for the application.
-            minSdkVersion 16
         }
     }
 
@@ -63,6 +61,22 @@ android {
             keyPassword ""
         }
     }
+
+    packagingOptions {
+        // Butter Knife
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+
+        // Jackson
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
+
+    }
+
+    dexOptions {
+        jumboMode true;
+        javaMaxHeapSize "4g"
+        preDexLibraries = false
+    }
 }
 
 android.applicationVariants.all { variant ->
@@ -84,6 +98,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
@@ -107,7 +123,7 @@ dependencies {
 
     // Share
     compile group: 'com.kakao.sdk', name: 'kakaolink', version: '1.1.0' // 카카오링크 (https://developers.kakao.com/)
-
+    compile 'com.facebook.android:facebook-android-sdk:4.19.0'          // facebook (https://developers.facebook.com/docs/android/downloads?locale=ko_KR)
 }
 
 apply plugin: 'com.google.gms.google-services'
