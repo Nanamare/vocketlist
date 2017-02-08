@@ -1,4 +1,5 @@
 include ':app'
+include ':libraries:AwesomeText'
 include ':libraries:logger'
 include ':libraries:network'
 include ':libraries:daummap'
