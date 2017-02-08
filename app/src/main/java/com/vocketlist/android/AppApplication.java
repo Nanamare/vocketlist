@@ -6,7 +6,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
 import com.vocketlist.android.network.utils.NetworkState;
 import com.vocketlist.android.roboguice.log.Ln;
-import com.vongtome.android.FacebookEventLogger;
 
 /**
  * Created by lsit on 2017. 1. 30..
