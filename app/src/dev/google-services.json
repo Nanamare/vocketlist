@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:704639126712:android:713ff3137ddeb9b4",
+        "mobilesdk_app_id": "1:704639126712:android:47083a35abe7661b",
         "android_client_info": {
-          "package_name": "com.vongtome.android"
+          "package_name": "com.vocketlist.android"
         }
       },
       "oauth_client": [

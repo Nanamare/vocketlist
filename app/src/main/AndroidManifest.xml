@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vongtome.android">
+    package="com.vocketlist.android">
 
     <!-- 네트워크 사용 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.vongtome.android.AppApplication"
+        android:name=".AppApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.vongtome.android.splash.SplashActivity"
+            android:name=".splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name="com.vongtome.android.main.MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -45,13 +45,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.vongtome.android.login.LoginActivity"
+        <activity android:name=".login.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <!-- FCM 수신 -->
         <service
-            android:name="com.vongtome.android.message.PushService">
+            android:name=".message.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
@@ -59,7 +59,7 @@
 
         <!-- FCM Token access -->
         <service
-            android:name="com.vongtome.android.message.PushInstanceIDService">
+            android:name=".message.PushInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
