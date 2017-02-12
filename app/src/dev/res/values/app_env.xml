@@ -5,6 +5,6 @@
 
     <!-- kakao -->
     <string name="kakao_app_key">7351bf9dc3b70e15c55878821fd0a51d</string>
-    <string name="kakao_scheme">kakaoNoti</string>
+    <string name="kakao_scheme">kakaoVocketlist</string>
     <string name="kakaolink_host">kakaolink</string>
 </resources>

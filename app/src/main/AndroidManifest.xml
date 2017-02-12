@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sicamp.android.noti">
+    package="com.vocketlist.android">
 
     <!-- 네트워크 사용 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -51,7 +51,7 @@
 
         <!-- FCM 수신 -->
         <service
-            android:name=".firebase.message.PushService">
+            android:name=".message.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
@@ -59,7 +59,7 @@
 
         <!-- FCM Token access -->
         <service
-            android:name=".firebase.message.PushInstanceIDService">
+            android:name=".message.PushInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

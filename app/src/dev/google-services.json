@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:704639126712:android:d19ec1877b2dfdcc",
+        "mobilesdk_app_id": "1:704639126712:android:47083a35abe7661b",
         "android_client_info": {
-          "package_name": "com.sicamp.android.noti"
+          "package_name": "com.vocketlist.android"
         }
       },
       "oauth_client": [
