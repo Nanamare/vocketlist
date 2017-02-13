@@ -1,4 +1,4 @@
-## VocketList 안드로이드 Branch 정의
+# VocketList 안드로이드 Branch 정의#
 크게 master, develop 2가지의 branch를 갖고 있으며 이 두가지 branch는 절대 삭제가 되어서는 안되며, 만일 삭제가 필요한 경우 팀원들과 협의하여 진행하여야 한다.
 
 > remote 저장소를 기준으로 설명되었으며 local 저장소 내에서는 자유롭게 사용하면 된다.
@@ -17,7 +17,7 @@
 2. 다만 이를 반영하기 위해서는 develop을 기준으로 PR(Pull Request)를 통해 진행한다.
 
 
-## PR(Pull Request) 규칙
+# PR(Pull Request) 규칙#
 ### PR시 주의 사항
 1. commit이 많은 경우 불필요한 commit들을 sqush를 이용하여 통합한다.
 > 명령 : `git rebase -i HEAD~[COUNT]`
