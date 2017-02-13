@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jmpergar.awesometext.AwesomeTextHandler;
-import com.vongtome.android.common.util.ScreenUtils;
+import com.vocketlist.android.common.util.ScreenUtils;
 
 public class HashtagsSpanRenderer implements AwesomeTextHandler.ViewSpanRenderer {
     private final static int textSizeInDips = 18;

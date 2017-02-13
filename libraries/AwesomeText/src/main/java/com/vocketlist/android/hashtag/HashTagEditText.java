@@ -1,35 +1,12 @@
-/*
-* Copyright (C) 2015 Steven Lewi
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
 package com.vocketlist.android.hashtag;
 
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spannable;
 import android.text.TextWatcher;
-import android.text.method.DigitsKeyListener;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -38,18 +15,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jmpergar.awesometext.AwesomeTextHandler;
 import com.jmpergar.awesometext.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HashTagEditText extends EditText {
 
-    private final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789, \n";
-    private List<HashTagSpan> mValuesSpan;
     private ViewGroup bubbleRootView;
     private TextView bubbleTextView;
-    private int mMaxSize;
     private Drawable mBubbleBackground;
     private float mBubbleTextSize;
     private int mBubbleTextColor;
@@ -57,6 +29,8 @@ public class HashTagEditText extends EditText {
     private int mVerticalSpacing;
     private int mHorizontalPadding;
     private int mVerticalPadding;
+
+    private AwesomeTextHandler mAwesomeTextHandler = new AwesomeTextHandler();
 
     public HashTagEditText(Context context) {
         super(context);
@@ -92,7 +66,6 @@ public class HashTagEditText extends EditText {
     private void initAttributeSet(AttributeSet attrs) {
         if (attrs != null) {
             TypedArray style = getContext().obtainStyledAttributes(attrs, R.styleable.HashTagEditText, 0, 0);
-            mMaxSize = style.getInteger(R.styleable.HashTagEditText_maxSize, -1);
             mBubbleTextSize = style.getDimension(R.styleable.HashTagEditText_bubbleTextSize, getTextSize());
             mBubbleTextColor = style.getColor(R.styleable.HashTagEditText_bubbleTextColor, getCurrentTextColor());
             mHorizontalSpacing = style.getDimensionPixelSize(R.styleable.HashTagEditText_horizontalSpacing, 0);
@@ -113,14 +86,11 @@ public class HashTagEditText extends EditText {
             mVerticalPadding = 0;
             mBubbleBackground = getContext().getResources().getDrawable(R.drawable.bg_default_bubble);
         }
-        if (mMaxSize == -1) {
-            mValuesSpan = new ArrayList<>();
-        } else {
-            mValuesSpan = new ArrayList<>(mMaxSize);
-        }
     }
 
     private void initView() {
+        mAwesomeTextHandler.setView(this);
+
         bubbleRootView = (ViewGroup) View.inflate(getContext(), R.layout.default_bubble_item, null);
         bubbleRootView.setPadding(mHorizontalSpacing, mVerticalSpacing, mHorizontalSpacing, mVerticalSpacing);
 
@@ -135,102 +105,36 @@ public class HashTagEditText extends EditText {
         setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE |
                 InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        setFilters(new InputFilter[]{DigitsKeyListener.getInstance(ALLOWED_CHARS)});
         addTextChangedListener(new HashTagWatcher());
     }
 
-    public void appendTag(String tag) {
-        append(tag.replace(" ", "") + ' ');
-    }
-
-    public List<String> getValues() {
-        List<String> values = new ArrayList<>();
-        for (HashTagSpan span : mValuesSpan) {
-            values.add(span.getText());
-        }
-        return values;
-    }
-
-    private int getLastOffset() {
-        int lastOffset = 0;
-        for (HashTagSpan span : mValuesSpan) {
-            lastOffset += span.getText().length();
-        }
-        return lastOffset;
-    }
-
-    public void reDrawHashTagBubble() {
-        int index = 0;
-        for (HashTagSpan span : mValuesSpan) {
-            try {
-                getText().setSpan(span.getSpan(), index, index + span.getText().length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            index += span.getText().length();
-        }
-    }
-
-    private BitmapDrawable generateBubbleBitmap(String tag) {
-        bubbleTextView.setText(tag);
-        int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-        bubbleRootView.measure(spec, spec);
-        bubbleRootView.layout(0, 0, bubbleRootView.getMeasuredWidth(), bubbleRootView.getMeasuredHeight());
-        Bitmap b = Bitmap.createBitmap(bubbleRootView.getMeasuredWidth(), bubbleRootView.getMeasuredHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
-        c.translate(-bubbleRootView.getScrollX(), -bubbleRootView.getScrollY());
-        bubbleRootView.draw(c);
-        bubbleRootView.setDrawingCacheEnabled(true);
-        Bitmap cacheBmp = bubbleRootView.getDrawingCache();
-        Bitmap viewBmp = cacheBmp.copy(Bitmap.Config.ARGB_8888, true);
-        bubbleRootView.destroyDrawingCache();
-        BitmapDrawable bd = new BitmapDrawable(getResources(), viewBmp);
-        if (bd != null) {
-            bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
-        }
-        return bd;
+    public void add(String pattern, AwesomeTextHandler.ViewSpanRenderer spanRenderer) {
+        mAwesomeTextHandler.addViewSpanRenderer(pattern, spanRenderer);
     }
 
     private class HashTagWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
         }
 
         @Override
-        public synchronized void onTextChanged(CharSequence s, int start, int before, int count) {
+        public synchronized void onTextChanged(CharSequence charSequence, int start, int before, int count) {
             removeTextChangedListener(this);
-            if (s.length() > 0) {
-                if (s.length() < getLastOffset()) {
-                    getText().removeSpan(mValuesSpan.get(mValuesSpan.size() - 1).getSpan());
-                    mValuesSpan.remove(mValuesSpan.size() - 1);
-                } else if (mValuesSpan.size() >= mMaxSize && mMaxSize != -1) {
-                    if (count > before) {
-                        setText(getText().delete(s.length() - 1, s.length()));
-                    }
-                } else {
-                    char last = s.charAt(s.length() - 1);
-                    if (last == ' ' || last == ',' || last == '\n') {
-                        getText().delete(s.length() - 1, s.length());
-                        if (s.length() > getLastOffset()) {
-                            CharSequence lastTag = s.subSequence(getLastOffset(), s.length());
-                            BitmapDrawable tagBitmap = generateBubbleBitmap(lastTag.toString());
-                            ImageSpan span = new ImageSpan(tagBitmap, lastTag.toString());
-                            mValuesSpan.add(new HashTagSpan(lastTag.toString(), span));
-                        }
-                    }
+
+            if (charSequence.length() >= 1) {
+                if (32 == charSequence.charAt(charSequence.length() - 1)) {
+                    mAwesomeTextHandler.renderer(getText(), charSequence);
                 }
-            } else {
-                mValuesSpan.clear();
             }
-            reDrawHashTagBubble();
+
             addTextChangedListener(this);
         }
 
         @Override
         public void afterTextChanged(Editable s) {
+
         }
     }
 }

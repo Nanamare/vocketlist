@@ -1,4 +1,5 @@
-package com.jmpergar.awesometext;/*
+package com.jmpergar.awesometext;
+/*
  * Copyright (C) 2015 José Manuel Pereira García.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,78 +45,90 @@ public class AwesomeTextHandler {
         public void onClick(String text, Context context);
     }
 
-    private TextView view;
-    private Context context;
-    private Map<String, ViewSpanRenderer> renderers;
+    private TextView mView;
+    private Context mContext;
+    private Map<String, ViewSpanRenderer> mRenderers;
 
     public AwesomeTextHandler() {
-        renderers = new HashMap<>();
+        mRenderers = new HashMap<>();
     }
 
-    public com.jmpergar.awesometext.AwesomeTextHandler addViewSpanRenderer(String pattern, ViewSpanRenderer viewSpanRenderer) {
-        renderers.put(pattern, viewSpanRenderer);
-        if (view != null) {
+    public AwesomeTextHandler addViewSpanRenderer(String pattern, ViewSpanRenderer viewSpanRenderer) {
+        mRenderers.put(pattern, viewSpanRenderer);
+        if (mView != null) {
             applyRenderers();
         }
         return this;
     }
 
     public Map<String, ViewSpanRenderer> getViewSpanRenderers() {
-        return renderers;
+        return mRenderers;
     }
 
-    public void setView(TextView view) {
-        this.view = view;
-        this.context = view.getContext();
+    public void setView(TextView mView) {
+        this.mView = mView;
+        this.mContext = mView.getContext();
         applyRenderers();
     }
 
     public void setText(String text) {
-        if (view != null) {
-            view.setText(text);
+        if (mView != null) {
+            mView.setText(text);
             applyRenderers();
         } else {
             throw new IllegalStateException("View mustn't be null");
         }
     }
 
-    private void applyRenderers() {
-        if (renderers != null) {
-            Spannable spannableString = new SpannableString(view.getText());
-            Set<String> spanPatterns = renderers.keySet();
-            for (String spanPattern : spanPatterns) {
-                Pattern pattern = Pattern.compile(spanPattern);
-                Matcher matcher = pattern.matcher(spannableString);
-                while (matcher.find()) {
-                    int start = matcher.start();
-                    int end = matcher.end();
-                    ViewSpanRenderer renderer = renderers.get(spanPattern);
-                    String text = matcher.group(0);
-                    View view = renderer.getView(text, context);
-                    BitmapDrawable bitmpaDrawable = (BitmapDrawable) ViewUtils.convertViewToDrawable(view);
-                    bitmpaDrawable.setBounds(UPPER_LEFT_X, UPPER_LEFT_Y, bitmpaDrawable.getIntrinsicWidth(), bitmpaDrawable.getIntrinsicHeight());
-                    spannableString.setSpan(new ImageSpan(bitmpaDrawable), start, end, DEFAULT_RENDER_APPLY_MODE);
-                    if (renderer instanceof ViewSpanClickListener) {
-                        enableClickEvents();
-                        ClickableSpan clickableSpan = getClickableSpan(text, (ViewSpanClickListener) renderer);
-                        spannableString.setSpan(clickableSpan, start, end, DEFAULT_RENDER_APPLY_MODE);
-                    }
+    public final Spannable renderer(Spannable spannableString, CharSequence string) {
+        if (mRenderers == null) {
+            return null;
+        }
+
+        Set<String> spanPatterns = mRenderers.keySet();
+        for (String spanPattern : spanPatterns) {
+            Pattern pattern = Pattern.compile(spanPattern);
+            Matcher matcher = pattern.matcher(spannableString);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+
+                ViewSpanRenderer renderer = mRenderers.get(spanPattern);
+                String text = matcher.group(0);
+                View spannableView = renderer.getView(text, mContext);
+
+                BitmapDrawable bitmpaDrawable = (BitmapDrawable) ViewUtils.convertViewToDrawable(spannableView);
+                bitmpaDrawable.setBounds(UPPER_LEFT_X, UPPER_LEFT_Y, bitmpaDrawable.getIntrinsicWidth(), bitmpaDrawable.getIntrinsicHeight());
+                spannableString.setSpan(new ImageSpan(bitmpaDrawable), start, end, DEFAULT_RENDER_APPLY_MODE);
+
+                if (renderer instanceof ViewSpanClickListener) {
+                    enableClickEvents();
+                    ClickableSpan clickableSpan = getClickableSpan(text, (ViewSpanClickListener) renderer);
+                    spannableString.setSpan(clickableSpan, start, end, DEFAULT_RENDER_APPLY_MODE);
                 }
             }
-            view.setText(spannableString);
+        }
+
+        return spannableString;
+    }
+
+    private void applyRenderers() {
+        if (mRenderers != null) {
+            Spannable spannableString = renderer(new SpannableString(mView.getText()), mView.getText());
+            mView.setText(spannableString);
         }
     }
 
     private void enableClickEvents() {
-        view.setMovementMethod(LinkMovementMethod.getInstance());
-        view.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+        mView.setMovementMethod(LinkMovementMethod.getInstance());
+        mView.setHighlightColor(mContext.getResources().getColor(android.R.color.transparent));
     }
 
     private ClickableSpan getClickableSpan(final String text, final ViewSpanClickListener listener) {
         ClickableSpan clickableSpan = new ClickableSpanWithoutFormat() {
             @Override
             public void onClick(View view) {
-                listener.onClick(text, context);
+                listener.onClick(text, mContext);
             }
         };
         return clickableSpan;

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jmpergar.awesometext.AwesomeTextHandler;
-import com.vongtome.android.common.util.ScreenUtils;
+import com.vocketlist.android.common.util.ScreenUtils;
 
 
 public class MentionSpanRenderer implements AwesomeTextHandler.ViewSpanRenderer, AwesomeTextHandler.ViewSpanClickListener {

@@ -1,4 +1,4 @@
-package com.vongtome.android.common.util;
+package com.vocketlist.android.common.util;
 
 import android.content.Context;
 
