@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- 사진 -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civPhoto"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/dummy_profile"
+        app:civ_border_color="@color/black_50"
+        app:civ_border_overlay="true"
+        app:civ_border_width="1dp" />
+
+    <!-- 내용 : 이름 + 본문 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/civPhoto"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/civPhoto"
+        android:minHeight="35dp"
+        android:text="송정호"
+        android:textSize="@dimen/font_36" />
+
+    <!-- 라인 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="43dp"
+        android:layout_below="@+id/tvName"
+        android:background="@color/black_12"
+        android:orientation="vertical" />
+
+</RelativeLayout>

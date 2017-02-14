@@ -6,20 +6,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    tools:context=".activity.MainActivity"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/app_bar_main"
+    <!-- 콘텐츠 컨테이너 -->
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
+        <!-- 앱바 -->
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <!--  툴바 -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <!-- 탭 -->
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- 컨텐츠  -->
+        <FrameLayout
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/content_margin_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <!-- 하단 네비게이션 -->
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:layout_gravity="bottom"
+            app:bb_behavior="shifting|underNavbar"
+            app:bb_tabXmlResource="@xml/bottom_navigation" />
+
+        <!--app:bb_behavior="shifting|underNavbar"
+            app:bb_inActiveTabAlpha="0.3"
+            app:bb_inActiveTabColor="@color/colorPrimaryDark"
+            app:bb_activeTabColor="@color/colorPrimary"-->
+    </android.support.design.widget.CoordinatorLayout>
+
+    <!-- 네비게이션 드로워 -->
     <android.support.design.widget.NavigationView
-        android:id="@+id/navi_view"
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/navigation_drawer_header"
+        app:menu="@menu/navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

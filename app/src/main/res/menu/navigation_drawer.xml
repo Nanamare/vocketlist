@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/naviSettings"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/naviFavorite"
+            android:icon="@drawable/ic_favorite"
+            android:title="@string/favorite" />
+        <item
+            android:id="@+id/naviMe"
+            android:icon="@drawable/ic_person"
+            android:title="@string/me" />
+        <item
+            android:id="@+id/naviActivity"
+            android:icon="@drawable/ic_v"
+            android:title="@string/activity" />
+        <item
+            android:id="@+id/naviNotice"
+            android:icon="@drawable/ic_speaker_note"
+            android:title="@string/notice" />
+
+        <item
+            android:id="@+id/naviIntroduce"
+            android:icon="@drawable/ic_info"
+            android:title="@string/introduce" />
+    </group>
+
+    <group
+        android:id="@+id/naviInfo"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/naviTerms"
+            android:title="@string/terms" />
+        <item
+            android:id="@+id/naviLicense"
+            android:title="@string/license" />
+    </group>
+
+</menu>

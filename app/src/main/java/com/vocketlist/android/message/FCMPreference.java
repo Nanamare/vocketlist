@@ -3,7 +3,7 @@ package com.vocketlist.android.message;
 import android.content.Context;
 
 import com.vocketlist.android.AppApplication;
-import com.vocketlist.android.common.preference.BasePreference;
+import com.vocketlist.android.preference.BasePreference;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 2..
