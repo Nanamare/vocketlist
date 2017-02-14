@@ -18,6 +18,8 @@
             android:minHeight="100dp"
             android:scaleType="centerCrop" />
 
+        <!-- TODO 내/외 컨텐츠 구분 뱃지 추가 -->
+
     </RelativeLayout>
 
     <!-- 이름 -->

@@ -19,6 +19,9 @@
 
 
     <!-- 폰트 크기 -->
+    <dimen name="font_27">9sp</dimen>
+    <dimen name="font_30">10sp</dimen>
+    <dimen name="font_33">11sp</dimen>
     <dimen name="font_36">12sp</dimen>
     <dimen name="font_39">13sp</dimen>
     <dimen name="font_42">14sp</dimen>

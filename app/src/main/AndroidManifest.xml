@@ -179,9 +179,9 @@
         </service>
 
         <!-- Glide모듈을 Custom하게 변경 -->
-        <meta-data
-            android:name=".GlideSetup"
-            android:value="GlideModule" />
+        <!--<meta-data-->
+            <!--android:name=".GlideSetup"-->
+            <!--android:value="GlideModule" />-->
 
         <!-- Kakao Link -->
         <meta-data

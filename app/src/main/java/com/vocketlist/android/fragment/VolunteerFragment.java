@@ -54,6 +54,5 @@ public class VolunteerFragment extends BaseFragment {
         // 탭
         TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 }

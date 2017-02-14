@@ -8,5 +8,6 @@ import java.io.Serializable;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class Post implements Serializable{
+public class Post implements Serializable {
+    private Author author;
 }
