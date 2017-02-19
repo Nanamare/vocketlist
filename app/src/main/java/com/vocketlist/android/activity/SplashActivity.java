@@ -7,12 +7,14 @@ import android.os.Handler;
 import com.vocketlist.android.activity.BaseActivity;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
+import com.vocketlist.android.net.ServiceManager;
 
 /**
  * Created by lsit on 2017. 1. 30..
  */
 
 public class SplashActivity extends BaseActivity {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class SplashActivity extends BaseActivity {
                 startMainActivity();
             }
         }, 1000);
+
     }
 
     private void startMainActivity() {

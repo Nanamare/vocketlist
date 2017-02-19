@@ -2,6 +2,7 @@ package com.vocketlist.android.message;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.roboguice.log.Ln;
 
 /**
@@ -29,5 +30,7 @@ public class PushInstanceIDService extends FirebaseInstanceIdService {
 
     private void sendRegistrationToServer(String refreshedToken) {
         // todo send token to server
+        ServiceManager manager = new ServiceManager();
+        manager.registerFcmToken(refreshedToken);
     }
 }

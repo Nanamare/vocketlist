@@ -1,5 +1,6 @@
 package com.vocketlist.android;
 
+import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.FacebookSdk;
@@ -37,6 +38,10 @@ public class AppApplication extends MultiDexApplication {
             FacebookSdk.setIsDebugEnabled(true);
             FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         }
+    }
+
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     public static AppApplication getInstance() {
