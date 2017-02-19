@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -14,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
+import com.vocketlist.android.message.notitype.NotiType;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import java.util.ArrayList;
@@ -56,6 +60,7 @@ public class PushService extends FirebaseMessagingService {
 		String title = remoteMessage.getNotification().getTitle();
 		int badgeCount = 1;
 		String pushMessage = datas[1];
+		String notiType = "watchList"; //서버에게 푸시 타입 알려줘야함
 
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(pushMessage);
@@ -65,37 +70,77 @@ public class PushService extends FirebaseMessagingService {
 		}
 
 		sendBadgeUpdateIntent(badgeCount);
-		sendNotification(title, list);
+		sendNotification(title, list, notiType);
 
 	}
 
-	private void sendNotification(String title, List<String> list) {
+	private void sendNotification(String title, List<String> list, String notiType) {
 
-		NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),0);
+		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-		Notification.Builder mBuilder = new Notification.Builder(this);
-		mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-		mBuilder.setTicker("알람 도착");
-		mBuilder.setWhen(System.currentTimeMillis());
-		mBuilder.setContentTitle(title);
-		mBuilder.setContentText("관심 스케쥴 일정");
-		mBuilder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE);
-		mBuilder.setContentIntent(pendingIntent);
-		mBuilder.setAutoCancel(true);
+		if (NotiType.WATCHLIST.equals(notiType)) {
+			//관심목록
+			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+			Notification.Builder mBuilder = new Notification.Builder(this);
+			mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+			mBuilder.setTicker("알람 도착");
+			mBuilder.setWhen(System.currentTimeMillis());
+			mBuilder.setContentTitle(title);
+			mBuilder.setContentText("관심 스케쥴 일정");
+			mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+			mBuilder.setContentIntent(pendingIntent);
+			mBuilder.setAutoCancel(true);
 
-		Notification.InboxStyle style = new Notification.InboxStyle(mBuilder);
-		if(list.size()!=0) {
-			for (int i = 0; i < list.size(); i++) {
-				style.addLine(list.get(i));
+			Notification.InboxStyle style = new Notification.InboxStyle(mBuilder);
+			if (list.size() != 0) {
+				for (int i = 0; i < list.size(); i++) {
+					style.addLine(list.get(i));
+				}
+			} else {
+				style.addLine("없네요 관심 스케쥴을 설정해보세요.");
 			}
-		} else {
-			style.addLine("없네요 관심 스케쥴을 설정해보세요.");
-		}
-		style.setSummaryText("더보기");
-		mBuilder.setStyle(style);
+			style.setSummaryText("더보기");
+			mBuilder.setStyle(style);
 
-		nm.notify(555,mBuilder.build());
+			nm.notify(555, mBuilder.build());
+
+		} else if (NotiType.NOWATCHLIST.equals(notiType)) {
+			//관심목록 없음 각 카테고리 목록 이동
+			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+					.setSmallIcon(R.mipmap.ic_launcher)
+					.setContentTitle("")
+					.setContentText("")
+					.setAutoCancel(true)
+					.setSound(defaultSoundUri)
+					.setPriority(android.app.Notification.PRIORITY_MAX)
+					.setContentIntent(pendingIntent);
+
+			NotificationManager notificationManager =
+					(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+			notificationManager.notify(0, notificationBuilder.build());
+
+		} else if (NotiType.WISDOM.equals(notiType)) {
+			//명언 목록으로 이동
+			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+					.setSmallIcon(R.mipmap.ic_launcher)
+					.setContentTitle("")
+					.setContentText("")
+					.setAutoCancel(true)
+					.setSound(defaultSoundUri)
+					.setPriority(android.app.Notification.PRIORITY_MAX)
+					.setContentIntent(pendingIntent);
+
+			NotificationManager notificationManager =
+					(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+			notificationManager.notify(0, notificationBuilder.build());
+
+		}
 
 	}
 
