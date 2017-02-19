@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- For FirebaseAnalytics -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".AppApplication"
         android:allowBackup="false"
@@ -16,7 +19,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -33,7 +36,7 @@
         </activity>
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -45,15 +48,111 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".login.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
+        <!-- 알림설정 -->
+        <activity
+            android:name=".activity.NotificationActivity"
+            android:label="@string/notification"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 스케줄관리 -->
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:label="@string/schedule"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 목표관리 -->
+        <activity
+            android:name=".activity.GoalActivity"
+            android:label="@string/goal"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 관심정보 -->
+        <activity
+            android:name=".activity.FavoriteActivity"
+            android:label="@string/favorite"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 개인정보 -->
+        <activity
+            android:name=".activity.MeActivity"
+            android:label="@string/me"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 공지사항 -->
+        <activity
+            android:name=".activity.NoticeActivity"
+            android:label="@string/notice"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 서비스소개 -->
+        <activity
+            android:name=".activity.IntroduceActivity"
+            android:label="@string/introduce"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 정책 -->
+        <activity
+            android:name=".activity.TermsActivity"
+            android:label="@string/terms"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 라이센스 -->
+        <activity
+            android:name=".activity.LicenseActivity"
+            android:label="@string/license"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 내후기모아보기 -->
+        <activity
+            android:name=".activity.MyPostsActivity"
+            android:label="@string/my_posts"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 봉사활동 : 상세보기 -->
+        <activity
+            android:name=".activity.VolunteerReadActivity"
+            android:label="@string/volunteer_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 커뮤니티 : 글 : 작성 & 수정 -->
+        <activity
+            android:name=".activity.PostCUActivity"
+            android:label="@string/volunteer_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 커뮤니티 : 댓글 -->
+        <activity
+            android:name=".activity.PostCommentActivity"
+            android:label="@string/comment"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!-- FCM 수신 -->
-        <service
-            android:name=".message.PushService">
+        <service android:name=".message.PushService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -63,25 +162,26 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
 
 
         <!-- FCM Token access -->
-        <service
-            android:name=".message.PushInstanceIDService">
+        <service android:name=".message.PushInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <!-- Glide모듈을 Custom하게 변경 -->
-        <meta-data
-            android:name=".GlideSetup"
-            android:value="GlideModule" />
+        <!--<meta-data-->
+            <!--android:name=".GlideSetup"-->
+            <!--android:value="GlideModule" />-->
 
         <!-- Kakao Link -->
         <meta-data
@@ -89,8 +189,9 @@
             android:value="@string/kakao_app_key" />
 
         <!-- facebook -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>

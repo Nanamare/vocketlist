@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.vocketlist.android.view.NavigationDrawerHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@android:color/black"
+    android:gravity="bottom"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_pattern_bg" />
+
+    <!-- 로그인 사용자 -->
+    <LinearLayout
+        android:id="@+id/llLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 내 정보 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1">
+
+            <!-- 사진 -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civPhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:paddingLeft="16dp"
+                android:src="@drawable/dummy_profile"
+                app:civ_border_color="@color/white_60"
+                app:civ_border_overlay="true"
+                app:civ_border_width="1dp" />
+
+            <!-- 이름 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/civPhoto"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/civPhoto"
+                android:text="송정호"
+                android:textSize="@dimen/font_54" />
+
+            <!-- 달성률 -->
+            <ProgressBar
+                android:id="@+id/pbGoal"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvName"
+                android:layout_alignRight="@+id/tvName"
+                android:layout_below="@+id/tvName"
+                android:max="100"
+                android:progress="20" />
+
+            <!-- 달성류 & 후기갯수 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/pbGoal"
+                android:layout_alignRight="@+id/pbGoal"
+                android:layout_below="@+id/pbGoal"
+                android:letterSpacing="-0.05"
+                android:text="달성률 20% / 커뮤니티 5건"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <!-- 로그아웃 -->
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btnLogout"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:padding="5dp"
+                android:text="@string/logout" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/line_horizontal" />
+
+        <!-- 관리 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- 알림 -->
+            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
+                android:id="@+id/menuNoti"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="알림설정\nON">
+
+            </com.vocketlist.android.view.NavigationDrawerHeaderItemView>
+
+            <include layout="@layout/line_vertical" />
+
+            <!-- 스케줄 -->
+            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
+                android:id="@+id/menuSchedule"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="스케쥴관리\n2017-02-10" />
+
+            <include layout="@layout/line_vertical" />
+
+            <!-- 목표관리 -->
+            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
+                android:id="@+id/menuGoal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="목표관리\n80시간" />
+
+        </LinearLayout>
+
+        <include layout="@layout/line_horizontal" />
+
+    </LinearLayout>
+
+    <!-- 일반 사용자 -->
+    <LinearLayout
+        android:id="@+id/llLogout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_70"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text="@string/login" />
+
+    </LinearLayout>
+
+</com.vocketlist.android.view.NavigationDrawerHeaderView>
