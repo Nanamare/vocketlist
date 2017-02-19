@@ -3,8 +3,7 @@ package com.vocketlist.android.net;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.baseservice.UserService;
-import com.vocketlist.android.net.errorchecker.JsonError;
-import com.vocketlist.android.net.errorchecker.JsonErrorChecker;
+import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
 import com.vocketlist.android.network.converter.EnumParameterConverterFactory;
 import com.vocketlist.android.network.converter.gson.GsonConverterFactory;
 import com.vocketlist.android.network.error.handler.ErrorHandlingCallAdapterBuilder;
@@ -15,8 +14,6 @@ import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
-
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
@@ -56,7 +53,7 @@ public class ServiceManager {
 		retrofit.create(UserService.class)
 				.registerToken(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-				.lift(new ServiceErrorChecker<>(new JsonErrorChecker()))
+				.lift(new ServiceErrorChecker<>(new FcmRegisterErrorChecker()))
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
