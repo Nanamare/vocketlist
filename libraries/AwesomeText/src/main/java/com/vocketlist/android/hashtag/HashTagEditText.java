@@ -19,6 +19,7 @@ import com.jmpergar.awesometext.AwesomeTextHandler;
 import com.jmpergar.awesometext.R;
 
 public class HashTagEditText extends EditText {
+    private static final char KEY_SPACE = 32;
 
     private ViewGroup bubbleRootView;
     private TextView bubbleTextView;
@@ -124,8 +125,8 @@ public class HashTagEditText extends EditText {
             removeTextChangedListener(this);
 
             if (charSequence.length() >= 1) {
-                if (32 == charSequence.charAt(charSequence.length() - 1)) {
-                    mAwesomeTextHandler.renderer(getText(), charSequence);
+                if (KEY_SPACE == charSequence.charAt(charSequence.length() - 1)) {
+                    mAwesomeTextHandler.renderer(getText(), getText());
                 }
             }
 
