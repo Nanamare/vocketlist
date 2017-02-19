@@ -15,7 +15,7 @@ android {
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        multiDexEnabled true
+        multiDexEnabled false
     }
 
     productFlavors {
