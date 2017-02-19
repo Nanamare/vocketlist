@@ -1,5 +1,7 @@
 package com.vocketlist.android.net;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.baseservice.UserService;
@@ -16,6 +18,7 @@ import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -49,18 +52,18 @@ public class ServiceManager {
 			.client(mDefaultHttpClientBuilder.build())
 			.build();
 
-	public void registerFcmToken(String token){
+	public void registerFcmToken(String token) {
 		retrofit.create(UserService.class)
 				.registerToken(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-				.lift(new ServiceErrorChecker<>(new FcmRegisterErrorChecker()))
+				.lift(new ServiceErrorChecker<ResponseBody>(new FcmRegisterErrorChecker()))
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
 
 					}
 				})
-				.subscribe(new Subscriber<Response<String>>() {
+				.subscribe(new Subscriber<Response<ResponseBody>>() {
 					@Override
 					public void onCompleted() {
 
@@ -72,13 +75,27 @@ public class ServiceManager {
 					}
 
 					@Override
-					public void onNext(Response<String> stringResponse) {
+					public void onNext(Response<ResponseBody> stringResponse) {
 
 					}
 				});
 
+	}
 
-
+	public Boolean getStatusResult(String json) {
+		try {
+			JsonObject ja = new JsonParser().parse(json).getAsJsonObject();
+			boolean result = ja.get("success").getAsBoolean();
+			String message = ja.get("message").getAsString();
+			if (result && message.equals("OK")) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 

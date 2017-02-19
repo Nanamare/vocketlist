@@ -8,9 +8,9 @@ import java.util.List;
 
 public class FcmRegisterError extends RuntimeException {
 	public FcmRegisterError() {
-		super();
+		super("Fcm error");
 	}
-	public FcmRegisterError(String tokenResult) {
-		super("토큰 등록 error");
+	public FcmRegisterError(String error) {
+		super(error);
 	}
 }
