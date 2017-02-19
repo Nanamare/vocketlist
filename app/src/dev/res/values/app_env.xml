@@ -8,4 +8,7 @@
     <!-- facebook -->
     <string name="facebook_app_id">248904008891516</string>
     <string name="fb_login_protocol_scheme">fbAPP_ID</string>
+
+    <string name="voketBaseUrl">http://www.vocketlist.com/api/</string>
+
 </resources>
