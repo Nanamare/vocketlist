@@ -2,16 +2,17 @@
 <tabs>
     <!-- 봉사화동 -->
     <tab
-
+        activeColor="@color/material_grey900"
         icon="@drawable/ic_link"
         id="@+id/action_volunteer"
+        inActiveColor="@color/material_grey600"
         title="@string/volunteer" />
-    <!--barColorWhenSelected="@color/point_f6b53c"-->
+
     <!-- 커뮤니티 -->
     <tab
-
+        activeColor="@color/material_grey900"
         icon="@drawable/ic_linear_scale"
         id="@+id/action_community"
+        inActiveColor="@color/material_grey600"
         title="@string/community" />
-    <!--barColorWhenSelected="@color/point_ea5e58"-->
 </tabs>
