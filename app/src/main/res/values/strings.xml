@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">보킷리스트</string>
+    <string name="app_name">VocketList</string>
     <string name="finish_application">\‘뒤로\’ 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
