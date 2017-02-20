@@ -44,6 +44,9 @@ public class LoginActivity extends BaseActivity {
 		ButterKnife.bind(this);
 
 		this.callbackManager = CallbackManager.Factory.create();
+
+		onClickFacebookLoginButton();
+
 	}
 
 	@Override
@@ -54,9 +57,10 @@ public class LoginActivity extends BaseActivity {
 	@OnClick
 	protected void onClickFacebookLoginButton() {
 		AccessToken token = AccessToken.getCurrentAccessToken();
-
 		if (token != null) {
 			// login이 되어있는 경우.
+			token.toString();
+			token.getUserId();
 			return;
 		}
 
@@ -68,27 +72,7 @@ public class LoginActivity extends BaseActivity {
 				AccessToken accessToken = loginResult.getAccessToken();
 				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String expiredAt = sdf.format(accessToken.getExpires().getTime());
-
-				GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-					@Override
-					public void onCompleted(JSONObject object, GraphResponse response) {
-						try {
-							//처리 로직 필요
-							Log.d("facebook object",object.toString());
-							String emial = object.getString("email");
-							String name = object.getString("name");
-							String gender = object.getString("gender");
-							String id = object.getString("id");
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				Bundle parameter = new Bundle();
-				parameter.putString("filed","id,name,email,gender");
-				request.setParameters(parameter);
-				request.executeAsync();
+				login(loginResult);
 
 			}
 
@@ -105,8 +89,39 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onResume(){
+		super.onResume();
+
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		this.callbackManager.onActivityResult(requestCode, resultCode, data);
 	}
+
+	public void login(LoginResult loginResult) {
+		GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+				graphJSONObjectCallback);
+		Bundle parameters = new Bundle();
+		parameters.putString("fields", "id,name,email");
+		request.setParameters(parameters);
+		request.executeAsync();
+	}
+
+	private GraphRequest.GraphJSONObjectCallback graphJSONObjectCallback =
+			new GraphRequest.GraphJSONObjectCallback() {
+				@Override
+				public void onCompleted(
+						JSONObject jsonObject, GraphResponse graphResponse) {
+					if (jsonObject != null) {
+						//성공시 서버에 등록
+						
+					} else {
+						//실패
+					}
+				}
+			};
+
+
 }
