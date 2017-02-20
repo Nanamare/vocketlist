@@ -28,6 +28,7 @@ public class BaseFragment extends Fragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.search, menu);
+//        MenuTintUtil.tintAllIcons(menu, R.color.colorAccent);
 
         // 검색
         MenuItem mi = menu.findItem(R.id.action_search);

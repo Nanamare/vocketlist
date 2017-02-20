@@ -11,8 +11,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -31,10 +33,10 @@ import butterknife.ButterKnife;
  * 메인
  */
 public class MainActivity extends BaseActivity implements
-        NavigationView.OnNavigationItemSelectedListener
-        , NavigationDrawerHeaderView.OnElementsClickListener
-        , BottomNavigationView.OnNavigationItemSelectedListener
-        , OnTabSelectListener
+        NavigationView.OnNavigationItemSelectedListener,
+        NavigationDrawerHeaderView.OnElementsClickListener,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        OnTabSelectListener
 {
 
     @BindView(R.id.toolbar)
@@ -47,6 +49,17 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.bottomBar) BottomBar bottomBar;
     @BindView(R.id.tabs) TabLayout tabs;
 
+    // Event
+    private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mDrawer.isDrawerVisible(GravityCompat.START)) {
+                mDrawer.closeDrawer(GravityCompat.START);
+            } else {
+                mDrawer.openDrawer(GravityCompat.START);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +67,20 @@ public class MainActivity extends BaseActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //
         setSupportActionBar(mToolbar);
+
+        // 헤더 CI 적용
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(
+                getLayoutInflater().inflate(R.layout.appbar_title, null),
+                new ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER
+                )
+        );
 
         initViews();
         FirebaseCrash.log("Activity created");
@@ -70,6 +96,9 @@ public class MainActivity extends BaseActivity implements
 
     private void initDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_action_perm_identity);
+        toggle.setToolbarNavigationClickListener(onToolbarNavigationClickListener);
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
     }
