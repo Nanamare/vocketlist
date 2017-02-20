@@ -59,8 +59,6 @@ public class LoginActivity extends BaseActivity {
 		AccessToken token = AccessToken.getCurrentAccessToken();
 		if (token != null) {
 			// login이 되어있는 경우.
-			token.toString();
-			token.getUserId();
 			return;
 		}
 
@@ -89,7 +87,7 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
 
 	}
@@ -116,7 +114,7 @@ public class LoginActivity extends BaseActivity {
 						JSONObject jsonObject, GraphResponse graphResponse) {
 					if (jsonObject != null) {
 						//성공시 서버에 등록
-						
+
 					} else {
 						//실패
 					}
