@@ -30,3 +30,13 @@
 5. 수정 사항이 생기면 `1 ~ 3번` 과정을 반복한다.
 6. 만일 리뷰어가 리뷰를 진행하지 않고 있는 경우 리뷰어에게 구두 혹은 메신저로 요청하여 PR이 계속 남아 있지 않게 한다.
 7. PR은 기능 단위별로 올리고 만일 큰 수정 사항인 경우는 기능을 나누어 PR 올리도록 한다.
+
+# 캠프 기간동안 merge & branch 규칙
+1. 작업별로 develop 기준으로 별도의 branch를 만든다.
+2. 생성된 branch에서 작업을 진행
+3. 작업이 끝나면 develop 브런치로 checkout `git checkout develop`
+3. `git pull origin` 명령을 이용 내용 갱신
+4. 작업 중인 branch로 이동 `git checkout [브렌치명]`
+5. `git rebase develop` 을 이용하여 리베이스
+6. `git checkout develop`
+7. `git merge [브렌치명] --no-f` 을 이용하여 머지 진행
