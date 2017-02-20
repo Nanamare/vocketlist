@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vocketlist.android">
 
+    <!--카메라 , 외부 저장소 읽고 쓰기-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <!-- 네트워크 사용 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -205,6 +210,14 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+
+        <!-- facebook 공유 -->
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1234567890123456"
+                  android:name="com.facebook.FacebookContentProvider"
+                  android:exported="true"/>
+
+
     </application>
 
 </manifest>
