@@ -1,6 +1,9 @@
 package com.vocketlist.android.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -9,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,6 +25,7 @@ import android.view.View;
 import com.google.firebase.crash.FirebaseCrash;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.VolunteerFragment;
 import com.vocketlist.android.fragment.CommunityFragment;
@@ -28,11 +33,13 @@ import com.vocketlist.android.view.NavigationDrawerHeaderView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * 메인
  */
 public class MainActivity extends BaseActivity implements
+
         NavigationView.OnNavigationItemSelectedListener,
         NavigationDrawerHeaderView.OnElementsClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener,
@@ -192,70 +199,102 @@ public class MainActivity extends BaseActivity implements
                 break;
         }
 
+
 //        mDrawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public void onTabSelected(@IdRes int tabId) {
-        //
-        tabs.removeAllTabs();
+	@Override
+	public void onTabSelected(@IdRes int tabId) {
+		//
+		tabs.removeAllTabs();
 
-        // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
-        switch (tabId) {
-            // 봉사활동
-            case R.id.action_volunteer :
-                goToFragment(VolunteerFragment.class);
-                break;
-            // 커뮤니티
-            case R.id.action_community :
-                goToFragment(CommunityFragment.class);
-                break;
-        }
-    }
+		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
+		switch (tabId) {
+			// 봉사활동
+			case R.id.action_volunteer:
+				goToFragment(VolunteerFragment.class);
+				break;
+			// 커뮤니티
+			case R.id.action_community:
+				goToFragment(CommunityFragment.class);
+				break;
+		}
+	}
 
-    /**
-     * 액티비티 호출
-     *
-     * @param cls
-     */
-    private void goToActivity(Class<?> cls) {
-        goToActivity(cls, null);
-    }
+	/**
+	 * 액티비티 호출
+	 *
+	 * @param cls
+	 */
+	private void goToActivity(Class<?> cls) {
+		goToActivity(cls, null);
+	}
 
-    /**
-     * 액티비티 호출
-     *
-     * @param cls
-     * @param extras
-     */
-    private void goToActivity(Class<?> cls, @Nullable Bundle extras) {
-        Intent intent = new Intent(this, cls);
-        if (extras != null) intent.putExtras(extras);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
+	/**
+	 * 액티비티 호출
+	 *
+	 * @param cls
+	 * @param extras
+	 */
+	private void goToActivity(Class<?> cls, @Nullable Bundle extras) {
+		Intent intent = new Intent(this, cls);
+		if (extras != null) intent.putExtras(extras);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+	}
 
-    /**
-     * 플래그먼트
-     * @param cls
-     */
-    private void goToFragment(Class<?> cls) {
-        goToFragment(cls, null);
-    }
+	/**
+	 * 플래그먼트
+	 *
+	 * @param cls
+	 */
+	private void goToFragment(Class<?> cls) {
+		goToFragment(cls, null);
+	}
 
-    /**
-     * 플래그먼트
-     * @param cls
-     * @param args
-     */
-    private void goToFragment(Class<?> cls, @Nullable Bundle args) {
-        try {
-            Fragment fragment = (Fragment) cls.newInstance();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * 플래그먼트
+	 *
+	 * @param cls
+	 * @param args
+	 */
+	private void goToFragment(Class<?> cls, @Nullable Bundle args) {
+		try {
+			Fragment fragment = (Fragment) cls.newInstance();
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private BroadcastReceiver badgeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Get the received random number
+			int badgeCount = intent.getIntExtra("badgeCount", 0);
+			updateBadge(badgeCount);
+		}
+	};
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				badgeReceiver,
+				new IntentFilter("badgeCount")
+		);
+	}
+
+	private void updateBadge(int count) {
+		ShortcutBadger.applyCount(this, count); //for 1.1.4+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(badgeReceiver);
+	}
+
 }

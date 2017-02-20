@@ -27,14 +27,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />-->
 
-            </intent-filter>
+            <!--</intent-filter>-->
         </activity>
 
         <activity
@@ -53,7 +53,9 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
 
         <!-- 알림설정 -->
         <activity
@@ -140,7 +142,16 @@
             android:label="@string/volunteer_title"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+
+            </intent-filter>
+        </activity>
 
         <!-- 커뮤니티 : 댓글 -->
         <activity

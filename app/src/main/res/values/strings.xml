@@ -19,6 +19,12 @@
     <string name="tab_env">환경</string>
     <string name="tab_etc">기타</string>
 
+    <!-- 커뮤니티 탭 -->
+    <string name="com_all">전체\n보기</string>
+    <string name="com_myWriting">내가\n쓴글</string>
+    <string name="com_wisdom">명언\n보기</string>
+    <string name="com_writing">글\n작성</string>
+
     <!-- 카테고리 -->
     <string-array name="category">
         <item>일손지원</item>
