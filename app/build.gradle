@@ -144,6 +144,9 @@ dependencies {
 
     //badge
     compile 'me.leolin:ShortcutBadger:1.1.13@aar'
+
+    //firebase-auth
+    compile 'com.google.firebase:firebase-auth:10.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

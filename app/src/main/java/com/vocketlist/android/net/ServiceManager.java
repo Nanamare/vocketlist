@@ -6,6 +6,7 @@ import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.baseservice.UserService;
 import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
+import com.vocketlist.android.net.errorchecker.LoginFbErrorChecker;
 import com.vocketlist.android.network.converter.EnumParameterConverterFactory;
 import com.vocketlist.android.network.converter.gson.GsonConverterFactory;
 import com.vocketlist.android.network.error.handler.ErrorHandlingCallAdapterBuilder;
@@ -22,6 +23,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 
@@ -81,6 +83,22 @@ public class ServiceManager {
 				});
 
 	}
+
+	public Observable<Response<ResponseBody>> loginFb(String userInfo, String token, String userId){
+
+		return retrofit.create(UserService.class)
+				.loginFb(userInfo, token, userId)
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new LoginFbErrorChecker()))
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				});
+	}
+
+
 
 	public Boolean getStatusResult(String json) {
 		try {
