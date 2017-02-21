@@ -5,8 +5,10 @@ import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.baseservice.UserService;
+import com.vocketlist.android.net.baseservice.VoketService;
 import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
 import com.vocketlist.android.net.errorchecker.LoginFbErrorChecker;
+import com.vocketlist.android.net.errorchecker.VoketDetailErrorChecker;
 import com.vocketlist.android.network.converter.EnumParameterConverterFactory;
 import com.vocketlist.android.network.converter.gson.GsonConverterFactory;
 import com.vocketlist.android.network.error.handler.ErrorHandlingCallAdapterBuilder;
@@ -97,6 +99,21 @@ public class ServiceManager {
 					}
 				});
 	}
+
+	public Observable<Response<ResponseBody>> getVoketDetailList(String token){
+		return retrofit.create(VoketService.class)
+				.getVoketDetailList(token)
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new VoketDetailErrorChecker()))
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				});
+	}
+
+
 
 
 

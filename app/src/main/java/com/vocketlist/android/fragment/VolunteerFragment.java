@@ -8,13 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonObject;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
+import com.vocketlist.android.net.ServiceManager;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * 플래그먼트 : 봉사활동
@@ -28,6 +36,7 @@ public class VolunteerFragment extends BaseFragment {
 
     //
     private VolunteerAdapter mAdapter;
+    private ServiceManager manager;
 
     @Nullable
     @Override
@@ -44,6 +53,8 @@ public class VolunteerFragment extends BaseFragment {
         if(view == null) return;
         ButterKnife.bind(this, view);
 
+        manager = new ServiceManager();
+
         // 뷰페이저
         mAdapter = new VolunteerAdapter(getChildFragmentManager());
         for (Category category : Category.values()) {
@@ -54,5 +65,30 @@ public class VolunteerFragment extends BaseFragment {
         // 탭
         TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        manager.getVoketDetailList("token")
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Response<ResponseBody>>() {
+                @Override
+                public void onCompleted() {
+                    
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Response<ResponseBody> responseBodyResponse) {
+                    try {
+                       String result =  responseBodyResponse.body().string();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
     }
 }

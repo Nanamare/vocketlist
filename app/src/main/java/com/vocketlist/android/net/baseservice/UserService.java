@@ -15,7 +15,7 @@ import rx.Observable;
 
 public interface UserService {
 	@FormUrlEncoded
-	@PUT("/fcm/register")
+	@POST("/fcm/register")
 	Observable<Response<ResponseBody>> registerToken(@Field("token") String token);
 
 	@FormUrlEncoded
