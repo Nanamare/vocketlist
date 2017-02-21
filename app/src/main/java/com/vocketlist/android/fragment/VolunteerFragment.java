@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.net.ServiceManager;
+import com.vocketlist.android.util.SharePrefUtil;
 
 import java.io.IOException;
 
@@ -31,64 +34,67 @@ import rx.android.schedulers.AndroidSchedulers;
  * @since 2017. 2. 13.
  */
 public class VolunteerFragment extends BaseFragment {
-    //
-    @BindView(R.id.viewPager) ViewPager viewPager;
+	//
+	@BindView(R.id.viewPager)
+	ViewPager viewPager;
 
-    //
-    private VolunteerAdapter mAdapter;
-    private ServiceManager manager;
+	//
+	private VolunteerAdapter mAdapter;
+	private ServiceManager manager;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_volunteer, container, false);
-    }
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_volunteer, container, false);
+	}
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
-        MainActivity act = (MainActivity) getActivity();
-        if(act == null) return;
-        if(view == null) return;
-        ButterKnife.bind(this, view);
+		MainActivity act = (MainActivity) getActivity();
+		if (act == null) return;
+		if (view == null) return;
+		ButterKnife.bind(this, view);
 
-        manager = new ServiceManager();
+		manager = new ServiceManager();
 
-        // 뷰페이저
-        mAdapter = new VolunteerAdapter(getChildFragmentManager());
-        for (Category category : Category.values()) {
-            mAdapter.addFragment(VolunteerCategoryFragment.newInstance(category), getString(category.getResId()));
-        }
-        viewPager.setAdapter(mAdapter);
+		// 뷰페이저
+		mAdapter = new VolunteerAdapter(getChildFragmentManager());
+		for (Category category : Category.values()) {
+			mAdapter.addFragment(VolunteerCategoryFragment.newInstance(category), getString(category.getResId()));
+		}
+		viewPager.setAdapter(mAdapter);
 
-        // 탭
-        TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+		// 탭
+		TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tabs);
+		tabLayout.setupWithViewPager(viewPager);
 
-        manager.getVoketDetailList("token")
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<Response<ResponseBody>>() {
-                @Override
-                public void onCompleted() {
-                    
-                }
+		manager.getVoketDetailList("token")
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<ResponseBody>>() {
+					@Override
+					public void onCompleted() {
 
-                @Override
-                public void onError(Throwable e) {
+					}
 
-                }
+					@Override
+					public void onError(Throwable e) {
 
-                @Override
-                public void onNext(Response<ResponseBody> responseBodyResponse) {
-                    try {
-                       String result =  responseBodyResponse.body().string();
+					}
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+					@Override
+					public void onNext(Response<ResponseBody> responseBodyResponse) {
+						try {
+							String json = responseBodyResponse.body().string();
+							//
 
-    }
+
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
+	}
 }

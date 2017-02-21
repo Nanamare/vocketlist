@@ -10,7 +10,7 @@ import okhttp3.ResponseBody;
 
 public class VoketDetailError extends RuntimeException {
 	public VoketDetailError() {
-		super("get VoketDetailList Error");
+		super("get VoketDetailList Null Error");
 	}
 	public VoketDetailError(String error) {
 		super(error);

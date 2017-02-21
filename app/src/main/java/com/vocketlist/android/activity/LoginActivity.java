@@ -15,6 +15,8 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -160,6 +162,7 @@ public class LoginActivity extends BaseActivity {
 									.subscribe(new Subscriber<Response<ResponseBody>>() {
 										@Override
 										public void onCompleted() {
+											//완료 되었을시 페북 정보 클라이언트에 저장
 											SharePrefUtil.putSharedPreference("email", email);
 											SharePrefUtil.putSharedPreference("imgUrl", link);
 											SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
@@ -174,7 +177,12 @@ public class LoginActivity extends BaseActivity {
 										@Override
 										public void onNext(Response<ResponseBody> responseBodyResponse) {
 											try {
-												String response = responseBodyResponse.body().string();
+												String json = responseBodyResponse.body().string();
+												JsonObject obj = (JsonObject) new JsonParser().parse(json);
+												JsonObject jsonObject = (JsonObject) obj.get("result");
+												//페북 로그인시 서버에서 내려주는 100줄짜리 토큰
+												String token = jsonObject.getAsJsonPrimitive("token").getAsString();
+												SharePrefUtil.putSharedPreference("token", token);
 
 											} catch (IOException e) {
 												e.printStackTrace();
