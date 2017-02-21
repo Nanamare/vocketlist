@@ -19,8 +19,13 @@ import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
+import com.vocketlist.android.util.SharePrefUtil;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -43,7 +48,15 @@ public class ServiceManager {
 			.readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
 //			.addInterceptor(new DefaultHeaderInterceptor())
 //			.addInterceptor(new MockInterpolator())
-			.addNetworkInterceptor(new LoggingInterceptor());
+			.addNetworkInterceptor(new LoggingInterceptor())
+			.addInterceptor(chain -> { //헤더에 토큰 추가
+				Request original = chain.request();
+				String token = SharePrefUtil.getSharedPreference("token");
+				Request.Builder requestBuilder = original.newBuilder()
+						.header("token", token);
+				Request request = requestBuilder.build();
+				return chain.proceed(request);
+			});
 
 	private static Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(BASE_URL)
@@ -86,7 +99,7 @@ public class ServiceManager {
 
 	}
 
-	public Observable<Response<ResponseBody>> loginFb(String userInfo, String token, String userId){
+	public Observable<Response<ResponseBody>> loginFb(String userInfo, String token, String userId) {
 
 		return retrofit.create(UserService.class)
 				.loginFb(userInfo, token, userId)
@@ -100,7 +113,7 @@ public class ServiceManager {
 				});
 	}
 
-	public Observable<Response<ResponseBody>> getVoketDetailList(String token){
+	public Observable<Response<ResponseBody>> getVoketDetailList(String token) {
 		return retrofit.create(VoketService.class)
 				.getVoketDetailList(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
@@ -112,9 +125,6 @@ public class ServiceManager {
 					}
 				});
 	}
-
-
-
 
 
 	public Boolean getStatusResult(String json) {

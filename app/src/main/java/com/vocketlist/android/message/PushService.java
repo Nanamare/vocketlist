@@ -59,7 +59,7 @@ public class PushService extends FirebaseMessagingService {
 		String[] datas = (String[]) data.values().toArray(new String[]{});
 		String title = remoteMessage.getNotification().getTitle();
 		int badgeCount = 1;
-		String pushMessage = datas[1];  
+		String pushMessage = datas[1];
 		String notiType = "watchList"; //서버에게 푸시 타입 알려줘야함
 
 		JsonParser parser = new JsonParser();
