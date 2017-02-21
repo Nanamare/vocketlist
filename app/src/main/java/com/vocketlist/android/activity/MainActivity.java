@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.vocketlist.android.AppApplication;
@@ -40,164 +41,169 @@ import me.leolin.shortcutbadger.ShortcutBadger;
  */
 public class MainActivity extends BaseActivity implements
 
-        NavigationView.OnNavigationItemSelectedListener,
-        NavigationDrawerHeaderView.OnElementsClickListener,
-        BottomNavigationView.OnNavigationItemSelectedListener,
-        OnTabSelectListener
-{
+		NavigationView.OnNavigationItemSelectedListener,
+		NavigationDrawerHeaderView.OnElementsClickListener,
+		BottomNavigationView.OnNavigationItemSelectedListener,
+		OnTabSelectListener {
 
-    @BindView(R.id.toolbar)
-    protected Toolbar mToolbar;
-    @BindView(R.id.drawer_layout)
-    protected DrawerLayout mDrawer;
-    @BindView(R.id.navigationView)
-    protected NavigationView mNavigationView;
+	@BindView(R.id.toolbar)
+	protected Toolbar mToolbar;
+	@BindView(R.id.drawer_layout)
+	protected DrawerLayout mDrawer;
+	@BindView(R.id.navigationView)
+	protected NavigationView mNavigationView;
 
-    @BindView(R.id.bottomBar) BottomBar bottomBar;
-    @BindView(R.id.tabs) TabLayout tabs;
+	@BindView(R.id.bottomBar)
+	BottomBar bottomBar;
+	@BindView(R.id.tabs)
+	TabLayout tabs;
 
-    // Event
-    private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mDrawer.isDrawerVisible(GravityCompat.START)) {
-                mDrawer.closeDrawer(GravityCompat.START);
-            } else {
-                mDrawer.openDrawer(GravityCompat.START);
-            }
-        }
-    };
+	// Event
+	private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mDrawer.isDrawerVisible(GravityCompat.START)) {
+				mDrawer.closeDrawer(GravityCompat.START);
+			} else {
+				mDrawer.openDrawer(GravityCompat.START);
+			}
+		}
+	};
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		ButterKnife.bind(this);
 
-        //
-        setSupportActionBar(mToolbar);
 
-        // 헤더 CI 적용
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(
-                getLayoutInflater().inflate(R.layout.appbar_title, null),
-                new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER
-                )
-        );
+		FirebaseMessaging.getInstance().subscribeToTopic("news");
+		FirebaseMessaging.getInstance().subscribeToTopic("reports");
+		//
+		setSupportActionBar(mToolbar);
 
-        initViews();
-        FirebaseCrash.log("Activity created");
-    }
-    private void initViews() {
-        initDrawer();
-        initBottomNavigation();
+		// 헤더 CI 적용
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				getLayoutInflater().inflate(R.layout.appbar_title, null),
+				new ActionBar.LayoutParams(
+						ActionBar.LayoutParams.WRAP_CONTENT,
+						ActionBar.LayoutParams.WRAP_CONTENT,
+						Gravity.CENTER
+				)
+		);
 
-        mNavigationView.setNavigationItemSelectedListener(this);
-        NavigationDrawerHeaderView headerView = (NavigationDrawerHeaderView) mNavigationView.getHeaderView(0);
-        headerView.setOnElementsClickListener(this);
-    }
+		initViews();
+		FirebaseCrash.log("Activity created");
+	}
 
-    private void initDrawer() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.setHomeAsUpIndicator(R.drawable.ic_action_perm_identity);
-        toggle.setToolbarNavigationClickListener(onToolbarNavigationClickListener);
-        mDrawer.setDrawerListener(toggle);
-        toggle.syncState();
-    }
+	private void initViews() {
+		initDrawer();
+		initBottomNavigation();
 
-    private void initBottomNavigation() {
-        bottomBar.setOnTabSelectListener(this, true);
+		mNavigationView.setNavigationItemSelectedListener(this);
+		NavigationDrawerHeaderView headerView = (NavigationDrawerHeaderView) mNavigationView.getHeaderView(0);
+		headerView.setOnElementsClickListener(this);
+	}
 
-        //
-        goToFragment(VolunteerFragment.class);
-    }
+	private void initDrawer() {
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		toggle.setDrawerIndicatorEnabled(false);
+		toggle.setHomeAsUpIndicator(R.drawable.ic_action_perm_identity);
+		toggle.setToolbarNavigationClickListener(onToolbarNavigationClickListener);
+		mDrawer.setDrawerListener(toggle);
+		toggle.syncState();
+	}
 
-    @Override
-    public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+	private void initBottomNavigation() {
+		bottomBar.setOnTabSelectListener(this, true);
 
-    @Override
-    public void onLoginClick(View v) {
-        goToActivity(LoginActivity.class);
-    }
+		//
+		goToFragment(VolunteerFragment.class);
+	}
 
-    @Override
-    public void onLogoutClick(View v) {
-        // TODO Logout 처리
-    }
+	@Override
+	public void onBackPressed() {
+		if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+			mDrawer.closeDrawer(GravityCompat.START);
+		} else {
+			super.onBackPressed();
+		}
+	}
 
-    @Override
-    public void onNotificationClick(View v) {
-        goToActivity(NotificationActivity.class);
-    }
+	@Override
+	public void onLoginClick(View v) {
+		goToActivity(LoginActivity.class);
+	}
 
-    @Override
-    public void onScheduleClick(View v) {
-        goToActivity(ScheduleActivity.class);
-    }
+	@Override
+	public void onLogoutClick(View v) {
+		// TODO Logout 처리
+	}
 
-    @Override
-    public void onGoalClick(View v) {
-        goToActivity(GoalActivity.class);
-    }
+	@Override
+	public void onNotificationClick(View v) {
+		goToActivity(NotificationActivity.class);
+	}
 
-    @Override
-    public void onMyPostClick(View v) {
-        goToActivity(MyPostsActivity.class);
-    }
+	@Override
+	public void onScheduleClick(View v) {
+		goToActivity(ScheduleActivity.class);
+	}
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
+	@Override
+	public void onGoalClick(View v) {
+		goToActivity(GoalActivity.class);
+	}
 
-        // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
-        switch (id) {
-            // 관심정보
-            case R.id.naviFavorite:
-                goToActivity(FavoriteActivity.class);
-                break;
+	@Override
+	public void onMyPostClick(View v) {
+		goToActivity(MyPostsActivity.class);
+	}
 
-            // 개인정보
-            case R.id.naviMe:
-                goToActivity(MeActivity.class);
-                break;
+	@SuppressWarnings("StatementWithEmptyBody")
+	@Override
+	public boolean onNavigationItemSelected(MenuItem item) {
+		int id = item.getItemId();
 
-            // 활동내역
-            case R.id.naviActivity:
-                goToActivity(MyPostsActivity.class);
-                break;
+		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
+		switch (id) {
+			// 관심정보
+			case R.id.naviFavorite:
+				goToActivity(FavoriteActivity.class);
+				break;
 
-            // 공지사항
-            case R.id.naviNotice:
-                goToActivity(NoticeActivity.class);
-                break;
+			// 개인정보
+			case R.id.naviMe:
+				goToActivity(MeActivity.class);
+				break;
 
-            // 서비스소개
-            case R.id.naviIntroduce:
-                goToActivity(IntroduceActivity.class);
-                break;
+			// 활동내역
+			case R.id.naviActivity:
+				goToActivity(MyPostsActivity.class);
+				break;
 
-            // 정책
-            case R.id.naviTerms:
-                goToActivity(TermsActivity.class);
-                break;
+			// 공지사항
+			case R.id.naviNotice:
+				goToActivity(NoticeActivity.class);
+				break;
 
-            // 라이센스
-            case R.id.naviLicense:
-                goToActivity(LicenseActivity.class);
-                break;
-        }
+			// 서비스소개
+			case R.id.naviIntroduce:
+				goToActivity(IntroduceActivity.class);
+				break;
+
+			// 정책
+			case R.id.naviTerms:
+				goToActivity(TermsActivity.class);
+				break;
+
+			// 라이센스
+			case R.id.naviLicense:
+				goToActivity(LicenseActivity.class);
+				break;
+		}
 
 
 //        mDrawer.closeDrawer(GravityCompat.START);
