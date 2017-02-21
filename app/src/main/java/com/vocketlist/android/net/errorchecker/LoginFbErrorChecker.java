@@ -12,7 +12,7 @@ public class LoginFbErrorChecker  implements ErrorChecker<ResponseBody> {
 	@Override
 	public void checkError(ResponseBody data) throws RuntimeException {
 		if (data == null) {
-			throw new LoginFbError();
+			throw new LoginFbException();
 		}
 
 	}
