@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,10 +16,17 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
+import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.util.SharePrefUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +95,7 @@ public class VolunteerFragment extends BaseFragment {
 					public void onNext(Response<ResponseBody> responseBodyResponse) {
 						try {
 							String json = responseBodyResponse.body().string();
-							//
+							List<Volunteer> volunteerList = parseVoketList(json);
 
 
 						} catch (IOException e) {
@@ -97,4 +105,20 @@ public class VolunteerFragment extends BaseFragment {
 				});
 
 	}
+
+	private List<Volunteer> parseVoketList(String json) {
+		List<Volunteer> volunteerList = new ArrayList<>();
+		try {
+			JSONObject object = new JSONObject(json);
+			JSONArray jsonArray = new JSONArray(object.getString("result"));
+			String VoketJson = jsonArray.toString();
+			volunteerList.addAll(new Gson().fromJson(VoketJson, Volunteer.getListType()));
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return volunteerList;
+	}
+
+
 }
