@@ -43,7 +43,7 @@ public interface RoomService {
 	Observable<Response<ResponseBody>> deleteComment(@Field("token") String token
 			, @Field("commentId") String commentId
 			, @Field("roomId") String roomId);
-
+	
 	//이미지 상세 보기
 	@GET("rooms/imgDetail")
 	Observable<Response<ResponseBody>> getDetailImg(@Query("token") String token);
