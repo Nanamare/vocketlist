@@ -4,11 +4,11 @@ package com.vocketlist.android.net.errorchecker;
  * Created by kinamare on 2017-02-21.
  */
 
-public class LoginFbError extends RuntimeException {
-	public LoginFbError() {
+public class LoginFbException extends RuntimeException {
+	public LoginFbException() {
 		super("Login Fb Error");
 	}
-	public LoginFbError(String error) {
+	public LoginFbException(String error) {
 		super(error);
 	}
 }
