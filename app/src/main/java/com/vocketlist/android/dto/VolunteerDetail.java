@@ -1,6 +1,10 @@
 package com.vocketlist.android.dto;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by kinamare on 2017-02-22.
@@ -172,5 +176,10 @@ public class VolunteerDetail implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public static Type getListType() {
+		return new TypeToken<List<VolunteerDetail>>() {
+		}.getType();
 	}
 }

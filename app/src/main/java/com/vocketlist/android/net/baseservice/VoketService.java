@@ -19,7 +19,7 @@ public interface VoketService {
 	Observable<Response<ResponseBody>> getVoketList(@Query("token") String token);
 
 	@GET("service/detail")
-	Observable<Response<ResponseBody>> getVoketDetailList(@Query("token") String token);
+	Observable<Response<ResponseBody>> getVoketDetail(@Query("token") String token);
 
 	@FormUrlEncoded
 	@POST("service/create")

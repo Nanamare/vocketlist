@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <!-- 이미지 -->
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_launcher"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivThumbnail"
@@ -16,34 +21,117 @@
             android:background="@color/black_7"
             android:maxHeight="200dp"
             android:minHeight="100dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
 
         <!-- TODO 내/외 컨텐츠 구분 뱃지 추가 -->
 
-    </RelativeLayout>
+    </FrameLayout>
 
-    <!-- 이름 -->
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="1dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="4dp"
-        android:text="@string/volunteer_title"
-        android:textSize="@dimen/font_45" />
+        android:orientation="horizontal"
+        android:weightSum="10">
 
-    <!-- 설명 -->
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvDescription"
+        <!-- 이름 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/volunteer_title"
+            android:textSize="@dimen/font_45"
+            android:textStyle="bold"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="("
+            android:textSize="@dimen/font_45"
+            android:textStyle="bold"/>
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/is_recruit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="모집중"
+            android:textSize="@dimen/font_45"
+            android:textStyle="bold"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text=")"
+            android:textSize="@dimen/font_45"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="10"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="80dp"
-        android:paddingBottom="4dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="1dp"
-        android:text="@string/volunteer_description"
-        android:textSize="@dimen/font_36" />
+        android:layout_height="wrap_content">
+
+        <!-- 설명 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/start_date_tv"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="80dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="1dp"
+            android:text="2017-02-25"
+            android:textSize="@dimen/font_36"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="/"
+            android:minHeight="80dp"
+            android:textSize="@dimen/font_45"
+            android:textStyle="bold"/>
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/address_tv"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:text="서울시 서초구"
+            android:minHeight="80dp"
+            android:textSize="@dimen/font_45"/>
+
+    </LinearLayout>
 </LinearLayout>

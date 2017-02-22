@@ -28,4 +28,8 @@ public class VolunteerCategoryAdapter extends BaseAdapter<VolunteerCategoryViewH
     public VolunteerCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new VolunteerCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
     }
+    @Override
+    public void onBindViewHolder(VolunteerCategoryViewHolder holder, int position){
+
+    }
 }

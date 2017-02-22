@@ -9,6 +9,7 @@ import com.vocketlist.android.net.baseservice.VoketService;
 import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
 import com.vocketlist.android.net.errorchecker.LoginFbErrorChecker;
 import com.vocketlist.android.net.errorchecker.VoketDetailErrorChecker;
+import com.vocketlist.android.net.errorchecker.VoketErrorChecker;
 import com.vocketlist.android.network.converter.EnumParameterConverterFactory;
 import com.vocketlist.android.network.converter.gson.GsonConverterFactory;
 import com.vocketlist.android.network.error.handler.ErrorHandlingCallAdapterBuilder;
@@ -21,9 +22,6 @@ import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
 import com.vocketlist.android.util.SharePrefUtil;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -113,9 +111,22 @@ public class ServiceManager {
 				});
 	}
 
-	public Observable<Response<ResponseBody>> getVoketDetailList(String token) {
+	public Observable<Response<ResponseBody>> getVoketList(String token) {
 		return retrofit.create(VoketService.class)
-				.getVoketDetailList(token)
+				.getVoketList(token)
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new VoketErrorChecker()))
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				});
+	}
+
+	public Observable<Response<ResponseBody>> getVoketDetail(String token){
+		return retrofit.create(VoketService.class)
+				.getVoketDetail(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
 				.lift(new ServiceErrorChecker<>(new VoketDetailErrorChecker()))
 				.doOnSubscribe(new Action0() {
