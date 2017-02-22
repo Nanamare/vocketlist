@@ -35,6 +35,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 	private IVolunteerCategoryPresenter presenter;
 
+
 	@BindInt(R.integer.volunteer_category_grid_column)
 	int column;
 	@BindDimen(R.dimen.volunteer_category_grid_space)
@@ -104,6 +105,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 	@Override
 	public void getVoketList(List<Volunteer> volunteerList) {
+		adapter.clear();
 		adapter.addAll(volunteerList);
 		adapter.notifyDataSetChanged();
 	}

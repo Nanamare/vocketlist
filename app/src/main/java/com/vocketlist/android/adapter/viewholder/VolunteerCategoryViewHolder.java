@@ -21,6 +21,9 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
 
     @BindView(R.id.ivThumbnail) AppCompatImageView ivThumbnail;
     @BindView(R.id.tvTitle) AppCompatTextView tvTitle;
+    @BindView(R.id.is_recruit_tv) AppCompatTextView tvRecruit;
+    @BindView(R.id.start_date_tv) AppCompatTextView tvStartDate;
+    @BindView(R.id.address_tv) AppCompatTextView tvAddress;
 
     /**
      * 생성자
@@ -33,5 +36,6 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
     @NonNull
     @Override
     public <T extends Serializable> void bind(T data) {
+
     }
 }

@@ -6,6 +6,7 @@ import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.net.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
+import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 
 import org.json.JSONArray;
@@ -30,7 +31,8 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 	private ServiceManager serviceManager;
 	private IVolunteerCategoryView view;
 	private List<Volunteer> volunteerList;
-	private List<VolunteerDetail> volunteerDetails;
+	private VolunteerDetail volunteerDetails;
+	private IVolunteerReadView volunteerReadView;
 
 	public VolunteerCategoryPresenter() {
 		serviceManager = new ServiceManager();
@@ -39,6 +41,12 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 	public VolunteerCategoryPresenter(IVolunteerCategoryView view) {
 		serviceManager = new ServiceManager();
 		this.view = view;
+		volunteerList = new ArrayList<>();
+	}
+
+	public VolunteerCategoryPresenter(IVolunteerReadView view) {
+		serviceManager = new ServiceManager();
+		this.volunteerReadView = view;
 		volunteerList = new ArrayList<>();
 	}
 
@@ -93,7 +101,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 				.subscribe(new Subscriber<Response<ResponseBody>>() {
 					@Override
 					public void onCompleted() {
-
+						volunteerReadView.bindVoketDetailData(volunteerDetails);
 					}
 
 					@Override
@@ -107,7 +115,6 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 							String json = responseBodyResponse.body().string();
 							volunteerDetails = parseVoketDetail(json);
 
-
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -115,13 +122,14 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 					}
 
 
-					private List<VolunteerDetail> parseVoketDetail(String json) {
-						List<VolunteerDetail> voketDetail = new ArrayList<>();
+					private VolunteerDetail parseVoketDetail(String json) {
+						VolunteerDetail voketDetail = new VolunteerDetail();
+						Gson gson = new Gson();
 						try {
 							JSONObject object = new JSONObject(json);
 							JSONArray jsonArray = new JSONArray(object.getString("result"));
 							String voketDetailJson = jsonArray.toString();
-							voketDetail.addAll(new Gson().fromJson(voketDetailJson, VolunteerDetail.getListType()));
+							voketDetail = gson.fromJson(voketDetailJson, VolunteerDetail.class);
 
 						} catch (JSONException e) {
 							e.printStackTrace();
