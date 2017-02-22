@@ -29,6 +29,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 	private ServiceManager serviceManager;
 	private IVolunteerCategoryView view;
+	private List<Volunteer> volunteerList;
 
 	public VolunteerCategoryPresenter() {
 		serviceManager = new ServiceManager();
@@ -37,6 +38,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 	public VolunteerCategoryPresenter(IVolunteerCategoryView view) {
 		serviceManager = new ServiceManager();
 		this.view = view;
+		volunteerList = new ArrayList<>();
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 				.subscribe(new Subscriber<Response<ResponseBody>>() {
 					@Override
 					public void onCompleted() {
-
+						view.getVoketList(volunteerList);
 					}
 
 					@Override
@@ -58,7 +60,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 					public void onNext(Response<ResponseBody> responseBodyResponse) {
 						try {
 							String json = responseBodyResponse.body().string();
-							List<Volunteer> volunteerList = parseVoketList(json);
+							volunteerList = parseVoketList(json);
 
 
 						} catch (IOException e) {

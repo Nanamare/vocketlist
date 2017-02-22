@@ -111,4 +111,10 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		// TODO 더보기
 		adapter.add(new Volunteer());
 	}
+
+	@Override
+	public void getVoketList(List<Volunteer> volunteerList) {
+		adapter.addAll(volunteerList);
+		adapter.notifyDataSetChanged();
+	}
 }
