@@ -17,10 +17,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -96,6 +99,23 @@ public class MainActivity extends BaseActivity implements
 
 		initViews();
 		FirebaseCrash.log("Activity created");
+
+		//런칭시 팝업창
+		final View innerView = getLayoutInflater().inflate(R.layout.dialog_launch_custom, null);
+		AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+		alert.setView(innerView);
+		alert.setPositiveButton("닫기", (dialog, whichButton) -> {
+			//todo
+
+		});
+
+		alert.setNegativeButton("자세히 보기",
+				(dialog, whichButton) -> {
+					//todo
+
+				});
+		AlertDialog dialog = alert.create();
+		dialog.show();
 	}
 
 	private void initViews() {

@@ -48,7 +48,6 @@ public class VolunteerFragment extends BaseFragment {
 
 	//
 	private VolunteerAdapter mAdapter;
-	private ServiceManager manager;
 
 	@Nullable
 	@Override
@@ -65,8 +64,6 @@ public class VolunteerFragment extends BaseFragment {
 		if (view == null) return;
 		ButterKnife.bind(this, view);
 
-		manager = new ServiceManager();
-
 		// 뷰페이저
 		mAdapter = new VolunteerAdapter(getChildFragmentManager());
 		for (Category category : Category.values()) {
@@ -78,47 +75,9 @@ public class VolunteerFragment extends BaseFragment {
 		TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tabs);
 		tabLayout.setupWithViewPager(viewPager);
 
-		manager.getVoketDetailList("token")
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
-					@Override
-					public void onCompleted() {
-
-					}
-
-					@Override
-					public void onError(Throwable e) {
-
-					}
-
-					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
-						try {
-							String json = responseBodyResponse.body().string();
-							List<Volunteer> volunteerList = parseVoketList(json);
-
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
 
 	}
 
-	private List<Volunteer> parseVoketList(String json) {
-		List<Volunteer> volunteerList = new ArrayList<>();
-		try {
-			JSONObject object = new JSONObject(json);
-			JSONArray jsonArray = new JSONArray(object.getString("result"));
-			String VoketJson = jsonArray.toString();
-			volunteerList.addAll(new Gson().fromJson(VoketJson, Volunteer.getListType()));
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return volunteerList;
-	}
 
 
 }

@@ -6,19 +6,32 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
+import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
+import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
+import com.vocketlist.android.util.SharePrefUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+import rx.Subscriber;
 
 
 /**
@@ -27,66 +40,81 @@ import butterknife.ButterKnife;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class VolunteerCategoryFragment extends RecyclerFragment {
-    private VolunteerCategoryAdapter adapter;
+public class VolunteerCategoryFragment extends RecyclerFragment implements IVolunteerCategoryView {
+	private VolunteerCategoryAdapter adapter;
 
-    @BindInt(R.integer.volunteer_category_grid_column) int column;
-    @BindDimen(R.dimen.volunteer_category_grid_space) int space;
+	private IVolunteerCategoryPresenter presenter;
+
+	@BindInt(R.integer.volunteer_category_grid_column)
+	int column;
+	@BindDimen(R.dimen.volunteer_category_grid_space)
+	int space;
 
 
-    /**
-     * 인스턴스
-     *
-     * @param catetory
-     * @return
-     */
-    public static VolunteerCategoryFragment newInstance(Category catetory) {
-        Bundle args = new Bundle();
-        args.putSerializable(Args.CATEGORY, catetory);
+	/**
+	 * 인스턴스
+	 *
+	 * @param catetory
+	 * @return
+	 */
+	public static VolunteerCategoryFragment newInstance(Category catetory) {
+		Bundle args = new Bundle();
+		args.putSerializable(Args.CATEGORY, catetory);
 
-        VolunteerCategoryFragment fragment = new VolunteerCategoryFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+		VolunteerCategoryFragment fragment = new VolunteerCategoryFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if(view == null) return;
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		if (view == null) return;
 
-        // 더미
-        List<Volunteer> dummy = new ArrayList<>();
-        for (int i = 0; i < Math.random() * 10; i++) {
-            dummy.add(new Volunteer());
-        }
+		presenter = new VolunteerCategoryPresenter(this);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
-        recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(dummy));
-    }
+		String token = SharePrefUtil.getSharedPreference("token");
+		presenter.getVoketDetailList(token);
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_volunteer_category;
-    }
+		// 더미
+		List<Volunteer> dummy = new ArrayList<>();
+		for (int i = 0; i < Math.random() * 10; i++) {
+			dummy.add(new Volunteer());
+		}
 
-    @Override
-    protected RecyclerView.LayoutManager getLayoutManager() {
-        return new GridLayoutManager(getContext(), column);
-    }
+		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
+		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(dummy));
+	}
 
-    @Override
-    public void onRefresh() {
-        super.onRefresh();
+	@Override
+	protected int getLayoutId() {
+		return R.layout.fragment_volunteer_category;
+	}
 
-        // TODO 리프레시
-        adapter.addAll(new ArrayList<Volunteer>());
-    }
+	@Override
+	protected RecyclerView.LayoutManager getLayoutManager() {
+		return new GridLayoutManager(getContext(), column);
+	}
 
-    @Override
-    public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-        super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
+	@Override
+	public void onRefresh() {
+		super.onRefresh();
 
-        // TODO 더보기
-        adapter.add(new Volunteer());
-    }
+		// TODO 리프레시
+		adapter.addAll(new ArrayList<Volunteer>());
+	}
+
+	@Override
+	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
+
+		// TODO 더보기
+		adapter.add(new Volunteer());
+	}
+
+	@Override
+	public void getVoketList(List<Volunteer> volunteerList) {
+		adapter.addAll(volunteerList);
+		adapter.notifyDataSetChanged();
+	}
 }
