@@ -2,9 +2,12 @@ package com.vocketlist.android.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.VolunteerDetail;
@@ -15,6 +18,7 @@ import com.vocketlist.android.util.SharePrefUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 봉사활동 : 보기
@@ -71,4 +75,31 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		category_tv.setText(volunteerDetails.getFirst_category());
 
 	}
+
+	@OnClick(R.id.apply_btn)
+	void apply_btn_click(){
+		final View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_apply, null);
+		AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
+		alert.setView(innerView);
+		alert.setPositiveButton("취소", (dialog, whichButton) -> {
+			//todo
+
+		});
+
+		alert.setNegativeButton("신청",
+				(dialog, whichButton) -> {
+					//todo
+
+				});
+		AlertDialog dialog = alert.create();
+		dialog.show();
+
+	}
+
+	@OnClick(R.id.write_diary_btn)
+	void apply_btn_onClick(){
+
+
+	}
+
 }
