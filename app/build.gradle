@@ -20,13 +20,13 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled false
     }
 
     productFlavors {
         // Define separate dev and prod product flavors.
         dev {
+            // 컴파일 시간을 줄이기 위해서...
+            minSdkVersion 21
         }
 
         real {
@@ -37,7 +37,6 @@ android {
         debug {
             zipAlignEnabled true
             debuggable true
-            multiDexEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project-debug.txt'
             signingConfig signingConfigs.debug
@@ -77,12 +76,6 @@ android {
         exclude 'META-INF/LICENSE' // will not include LICENSE file
 
     }
-
-    dexOptions {
-        jumboMode true;
-        javaMaxHeapSize "4g"
-        preDexLibraries = false
-    }
 }
 
 android.applicationVariants.all { variant ->
@@ -105,7 +98,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:multidex:1.0.0'
+//    compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'

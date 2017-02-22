@@ -1,7 +1,7 @@
 package com.vocketlist.android;
 
+import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
 
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
@@ -11,7 +11,7 @@ import com.vocketlist.android.roboguice.log.Ln;
 /**
  * Created by lsit on 2017. 1. 30..
  */
-public class AppApplication extends MultiDexApplication {
+public class AppApplication extends Application {
     private static AppApplication instance;
 
     @Override

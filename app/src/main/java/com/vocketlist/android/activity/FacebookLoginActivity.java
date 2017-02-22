@@ -3,7 +3,6 @@ package com.vocketlist.android.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -11,12 +10,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -30,24 +30,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 2..
  */
 
-public class LoginActivity extends BaseActivity {
-	@BindView(R.id.facebook_login_button)
-	protected LoginButton facebookLoginButton;
-
-	protected CallbackManager callbackManager;
-
+public class FacebookLoginActivity extends BaseActivity {
+	private CallbackManager mFacebookCallbackManager;
 	private ServiceManager serviceManager;
 
 
@@ -60,55 +55,51 @@ public class LoginActivity extends BaseActivity {
 
 		serviceManager = new ServiceManager();
 
-		this.callbackManager = CallbackManager.Factory.create();
 
-		onClickFacebookLoginButton();
+		initFacebook();
+	}
 
+	private void initFacebook() {
+		mFacebookCallbackManager = CallbackManager.Factory.create();
 
+		AppEventsLogger.activateApp(AppApplication.getInstance());
+		mFacebookCallbackManager = CallbackManager.Factory.create();
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		runFacebookLogin();
 	}
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
+	protected void runFacebookLogin() {
+		LoginManager.getInstance().registerCallback(mFacebookCallbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Ln.i("runFacebookLogin onSuccess()");
 
-	@OnClick
-	protected void onClickFacebookLoginButton() {
-		AccessToken accessToken = AccessToken.getCurrentAccessToken();
-		if (accessToken != null) {
-			// login이 되어있는 경우.
+						AccessToken accessToken = loginResult.getAccessToken();
+						DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String expiredAt = sdf.format(accessToken.getExpires().getTime());
 
-			return;
-		}
+						setFacebookData(loginResult);
+					}
 
-		this.facebookLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
-		this.facebookLoginButton.registerCallback(this.callbackManager, new FacebookCallback<LoginResult>() {
-			@Override
-			public void onSuccess(final LoginResult loginResult) {
-				Ln.d("LoginManager.onSuccess");
-				AccessToken accessToken = loginResult.getAccessToken();
-				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String expiredAt = sdf.format(accessToken.getExpires().getTime());
+					@Override
+					public void onCancel() {
+						Ln.d("runFacebookLogin onCancel()");
+						finish();
+					}
 
-				setFacebookData(loginResult);
+					@Override
+					public void onError(FacebookException exception) {
+						Ln.e("runFacebookLogin onError(). reason : " + exception.toString());
+						finish();
+					}
+				});
 
-			}
-
-			@Override
-			public void onCancel() {
-				Ln.d("LoginManager.onCancel");
-			}
-
-			@Override
-			public void onError(FacebookException exception) {
-				Ln.d(exception, "LoginManager.onError");
-			}
-		});
+		LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
 	}
 
 	@Override
@@ -120,7 +111,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		this.callbackManager.onActivityResult(requestCode, resultCode, data);
+		mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 
@@ -143,22 +134,29 @@ public class LoginActivity extends BaseActivity {
 							Profile profile = Profile.getCurrentProfile();
 							String id = profile.getId();
 							String link = profile.getLinkUri().toString();
-							Log.i("Link", link);
+							Ln.i("Link : " + link);
 							if (Profile.getCurrentProfile() != null) {
-								Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+								Ln.i("ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
 							}
 
-							Log.i("Login" + "Email", email);
-							Log.i("Login" + "FirstName", firstName);
-							Log.i("Login" + "LastName", lastName);
-							Log.i("Login" + "Gender", gender);
+							Ln.i("Email : " + email);
+							Ln.i("FirstName : " + firstName);
+							Ln.i("LastName : " + lastName);
+							Ln.i("Gender : " + gender);
 
 
 							String userInfo = object.toString();
 							String token = loginResult.getAccessToken().toString();
 							String userId = loginResult.getAccessToken().getUserId();
+
 							serviceManager.loginFb(userInfo, token, userId)
 									.observeOn(AndroidSchedulers.mainThread())
+									.doOnTerminate(new Action0() {
+										@Override
+										public void call() {
+											finish();
+										}
+									})
 									.subscribe(new Subscriber<Response<ResponseBody>>() {
 										@Override
 										public void onCompleted() {

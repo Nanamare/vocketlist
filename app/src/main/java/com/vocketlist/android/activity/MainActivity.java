@@ -22,18 +22,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
-import com.vocketlist.android.fragment.VolunteerFragment;
 import com.vocketlist.android.fragment.CommunityFragment;
+import com.vocketlist.android.fragment.VolunteerFragment;
+import com.vocketlist.android.view.NavigationDrawer;
 import com.vocketlist.android.view.NavigationDrawerHeaderView;
+import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,24 +41,17 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 /**
  * 메인
  */
-public class MainActivity extends BaseActivity implements
-
-		NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
 		NavigationDrawerHeaderView.OnElementsClickListener,
 		BottomNavigationView.OnNavigationItemSelectedListener,
 		OnTabSelectListener {
 
-	@BindView(R.id.toolbar)
-	protected Toolbar mToolbar;
-	@BindView(R.id.drawer_layout)
-	protected DrawerLayout mDrawer;
-	@BindView(R.id.navigationView)
-	protected NavigationView mNavigationView;
+	@BindView(R.id.toolbar) protected Toolbar mToolbar;
+	@BindView(R.id.drawer_layout) protected DrawerLayout mDrawer;
+	@BindView(R.id.navigationView) protected NavigationView mNavigationView;
 
-	@BindView(R.id.bottomBar)
-	BottomBar bottomBar;
-	@BindView(R.id.tabs)
-	TabLayout tabs;
+	@BindView(R.id.bottomBar) BottomBar bottomBar;
+	@BindView(R.id.tabs) TabLayout tabs;
 
 	// Event
 	private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
@@ -123,8 +115,8 @@ public class MainActivity extends BaseActivity implements
 		initBottomNavigation();
 
 		mNavigationView.setNavigationItemSelectedListener(this);
-		NavigationDrawerHeaderView headerView = (NavigationDrawerHeaderView) mNavigationView.getHeaderView(0);
-		headerView.setOnElementsClickListener(this);
+		NavigationDrawerView headerView = (NavigationDrawerView) mNavigationView.getHeaderView(0);
+		headerView.setFragmentManager(getSupportFragmentManager(), new NavigationDrawer());
 	}
 
 	private void initDrawer() {
@@ -154,7 +146,7 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onLoginClick(View v) {
-		goToActivity(LoginActivity.class);
+		goToActivity(FacebookLoginActivity.class);
 	}
 
 	@Override
@@ -323,4 +315,9 @@ public class MainActivity extends BaseActivity implements
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(badgeReceiver);
 	}
 
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }
