@@ -21,7 +21,6 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
 
     @BindView(R.id.ivThumbnail) AppCompatImageView ivThumbnail;
     @BindView(R.id.tvTitle) AppCompatTextView tvTitle;
-    @BindView(R.id.tvDescription) AppCompatTextView tvDescription;
 
     /**
      * 생성자

@@ -8,10 +8,10 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 
 /**
- * Created by kinamare on 2017-02-22.
+ * Created by kinamare on 2017-02-21.
  */
 
-public class VoketDetailErrorChecker implements ErrorChecker<ResponseBody> {
+public class VoketErrorChecker implements ErrorChecker<ResponseBody> {
 	ServiceManager manager;
 
 	@Override
@@ -30,6 +30,7 @@ public class VoketDetailErrorChecker implements ErrorChecker<ResponseBody> {
 			e.printStackTrace();
 			throw new VoketError(e.toString());
 		}
+
 
 	}
 }

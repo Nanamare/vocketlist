@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
 import com.vocketlist.android.R;
+import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
+import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
+import com.vocketlist.android.util.SharePrefUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +21,8 @@ import butterknife.ButterKnife;
 public class VolunteerReadActivity extends DepthBaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    private IVolunteerCategoryPresenter presenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,5 +30,10 @@ public class VolunteerReadActivity extends DepthBaseActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        presenter = new VolunteerCategoryPresenter();
+
+        String token = SharePrefUtil.getSharedPreference("token");
+        presenter.getVoketDetail(token);
     }
 }

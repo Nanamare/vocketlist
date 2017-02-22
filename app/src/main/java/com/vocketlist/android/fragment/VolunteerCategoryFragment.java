@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
@@ -18,20 +17,11 @@ import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 import com.vocketlist.android.util.SharePrefUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindInt;
-import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import rx.Subscriber;
 
 
 /**
@@ -74,7 +64,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		presenter = new VolunteerCategoryPresenter(this);
 
 		String token = SharePrefUtil.getSharedPreference("token");
-		presenter.getVoketDetailList(token);
+		presenter.getVoketList(token);
 
 		// 더미
 		List<Volunteer> dummy = new ArrayList<>();
