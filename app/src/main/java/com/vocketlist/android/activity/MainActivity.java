@@ -105,14 +105,14 @@ public class MainActivity extends BaseActivity implements
 		AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 		alert.setView(innerView);
 		alert.setPositiveButton("닫기", (dialog, whichButton) -> {
-
-
+			//todo
 
 		});
 
 		alert.setNegativeButton("자세히 보기",
 				(dialog, whichButton) -> {
-					// Canceled.
+					//todo
+
 				});
 		AlertDialog dialog = alert.create();
 		dialog.show();
