@@ -1,6 +1,7 @@
 package com.vocketlist.android.presenter;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.net.ServiceManager;
@@ -62,6 +63,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 					@Override
 					public void onError(Throwable e) {
+
 
 					}
 
@@ -127,8 +129,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 						Gson gson = new Gson();
 						try {
 							JSONObject object = new JSONObject(json);
-							JSONArray jsonArray = new JSONArray(object.getString("result"));
-							String voketDetailJson = jsonArray.toString();
+							String voketDetailJson = object.get("result").toString();
 							voketDetail = gson.fromJson(voketDetailJson, VolunteerDetail.class);
 
 						} catch (JSONException e) {
