@@ -117,6 +117,12 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/edittextbackground"
+            android:id="@+id/dialog_apply_name_edt"
             android:textSize="15sp"
             android:hint="ex) 신현성"
             android:layout_width="match_parent"
@@ -125,6 +131,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -136,6 +143,12 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/edittextbackground"
+            android:id="@+id/dialog_apply_email_edt"
             android:textSize="15sp"
             android:hint="ex) bong@bong.me"
             android:layout_width="match_parent"
@@ -144,6 +157,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -155,9 +169,34 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/edittextbackground"
+            android:id="@+id/dialog_apply_phone_edt"
             android:textSize="15sp"
             android:hint="ex) 010-9825-2322"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/dialog_apply_done_btn"
+            android:text="신청"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/dialog_apply_cancel_btn"
+            android:text="취소"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
