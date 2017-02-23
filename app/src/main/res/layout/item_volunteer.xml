@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/item_volunteer_ll"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
@@ -88,17 +89,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:weightSum="10"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <!-- 설명 -->
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/start_date_tv"
-            android:layout_weight="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
             android:minHeight="80dp"
             android:paddingBottom="4dp"
             android:paddingLeft="4dp"
@@ -110,27 +111,27 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="80dp"
             android:paddingBottom="1dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:paddingTop="4dp"
             android:text="/"
-            android:minHeight="80dp"
             android:textSize="@dimen/font_45"
             android:textStyle="bold"/>
 
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/address_tv"
-            android:layout_weight="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:minHeight="80dp"
             android:paddingBottom="1dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:paddingTop="4dp"
             android:text="서울시 서초구"
-            android:minHeight="80dp"
             android:textSize="@dimen/font_45"/>
 
     </LinearLayout>

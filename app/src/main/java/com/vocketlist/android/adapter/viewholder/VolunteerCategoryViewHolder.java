@@ -1,11 +1,15 @@
 package com.vocketlist.android.adapter.viewholder;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
+import com.vocketlist.android.activity.VolunteerReadActivity;
 
 import java.io.Serializable;
 
@@ -24,6 +28,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
     @BindView(R.id.is_recruit_tv) AppCompatTextView tvRecruit;
     @BindView(R.id.start_date_tv) AppCompatTextView tvStartDate;
     @BindView(R.id.address_tv) AppCompatTextView tvAddress;
+    @BindView(R.id.item_volunteer_ll) LinearLayout item_volunteer_ll;
 
     /**
      * 생성자
@@ -31,6 +36,11 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
      */
     public VolunteerCategoryViewHolder(View itemView) {
         super(itemView);
+        item_volunteer_ll.setOnClickListener(view -> {
+            Intent intent = new Intent(context, VolunteerReadActivity.class);
+            context.startActivity(intent);
+        });
+
     }
 
     @NonNull

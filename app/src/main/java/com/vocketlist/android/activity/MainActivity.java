@@ -2,6 +2,7 @@ package com.vocketlist.android.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -148,7 +149,15 @@ public class MainActivity extends BaseActivity implements
 		if (mDrawer.isDrawerOpen(GravityCompat.START)) {
 			mDrawer.closeDrawer(GravityCompat.START);
 		} else {
-			super.onBackPressed();
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setMessage("보킷리스트를 종료 하시겠습니까?").setCancelable(false)
+					.setPositiveButton("확인", (dialog, which) -> finish())
+					.setNegativeButton("취소", (dialog, which) -> {
+						return;
+					});
+
+			AlertDialog alertDialog = alert.create();
+			alertDialog.show();
 		}
 	}
 
@@ -322,5 +331,6 @@ public class MainActivity extends BaseActivity implements
 		super.onDestroy();
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(badgeReceiver);
 	}
+
 
 }
