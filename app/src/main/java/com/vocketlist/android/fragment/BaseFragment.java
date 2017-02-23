@@ -16,8 +16,7 @@ import com.vocketlist.android.R;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class BaseFragment extends Fragment implements
-        SearchView.OnQueryTextListener {
+public class BaseFragment extends Fragment implements SearchView.OnQueryTextListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

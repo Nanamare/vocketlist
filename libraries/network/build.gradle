@@ -32,6 +32,9 @@ dependencies {
     // Logger
     compile project(':libraries:logger')
 
+    // firebase (error 발생시 서버로 이슈 전달하기 위해 사용)
+    compile 'com.google.firebase:firebase-crash:10.0.1'     // Firebase App Crash Report
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-io
     compile 'commons-io:commons-io:2.5'
 
