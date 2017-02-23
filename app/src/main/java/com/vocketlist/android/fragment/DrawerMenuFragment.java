@@ -1,4 +1,4 @@
-package com.vocketlist.android.view;
+package com.vocketlist.android.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import butterknife.OnClick;
  * Created by SeungTaek.Lim on 2017. 2. 22..
  */
 
-public class NavigationDrawer extends Fragment {
+public class DrawerMenuFragment extends Fragment {
     @BindView(R.id.llLogin) protected LinearLayout mLoginView;
     @BindView(R.id.llLogout) protected LinearLayout mLogoutView;
 

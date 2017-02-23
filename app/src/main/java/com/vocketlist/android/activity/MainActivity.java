@@ -29,9 +29,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.CommunityFragment;
+import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
-import com.vocketlist.android.view.NavigationDrawer;
-import com.vocketlist.android.view.NavigationDrawerHeaderView;
 import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
@@ -42,7 +41,6 @@ import me.leolin.shortcutbadger.ShortcutBadger;
  * 메인
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
-		NavigationDrawerHeaderView.OnElementsClickListener,
 		BottomNavigationView.OnNavigationItemSelectedListener,
 		OnTabSelectListener {
 
@@ -116,7 +114,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		mNavigationView.setNavigationItemSelectedListener(this);
 		NavigationDrawerView headerView = (NavigationDrawerView) mNavigationView.getHeaderView(0);
-		headerView.setFragmentManager(getSupportFragmentManager(), new NavigationDrawer());
+		headerView.setFragmentManager(getSupportFragmentManager(), new DrawerMenuFragment());
 	}
 
 	private void initDrawer() {
@@ -142,36 +140,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		} else {
 			super.onBackPressed();
 		}
-	}
-
-	@Override
-	public void onLoginClick(View v) {
-		goToActivity(FacebookLoginActivity.class);
-	}
-
-	@Override
-	public void onLogoutClick(View v) {
-		// TODO Logout 처리
-	}
-
-	@Override
-	public void onNotificationClick(View v) {
-		goToActivity(NotificationActivity.class);
-	}
-
-	@Override
-	public void onScheduleClick(View v) {
-		goToActivity(ScheduleActivity.class);
-	}
-
-	@Override
-	public void onGoalClick(View v) {
-		goToActivity(GoalActivity.class);
-	}
-
-	@Override
-	public void onMyPostClick(View v) {
-		goToActivity(MyPostsActivity.class);
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")
