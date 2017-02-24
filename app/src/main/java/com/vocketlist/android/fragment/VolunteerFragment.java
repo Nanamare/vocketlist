@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +26,7 @@ import butterknife.ButterKnife;
  */
 public class VolunteerFragment extends BaseFragment {
     //
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    @BindView(R.id.viewPager) ViewPager viewPager;
 
     //
     private VolunteerAdapter mAdapter;
@@ -45,44 +46,19 @@ public class VolunteerFragment extends BaseFragment {
         if (view == null) return;
         ButterKnife.bind(this, view);
 
-        // 탭
-        TabLayout tabLayout = (TabLayout) act.findViewById(R.id.tlVolunteer);
-
         // 뷰페이저
         mAdapter = new VolunteerAdapter(getChildFragmentManager());
         for (Category category : Category.values()) {
             mAdapter.addFragment(VolunteerCategoryFragment.newInstance(category), getString(category.getResId()));
-//            tabLayout.addTab(tabLayout.newTab().setText(getString(category.getResId())));
         }
         viewPager.setAdapter(mAdapter);
 
+        // 탭
+        TabLayout tabLayout = ButterKnife.findById(act, R.id.tlVolunteer);
         tabLayout.setupWithViewPager(viewPager);
 
-        // 필터 탭 추가
-//        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_action_clear_all));
-//        // 이벤트
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            int prevPosition = 0;
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                int position = tab.getPosition();
-//                // 필터 탭은 제외
-//                if (position < mAdapter.getCount()) viewPager.setCurrentItem(position);
-//                else viewPager.setCurrentItem(prevPosition);
-//
-//                prevPosition = position;
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
+        // TODO : 필터
+        AppCompatImageButton btnFilter = ButterKnife.findById(getActivity(), R.id.btnFilter);
+        btnFilter.setOnClickListener(v -> Ln.d(v));
     }
 }

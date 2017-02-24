@@ -3,10 +3,12 @@ package com.vocketlist.android.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.vocketlist.android.R;
+import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
@@ -16,6 +18,7 @@ import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
+import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +31,9 @@ import butterknife.BindInt;
  */
 
 public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView {
-	private VolunteerCategoryAdapter adapter;
+
+	private PostAdapter adapter;
 	private ICommunityPresenter presenter;
-
-	@BindInt(R.integer.volunteer_category_grid_column) int column;
-	@BindDimen(R.dimen.volunteer_category_grid_space) int space;
-
 
 	/**
 	 * 인스턴스
@@ -56,13 +56,13 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		if(view == null) return;
 
 		// 더미
-		List<Volunteer> dummy = new ArrayList<>();
-		for (int i = 0; i < Math.random() * 10; i++) {
-			dummy.add(new Volunteer());
+		List<Post> dummy = new ArrayList<>();
+		for (int i = 0; i < 20; i++) {
+			dummy.add(new Post());
 		}
 
-		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
-		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(dummy));
+		//
+		recyclerView.setAdapter(adapter = new PostAdapter(dummy));
 
 		presenter = new CommunityPresenter(this);
 		presenter.getCommunityList();
@@ -70,12 +70,12 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.fragment_volunteer_category;
+		return R.layout.fragment_community_category;
 	}
 
 	@Override
 	protected RecyclerView.LayoutManager getLayoutManager() {
-		return new GridLayoutManager(getContext(), column);
+		return new LinearLayoutManager(getContext());
 	}
 
 	@Override

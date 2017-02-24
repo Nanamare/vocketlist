@@ -56,7 +56,7 @@
                     <android.support.v7.widget.AppCompatImageButton
                         android:id="@+id/btnFilter"
                         style="@style/Button.Tab"
-                        android:layout_width="80dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_action_clear_all" />
                 </LinearLayout>
@@ -70,30 +70,13 @@
                     android:orientation="horizontal"
                     android:visibility="invisible">
 
-                    <!-- 전체보기 -->
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/btnAll"
-                        style="@style/Button.Tab"
+                    <!-- 탭 -->
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tlCommunity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/all" />
-                    <!-- 내가쓴글 -->
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/btnMy"
-                        style="@style/Button.Tab"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/my_post" />
-                    <!-- 명언보기 -->
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/btnWise"
-                        style="@style/Button.Tab"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/wise" />
+                        android:layout_weight="3"
+                        app:tabMode="fixed" />
 
                     <!-- 간격 -->
                     <View
@@ -102,14 +85,14 @@
                         android:layout_weight="2" />
 
                     <!-- 글작성 -->
-                    <android.support.v7.widget.AppCompatImageButton
-                        android:id="@+id/btnNew"
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/btnWrite"
                         style="@style/Button.Tab"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_action_mode_edit" />
+                        android:layout_weight="1.2"
+                        android:text="@string/write"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

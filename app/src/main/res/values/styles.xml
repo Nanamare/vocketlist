@@ -27,7 +27,6 @@
     <style name="Button" />
 
     <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/material_grey300</item>
-        <item name="android:textSize">@dimen/font_33</item>
+        <item name="android:textSize">@dimen/font_36</item>
     </style>
 </resources>

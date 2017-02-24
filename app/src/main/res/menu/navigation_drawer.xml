@@ -2,17 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
+        android:id="@+id/naviTop"
+        android:checkableBehavior="none">
+        <!-- 알림설정 -->
+        <item
+            android:id="@+id/naviNotification"
+            android:icon="@drawable/shape_placeholder"
+            android:title="@string/notification" />
+        <!-- 관심정보 모아보기 -->
+        <item
+            android:id="@+id/naviFavorite"
+            android:icon="@drawable/shape_placeholder"
+            android:title="@string/favorite" />
+        <!-- 마이 리스트 -->
+        <item
+            android:id="@+id/naviMyList"
+            android:icon="@drawable/shape_placeholder"
+            android:title="@string/my_list" />
+    </group>
+
+    <group
         android:id="@+id/naviSettings"
         android:checkableBehavior="none">
         <!-- 프로필 관리 -->
         <item
             android:id="@+id/naviProfile"
-            android:icon="@drawable/ic_favorite"
+            android:icon="@drawable/ic_person"
             android:title="@string/profile_manage" />
         <!-- 스케줄 관리 -->
         <item
             android:id="@+id/naviSchedule"
-            android:icon="@drawable/ic_person"
+            android:icon="@drawable/ic_action_date_range"
             android:title="@string/schedule_manage" />
         <!-- 공지사항 -->
         <item
