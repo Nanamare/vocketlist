@@ -16,7 +16,9 @@ public enum Category {
     Education(R.string.tab_edu),
     Culture(R.string.tab_cul),
     Environment(R.string.tab_env),
-    Etc(R.string.tab_etc);
+//    Etc(R.string.tab_etc);
+
+    ;
 
     private final int resId;
 

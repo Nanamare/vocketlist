@@ -52,19 +52,23 @@
     <string name="progress">달성률 %1$d / 커뮤니티 %2$d건</string>
     
     <!-- -->
-    <string name="notification">알림</string>
-    <string name="schedule">스케쥴</string>
-    <string name="goal">목표</string>
+    <string name="notification">알림설정</string>
+    <string name="favorite">관심정보\n모아보기</string>
+    <string name="my_list">마이리스트</string>
 
     <!-- -->
-    <string name="favorite">관심정보</string>
-    <string name="me">개인정보</string>
+    <string name="profile_manage">프로필관리</string>
+    <string name="schedule_manage">스케쥴관리</string>
     <string name="notice">공지사항</string>
     <string name="introduce">서비스 소개</string>
-    <string name="activity">활동내역</string>
+    <string name="help">문의/도움말</string>
     <string name="terms">이용약관</string>
     <string name="license">라이센스</string>
     <string name="my_posts">내 후기 모아보기</string>
+
+    <string name="all">전체보기</string>
+    <string name="my_post">내가쓴글</string>
+    <string name="wise">명언보기</string>
 
     <!-- -->
     <string name="heart">하트뿅뿅</string>

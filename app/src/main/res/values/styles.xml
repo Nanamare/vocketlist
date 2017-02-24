@@ -24,4 +24,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Button" />
+
+    <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/material_grey300</item>
+        <item name="android:textSize">@dimen/font_33</item>
+    </style>
 </resources>

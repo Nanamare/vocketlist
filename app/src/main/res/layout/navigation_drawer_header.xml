@@ -111,9 +111,9 @@
 
             <include layout="@layout/line_vertical" />
 
-            <!-- 스케줄 -->
+            <!-- 관심정보 모아보기 -->
             <com.vocketlist.android.view.NavigationDrawerHeaderItemView
-                android:id="@+id/menuSchedule"
+                android:id="@+id/menuFavorite"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
