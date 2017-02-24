@@ -92,47 +92,6 @@
 
         <include layout="@layout/line_horizontal" />
 
-        <!-- 관리 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <!-- 알림 -->
-            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
-                android:id="@+id/menuNoti"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="알림설정\nON">
-
-            </com.vocketlist.android.view.NavigationDrawerHeaderItemView>
-
-            <include layout="@layout/line_vertical" />
-
-            <!-- 관심정보 모아보기 -->
-            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
-                android:id="@+id/menuFavorite"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="스케쥴관리\n2017-02-10" />
-
-            <include layout="@layout/line_vertical" />
-
-            <!-- 목표관리 -->
-            <com.vocketlist.android.view.NavigationDrawerHeaderItemView
-                android:id="@+id/menuGoal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="목표관리\n80시간" />
-
-        </LinearLayout>
-
-        <include layout="@layout/line_horizontal" />
-
     </LinearLayout>
 
     <!-- 일반 사용자 -->

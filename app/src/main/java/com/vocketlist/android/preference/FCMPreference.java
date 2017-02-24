@@ -1,9 +1,8 @@
-package com.vocketlist.android.message;
+package com.vocketlist.android.preference;
 
 import android.content.Context;
 
 import com.vocketlist.android.AppApplication;
-import com.vocketlist.android.preference.BasePreference;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 2..
