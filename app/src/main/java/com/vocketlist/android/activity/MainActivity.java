@@ -161,6 +161,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
 		switch (id) {
+			// 알림설정
+			case R.id.naviNotification:
+				goToActivity(NotificationActivity.class);
+				break;
+
+			// 관심정보 모아보기
+			case R.id.naviFavorite:
+				goToActivity(FavoriteActivity.class);
+				break;
+
+			// 마이리스트
+			case R.id.naviMyList:
+				goToActivity(MyListActivity.class);
+				break;
+
+			//-----------------------------------------------//
+
 			// 프로필관리
 			case R.id.naviProfile:
 				goToActivity(ProfileActivity.class);
@@ -181,7 +198,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				goToActivity(IntroduceActivity.class);
 				break;
 
-			////////////////////////////////////////////
+			//-----------------------------------------------//
 
 			// 문의/도움말
 			case R.id.naviHelp:

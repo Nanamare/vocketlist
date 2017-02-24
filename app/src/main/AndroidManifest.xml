@@ -105,11 +105,18 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <!-- 서비스소개 -->
         <activity
             android:name=".activity.IntroduceActivity"
             android:label="@string/introduce"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 문의/도움말 -->
+        <activity
+            android:name=".activity.HelpActivity"
+            android:label="@string/help"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

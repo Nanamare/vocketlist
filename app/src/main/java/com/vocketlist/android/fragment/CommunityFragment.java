@@ -1,5 +1,6 @@
 package com.vocketlist.android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
+import com.vocketlist.android.activity.PostCUActivity;
 import com.vocketlist.android.adapter.CommunityAdapter;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -59,6 +61,15 @@ public class CommunityFragment extends BaseFragment {
 
         // TODO : 글쓰기
         AppCompatTextView btnFilter = ButterKnife.findById(getActivity(), R.id.btnWrite);
-        btnFilter.setOnClickListener(v -> Ln.d(v));
+        btnFilter.setOnClickListener(v -> goToPostCreate());
+    }
+
+    /**
+     * 글쓰기
+     */
+    private void goToPostCreate() {
+        Intent intent = new Intent(getActivity(), PostCUActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
