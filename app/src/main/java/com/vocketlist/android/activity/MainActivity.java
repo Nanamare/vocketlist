@@ -150,39 +150,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
-	public void onLoginClick(View v) {
-		goToActivity(LoginActivity.class);
-	}
-
-	@Override
-	public void onLogoutClick(View v) {
-		// TODO Logout 처리
-	}
-
-	@Override
-	public void onNotificationClick(View v) {
-		goToActivity(NotificationActivity.class);
-	}
-
-	@Override
-	public void onScheduleClick(View v) {
-		goToActivity(ScheduleActivity.class);
-	}
-
-	@Override
-	public void onGoalClick(View v) {
-		goToActivity(MyListActivity.class);
-	}
-
-	@Override
-	public void onMyPostClick(View v) {
-		goToActivity(MyPostsActivity.class);
-	}
-
->>>>>>> voketDetail_apply
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
@@ -323,13 +290,4 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		super.onDestroy();
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(badgeReceiver);
 	}
-
-
-<<<<<<< HEAD
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-=======
->>>>>>> voketDetail_apply
 }
