@@ -30,6 +30,7 @@ public class CommunityPresenter extends BasePresenter implements ICommunityPrese
 	private ICommunityView iCommunityView;
 	private ServiceManager serviceManager;
 	private List<Post> communityList;
+	private List<Volunteer> volunteers;
 
 
 	public CommunityPresenter(ICommunityView view) {
@@ -40,12 +41,12 @@ public class CommunityPresenter extends BasePresenter implements ICommunityPrese
 
 	@Override
 	public void getCommunityList() {
-		serviceManager.getCommunityList()
+		serviceManager. getCommunityList()
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
+				.subscribe(new Subscriber<Response<Post>>() {
 					@Override
 					public void onCompleted() {
-						iCommunityView.getCommunityList(communityList);
+
 					}
 
 					@Override
@@ -54,34 +55,11 @@ public class CommunityPresenter extends BasePresenter implements ICommunityPrese
 					}
 
 					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
-						try {
-							String parseJson = responseBodyResponse.body().string().toString();
-							communityList = parseCommunityList(parseJson);
-							onCompleted();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-
-					private List<Post> parseCommunityList(String json) {
-
-						List<Post> volunteerList = new ArrayList<>();
-						try {
-							JSONObject object = new JSONObject(json);
-							JSONArray jsonArray = new JSONArray(object.getString("result"));
-							String VoketJson = jsonArray.toString();
-							volunteerList.addAll(new Gson().fromJson(VoketJson, Post.getListType()));
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						return volunteerList;
-
+					public void onNext(Response<Post> postResponse) {
 
 					}
-
 				});
+
 
 	}
 }

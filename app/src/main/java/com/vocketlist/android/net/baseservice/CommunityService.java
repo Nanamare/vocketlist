@@ -1,5 +1,7 @@
 package com.vocketlist.android.net.baseservice;
 
+import com.vocketlist.android.dto.Post;
+
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
@@ -12,5 +14,5 @@ import rx.Observable;
 public interface CommunityService {
 
 	@GET("rooms/list")
-	Observable<Response<ResponseBody>> getCommunityList();
+	Observable<Response<Post>> getCommunityList();
 }

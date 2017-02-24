@@ -1,14 +1,17 @@
 package com.vocketlist.android.net.errorchecker;
 
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.dto.VolunteerDetail;
+
 /**
  * Created by kinamare on 2017-02-22.
  */
 
 public class VoketDetailError extends RuntimeException{
-	public VoketDetailError (){
-		super("VoketDetail Null Error");
-	}
-	VoketDetailError(String error){
-		super(error);
+	private BaseResponse<VolunteerDetail> mData;
+
+	public VoketDetailError(BaseResponse<VolunteerDetail> data) {
+		super();
+		mData = data;
 	}
 }

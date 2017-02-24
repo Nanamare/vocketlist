@@ -5,6 +5,6 @@ package com.vocketlist.android.presenter.ipresenter;
  */
 
 public interface IVolunteerCategoryPresenter {
-	void getVoketList(String token);
-	void getVoketDetail(String token);
+	void getVoketList(int page);
+	void getVoketDetail(int voketIdx);
 }
