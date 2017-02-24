@@ -2,15 +2,12 @@ package com.vocketlist.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
-import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
-import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.Post;
@@ -18,18 +15,17 @@ import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
-import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindDimen;
-import butterknife.BindInt;
 
 /**
  * Created by kinamare on 2017-02-20.
  */
 
+/**
+ * 커뮤니티 : 카테고리
+ */
 public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView {
 
 	private PostAdapter adapter;
