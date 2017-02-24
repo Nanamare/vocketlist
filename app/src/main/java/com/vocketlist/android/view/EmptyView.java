@@ -60,7 +60,7 @@ public class EmptyView extends LinearLayout {
      */
     public EmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.empty_community, this, true);
+        LayoutInflater.from(context).inflate(R.layout.empty_community_category, this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EmptyView, defStyleAttr, 0);
 

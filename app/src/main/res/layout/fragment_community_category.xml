@@ -10,7 +10,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_empty="@layout/empty_community"
+        app:layout_empty="@layout/empty_community_category"
         app:layout_moreProgress="@layout/layout_more_progress"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         app:recyclerClipToPadding="false"

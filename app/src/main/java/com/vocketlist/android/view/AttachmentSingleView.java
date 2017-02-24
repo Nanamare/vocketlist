@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.gonbro.memovie.R;
+import com.vocketlist.android.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

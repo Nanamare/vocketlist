@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 /**
+ * 관리자 : 스낵바
+ *
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 15.
  */

@@ -84,6 +84,7 @@
 
     <!-- -->
     <string name="hint_search">검색어를 입력하세요</string>
+    <string name="hint_write_post">오늘의 봉사활동은 어땠나요?</string>
 
     <!---->
     <string name="empty_volunteer_category">해당 카테고리에는 봉사활동이 없네요.\n다른 카테고리에서 찾아보세요.</string>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group
         android:id="@+id/naviTop"
@@ -8,7 +9,8 @@
         <item
             android:id="@+id/naviNotification"
             android:icon="@drawable/shape_placeholder"
-            android:title="@string/notification" />
+            android:title="@string/notification"
+            app:actionLayout="@layout/menu_count" />
         <!-- 관심정보 모아보기 -->
         <item
             android:id="@+id/naviFavorite"

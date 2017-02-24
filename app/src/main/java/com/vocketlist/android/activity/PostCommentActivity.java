@@ -51,7 +51,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         // 레이아웃 : 라사이클러
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setRefreshListener(this);
-        recyclerView.setRefreshingColorResources(R.color.point_343a45, R.color.point_5ebdba, R.color.point_f6b53c, R.color.point_ea5e58);
+        recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
         recyclerView.setupMoreListener(this, 1);
         recyclerView.setAdapter(adapter = new CommentAdapter(dummy));
     }

@@ -17,6 +17,8 @@
     <!-- 봉사활동 : 목록 -->
     <dimen name="volunteer_category_grid_space">5dp</dimen>
 
+    <!-- 첨부파일 -->
+    <dimen name="attachment_height">202.5dp</dimen>
 
     <!-- 폰트 크기 -->
     <dimen name="font_27">9sp</dimen>

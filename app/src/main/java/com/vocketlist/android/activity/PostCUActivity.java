@@ -17,16 +17,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.kbeanie.multipicker.api.entity.ChosenFile;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.api.entity.ChosenVideo;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
+import com.vocketlist.android.helper.AttachmentHelper;
+import com.vocketlist.android.manager.ToastManager;
+import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.view.AttachmentSingleView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +44,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +55,7 @@ import butterknife.ButterKnife;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 13.
  */
-public class PostCUActivity extends DepthBaseActivity {
+public class PostCUActivity extends DepthBaseActivity implements AttachmentHelper.PickerCallback {
 
 	private static final int REQUEST_WRITE_STORAGE = 112;
 	private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -52,17 +63,26 @@ public class PostCUActivity extends DepthBaseActivity {
 
 	@BindView(R.id.toolbar)
 	Toolbar toolbar;
-	@BindView(R.id.activity_post_create_update_picTv)
-	TextView picTv;
-	@BindView(R.id.activity_post_create_update_picIv)
-	ImageView picIv;
-	@BindView(R.id.activity_post_create_update_shareToFb_tv)
-	TextView shareToFb_tv;
+//	@BindView(R.id.activity_post_create_update_picTv)
+//	TextView picTv;
+//	@BindView(R.id.activity_post_create_update_picIv)
+//	ImageView picIv;
+//	@BindView(R.id.activity_post_create_update_shareToFb_tv)
+//	TextView shareToFb_tv;
 
-	private Bitmap bp;
-	private File imgfile;
-	private String mCurrentPhotoPath;
+//	private Bitmap bp;
+//	private File imgfile;
+//	private String mCurrentPhotoPath;
 
+	@BindView(R.id.metContent)
+	MaterialEditText metContent;
+	@BindView(R.id.rlAttachment)
+	RelativeLayout rlAttachment;
+	@BindView(R.id.bbl)
+	ButtonBarLayout bbl;
+
+	private AttachmentHelper attachmentHelper;
+	private ChosenFile mChosenFile;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -101,26 +121,96 @@ public class PostCUActivity extends DepthBaseActivity {
 
 		setSupportActionBar(toolbar);
 
-		// 헤더 CI 적용
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
-		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		getSupportActionBar().setCustomView(
-				getLayoutInflater().inflate(R.layout.appbar_sub_title, null),
-				new ActionBar.LayoutParams(
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						Gravity.CENTER
-				)
-		);
+//		// 헤더 CI 적용
+//		getSupportActionBar().setDisplayShowCustomEnabled(true);
+//		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//		getSupportActionBar().setCustomView(
+//				getLayoutInflater().inflate(R.layout.appbar_sub_title, null),
+//				new ActionBar.LayoutParams(
+//						ActionBar.LayoutParams.WRAP_CONTENT,
+//						ActionBar.LayoutParams.WRAP_CONTENT,
+//						Gravity.CENTER
+//				)
+//		);
 
 		checkThePemission();
 
-		picTv.setOnClickListener(view -> takepicture());
-		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
+//		picTv.setOnClickListener(view -> takepicture());
+//		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
 
+		//
+		metContent.requestFocus();
 
+		//
+		attachmentHelper = new AttachmentHelper(this);
 	}
 
+	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+
+		Ln.d(bbl.getHeight());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(attachmentHelper != null) attachmentHelper.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		if (attachmentHelper != null) attachmentHelper.onSaveInstanceState(outState);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		if (attachmentHelper != null) attachmentHelper.onRestoreInstanceState(savedInstanceState);
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onImagesChosen(List<ChosenImage> list) {
+		initAttachment(list.get(0));
+	}
+
+	@Override
+	public void onVideosChosen(List<ChosenVideo> list) {
+		initAttachment(list.get(0));
+	}
+
+	@Override
+	public void onFilesChosen(List<ChosenFile> list) {
+		initAttachment(list.get(0));
+	}
+
+	@Override
+	public void onError(String s) {
+		ToastManager.show(s);
+	}
+
+	/**
+	 * 첨부파일
+	 *
+	 * @param chosenFile
+     */
+	private void initAttachment(ChosenFile chosenFile) {
+		mChosenFile = chosenFile;
+
+		final AttachmentSingleView attach = new AttachmentSingleView(this);
+		rlAttachment.addView(attach);
+		attach.setThumb(mChosenFile.getOriginalPath());
+		attach.setOnDeleteListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mChosenFile = null;
+				rlAttachment.removeView(attach);
+			}
+		});
+	}
+
+	/**
 	private void shareToFacebook() {
 		ShareLinkContent content = new ShareLinkContent.Builder()
 				//링크의 콘텐츠 제목
@@ -329,5 +419,5 @@ public class PostCUActivity extends DepthBaseActivity {
 			}
 		}
 	}
-
+	**/
 }

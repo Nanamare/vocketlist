@@ -125,13 +125,25 @@ dependencies {
     compile group: 'com.kakao.sdk', name: 'kakaolink', version: '1.1.0' // 카카오링크 (https://developers.kakao.com/)
     compile 'com.facebook.android:facebook-android-sdk:4.19.0'          // facebook (https://developers.facebook.com/docs/android/downloads?locale=ko_KR)
 
+    // Chooser : https://github.com/coomar2841/android-multipicker-library
+    compile 'com.kbeanie:multipicker:1.1.31@aar'
+    // 텍스트 : https://github.com/binaryfork/Spanny
+    compile 'com.binaryfork:spanny:1.0.4'
 
+    // 매티리얼 다이얼로그 : https://github.com/afollestad/material-dialogs
+    compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     // Material color : https://github.com/mcginty/material-colors
     compile 'com.github.mcginty:material-colors:1.1.0'
+    // 에디트 텍스트 : https://github.com/rengwuxian/MaterialEditText
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
     // Circle Image : https://github.com/hdodenhof/CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // Bottom Navigation : https://github.com/roughike/BottomBar
     compile 'com.roughike:bottom-bar:2.1.1'
+
+    // 확장 리스트 : https://github.com/bignerdranch/expandable-recycler-view
+    compile 'com.bignerdranch.android:expandablerecyclerview:2.1.1'
     // Recycler View : https://github.com/Malinskiy/SuperRecyclerView
     compile 'com.malinskiy:superrecyclerview:1.1.4'
 

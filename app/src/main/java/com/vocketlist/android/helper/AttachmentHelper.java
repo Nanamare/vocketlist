@@ -3,11 +3,7 @@ package com.vocketlist.android.helper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.flipboard.bottomsheet.commons.MenuSheetView;
-import com.gonbro.memovie.R;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.FilePicker;
@@ -34,9 +30,6 @@ public class AttachmentHelper {
 
     private static final String PICKER_PATH = "picker_path";
 
-    private BottomSheetLayout bottomSheetLayout;
-    private MenuSheetView menuSheetView;
-
     private ImagePicker imagePicker;
     private VideoPicker videoPicker;
     private CameraImagePicker cameraImagePicker;
@@ -51,7 +44,7 @@ public class AttachmentHelper {
 
     private Activity act;
 
-    private boolean isAllowMultiple;
+    private boolean isAllowMultiple = false;
     private boolean debug = true;
 
     public interface PickerCallback {
@@ -60,28 +53,6 @@ public class AttachmentHelper {
         void onFilesChosen(List<ChosenFile> list);
         void onError(String s);
     }
-
-    // 이벤트
-    private MenuSheetView.OnMenuItemClickListener onMenuItemClickListener = new MenuSheetView.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            int id = item.getItemId();
-
-            switch (id) {
-                case R.id.action_voice: doVoice(); break;
-                case R.id.action_video: doVideo(); break;
-                case R.id.action_camera: doCamera(); break;
-                case R.id.action_album_video: doAlbumVideo(); break;
-                case R.id.action_album_photo: doAlbumPhoto(); break;
-                case R.id.action_file: doFile(); break;
-                default: return false;
-            }
-
-            //
-            bottomSheetLayout.dismissSheet();
-            return true;
-        }
-    };
 
     private ImagePickerCallback imagePickerCallback = new ImagePickerCallback() {
         @Override
@@ -147,16 +118,9 @@ public class AttachmentHelper {
 
     /**
      * 생성자
-     *
-     * @param bottomSheetLayout
      */
-    public AttachmentHelper(Activity act, BottomSheetLayout bottomSheetLayout) {
-        this.bottomSheetLayout = bottomSheetLayout;
+    public AttachmentHelper(Activity act) {
         this.act = act;
-
-        bottomSheetLayout.setPeekOnDismiss(true);
-        menuSheetView = new MenuSheetView(act, MenuSheetView.MenuType.GRID, R.string.file, onMenuItemClickListener);
-        menuSheetView.inflateMenu(R.menu.attachments);
     }
 
     public ImagePicker getImagePicker() {
@@ -250,14 +214,6 @@ public class AttachmentHelper {
                 outputPath = savedInstanceState.getString(PICKER_PATH);
             }
         }
-    }
-
-    /**
-     * 보이기
-     */
-    public void show() {
-        if (bottomSheetLayout.isSheetShowing()) bottomSheetLayout.dismissSheet();
-        else bottomSheetLayout.showWithSheetView(menuSheetView);
     }
 
     /**
