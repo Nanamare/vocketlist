@@ -2,16 +2,21 @@ package com.vocketlist.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatTextView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.adapter.PostAdapter;
-import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.activity.MainActivity;
+import com.vocketlist.android.adapter.CommunityAdapter;
+import com.vocketlist.android.defined.CommunityCategory;
+import com.vocketlist.android.roboguice.log.Ln;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 플래그먼트 : 커뮤니티
@@ -19,47 +24,41 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 13.
  */
-public class CommunityFragment extends RecyclerFragment {
-    private PostAdapter adapter;
+public class CommunityFragment extends BaseFragment {
+    //
+    @BindView(R.id.viewPager) ViewPager viewPager;
+
+    //
+    private CommunityAdapter mAdapter;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_volunteer, container, false);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(view == null) return;
 
-        // 더미
-        List<Post> dummy = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            dummy.add(new Post());
+        MainActivity act = (MainActivity) getActivity();
+        if (act == null) return;
+        if (view == null) return;
+        ButterKnife.bind(this, view);
+
+        // 뷰페이저
+        mAdapter = new CommunityAdapter(getChildFragmentManager());
+        for (CommunityCategory category : CommunityCategory.values()) {
+            mAdapter.addFragment(CommunityCategoryFragment.newInstance(category), getString(category.getResId()));
         }
+        viewPager.setAdapter(mAdapter);
 
-        //
-        recyclerView.setAdapter(adapter = new PostAdapter(dummy));
-    }
+        // 탭
+        TabLayout tabLayout = ButterKnife.findById(act, R.id.tlCommunity);
+        tabLayout.setupWithViewPager(viewPager);
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_community;
-    }
-
-    @Override
-    protected RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(getContext());
-    }
-
-    @Override
-    public void onRefresh() {
-        super.onRefresh();
-
-        // TODO 리프레시
-        adapter.addAll(new ArrayList<Post>());
-    }
-
-    @Override
-    public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-        super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
-
-        // TODO 더보기
-        adapter.add(new Post());
+        // TODO : 글쓰기
+        AppCompatTextView btnFilter = ButterKnife.findById(getActivity(), R.id.btnWrite);
+        btnFilter.setOnClickListener(v -> Ln.d(v));
     }
 }

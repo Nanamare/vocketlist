@@ -69,31 +69,32 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!-- 스케줄관리 -->
-        <activity
-            android:name=".activity.FavoriteActivity"
-            android:label="@string/notification"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!-- 목표관리 -->
-        <activity
-            android:name=".activity.MyListActivity"
-            android:label="@string/goal"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!-- 관심정보 -->
+        <!-- 관심정보모아보기 -->
         <activity
             android:name=".activity.FavoriteActivity"
             android:label="@string/favorite"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!-- 개인정보 -->
+        <!-- 마이리스트 -->
         <activity
-            android:name=".activity.MeActivity"
-            android:label="@string/me"
+            android:name=".activity.MyListActivity"
+            android:label="@string/my_list"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 프로필관리 -->
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="@string/profile_manage"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 스케줄관리 -->
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:label="@string/schedule_manage"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -104,6 +105,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <!-- 서비스소개 -->
         <activity
             android:name=".activity.IntroduceActivity"
@@ -125,6 +127,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <!-- 내후기모아보기 -->
         <activity
             android:name=".activity.MyPostsActivity"
