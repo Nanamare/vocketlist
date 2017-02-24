@@ -10,18 +10,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 개인정보관리
+ * 문의/도움말
  *
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 13.
  */
-public class MeActivity extends DepthBaseActivity {
+public class HelpActivity extends DepthBaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_me);
+        setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);

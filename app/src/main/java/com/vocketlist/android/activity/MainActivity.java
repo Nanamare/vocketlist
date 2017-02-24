@@ -157,19 +157,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
 		switch (id) {
-			// 관심정보
-			case R.id.naviFavorite:
-				goToActivity(FavoriteActivity.class);
+			// 프로필관리
+			case R.id.naviProfile:
+				goToActivity(ProfileActivity.class);
 				break;
 
-			// 개인정보
-			case R.id.naviMe:
-				goToActivity(MeActivity.class);
-				break;
-
-			// 활동내역
-			case R.id.naviActivity:
-				goToActivity(MyPostsActivity.class);
+			// 스케줄관리
+			case R.id.naviSchedule:
+				goToActivity(ScheduleActivity.class);
 				break;
 
 			// 공지사항
@@ -182,6 +177,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				goToActivity(IntroduceActivity.class);
 				break;
 
+
+			// 문의/도움말
+			case R.id.naviHelp:
+				goToActivity(HelpActivity.class);
+				break;
+
 			// 정책
 			case R.id.naviTerms:
 				goToActivity(TermsActivity.class);
@@ -192,7 +193,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				goToActivity(LicenseActivity.class);
 				break;
 		}
-
 
 //        mDrawer.closeDrawer(GravityCompat.START);
 		return true;
