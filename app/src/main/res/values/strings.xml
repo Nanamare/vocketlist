@@ -66,6 +66,10 @@
     <string name="license">라이센스</string>
     <string name="my_posts">내 후기 모아보기</string>
 
+    <string name="all">전체보기</string>
+    <string name="my_post">내가쓴글</string>
+    <string name="wise">명언보기</string>
+
     <!-- -->
     <string name="heart">하트뿅뿅</string>
 

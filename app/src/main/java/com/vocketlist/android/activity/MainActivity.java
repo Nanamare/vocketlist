@@ -20,8 +20,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -49,7 +51,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	@BindView(R.id.navigationView) protected NavigationView mNavigationView;
 
 	@BindView(R.id.bottomBar) BottomBar bottomBar;
-	@BindView(R.id.tabs) TabLayout tabs;
+
+	@BindView(R.id.llVolunteerTab) LinearLayout llVolunteerTab;
+	@BindView(R.id.llCommunityTab) LinearLayout llCommunityTab;
 
 	// Event
 	private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
@@ -177,6 +181,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				goToActivity(IntroduceActivity.class);
 				break;
 
+			////////////////////////////////////////////
 
 			// 문의/도움말
 			case R.id.naviHelp:
@@ -200,17 +205,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 	@Override
 	public void onTabSelected(@IdRes int tabId) {
-		//
-		tabs.removeAllTabs();
-
 		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
 		switch (tabId) {
 			// 봉사활동
 			case R.id.action_volunteer:
+				llVolunteerTab.setVisibility(View.VISIBLE);
+				llCommunityTab.setVisibility(View.INVISIBLE);
 				goToFragment(VolunteerFragment.class);
 				break;
 			// 커뮤니티
 			case R.id.action_community:
+				llVolunteerTab.setVisibility(View.INVISIBLE);
+				llCommunityTab.setVisibility(View.VISIBLE);
 				goToFragment(CommunityFragment.class);
 				break;
 		}
