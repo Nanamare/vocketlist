@@ -9,8 +9,34 @@ import java.io.Serializable;
  * @since 2017. 2. 14.
  */
 public class Comment implements Serializable {
+
 	private int id;
+	private String userId;
 	private String content;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 
 }

@@ -11,7 +11,11 @@ import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
+import com.vocketlist.android.dto.Post;
 import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.presenter.CommunityPresenter;
+import com.vocketlist.android.presenter.IView.ICommunityView;
+import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +27,9 @@ import butterknife.BindInt;
  * Created by kinamare on 2017-02-20.
  */
 
-public class CommunityCategoryFragment extends RecyclerFragment {
+public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView {
 	private VolunteerCategoryAdapter adapter;
+	private ICommunityPresenter presenter;
 
 	@BindInt(R.integer.volunteer_category_grid_column) int column;
 	@BindDimen(R.dimen.volunteer_category_grid_space) int space;
@@ -58,6 +63,9 @@ public class CommunityCategoryFragment extends RecyclerFragment {
 
 		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
 		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(dummy));
+
+		presenter = new CommunityPresenter(this);
+		presenter.getCommunityList();
 	}
 
 	@Override
@@ -84,5 +92,12 @@ public class CommunityCategoryFragment extends RecyclerFragment {
 
 		// TODO 더보기
 		adapter.add(new Volunteer());
+	}
+
+	@Override
+	public void getCommunityList(List<Post> communityList) {
+		adapter.clear();
+		adapter.addAll(communityList);
+		adapter.notifyDataSetChanged();
 	}
 }

@@ -42,9 +42,9 @@
             android:paddingTop="10dp">
 
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/voket_title_tv"
@@ -57,9 +57,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -335,31 +335,46 @@
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center"
-                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/apply_btn"
-                    android:text="신청하기"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/apply_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신청하기"/>
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/apply_cancel_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신청취소"/>
+                </FrameLayout>
+
                 <Button
                     android:id="@+id/write_diary_btn"
-                    android:text="후기등록"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="후기등록"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:gravity="center_horizontal"
-                    android:text="* 외부 주체 봉사활동으로 해당 웹사이트로 이동합니다."
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="* 외부 주체 봉사활동으로 해당 웹사이트로 이동합니다."/>
             </LinearLayout>
 
 

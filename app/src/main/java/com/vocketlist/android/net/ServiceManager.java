@@ -4,8 +4,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
+import com.vocketlist.android.net.baseservice.CommunityService;
 import com.vocketlist.android.net.baseservice.UserService;
 import com.vocketlist.android.net.baseservice.VoketService;
+import com.vocketlist.android.net.errorchecker.CommunityErrorChecker;
 import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
 import com.vocketlist.android.net.errorchecker.LoginFbErrorChecker;
 import com.vocketlist.android.net.errorchecker.VoketDetailErrorChecker;
@@ -124,11 +126,24 @@ public class ServiceManager {
 				});
 	}
 
-	public Observable<Response<ResponseBody>> getVoketDetail(String token){
+	public Observable<Response<ResponseBody>> getVoketDetail(String token) {
 		return retrofit.create(VoketService.class)
 				.getVoketDetail(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
 				.lift(new ServiceErrorChecker<>(new VoketDetailErrorChecker()))
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				});
+	}
+
+	public Observable<Response<ResponseBody>> getCommunityList() {
+		return retrofit.create(CommunityService.class)
+				.getCommunityList()
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new CommunityErrorChecker()))
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
