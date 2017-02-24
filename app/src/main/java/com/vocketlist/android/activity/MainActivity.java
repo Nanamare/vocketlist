@@ -2,7 +2,6 @@ package com.vocketlist.android.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -23,14 +22,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.VolunteerFragment;
 import com.vocketlist.android.fragment.CommunityFragment;
@@ -183,7 +179,7 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onGoalClick(View v) {
-		goToActivity(GoalActivity.class);
+		goToActivity(MyListActivity.class);
 	}
 
 	@Override

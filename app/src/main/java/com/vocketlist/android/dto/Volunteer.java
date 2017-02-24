@@ -17,6 +17,8 @@ public class Volunteer implements Serializable {
 	private String type; //관리자가 넣은것인지, 1365데이터인지
 	private String title; //봉사활동이름
 	private String start_date; // yyyy-MM-dd
+	private String rester_office; // 서울특별시 강남구
+	private String imgUrl;
 
 	public String getRester_office() {
 		return rester_office;
@@ -58,8 +60,7 @@ public class Volunteer implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-	private String rester_office; // 서울특별시 강남구
-	private String imgUrl;
+
 
 	public static Type getListType() {
 		return new TypeToken<List<Volunteer>>() {
