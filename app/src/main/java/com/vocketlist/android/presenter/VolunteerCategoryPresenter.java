@@ -52,6 +52,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 					@Override
 					public void onError(Throwable e) {
 						e.printStackTrace();
+
 					}
 
 					@Override
@@ -75,7 +76,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 					@Override
 					public void onError(Throwable e) {
-
+						e.printStackTrace();
 					}
 
 					@Override
@@ -84,6 +85,30 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 						volunteerReadView.bindVoketDetailData(volunteerDetails);
 					}
 				});
+	}
+
+	@Override
+	public void getVocketCategoryList(String category,int page) {
+		serviceManager.getVocketCategoryList(category, page)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
+						volunteer = baseResponseResponse.body();
+						view.getVoketList(volunteer);
+					}
+				});
+
 	}
 
 

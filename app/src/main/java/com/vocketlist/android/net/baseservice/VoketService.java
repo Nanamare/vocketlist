@@ -23,6 +23,10 @@ public interface VoketService {
 	@GET("services/list/")
 	Observable<Response<BaseResponse<Volunteer>>> getVoketList(@Query("page") int page);
 
+	@GET("services/list/")
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("category") String category
+	,@Query("page")int page);
+
 	@GET("services/detail/{voketIdx}/")
 	Observable<Response<BaseResponse<VolunteerDetail>>> getVoketDetail(@Path("voketIdx") int voketIdx);
 
@@ -30,4 +34,9 @@ public interface VoketService {
 	@POST("service/create")
 	Observable<Response<ResponseBody>> addVoket(@Field("token") String token, @Field("name") String name
 	,@Field("phone")int Phone,@Field("voketId")String voketId);
+
+	@FormUrlEncoded
+	@POST("services/participate/{service_id}/")
+	Observable<Response<ResponseBody>> applyVolunteer(@Field("name")String name
+	                                                  ,@Field("phone")String phone,@Path("service_id")int service_id);
 }
