@@ -21,7 +21,7 @@ public interface RoomService {
 
 	//커뮤니티 조회
 	@GET("room/list")
-	Observable<Response<ResponseBody>> getVoketList(@Query("token") String token);
+	Observable<Response<ResponseBody>> getVoketList();
 
 	//글 좋아요
 	@FormUrlEncoded

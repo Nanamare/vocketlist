@@ -27,8 +27,10 @@ import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
+import com.vocketlist.android.util.SharePrefUtil;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -53,16 +55,18 @@ public class ServiceManager {
 			.readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
 //			.addInterceptor(new DefaultHeaderInterceptor())
 //			.addInterceptor(new MockInterpolator())
-			.addInterceptor(mockInterceptor)
-			.addNetworkInterceptor(new LoggingInterceptor());
-//			.addInterceptor(chain -> { //헤더에 토큰 추가
-//				Request original = chain.request();
-//				String token = SharePrefUtil.getSharedPreference("token");
-//				Request.Builder requestBuilder = original.newBuilder()
-//						.header("token", token);
-//				Request request = requestBuilder.build();
-//				return chain.proceed(request);
-//			});
+//			.addInterceptor(mockInterceptor)
+			.addNetworkInterceptor(new LoggingInterceptor())
+			.addInterceptor(chain -> { //헤더에 토큰 추가
+				Request original = chain.request();
+				String token = SharePrefUtil.getSharedPreference("token");
+				Request.Builder requestBuilder = original.newBuilder()
+						.header("Authorization", "JWT " + token);
+				Request request = requestBuilder.build();
+				return chain.proceed(request);
+			});
+
+
 
 	private static Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(BASE_URL)
@@ -79,14 +83,14 @@ public class ServiceManager {
 		retrofit.create(UserService.class)
 				.registerToken(token)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-				.lift(new ServiceErrorChecker<ResponseBody>(new FcmRegisterErrorChecker()))
+				.lift(new ServiceErrorChecker<BaseResponse<Boolean>>(new FcmRegisterErrorChecker()))
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
 
 					}
 				})
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
+				.subscribe(new Subscriber<Response<BaseResponse<Boolean>>>() {
 					@Override
 					public void onCompleted() {
 
@@ -94,11 +98,11 @@ public class ServiceManager {
 
 					@Override
 					public void onError(Throwable e) {
-
+						e.printStackTrace();
 					}
 
 					@Override
-					public void onNext(Response<ResponseBody> stringResponse) {
+					public void onNext(Response<BaseResponse<Boolean>> baseResponseResponse) {
 
 					}
 				});
