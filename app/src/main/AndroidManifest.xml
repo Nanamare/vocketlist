@@ -156,7 +156,7 @@
         <!-- 커뮤니티 : 글 : 작성 & 수정 -->
         <activity
             android:name=".activity.PostCUActivity"
-            android:label="@string/volunteer_title"
+            android:label="@string/write"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:screenOrientation="portrait"

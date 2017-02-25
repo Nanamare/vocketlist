@@ -7,6 +7,138 @@
     android:orientation="vertical">
 
     <!-- 앱바 -->
+
+    <!-- 콘텐츠 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/new_post_button_bar_height">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- 첨부파일 -->
+                <RelativeLayout
+                    android:id="@+id/rlAttachment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center" />
+
+                <!-- 봉사활동 정보 -->
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/metVolunteer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/hint_join_volunteer"
+                    android:visibility="gone"
+                    app:met_floatingLabel="highlight"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/point_5FA9D0" />
+
+                <!-- 마이리스트 정보 -->
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/metMyList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/hint_my_list"
+                    android:visibility="gone"
+                    app:met_floatingLabel="highlight"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/point_5FA9D0" />
+
+                <!-- 내용 -->
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/metContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_write_post"
+                    app:met_floatingLabel="highlight"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/point_5FA9D0" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <!-- 액셔 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/new_post_button_bar_height"
+            android:layout_gravity="bottom"
+            android:background="@color/material_grey200"
+            android:orientation="vertical">
+
+            <!-- 라인 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_7" />
+
+            <!-- 버튼 -->
+            <android.support.v7.widget.ButtonBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 봉사활동 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnVolunteer"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:elevation="0dp"
+                    android:src="@drawable/ic_v" />
+
+                <!-- 앨범 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnAlbum"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_photo"
+                    android:textColor="@color/colorPrimary" />
+
+                <!-- 사진촬영 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnCamera"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_photo_camera"
+                    android:textColor="@color/colorPrimary" />
+
+                <!-- 페이스북 자동 포스팅 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnFacebook"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_facebook2"
+                    android:textColor="@color/colorPrimary" />
+
+            </android.support.v7.widget.ButtonBarLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,111 +155,6 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <!-- 콘텐츠 -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- 내용 -->
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/metContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_write_post"
-                    app:met_floatingLabel="highlight"
-                    app:met_hideUnderline="true"
-                    app:met_primaryColor="@color/point_5FA9D0" />
-
-                <!-- 첨부파일 -->
-                <RelativeLayout
-                    android:id="@+id/rlAttachment"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/attachment_height"
-                    android:gravity="center"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
-
-        </android.support.v4.widget.NestedScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/material_grey200"
-            android:orientation="vertical">
-
-            <!-- 라인 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_7" />
-
-            <!-- 버튼 -->
-            <android.support.v7.widget.ButtonBarLayout
-                android:id="@+id/bbl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <!-- 봉사활동 -->
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/btnVolunteer"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_v" />
-
-                <!-- 앨범 -->
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/btnAlbum"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_action_photo"
-                    android:textColor="@color/colorPrimary" />
-
-                <!-- 사진촬영 -->
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/btnCamera"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_action_photo_camera"
-                    android:textColor="@color/colorPrimary" />
-
-                <!-- 페이스북 자동 포스팅 -->
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/btnFacebook"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_action_f"
-                    android:textColor="@color/colorPrimary" />
-
-            </android.support.v7.widget.ButtonBarLayout>
-
-        </LinearLayout>
-
-    </FrameLayout>
     <!--<android.support.v4.widget.NestedScrollView-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
