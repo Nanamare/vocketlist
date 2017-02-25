@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.VolunteerReadActivity;
 import com.vocketlist.android.dto.BaseResponse;
@@ -50,6 +51,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
         tvTitle.setText(mData.mTitle);
         tvStartDate.setText(mData.mStartDate);
         tvAddress.setText(mData.mFirstOffice);
+        Glide.with(context).load("http://www.vocketlist.com"+mData.imgUrl).into(ivThumbnail);
     }
 
     @OnClick(R.id.item_volunteer_ll)

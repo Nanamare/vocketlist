@@ -1,5 +1,6 @@
 package com.vocketlist.android.net.baseservice;
 
+import com.google.gson.JsonObject;
 import com.vocketlist.android.dto.BaseResponse;
 
 import okhttp3.ResponseBody;

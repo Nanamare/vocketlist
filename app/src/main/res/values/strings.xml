@@ -19,9 +19,9 @@
     
     <!-- 탭 -->
     <string name="tab_all">전체</string>
-    <string name="tab_act">활동\n지원</string>
-    <string name="tab_edu">교육\n상담</string>
-    <string name="tab_cul">문화\n체육</string>
+    <string name="tab_act">활동지원</string>
+    <string name="tab_edu">교육상담</string>
+    <string name="tab_cul">문화체육</string>
     <string name="tab_env">환경</string>
     <string name="tab_etc">기타</string>
 

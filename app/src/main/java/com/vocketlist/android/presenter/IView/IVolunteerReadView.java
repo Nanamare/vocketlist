@@ -9,4 +9,5 @@ import com.vocketlist.android.dto.VolunteerDetail;
 
 public interface IVolunteerReadView {
 	void bindVoketDetailData(BaseResponse<VolunteerDetail> volunteerDetails);
+	void showCompleteDialog();
 }

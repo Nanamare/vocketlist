@@ -8,7 +8,11 @@ import android.support.v7.widget.Toolbar;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.ScheduleAdapter;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Schedule;
+import com.vocketlist.android.presenter.IView.IScheduleView;
+import com.vocketlist.android.presenter.SchedulePresenter;
+import com.vocketlist.android.presenter.ipresenter.ISchedulePresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +27,13 @@ import butterknife.ButterKnife;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 13.
  */
-public class ScheduleActivity extends DepthBaseActivity {
+public class ScheduleActivity extends DepthBaseActivity implements IScheduleView {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_schedule) SuperRecyclerView mScheduleRecyclerView;
+
+    private ISchedulePresenter presenter;
+    private ScheduleAdapter adapter;
+    private List<Schedule> scheduleList;
 
 
     @Override
@@ -35,16 +43,22 @@ public class ScheduleActivity extends DepthBaseActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        presenter = new SchedulePresenter(this);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+
         mScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mScheduleRecyclerView.setAdapter(new ScheduleAdapter(getMock()));
 
         // todo api call
+        adapter = new ScheduleAdapter(getMock());
+        presenter.getScheduleList();
+
     }
 
     public List<Schedule> getMock() {
@@ -78,5 +92,11 @@ public class ScheduleActivity extends DepthBaseActivity {
         schedule.mHeaderTitle = "5월";
 
         return schedule;
+    }
+
+    @Override
+    public void setScheduleList(BaseResponse<Schedule> scheduleList) {
+        adapter.add(scheduleList.mResult);
+
     }
 }

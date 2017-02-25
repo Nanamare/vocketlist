@@ -2,18 +2,24 @@ package com.vocketlist.android.net;
 
 import android.os.Build;
 
+import com.google.gson.JsonObject;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.dto.Schedule;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.net.baseservice.CommunityService;
+import com.vocketlist.android.net.baseservice.ScheduleService;
 import com.vocketlist.android.net.baseservice.UserService;
 import com.vocketlist.android.net.baseservice.VoketService;
+import com.vocketlist.android.net.errorchecker.ApplyVolunteerErrorChecker;
 import com.vocketlist.android.net.errorchecker.CommunityErrorChecker;
 import com.vocketlist.android.net.errorchecker.FcmRegisterErrorChecker;
 import com.vocketlist.android.net.errorchecker.LoginFbErrorChecker;
+import com.vocketlist.android.net.errorchecker.ScheduleErrorChecker;
+import com.vocketlist.android.net.errorchecker.VocketCategoryErrorChecker;
 import com.vocketlist.android.net.errorchecker.VoketDetailErrorChecker;
 import com.vocketlist.android.net.errorchecker.VoketErrorChecker;
 import com.vocketlist.android.network.converter.EnumParameterConverterFactory;
@@ -27,6 +33,8 @@ import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
+
+import com.vocketlist.android.util.SharePrefUtil;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -70,7 +78,7 @@ public class ServiceManager {
 
 		String device_id = getDeviceSerialNumber();
 		retrofit.create(UserService.class)
-				.registerToken(token,device_id)
+				.registerToken(token, device_id)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
 				.lift(new ServiceErrorChecker<BaseResponse<Boolean>>(new FcmRegisterErrorChecker()))
 				.subscribe(new Subscriber<Response<BaseResponse<Boolean>>>() {
@@ -113,6 +121,14 @@ public class ServiceManager {
 				.lift(new ServiceErrorChecker<BaseResponse<Volunteer>>(new VoketErrorChecker()));
 	}
 
+	public Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(String category, int page) {
+		return retrofit.create(VoketService.class)
+				.getVocketCategoryList(category, page)
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new VocketCategoryErrorChecker()));
+
+	}
+
 	public Observable<Response<BaseResponse<VolunteerDetail>>> getVoketDetail(int voketId) {
 		return retrofit.create(VoketService.class)
 				.getVoketDetail(voketId)
@@ -131,6 +147,23 @@ public class ServiceManager {
 
 					}
 				});
+	}
+
+	public Observable<Response<ResponseBody>> applyVolunteer(String name, String phone,int service_id){
+
+		return retrofit.create(VoketService.class)
+				.applyVolunteer(name, phone,service_id)
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new ApplyVolunteerErrorChecker()));
+
+	}
+
+	public Observable<Response<BaseResponse<Schedule>>> getScheduleList(){
+
+		return  retrofit.create(ScheduleService.class)
+				.getScheduleList()
+				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+				.lift(new ServiceErrorChecker<>(new ScheduleErrorChecker()));
 	}
 
 

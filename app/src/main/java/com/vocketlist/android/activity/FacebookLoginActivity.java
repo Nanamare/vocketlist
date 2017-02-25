@@ -135,7 +135,7 @@ public class FacebookLoginActivity extends BaseActivity {
 
 
 							Profile profile = Profile.getCurrentProfile();
-							String id = profile.getId();
+//							String id = profile.getId();
 							String link = profile.getLinkUri().toString();
 							Ln.i("Link : " + link);
 							if (Profile.getCurrentProfile() != null) {
@@ -152,7 +152,7 @@ public class FacebookLoginActivity extends BaseActivity {
 							SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
 
 							String userInfo = object.toString();
-							String token = accessToken.toString();
+							String token = accessToken.getToken();
 							String userId = loginResult.getAccessToken().getUserId();
 
 							serviceManager.loginFb(userInfo, token, userId)

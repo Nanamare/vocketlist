@@ -1,5 +1,9 @@
 package com.vocketlist.android.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,17 +11,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.VolunteerDetail;
+import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
+import com.vocketlist.android.presenter.VolunteerReadPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
+import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 import com.vocketlist.android.util.SharePrefUtil;
 
 import java.util.regex.Matcher;
@@ -70,8 +80,12 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	TextView isActiveDayTv;
 	@BindView(R.id.content_tv)
 	TextView content_tv;
+	@BindView(R.id.volunteer_iv)
+	ImageView volunteer_iv;
 
 	private IVolunteerCategoryPresenter presenter;
+
+	private IVolunteerReadPresenter volunteerReadPresenter;
 
 	private AlertDialog dialog;
 
@@ -95,6 +109,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		setSupportActionBar(toolbar);
 
 		presenter = new VolunteerCategoryPresenter(this);
+		volunteerReadPresenter = new VolunteerReadPresenter(this);
 
 		String token = SharePrefUtil.getSharedPreference("token");
 		presenter.getVoketDetail(voketIndex);
@@ -111,8 +126,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		num_by_day_tv.setText(String.valueOf(volunteerDetails.mResult.mNumByDay));
 		host_name_tv.setText(volunteerDetails.mResult.mHostName);
 		category_tv.setText(volunteerDetails.mResult.mFirstCategory);
-		start_time_tv.setText(String.valueOf(volunteerDetails.mResult.mStartTime));
-		end_time_tv.setText(String.valueOf(volunteerDetails.mResult.mEndTime));
+		start_time_tv.setText(volunteerDetails.mResult.mStartTime);
+		end_time_tv.setText(volunteerDetails.mResult.mEndTime);
 		recruit_start_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitStartDate));
 		recruit_end_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitEndDate));
 		content_tv.setText(volunteerDetails.mResult.mContent);
@@ -121,39 +136,22 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		} else {
 			isActiveDayTv.setVisibility(View.GONE);
 		}
+		if (volunteerDetails.mResult.mIsParticipate) {
+			apply_btn_onClick(true);
+		} else {
+			apply_btn_onClick(false);
+		}
+		Glide.with(this).load("http://www.vocketlist.com" + volunteerDetails.mResult.mImageUrl).into(volunteer_iv);
 
 	}
 
-	@OnClick(R.id.apply_btn)
-	void apply_btn_click() {
-		final View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_apply, null);
-		EditText name = (EditText) innerView.findViewById(R.id.dialog_apply_name_edt);
-		EditText email = (EditText) innerView.findViewById(R.id.dialog_apply_email_edt);
-		EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
-		Button doneBtn = (Button) innerView.findViewById(R.id.dialog_apply_done_btn);
-		Button cancelBtn = (Button) innerView.findViewById(R.id.dialog_apply_cancel_btn);
-		AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
-		alert.setView(innerView);
+	@Override
+	public void showCompleteDialog() {
 
-		doneBtn.setOnClickListener(view -> {
-			if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
-				//todo
-				addScheduleNoti(view);
-				apply_btn.setVisibility(View.GONE);
-				apply_cancel_btn.setVisibility(View.VISIBLE);
-				dialog.dismiss();
-			}
-
-		});
-
-		cancelBtn.setOnClickListener(view -> {
-			dialog.dismiss();
-		});
-
-		dialog = alert.create();
-		dialog.show();
+		ToastManager.showAddSchedule(this, "서버 등록 완료&&스케줄 등록 완료");
 
 	}
+
 
 	private boolean isValid(String name, String email, String phoneNumber) {
 
@@ -187,7 +185,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	private boolean isPhoneValid(String phoneNumber) {
 		boolean isValid = false;
 
-		String expression = "(01[016789])-(\\d{3,4})-(\\d{4})";
+		String expression = "(01[016789])(\\d{3,4})(\\d{4})";
 
 		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(phoneNumber);
@@ -220,40 +218,44 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		//todo cancel schuedule logic
 	}
 
-	private void addScheduleNoti(View view) {
-//		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-//		Notification.Builder mBuilder = new Notification.Builder(this);
-//		mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-//		mBuilder.setTicker("글로벌지식교류 NGO 편집 및 디자인 작업" + " 이 스케줄관리에 추가되었습니다.");
-//		mBuilder.setWhen(System.currentTimeMillis());
-//		mBuilder.setContentTitle("TEST");
-//		mBuilder.setContentText("TEST");
-//		mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-//		mBuilder.setContentIntent(pendingIntent);
-//		mBuilder.setAutoCancel(true);
-//
-//		nm.notify(333, mBuilder.build());
 
+	void apply_btn_onClick(boolean bool) {
+		if (bool) {
+			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_apply, null);
+			EditText name = (EditText) innerView.findViewById(R.id.dialog_apply_name_edt);
+			EditText email = (EditText) innerView.findViewById(R.id.dialog_apply_email_edt);
+			EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
+			Button doneBtn = (Button) innerView.findViewById(R.id.dialog_apply_done_btn);
+			Button cancelBtn = (Button) innerView.findViewById(R.id.dialog_apply_cancel_btn);
+			AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
+			alert.setView(innerView);
 
-//		LayoutInflater inflater = getLayoutInflater();
-//		View layout = inflater.inflate(R.layout.toast_notifacation, (ViewGroup) findViewById(R.id.toast_root_ll));
-//		TextView textView = (TextView) layout.findViewById(R.id.toast_noti_title);
-//		textView.setText(volunteerDetail.mResult.mTitle);
-//		Toast toast = new Toast(getApplicationContext());
-//		toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.TOP, 0, 0);
-//		toast.setDuration(Toast.LENGTH_LONG);
-//		toast.setView(layout);
-//		toast.show();
+			doneBtn.setOnClickListener(v -> {
+				if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
+					//todo
+					apply_btn.setVisibility(View.GONE);
+					apply_cancel_btn.setVisibility(View.VISIBLE);
+					dialog.dismiss();
 
+					//presenter 자리
+					volunteerReadPresenter.applyVolunteer(name.getText().toString(), email.getText().toString(), voketIndex);
+				}
 
+			});
+
+			cancelBtn.setOnClickListener(v -> {
+				dialog.dismiss();
+			});
+
+			dialog = alert.create();
+			dialog.show();
+
+		} else {
+			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_internal_apply
+					, (ViewGroup) findViewById(R.id.dialog_voket_internal_apply));
+			AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
+			alert.setView(innerView);
+		}
 
 	}
-
-	@OnClick(R.id.write_diary_btn)
-	void apply_btn_onClick() {
-
-
-	}
-
 }

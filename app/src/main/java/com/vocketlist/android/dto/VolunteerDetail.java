@@ -17,10 +17,10 @@ public class VolunteerDetail implements Serializable {
 	@SerializedName("end_date") public String mEndDate;
 	@SerializedName("recruit_start_date") public String mRecruitStartDate;
 	@SerializedName("recruit_end_date") public String mRecruitEndDate;
-	@SerializedName("start_time") public int mStartTime;
-	@SerializedName("end_time") public int mEndTime;
-	@SerializedName("activeDay") public  String mActiveDay;
-	@SerializedName("hostName") public String mHostName;
+	@SerializedName("start_time") public String mStartTime;
+	@SerializedName("end_time") public String mEndTime;
+	@SerializedName("active_day") public  String mActiveDay;
+	@SerializedName("organization") public String mHostName;
 	@SerializedName("place") public String mPlace;
 	@SerializedName("content") public String mContent;
 	@SerializedName("is_active") public boolean mIsActive;
@@ -32,4 +32,5 @@ public class VolunteerDetail implements Serializable {
 	@SerializedName("image") public String mImageUrl;
 	@SerializedName("organization_id") public int mOrganzationId;
 	@SerializedName("url") public String mInternalLinkUrl;
+	@SerializedName("is_participate") public boolean mIsParticipate;
 }

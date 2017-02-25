@@ -2,11 +2,13 @@ package com.vocketlist.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.malinskiy.superrecyclerview.swipe.SwipeDismissRecyclerViewTouchListener;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
@@ -33,7 +35,8 @@ import butterknife.BindView;
  * @since 2017. 2. 14.
  */
 public class VolunteerCategoryFragment extends RecyclerFragment implements IVolunteerCategoryView {
-	@BindView(R.id.tvLabel) AppCompatTextView tvLabel;
+	@BindView(R.id.tvLabel)
+	AppCompatTextView tvLabel;
 
 	@BindInt(R.integer.volunteer_category_grid_column)
 	int column;
@@ -42,6 +45,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 	private VolunteerCategoryAdapter adapter;
 	private IVolunteerCategoryPresenter presenter;
+	private Category category;
 
 	private int page = 1;
 	private Volunteer.Link link;
@@ -70,7 +74,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		if (args != null) {
 			Serializable c = args.getSerializable(Args.CATEGORY);
 			if (c != null && c instanceof Category) {
-				Category category = (Category) c;
+				category = (Category) c;
 
 				// 카테고리 설명
 				tvLabel.setText(getString(category.getDescResId()));
@@ -79,9 +83,15 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 				recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(new ArrayList<>()));
 				recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
-				recyclerView.setNestedScrollingEnabled(false);
+				ViewCompat.setNestedScrollingEnabled(recyclerView, false);
 
-				presenter.getVoketList(page);
+				if (getString(category.getTabResId()).equals("전체")) {
+					presenter.getVoketList(page);
+				} else {
+					presenter.getVocketCategoryList(getString(category.getTabResId()), 1);
+				}
+
+
 			}
 		}
 	}
@@ -99,7 +109,11 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	@Override
 	public void onRefresh() {
 		super.onRefresh();
-		presenter.getVoketList(1);
+		if (getString(category.getTabResId()).equals("전체")) {
+			presenter.getVoketList(1);
+		} else {
+			presenter.getVocketCategoryList(getString(category.getTabResId()), 1);
+		}
 	}
 
 	@Override
@@ -107,7 +121,11 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
 		if (link.next != null) {
-			presenter.getVoketList(Integer.valueOf(link.next));
+			if (getString(category.getTabResId()).equals("전체")) {
+				presenter.getVoketList(Integer.valueOf(link.next));
+			} else {
+				presenter.getVocketCategoryList(getString(category.getTabResId()), Integer.valueOf(link.next));
+			}
 		}
 	}
 
@@ -121,4 +139,12 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		page = volunteerList.mResult.mPageCurrent;
 		link = volunteerList.mResult.mLink;
 	}
+
+	@Override
+	public void destorySwipeView() {
+
+
+	}
+
+
 }

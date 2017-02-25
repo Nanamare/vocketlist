@@ -9,4 +9,6 @@ import com.vocketlist.android.dto.Volunteer;
 
 public interface IVolunteerCategoryView {
 	void getVoketList(BaseResponse<Volunteer> volunteerList);
+	void destorySwipeView();
+
 }

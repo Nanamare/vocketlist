@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.R;
+import com.vocketlist.android.activity.FavoriteActivity;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.message.notitype.Notitype;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -29,8 +30,6 @@ import java.util.Map;
  */
 
 public class PushService extends FirebaseMessagingService {
-
-	private List<String> list = new ArrayList<>();
 
 
 	@Override
@@ -59,50 +58,34 @@ public class PushService extends FirebaseMessagingService {
 		if (data != null) {
 
 			String[] datas = (String[]) data.values().toArray(new String[]{});
-			String title = remoteMessage.getNotification().getTitle();
 			int badgeCount = 1;
-			String pushMessage = datas[1];
-			String notiType = "watchList"; //서버에게 푸시 타입 알려줘야함
+			String pushMessage = datas[0];
+			String notiType = datas[1];
+			String title = datas[2];
 
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(pushMessage);
-			JsonArray jsonArray = element.getAsJsonArray();
-			for (int loop = 0; loop < jsonArray.size(); loop++) {
-				list.add(jsonArray.get(loop).getAsJsonObject().get("content").toString());
-			}
 
 			sendBadgeUpdateIntent(badgeCount);
-			sendNotification(title, list, notiType);
+			sendNotification(pushMessage, title, notiType);
 
 		}
 	}
 
-	private void sendNotification(String title, List<String> list, String notiType) {
+	private void sendNotification(String title, String list, String notiType) {
 
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		if (Notitype.FAVORITE.equals(notiType)) {
-			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, FavoriteActivity.class), 0);
 			Notification.Builder mBuilder = new Notification.Builder(this);
 			mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-			mBuilder.setTicker("알람 도착");
+			mBuilder.setTicker("관심 알림이 도착했습니다.");
 			mBuilder.setWhen(System.currentTimeMillis());
 			mBuilder.setContentTitle(title);
-			mBuilder.setContentText("관심 스케쥴 일정");
+			mBuilder.setContentText(list);
 			mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
 			mBuilder.setContentIntent(pendingIntent);
 			mBuilder.setAutoCancel(true);
 
-			Notification.InboxStyle style = new Notification.InboxStyle(mBuilder);
-			if (list.size() != 0) {
-				for (int i = 0; i < list.size(); i++) {
-					style.addLine(list.get(i));
-				}
-			} else {
-				style.addLine("없네요 관심 스케쥴을 설정해보세요.");
-			}
-			style.setSummaryText("더보기");
-			mBuilder.setStyle(style);
 
 			nm.notify(555, mBuilder.build());
 
@@ -111,8 +94,9 @@ public class PushService extends FirebaseMessagingService {
 			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
 					.setSmallIcon(R.mipmap.ic_launcher)
-					.setContentTitle("")
-					.setContentText("")
+					.setTicker("공지 사항이 도착했습니다.")
+					.setContentTitle(title)
+					.setContentText(list)
 					.setAutoCancel(true)
 					.setSound(defaultSoundUri)
 					.setPriority(android.app.Notification.PRIORITY_MAX)
@@ -128,8 +112,9 @@ public class PushService extends FirebaseMessagingService {
 			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
 					.setSmallIcon(R.mipmap.ic_launcher)
-					.setContentTitle("")
-					.setContentText("")
+					.setTicker("오늘의 명언이 도착했습니다.")
+					.setContentTitle(title)
+					.setContentText(list)
 					.setAutoCancel(true)
 					.setSound(defaultSoundUri)
 					.setPriority(android.app.Notification.PRIORITY_MAX)

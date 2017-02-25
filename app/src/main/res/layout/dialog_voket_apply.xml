@@ -113,7 +113,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:text="이름"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"/>
 
         <EditText
@@ -139,7 +139,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:text="이메일"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"/>
 
         <EditText
@@ -165,7 +165,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:text="휴대전화"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"/>
 
         <EditText
@@ -176,7 +176,7 @@
             android:background="@drawable/edittextbackground"
             android:id="@+id/dialog_apply_phone_edt"
             android:textSize="15sp"
-            android:hint="ex) 010-9825-2322"
+            android:hint="ex) 01098252322"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
