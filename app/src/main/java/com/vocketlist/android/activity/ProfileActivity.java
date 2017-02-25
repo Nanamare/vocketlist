@@ -3,6 +3,8 @@ package com.vocketlist.android.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.GridView;
 
 import com.vocketlist.android.R;
@@ -33,5 +35,14 @@ public class ProfileActivity extends DepthBaseActivity {
         gridViewAdapter = new GridViewAdapter(getApplicationContext());
         gridView.setAdapter(gridViewAdapter);
         setSupportActionBar(toolbar);
+        gridView.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 }
