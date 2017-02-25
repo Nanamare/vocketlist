@@ -26,21 +26,24 @@
     </android.support.design.widget.AppBarLayout>
 
     <!-- 콘텐츠 -->
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-        <com.malinskiy.superrecyclerview.SuperRecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_empty="@layout/empty_volunteer_category"
-            app:layout_moreProgress="@layout/layout_more_progress"
-            app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
-            app:recyclerClipToPadding="false"
-            app:recyclerPadding="0dp"
-            app:scrollbarStyle="outsideOverlay" />
-    </android.support.v4.widget.NestedScrollView>
+        <!--<com.malinskiy.superrecyclerview.SuperRecyclerView-->
+            <!--android:id="@+id/recyclerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:layout_empty="@layout/empty_volunteer_category"-->
+            <!--app:layout_moreProgress="@layout/layout_more_progress"-->
+            <!--app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"-->
+            <!--app:recyclerClipToPadding="false"-->
+            <!--app:recyclerPadding="0dp"-->
+            <!--app:scrollbarStyle="outsideOverlay" />-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <!-- 미구현 Placeholder-->
+    <include layout="@layout/empty_prepare"/>
 
 </android.support.design.widget.CoordinatorLayout>
