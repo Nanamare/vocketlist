@@ -9,20 +9,25 @@
         <item
             android:id="@+id/naviMyList"
             android:icon="@drawable/shape_placeholder"
-            android:title="@string/my_list" />
+            android:title="@string/my_list"
+            app:actionLayout="@layout/menu_count"/>
+
+
+        <!-- 스케줄 관리 -->
+        <item
+            android:id="@+id/naviSchedule"
+            android:icon="@drawable/ic_action_date_range"
+            android:title="@string/schedule_manage"
+            app:actionLayout="@layout/menu_count"/>
+
 
         <!-- 관심정보 모아보기 -->
         <item
             android:id="@+id/naviFavorite"
             android:icon="@drawable/shape_placeholder"
             android:actionLayout="@layout/drawer_menu_favorite_list"
-            android:title="@string/favorite" />
-
-        <!-- 프로필 관리 -->
-        <item
-            android:id="@+id/naviProfile"
-            android:icon="@drawable/ic_person"
-            android:title="@string/profile_manage" />
+            android:title="@string/favorite"
+            app:actionLayout="@layout/menu_count"/>
     </group>
 
     <group
@@ -33,14 +38,14 @@
         <item
             android:id="@+id/naviNotification"
             android:icon="@drawable/shape_placeholder"
-            android:title="@string/notification"
-            app:actionLayout="@layout/menu_count" />
+            android:title="@string/notification" />
 
-        <!-- 스케줄 관리 -->
+        <!-- 프로필 관리 -->
         <item
-            android:id="@+id/naviSchedule"
-            android:icon="@drawable/ic_action_date_range"
-            android:title="@string/schedule_manage" />
+            android:id="@+id/naviProfile"
+            android:icon="@drawable/ic_person"
+            android:title="@string/profile_manage" />
+
         <!-- 공지사항 -->
         <item
             android:id="@+id/naviNotice"
