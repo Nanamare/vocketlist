@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class VolunteerAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragments = new ArrayList<>();
-    private final List<String> mFragmentTitles = new ArrayList<>();
+    private final List<String> mFragmentTiles = new ArrayList<>();
 
     /**
      * 생성자
@@ -32,7 +32,7 @@ public class VolunteerAdapter extends FragmentStatePagerAdapter {
      */
     public void addFragment(Fragment fragment, String title) {
         mFragments.add(fragment);
-        mFragmentTitles.add(title);
+        mFragmentTiles.add(title);
     }
 
     @Override
@@ -47,6 +47,6 @@ public class VolunteerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitles.get(position);
+        return mFragmentTiles.get(position);
     }
 }

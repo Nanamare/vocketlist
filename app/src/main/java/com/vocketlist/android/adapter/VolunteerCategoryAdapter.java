@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.VolunteerCategoryViewHolder;
-import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 
 import java.util.List;
@@ -30,4 +29,9 @@ public class VolunteerCategoryAdapter extends BaseAdapter<VolunteerCategoryViewH
         return new VolunteerCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) return TYPE_HEAD;
+        else return TYPE_ITEM;
+    }
 }

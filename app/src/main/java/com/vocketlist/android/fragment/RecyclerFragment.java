@@ -29,6 +29,8 @@ public abstract class RecyclerFragment extends BaseFragment implements
 {
     @BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
 
+    protected RecyclerView.LayoutManager layoutManager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public abstract class RecyclerFragment extends BaseFragment implements
         ButterKnife.bind(this, view);
 
         // 레이아웃 : 라사이클러
-        recyclerView.setLayoutManager(getLayoutManager());
+        recyclerView.setLayoutManager(layoutManager = getLayoutManager());
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
         recyclerView.setupMoreListener(this, 1);

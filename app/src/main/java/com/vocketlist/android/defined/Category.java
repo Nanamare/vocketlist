@@ -11,22 +11,28 @@ import com.vocketlist.android.R;
  * @since 2017. 2. 14.
  */
 public enum Category {
-    All(R.string.tab_all),
-    Activity(R.string.tab_act),
-    Education(R.string.tab_edu),
-    Culture(R.string.tab_cul),
-    Environment(R.string.tab_env),
+    All(R.string.tab_all, R.string.desc_all),
+    Activity(R.string.tab_act, R.string.desc_activity),
+    Education(R.string.tab_edu, R.string.desc_education),
+    Culture(R.string.tab_cul, R.string.desc_culture),
+    Environment(R.string.tab_env, R.string.desc_education),
 //    Etc(R.string.tab_etc);
 
     ;
 
-    private final int resId;
+    private final int tabResId;
+    private final int descResId;
 
-    Category(@StringRes int id) {
-        this.resId = id;
+    Category(@StringRes int tabResid, @StringRes int descResId) {
+        this.tabResId = tabResid;
+        this.descResId = descResId;
     }
 
-    public int getResId() {
-        return resId;
+    public int getTabResId() {
+        return tabResId;
+    }
+
+    public int getDescResId() {
+        return descResId;
     }
 }

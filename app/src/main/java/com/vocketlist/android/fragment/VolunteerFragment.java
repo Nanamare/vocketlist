@@ -49,7 +49,7 @@ public class VolunteerFragment extends BaseFragment {
         // 뷰페이저
         mAdapter = new VolunteerAdapter(getChildFragmentManager());
         for (Category category : Category.values()) {
-            mAdapter.addFragment(VolunteerCategoryFragment.newInstance(category), getString(category.getResId()));
+            mAdapter.addFragment(VolunteerCategoryFragment.newInstance(category), getString(category.getTabResId()));
         }
         viewPager.setAdapter(mAdapter);
 

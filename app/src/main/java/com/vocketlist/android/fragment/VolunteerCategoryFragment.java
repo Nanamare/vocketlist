@@ -2,6 +2,7 @@ package com.vocketlist.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,10 +18,12 @@ import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindDimen;
 import butterknife.BindInt;
+import butterknife.BindView;
 
 
 /**
@@ -30,18 +33,18 @@ import butterknife.BindInt;
  * @since 2017. 2. 14.
  */
 public class VolunteerCategoryFragment extends RecyclerFragment implements IVolunteerCategoryView {
-	private VolunteerCategoryAdapter adapter;
-
-	private IVolunteerCategoryPresenter presenter;
-
-	private int page = 1;
-	private Volunteer.Link link;
+	@BindView(R.id.tvLabel) AppCompatTextView tvLabel;
 
 	@BindInt(R.integer.volunteer_category_grid_column)
 	int column;
 	@BindDimen(R.dimen.volunteer_category_grid_space)
 	int space;
 
+	private VolunteerCategoryAdapter adapter;
+	private IVolunteerCategoryPresenter presenter;
+
+	private int page = 1;
+	private Volunteer.Link link;
 
 	/**
 	 * 인스턴스
@@ -63,11 +66,24 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 		super.onViewCreated(view, savedInstanceState);
 		if (view == null) return;
 
-		presenter = new VolunteerCategoryPresenter(this);
+		Bundle args = getArguments();
+		if (args != null) {
+			Serializable c = args.getSerializable(Args.CATEGORY);
+			if (c != null && c instanceof Category) {
+				Category category = (Category) c;
 
-		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
-		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(new ArrayList<>()));
-		presenter.getVoketList(page);
+				// 카테고리 설명
+				tvLabel.setText(getString(category.getDescResId()));
+
+				presenter = new VolunteerCategoryPresenter(this);
+
+				recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(new ArrayList<>()));
+				recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
+				recyclerView.setNestedScrollingEnabled(false);
+
+				presenter.getVoketList(page);
+			}
+		}
 	}
 
 	@Override

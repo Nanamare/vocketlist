@@ -1,63 +1,57 @@
 package com.vocketlist.android.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatImageButton;
-import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
+import com.vocketlist.android.adapter.VolunteerSearchAdapter;
 import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dto.MyList;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.helper.AttachmentHelper;
 import com.vocketlist.android.manager.ToastManager;
-import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.net.Parameters;
 import com.vocketlist.android.view.AttachmentSingleView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * 커뮤니티 : 작성 + 수정
@@ -90,6 +84,8 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	@BindView(R.id.metMyList) MaterialEditText metMyList;
 	@BindView(R.id.metContent) MaterialEditText metContent;
 
+	@BindDimen(R.dimen.font_42) int searchFontSize;
+
 	/**
 	 * 봉사활동
 	 */
@@ -103,7 +99,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 */
 	@OnClick(R.id.btnAlbum)
 	void onActionAlbum() {
-		attachmentHelper.doAlbumPhoto();
+		mAttachmentHelper.doAlbumPhoto();
 	}
 
 	/**
@@ -111,7 +107,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 */
 	@OnClick(R.id.btnCamera)
 	void onActionCamera() {
-		attachmentHelper.doCamera();
+		mAttachmentHelper.doCamera();
 	}
 
 	/**
@@ -122,8 +118,58 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		shareToFacebook();
 	}
 
-	private AttachmentHelper attachmentHelper;
+	/**
+	 * 봉사활동 검색어 수신
+	 */
+	private SearchView.OnQueryTextListener onSearchQueryTextListener = new SearchView.OnQueryTextListener() {
+		@Override
+		public boolean onQueryTextSubmit(String query) {
+			return false;
+		}
+
+		@Override
+		public boolean onQueryTextChange(String newText) {
+			// 실시간으로 처리하지 말고 재입력 시간 Delay 후에 서버에 쿼리 요청
+			if(mSearchQueryRunnable != null) searchQueryHandler.removeCallbacks(mSearchQueryRunnable);
+			searchQueryHandler.postDelayed(
+					mSearchQueryRunnable = new SearchQueryRunnable(newText),
+					300
+			);
+
+			return false;
+		}
+	};
+
+	/**
+	 * 핸들러 : 검색
+	 */
+	private Handler searchQueryHandler = new Handler();
+
+	/**
+	 * 실행자 : 검색
+	 */
+	private class SearchQueryRunnable implements Runnable {
+		private String query;
+
+		/**
+		 * 생성자
+		 * @param query
+		 */
+		public SearchQueryRunnable(String query) {
+			this.query = query;
+		}
+
+		@Override
+		public void run() {
+			reqVolunteers(query);
+		}
+	}
+	private SearchQueryRunnable mSearchQueryRunnable;
+
+	private AttachmentHelper mAttachmentHelper;
 	private ChosenFile mChosenFile;
+	private Volunteer.Data mVolunteer;
+	private MyList.Data mMyList;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -179,8 +225,8 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 //		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
 
 		//
-		attachmentHelper = new AttachmentHelper(this);
-		attachmentHelper.setPickerCallback(this);
+		mAttachmentHelper = new AttachmentHelper(this);
+		mAttachmentHelper.setPickerCallback(this);
 
 		//
 		handleIntent();
@@ -211,18 +257,18 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(attachmentHelper != null) attachmentHelper.onActivityResult(requestCode, resultCode, data);
+		if(mAttachmentHelper != null) mAttachmentHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		if (attachmentHelper != null) attachmentHelper.onSaveInstanceState(outState);
+		if (mAttachmentHelper != null) mAttachmentHelper.onSaveInstanceState(outState);
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		if (attachmentHelper != null) attachmentHelper.onRestoreInstanceState(savedInstanceState);
+		if (mAttachmentHelper != null) mAttachmentHelper.onRestoreInstanceState(savedInstanceState);
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -258,9 +304,9 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 				Serializable m = extras.getSerializable(Extras.MY_LIST);
 
 				// 봉사활동 -> 후기작성
-				if(v != null && v instanceof Volunteer) initVolunteer((Volunteer) v);
+				if(v != null && v instanceof Volunteer.Data) initVolunteer((Volunteer.Data) v);
 				// 마이리스트 -> 인증하기
-				else if(m != null && m instanceof MyList) initMyList((MyList) m);
+				else if(m != null && m instanceof MyList.Data) initMyList((MyList.Data) m);
 				// 커뮤니티 -> 글작성
 				else {}
 
@@ -270,6 +316,9 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		}
 	}
 
+	/**
+	 * 뷰 설정
+	 */
 	private void initView() {
 		//
 		metContent.requestFocus();
@@ -283,8 +332,6 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	private void initAttachment(ChosenFile chosenFile) {
 		mChosenFile = chosenFile;
 
-		Log.d(TAG, "initAttachment: " + chosenFile);
-
 		final AttachmentSingleView attach = new AttachmentSingleView(this);
 		rlAttachment.addView(attach);
 		attach.setThumb(mChosenFile.getOriginalPath());
@@ -297,14 +344,16 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	/**
 	 * TODO 봉사활동 설정
 	 */
-	private void initVolunteer(Volunteer v) {
+	private void initVolunteer(Volunteer.Data v) {
+		mVolunteer = v;
 		metVolunteer.setVisibility(View.VISIBLE);
 	}
 
 	/**
 	 * TODO 마이리스트 설정
 	 */
-	private void initMyList(MyList m) {
+	private void initMyList(MyList.Data m) {
+		mMyList = m;
 		metMyList.setVisibility(View.VISIBLE);
 	}
 
@@ -319,7 +368,26 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * 다이얼로그 : 봉사활동 목록
 	 */
 	private void dialogVolunteer() {
+		MaterialDialog md = new MaterialDialog.Builder(this)
+				.customView(R.layout.dialog_search, false)
+				.show();
+		View cv = md.getCustomView();
+		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
+		SuperRecyclerView rv = ButterKnife.findById(md, R.id.recyclerView);
 
+		// 검색뷰 폰트 크기
+		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);
+		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
+		theTextArea.requestFocus();
+		sv.requestFocus();
+		sv.setOnQueryTextListener(onSearchQueryTextListener);
+
+		// 더미
+		List<Volunteer.Data> dummy = new ArrayList<>();
+		for (int i = 0; i < 20; i++) dummy.add(new Volunteer.Data());
+
+		// 데이터 설정
+		rv.setAdapter(new VolunteerSearchAdapter(dummy));
 	}
 
 	/**
@@ -342,24 +410,46 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	}
 
 	/**
-	 * 요청 : 스케줄에 등록된 봉사활동 목록
+	 * TODO 요청 : 스케줄에 등록된 봉사활동 목록
 	 */
 	private void reqMyVolunteers() {
 
 	}
 
 	/**
-	 * 요청 : 봉사활동 검색
+	 * TODO 요청 : 봉사활동 검색
 	 */
-	private void reqVolunteers() {
-
+	private void reqVolunteers(String query) {
+		Log.d(TAG, "reqVolunteers: query : " + query);
 	}
 
 	/**
 	 * 요청 : 글작성
 	 */
 	private void reqPost() {
+		Map<String, RequestBody> fields = new HashMap<>();
 
+		String content = metContent.getText().toString();
+
+		// 유효성 체크
+		if(TextUtils.isEmpty(content.trim()) && mChosenFile == null) {
+			ToastManager.show(R.string.toast_invalid_content);
+		}
+
+		// 내용
+		fields.put(Parameters.CONTENT, RequestBody.create(okhttp3.MultipartBody.FORM, content));
+		// 첨부파일
+		if(mChosenFile != null) {
+			File file = new File(mChosenFile.getOriginalPath());
+			RequestBody requestFile = RequestBody.create(MediaType.parse(mChosenFile.getMimeType()), file);
+			fields.put(Parameters.ATTACH + "\"; filename=\"" + file.getName(), requestFile);
+		}
+		// 봉사활동
+		if(mVolunteer != null) fields.put(Parameters.VOLUNTEER_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mVolunteer.mId)));
+		// 마이리스트
+		if(mMyList != null) fields.put(Parameters.MY_LIST_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mMyList.id)));
+
+		// TODO 서버요청
 	}
 
 	/**
