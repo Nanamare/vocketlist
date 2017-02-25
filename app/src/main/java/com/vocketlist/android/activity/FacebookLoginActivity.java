@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
+import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.net.ServiceManager;
 import com.vocketlist.android.roboguice.log.Ln;
 import com.vocketlist.android.util.SharePrefUtil;
@@ -146,6 +147,9 @@ public class FacebookLoginActivity extends BaseActivity {
 							Ln.i("LastName : " + lastName);
 							Ln.i("Gender : " + gender);
 
+							SharePrefUtil.putSharedPreference("email", email);
+							SharePrefUtil.putSharedPreference("imgUrl", link);
+							SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
 
 							String userInfo = object.toString();
 							String token = accessToken.toString();
@@ -156,6 +160,7 @@ public class FacebookLoginActivity extends BaseActivity {
 									.doOnTerminate(new Action0() {
 										@Override
 										public void call() {
+											setResult(RESULT_OK);
 											finish();
 										}
 									})

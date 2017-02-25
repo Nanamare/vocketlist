@@ -1,34 +1,52 @@
 package com.vocketlist.android.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.FacebookLoginActivity;
+import com.vocketlist.android.defined.Extras;
+import com.vocketlist.android.defined.RequestCode;
 import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.util.SharePrefUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 22..
  */
 
 public class DrawerMenuFragment extends Fragment {
-    @BindView(R.id.llLogin) protected LinearLayout mLoginView;
-    @BindView(R.id.llLogout) protected LinearLayout mLogoutView;
+    private static final String TAG = DrawerMenuFragment.class.getSimpleName();
 
-    protected CallbackManager mCallbackManager;
+    @BindView(R.id.llLogin) protected LinearLayout mLoginView;
+    @BindView(R.id.rlLogout) protected RelativeLayout mLogoutView;
+
+    @BindView(R.id.civPhoto) CircleImageView civPhoto;
+    @BindView(R.id.tvName) AppCompatTextView tvName;
+    @BindView(R.id.tvProgress) AppCompatTextView tvProgress;
+    @BindView(R.id.pbGoal) ProgressBar pbGoal;
+
+//    protected CallbackManager mCallbackManager;
 
     @Nullable
     @Override
@@ -38,7 +56,6 @@ public class DrawerMenuFragment extends Fragment {
         }
 
         View view = inflater.inflate(R.layout.navigation_drawer_header, container, false);
-
         ButterKnife.bind(this, view);
 
         return view;
@@ -47,7 +64,6 @@ public class DrawerMenuFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
@@ -71,7 +87,7 @@ public class DrawerMenuFragment extends Fragment {
 
         Intent intent = new Intent(getContext(), FacebookLoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        startActivityForResult(intent, RequestCode.FACEBOOK_LOGIN);
     }
 
     @OnClick(R.id.btnLogout)
@@ -98,7 +114,31 @@ public class DrawerMenuFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        if(RequestCode.FACEBOOK_LOGIN == requestCode) {
+            if(Activity.RESULT_OK == resultCode) {
+                if(data != null) {
+                    String profile = SharePrefUtil.getSharedPreference("imgUrl");
+                    String fullName = SharePrefUtil.getSharedPreference("fullName");
+
+                    Log.d(TAG, "onActivityResult: profile:" + profile);
+                    Log.d(TAG, "onActivityResult: fullName:" + fullName);
+
+
+                    // 사진
+                    if(!TextUtils.isEmpty(profile)) {
+                        Glide.with(this)
+                                .load(profile)
+                                .centerCrop()
+                                .crossFade()
+                                .into(civPhoto);
+                    }
+
+                    // 이름
+                    tvName.setText(fullName);
+                }
+            }
+        }
     }
 }

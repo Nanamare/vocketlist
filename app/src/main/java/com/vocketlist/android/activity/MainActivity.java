@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -17,12 +18,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
@@ -31,6 +37,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
+import com.vocketlist.android.preference.NoticePreference;
 import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
@@ -94,21 +101,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		FirebaseCrash.log("Activity created");
 
 		//런칭시 팝업창
-		final View innerView = getLayoutInflater().inflate(R.layout.dialog_launch_custom, null);
-		AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-		alert.setView(innerView);
-		alert.setPositiveButton("닫기", (dialog, whichButton) -> {
-			//todo
+		if (!NoticePreference.getInstance().isToday()) dialogIntroduce();
+	}
 
-		});
+	/**
+	 * 가이드 다이얼로그
+	 */
+	private void dialogIntroduce() {
+		View v = LayoutInflater.from(this).inflate(R.layout.dialog_launch_custom, null, false);
+		final AppCompatCheckBox cbToday = ButterKnife.findById(v, R.id.cbToday);
 
-		alert.setNegativeButton("자세히 보기",
-				(dialog, whichButton) -> {
-					//todo
-
-				});
-		AlertDialog dialog = alert.create();
-		dialog.show();
+		new MaterialDialog.Builder(this)
+				.customView(v, false)
+				.positiveText(R.string.close)
+				.negativeText(R.string.detail_view).negativeColorRes(R.color.point_5FA9D0)
+				.onAny((dialog, which) -> {
+                    if (which == DialogAction.NEGATIVE) goToActivity(IntroduceActivity.class);
+                    if (cbToday.isChecked()) NoticePreference.getInstance().setToday(true);
+                })
+				.show();
 	}
 
 	private void initViews() {

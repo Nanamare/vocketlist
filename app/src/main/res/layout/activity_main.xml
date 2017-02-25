@@ -130,6 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@drawable/img_navi_bg"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_menu"
         app:menu="@menu/navigation_drawer" />

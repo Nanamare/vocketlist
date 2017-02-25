@@ -6,8 +6,11 @@
     android:padding="16dp">
 
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00건" />
+        android:text="0 건"
+        android:textColor="@color/point_E47B75"
+        android:textSize="@dimen/font_40" />
 
 </LinearLayout>

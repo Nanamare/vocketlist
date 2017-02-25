@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VocketList</string>
+    <string name="app_name">보킷리스트</string>
     <string name="finish_application">\‘뒤로\’ 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -8,6 +8,10 @@
     <!-- -->
     <string name="action_search">검색</string>
     <string name="action_done">완료</string>
+
+    <!---->
+    <string name="close">닫기</string>
+    <string name="detail_view">자세히 보기</string>
 
     <!-- 인증 -->
     <string name="logout">로그아웃</string>
@@ -106,6 +110,12 @@
     <!-- 토스트 -->
     <string name="toast_invalid_content">내용을 입력해 주세요</string>
     <string name="toast_add_schedule">이 스케줄관리에 추가되었습니다.</string>
+
+    <!-- 다이얼로그 -->
+    <string name="dialog_introduce_title">나만을 위한 봉사 큐레이터</string>
+    <string name="dialog_introduce_message">멀게만 느껴졌던 봉사활동,\n\"보킷리스트\"와 함꼐 시작해 보세요!</string>
+    <string name="dialog_introduce_check">오늘 하루 보지 않기</string>
+
 
     <!-- 알림 설정 -->
     <string name="noti_setting_noti_title">알림설정</string>
