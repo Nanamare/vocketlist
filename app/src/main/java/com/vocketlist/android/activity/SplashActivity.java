@@ -1,15 +1,12 @@
 package com.vocketlist.android.activity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.VideoView;
+import android.widget.ImageView;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,10 +16,9 @@ import butterknife.ButterKnife;
  */
 
 public class SplashActivity extends BaseActivity {
-    @BindView(R.id.intro_video) protected VideoView mIntroVideoView;
-    @BindView(R.id.skin) protected View mSkinView;
+    @BindView(R.id.intro) protected ImageView mIntroView;
 
-    private Handler mHandler;
+    private Handler mHandler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,56 +26,26 @@ public class SplashActivity extends BaseActivity {
 
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-
-        mHandler = new Handler();
-        playLogo();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        startIntro();
     }
 
-    private void playLogo() {
-        final String uriPath = "android.resource://" + getPackageName() + "/" + R.raw.spalsh_logo;
+    protected void startIntro() {
+        AnimationDrawable drawable = (AnimationDrawable) mIntroView.getBackground();
+        drawable.start();
 
-        mIntroVideoView.setVideoURI(Uri.parse(uriPath));
-        mIntroVideoView.requestFocus();
-        mIntroVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        drawable.setOneShot(true);
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                Ln.e("play error");
-                mIntroVideoView.setVisibility(View.GONE);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startMainActivity();
-                    }
-                }, 1000);
-
-                return false;
+            public void run() {
+                startMainActivity();
             }
-        });
-
-        mIntroVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-               startMainActivity();
-            }
-        });
-        mIntroVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSkinView.setVisibility(View.GONE);
-                    }
-                }, 700);
-
-            }
-        });
+        }, 2100);
     }
 
     private void startMainActivity() {
@@ -89,5 +55,12 @@ public class SplashActivity extends BaseActivity {
 
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

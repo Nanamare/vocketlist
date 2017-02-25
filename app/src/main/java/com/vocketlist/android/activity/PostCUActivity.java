@@ -184,7 +184,6 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 			}
 		}
 
-
 	}
 
 	private void checkThePemission() {
