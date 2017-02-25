@@ -9,7 +9,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -19,14 +18,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.style.UnderlineSpan;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.binaryfork.spanny.Spanny;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
@@ -35,7 +31,6 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
-import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
@@ -81,6 +76,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		FirebaseMessaging.getInstance().subscribeToTopic("reports");
 		//
 		setSupportActionBar(mToolbar);
+		setRootActivity(true);
 
 		// 헤더 CI 적용
 		getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -138,23 +134,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		//
 		goToFragment(VolunteerFragment.class);
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-			mDrawer.closeDrawer(GravityCompat.START);
-		} else {
-			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-			alert.setMessage("보킷리스트를 종료 하시겠습니까?").setCancelable(false)
-					.setPositiveButton("확인", (dialog, which) -> finish())
-					.setNegativeButton("취소", (dialog, which) -> {
-						return;
-					});
-
-			AlertDialog alertDialog = alert.create();
-			alertDialog.show();
-		}
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")

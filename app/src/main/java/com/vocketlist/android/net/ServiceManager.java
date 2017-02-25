@@ -1,12 +1,7 @@
 package com.vocketlist.android.net;
 
-import android.bluetooth.BluetoothClass;
-import android.content.Context;
 import android.os.Build;
-import android.telephony.TelephonyManager;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.BaseResponse;
@@ -32,12 +27,8 @@ import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
-import com.vocketlist.android.util.SharePrefUtil;
-
-import java.util.UUID;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -60,18 +51,8 @@ public class ServiceManager {
 			.cookieJar(new WebkitCookieJar())
 			.connectTimeout(Timeout.getConnectionTimeout(), Timeout.UNIT)
 			.readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
-//			.addInterceptor(new DefaultHeaderInterceptor())
-//			.addInterceptor(new MockInterpolator())
-//			.addInterceptor(mockInterceptor)
-			.addNetworkInterceptor(new LoggingInterceptor())
-			.addInterceptor(chain -> { //헤더에 토큰 추가
-				Request original = chain.request();
-				String token = SharePrefUtil.getSharedPreference("token");
-				Request.Builder requestBuilder = original.newBuilder()
-						.header("authorization", "JWT " + token);
-				Request request = requestBuilder.build();
-				return chain.proceed(request);
-			});
+			.addInterceptor(new DefaultHeaderInterceptor())
+			.addNetworkInterceptor(new LoggingInterceptor(AppApplication.getInstance().getContext()));
 
 
 	private static Retrofit retrofit = new Retrofit.Builder()

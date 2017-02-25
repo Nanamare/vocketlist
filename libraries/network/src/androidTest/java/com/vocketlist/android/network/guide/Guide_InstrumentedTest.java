@@ -62,7 +62,7 @@ public class Guide_InstrumentedTest {
                 .connectTimeout(Timeout.getConnectionTimeout(), Timeout.UNIT)
                 .readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
                 .addInterceptor(new DefaultHeaderInterceptor())
-                .addNetworkInterceptor(new LoggingInterceptor());
+                .addNetworkInterceptor(new LoggingInterceptor(AppApplication.getInstance().getContext()));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
@@ -117,7 +117,7 @@ public class Guide_InstrumentedTest {
                 .readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
                 .addInterceptor(new DefaultHeaderInterceptor())
                 .addInterceptor(new MockInterpolator())
-                .addNetworkInterceptor(new LoggingInterceptor());
+                .addNetworkInterceptor(new LoggingInterceptor(g));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)

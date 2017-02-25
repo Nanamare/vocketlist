@@ -1,6 +1,10 @@
 package com.vocketlist.android.network.service;
 
-import com.vocketlist.android.network.BuildConfig;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
+import com.vocketlist.android.roboguice.log.Ln;
 
 import java.io.IOException;
 
@@ -17,8 +21,19 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public final class LoggingInterceptor implements Interceptor {
     private Interceptor mInterceptor;
 
-    public LoggingInterceptor() {
-        if (BuildConfig.DEBUG) {
+    public LoggingInterceptor(Context context) {
+        boolean isDebugMode = false;
+
+        try {
+            ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            isDebugMode = ((info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            Ln.e(e, e.toString());
+            return;
+        }
+
+
+        if (isDebugMode) {
             mInterceptor = new HttpLoggingInterceptor(new HttpLogger()).setLevel(HttpLoggingInterceptor.Level.BODY);
         }
     }
