@@ -10,12 +10,14 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
+import com.vocketlist.android.dto.Links;
 import com.vocketlist.android.dto.Post;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 	private PostAdapter adapter;
 	private ICommunityPresenter presenter;
+
+	private Links links;
 
 	/**
 	 * 인스턴스
@@ -51,17 +55,23 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		super.onViewCreated(view, savedInstanceState);
 		if(view == null) return;
 
-		// 더미
-		List<Post> dummy = new ArrayList<>();
-		for (int i = 0; i < 20; i++) {
-			dummy.add(new Post());
+		Bundle args = getArguments();
+		Serializable c = args.getSerializable(Args.CATEGORY);
+		if (c != null && c instanceof CommunityCategory) {
+			CommunityCategory category = (CommunityCategory) c;
+
+			// 더미
+			List<Post> dummy = new ArrayList<>();
+			for (int i = 0; i < 20; i++) {
+				dummy.add(new Post());
+			}
+
+			//
+			recyclerView.setAdapter(adapter = new PostAdapter(dummy));
+
+			presenter = new CommunityPresenter(this);
+			presenter.getCommunityList();
 		}
-
-		//
-		recyclerView.setAdapter(adapter = new PostAdapter(dummy));
-
-		presenter = new CommunityPresenter(this);
-		presenter.getCommunityList();
 	}
 
 	@Override
