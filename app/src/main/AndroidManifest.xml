@@ -144,14 +144,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!-- 내후기모아보기 -->
-        <activity
-            android:name=".activity.MyPostsActivity"
-            android:label="@string/my_posts"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <!-- 봉사활동 : 상세보기 -->
         <activity
             android:name=".activity.VolunteerReadActivity"
