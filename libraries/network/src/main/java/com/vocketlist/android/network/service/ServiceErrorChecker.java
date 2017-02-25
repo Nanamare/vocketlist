@@ -65,6 +65,7 @@ public final class ServiceErrorChecker<T> implements Observable.Operator<Respons
                 } catch (RuntimeException e) {
                     RetrofitException exception = RetrofitException.unexpectedError(response.raw().networkResponse().request().url(), response, e);
                     new FirebaseErrorHandler().call(exception);
+                    Ln.e(e, "exception");
 
                     onError(exception);
                     return;

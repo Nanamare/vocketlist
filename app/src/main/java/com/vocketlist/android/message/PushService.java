@@ -81,8 +81,7 @@ public class PushService extends FirebaseMessagingService {
 
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-		if (Notitype.WATCHLIST.equals(notiType)) {
-			//관심목록
+		if (Notitype.FAVORITE.equals(notiType)) {
 			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 			Notification.Builder mBuilder = new Notification.Builder(this);
 			mBuilder.setSmallIcon(R.mipmap.ic_launcher);
@@ -107,8 +106,7 @@ public class PushService extends FirebaseMessagingService {
 
 			nm.notify(555, mBuilder.build());
 
-		} else if (Notitype.NOWATCHLIST.equals(notiType)) {
-			//관심목록 없음 각 카테고리 목록 이동
+		} else if (Notitype.NOTICE.equals(notiType)) {
 			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -126,7 +124,6 @@ public class PushService extends FirebaseMessagingService {
 			notificationManager.notify(0, notificationBuilder.build());
 
 		} else if (Notitype.WISDOM.equals(notiType)) {
-			//명언 목록으로 이동
 			PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 			Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)

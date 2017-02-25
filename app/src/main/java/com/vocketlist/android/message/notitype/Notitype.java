@@ -5,8 +5,8 @@ package com.vocketlist.android.message.notitype;
  */
 
 public class Notitype {
-	public static final String WATCHLIST = "watchList";
-	public static final String NOWATCHLIST = "noWatchList";
-	public static final String WISDOM = "wisdom";
+	public static final String FAVORITE = "favorite";   // 관심목록
+	public static final String NOTICE = "notice";   //공지사항
+	public static final String WISDOM = "wisdom"; //명언목록
 
 }

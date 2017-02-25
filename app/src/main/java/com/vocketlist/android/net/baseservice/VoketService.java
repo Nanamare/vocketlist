@@ -20,10 +20,10 @@ import rx.Observable;
 
 public interface VoketService {
 
-	@GET("services/list")
+	@GET("services/list/")
 	Observable<Response<BaseResponse<Volunteer>>> getVoketList(@Query("page") int page);
 
-	@GET("services/detail/{voketIdx}")
+	@GET("services/detail/{voketIdx}/")
 	Observable<Response<BaseResponse<VolunteerDetail>>> getVoketDetail(@Path("voketIdx") int voketIdx);
 
 	@FormUrlEncoded

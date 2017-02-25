@@ -1,20 +1,12 @@
 package com.vocketlist.android.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -76,6 +68,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	Button write_diary_btn;
 	@BindView(R.id.isActiveDayTv)
 	TextView isActiveDayTv;
+	@BindView(R.id.content_tv)
+	TextView content_tv;
 
 	private IVolunteerCategoryPresenter presenter;
 
@@ -97,7 +91,6 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 			voketIndex = Integer.valueOf(voketIdx);
 			System.out.print(voketIndex);
 		}
-
 
 		setSupportActionBar(toolbar);
 
@@ -122,6 +115,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		end_time_tv.setText(String.valueOf(volunteerDetails.mResult.mEndTime));
 		recruit_start_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitStartDate));
 		recruit_end_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitEndDate));
+		content_tv.setText(volunteerDetails.mResult.mContent);
 		if (volunteerDetails.mResult.mIsActive) {
 			isActiveDayTv.setVisibility(View.VISIBLE);
 		} else {

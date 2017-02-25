@@ -10,4 +10,6 @@ import java.io.Serializable;
 
 public class BaseResponse<T extends Serializable> implements Serializable {
 	@SerializedName("result") public T mResult;
+	@SerializedName("success") public boolean mSuccess;
+
 }

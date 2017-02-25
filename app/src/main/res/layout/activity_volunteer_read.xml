@@ -304,9 +304,10 @@
                 android:layout_marginTop="30dp">
 
                 <TextView
+                    android:id="@+id/content_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:hint="상세내용(텍스트)"/>
             </LinearLayout>
 

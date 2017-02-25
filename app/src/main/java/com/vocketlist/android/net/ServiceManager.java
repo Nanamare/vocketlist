@@ -1,5 +1,10 @@
 package com.vocketlist.android.net;
 
+import android.bluetooth.BluetoothClass;
+import android.content.Context;
+import android.os.Build;
+import android.telephony.TelephonyManager;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
@@ -28,6 +33,8 @@ import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
 import com.vocketlist.android.network.utils.Timeout;
 import com.vocketlist.android.util.SharePrefUtil;
+
+import java.util.UUID;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,11 +68,10 @@ public class ServiceManager {
 				Request original = chain.request();
 				String token = SharePrefUtil.getSharedPreference("token");
 				Request.Builder requestBuilder = original.newBuilder()
-						.header("Authorization", "JWT " + token);
+						.header("authorization", "JWT " + token);
 				Request request = requestBuilder.build();
 				return chain.proceed(request);
 			});
-
 
 
 	private static Retrofit retrofit = new Retrofit.Builder()
@@ -80,16 +86,12 @@ public class ServiceManager {
 			.build();
 
 	public void registerFcmToken(String token) {
+
+		String device_id = getDeviceSerialNumber();
 		retrofit.create(UserService.class)
-				.registerToken(token)
+				.registerToken(token,device_id)
 				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
 				.lift(new ServiceErrorChecker<BaseResponse<Boolean>>(new FcmRegisterErrorChecker()))
-				.doOnSubscribe(new Action0() {
-					@Override
-					public void call() {
-
-					}
-				})
 				.subscribe(new Subscriber<Response<BaseResponse<Boolean>>>() {
 					@Override
 					public void onCompleted() {
@@ -151,19 +153,11 @@ public class ServiceManager {
 	}
 
 
-	public Boolean getStatusResult(String json) {
+	private static String getDeviceSerialNumber() {
 		try {
-			JsonObject ja = new JsonParser().parse(json).getAsJsonObject();
-			boolean result = ja.get("success").getAsBoolean();
-			String message = ja.get("message").getAsString();
-			if (result && message.equals("OK")) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			return (String) Build.class.getField("SERIAL").get(null);
+		} catch (Exception ignored) {
+			return null;
 		}
 	}
 

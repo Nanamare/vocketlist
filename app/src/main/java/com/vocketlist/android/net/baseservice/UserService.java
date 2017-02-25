@@ -6,7 +6,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import rx.Observable;
@@ -19,7 +18,7 @@ import rx.Observable;
 public interface UserService {
 	@FormUrlEncoded
 	@PUT("/api/users/fcm/register/")
-	Observable<Response<BaseResponse<Boolean>>> registerToken(@Field("fcmToken") String token);
+	Observable<Response<BaseResponse<Boolean>>> registerToken(@Field("fcm_token") String token,@Field("device_id")String deviceId);
 
 	@FormUrlEncoded
 	@POST("/api/users/auth/facebook/")
