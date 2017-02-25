@@ -3,10 +3,13 @@ package com.vocketlist.android.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.GridView;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.GridViewAdapter;
+import com.vocketlist.android.view.NonNestScrollGridView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +23,7 @@ import butterknife.ButterKnife;
 public class ProfileActivity extends DepthBaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.profileGv)
-    GridView gridView;
+    NonNestScrollGridView gridView;
 
     private GridViewAdapter gridViewAdapter;
 
@@ -29,9 +32,10 @@ public class ProfileActivity extends DepthBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
 
         gridViewAdapter = new GridViewAdapter(getApplicationContext());
         gridView.setAdapter(gridViewAdapter);
-        setSupportActionBar(toolbar);
+        gridView.setNonScroll(true);
     }
 }
