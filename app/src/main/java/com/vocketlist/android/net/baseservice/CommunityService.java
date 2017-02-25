@@ -1,17 +1,19 @@
 package com.vocketlist.android.net.baseservice;
 
-import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.dto.community.CommunityDetail;
+import com.vocketlist.android.dto.community.CommunityList;
+import com.vocketlist.android.dto.community.Modify;
 
 import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -20,44 +22,33 @@ import rx.Observable;
  */
 
 public interface CommunityService {
+	//커뮤니티 리스트 조회
+	@GET("posts/")
+	Observable<Response<BaseResponse<CommunityList>>> getList(@Query("page") int page,
+															  @Query("page_size") int pageSize);
 
-	//커뮤니티 조회
-	@GET("room/list")
-	Observable<Response<ResponseBody>> getVoketList();
-
-	//글 좋아요
-	@FormUrlEncoded
-	@PUT("rooms/isLike")
-	Observable<Response<ResponseBody>> updateIsLike(@Field("token") String token
-			, @Field("isLike") boolean isLike
-			, @Field("roomId") String roomId);
-
-	//댓글 달기
-	@FormUrlEncoded
-	@POST("rooms/comment")
-	Observable<Response<ResponseBody>> addComment(@Field("token") String token
-			, @Field("comment") String comment
-			, @Field("roomId") String roomId);
-
-	//댓글 삭제
-	@FormUrlEncoded
-	@DELETE("rooms/deleteComment")
-	Observable<Response<ResponseBody>> deleteComment(@Field("token") String token
-			, @Field("commentId") String commentId
-			, @Field("roomId") String roomId);
-	
-	//이미지 상세 보기
-	@GET("rooms/imgDetail")
-	Observable<Response<ResponseBody>> getDetailImg(@Query("token") String token);
+	// 특정 커뮤니티 상세 조회
+	@GET("posts/{id}/")
+	Observable<Response<BaseResponse<CommunityDetail>>> getList(@Path("id") String id);
 
 	//커뮤니티 글작성
 	@FormUrlEncoded
-	@POST("rooms/create")
-	Observable<Response<ResponseBody>> addRoom(@Part MultipartBody.Part file
-			, @Field("token") String token, @Field("content") String content
-			, @Field("voketType") String voketType, @Field("date") String date);
+	@POST("posts/")
+	Observable<Response<BaseResponse<Void>>> write(@Part MultipartBody.Part image
+											, @Field("content") String content
+											, @Field("voketType") String voketxType);
 
+//	글 좋아요 / 취소
+//	@POST("posts/like/{post_id}")
+//	Observable<Response<BaseResponse<>>> like(@Path("post_id") String postId);
 
-	@GET("rooms/list")
-	Observable<Response<Post>> getCommunityList();
+	// 등록된 글 수정
+	@PUT("posts/{id}/")
+	Observable<Response<BaseResponse<Modify>>> modify(@Path("id") String id,
+													  @Part MultipartBody.Part image,
+													  @Field("content") String content);
+
+//	 커뮤니티 삭제
+//	@DELETE("posts/{id}/")
+//	Observable<Response<BaseResponse<>>> deleteComment(@Path("id") String id);
 }

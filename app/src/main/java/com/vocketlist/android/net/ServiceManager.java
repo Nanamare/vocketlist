@@ -136,18 +136,18 @@ public class ServiceManager {
 				.lift(new ServiceErrorChecker<BaseResponse<VolunteerDetail>>(new VoketDetailErrorChecker()));
 	}
 
-	public Observable<Response<Post>> getCommunityList() {
-		return retrofit.create(CommunityService.class)
-				.getCommunityList()
-				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-				.lift(new ServiceErrorChecker<Post>(new CommunityErrorChecker()))
-				.doOnSubscribe(new Action0() {
-					@Override
-					public void call() {
-
-					}
-				});
-	}
+//	public Observable<Response<Post>> getCommunityList() {
+//		return retrofit.create(CommunityService.class)
+//				.getCommunityList()
+//				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+//				.lift(new ServiceErrorChecker<Post>(new CommunityErrorChecker()))
+//				.doOnSubscribe(new Action0() {
+//					@Override
+//					public void call() {
+//
+//					}
+//				});
+//	}
 
 	public Observable<Response<ResponseBody>> applyVolunteer(String name, String phone,int service_id){
 

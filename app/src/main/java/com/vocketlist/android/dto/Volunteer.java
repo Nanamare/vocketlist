@@ -19,10 +19,6 @@ public class Volunteer implements Serializable {
 	@SerializedName("data") public List<Data> mDataList;
 	@SerializedName("count") public int mCount;
 	@SerializedName("page_size") public int mPageSize;
-	public static class Link {
-		@SerializedName("next") public String next;
-		@SerializedName("previous") public String previous;
-	}
 
 	public static class Data implements Serializable {
 		@SerializedName("is_active") public boolean mIsActive;
