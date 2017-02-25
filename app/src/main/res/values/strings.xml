@@ -5,7 +5,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- -->
     <string name="action_search">검색</string>
+    <string name="action_done">완료</string>
 
     <!-- 인증 -->
     <string name="logout">로그아웃</string>
@@ -85,6 +87,8 @@
     <!-- -->
     <string name="hint_search">검색어를 입력하세요</string>
     <string name="hint_write_post">오늘의 봉사활동은 어땠나요?</string>
+    <string name="hint_join_volunteer">참여한 봉사활동</string>
+    <string name="hint_my_list">나의 보킷리스트</string>
 
     <!---->
     <string name="empty_volunteer_category">해당 카테고리에는 봉사활동이 없네요.\n다른 카테고리에서 찾아보세요.</string>
@@ -98,5 +102,6 @@
     <string name="noti_setting_new_volunteer_subtitle">오늘 새로 등록된 봉사 활동을 알고 싶습니다</string>
     <string name="noti_setting_community_title">커뮤니티</string>
     <string name="noti_setting_community_subtitle">커뮤니티에서 나와 관련된 활동을 알려주세요</string>
+
 
 </resources>

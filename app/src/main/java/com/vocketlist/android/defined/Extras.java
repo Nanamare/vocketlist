@@ -7,4 +7,6 @@ package com.vocketlist.android.defined;
  * @since 2017. 2. 14.
  */
 public class Extras {
+    public static final String VOLUNTEER = "volunteer";
+    public static final String MY_LIST = "myList";
 }

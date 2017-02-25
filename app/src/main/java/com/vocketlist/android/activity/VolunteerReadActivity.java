@@ -7,10 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -79,6 +83,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 
 	private int voketIndex;
 
+	private BaseResponse<VolunteerDetail> volunteerDetail;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,6 +109,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 
 	@Override
 	public void bindVoketDetailData(BaseResponse<VolunteerDetail> volunteerDetails) {
+		volunteerDetail = volunteerDetails;
 		voket_title_tv.setText(volunteerDetails.mResult.mTitle);
 		start_date_tv.setText(volunteerDetails.mResult.mStartDate);
 		end_date_tv.setText(volunteerDetails.mResult.mEndDate);
@@ -137,7 +144,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		doneBtn.setOnClickListener(view -> {
 			if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
 				//todo
-				addScheduleNoti();
+				addScheduleNoti(view);
 				apply_btn.setVisibility(View.GONE);
 				apply_cancel_btn.setVisibility(View.VISIBLE);
 				dialog.dismiss();
@@ -219,20 +226,33 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		//todo cancel schuedule logic
 	}
 
-	private void addScheduleNoti() {
-		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-		Notification.Builder mBuilder = new Notification.Builder(this);
-		mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-		mBuilder.setTicker("글로벌지식교류 NGO 편집 및 디자인 작업" + " 이 스케줄관리에 추가되었습니다.");
-		mBuilder.setWhen(System.currentTimeMillis());
-		mBuilder.setContentTitle("TEST");
-		mBuilder.setContentText("TEST");
-		mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-		mBuilder.setContentIntent(pendingIntent);
-		mBuilder.setAutoCancel(true);
+	private void addScheduleNoti(View view) {
+//		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+//		Notification.Builder mBuilder = new Notification.Builder(this);
+//		mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+//		mBuilder.setTicker("글로벌지식교류 NGO 편집 및 디자인 작업" + " 이 스케줄관리에 추가되었습니다.");
+//		mBuilder.setWhen(System.currentTimeMillis());
+//		mBuilder.setContentTitle("TEST");
+//		mBuilder.setContentText("TEST");
+//		mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+//		mBuilder.setContentIntent(pendingIntent);
+//		mBuilder.setAutoCancel(true);
+//
+//		nm.notify(333, mBuilder.build());
 
-		nm.notify(333, mBuilder.build());
+
+//		LayoutInflater inflater = getLayoutInflater();
+//		View layout = inflater.inflate(R.layout.toast_notifacation, (ViewGroup) findViewById(R.id.toast_root_ll));
+//		TextView textView = (TextView) layout.findViewById(R.id.toast_noti_title);
+//		textView.setText(volunteerDetail.mResult.mTitle);
+//		Toast toast = new Toast(getApplicationContext());
+//		toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.TOP, 0, 0);
+//		toast.setDuration(Toast.LENGTH_LONG);
+//		toast.setView(layout);
+//		toast.show();
+
+
 
 	}
 

@@ -11,15 +11,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,6 +38,9 @@ import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
+import com.vocketlist.android.defined.Extras;
+import com.vocketlist.android.dto.MyList;
+import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.helper.AttachmentHelper;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -42,12 +50,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 커뮤니티 : 작성 + 수정
@@ -56,6 +66,7 @@ import butterknife.ButterKnife;
  * @since 2017. 2. 13.
  */
 public class PostCUActivity extends DepthBaseActivity implements AttachmentHelper.PickerCallback {
+	private static final String TAG = PostCUActivity.class.getSimpleName();
 
 	private static final int REQUEST_WRITE_STORAGE = 112;
 	private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -74,12 +85,42 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 //	private File imgfile;
 //	private String mCurrentPhotoPath;
 
-	@BindView(R.id.metContent)
-	MaterialEditText metContent;
-	@BindView(R.id.rlAttachment)
-	RelativeLayout rlAttachment;
-	@BindView(R.id.bbl)
-	ButtonBarLayout bbl;
+	@BindView(R.id.rlAttachment) RelativeLayout rlAttachment;
+	@BindView(R.id.metVolunteer) MaterialEditText metVolunteer;
+	@BindView(R.id.metMyList) MaterialEditText metMyList;
+	@BindView(R.id.metContent) MaterialEditText metContent;
+
+	/**
+	 * 봉사활동
+	 */
+	@OnClick(R.id.btnVolunteer)
+	void onActionVolunteer() {
+		dialogVolunteer();
+	}
+
+	/**
+	 * 앨범
+	 */
+	@OnClick(R.id.btnAlbum)
+	void onActionAlbum() {
+		attachmentHelper.doAlbumPhoto();
+	}
+
+	/**
+	 * 사진촬영
+	 */
+	@OnClick(R.id.btnCamera)
+	void onActionCamera() {
+		attachmentHelper.doCamera();
+	}
+
+	/**
+	 * 액션 : 페이스북 공유
+	 */
+	@OnClick(R.id.btnFacebook)
+	void onActionFacebook() {
+		shareToFacebook();
+	}
 
 	private AttachmentHelper attachmentHelper;
 	private ChosenFile mChosenFile;
@@ -118,7 +159,6 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_create_update);
 		ButterKnife.bind(this);
-
 		setSupportActionBar(toolbar);
 
 //		// 헤더 CI 적용
@@ -139,17 +179,33 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 //		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
 
 		//
-		metContent.requestFocus();
+		attachmentHelper = new AttachmentHelper(this);
+		attachmentHelper.setPickerCallback(this);
 
 		//
-		attachmentHelper = new AttachmentHelper(this);
+		handleIntent();
 	}
 
 	@Override
-	public void onAttachedToWindow() {
-		super.onAttachedToWindow();
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		handleIntent();
+	}
 
-		Ln.d(bbl.getHeight());
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.done, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if(id == R.id.action_done) {
+			doDone();
+			return true;
+		}
+		else return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -191,23 +247,119 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	}
 
 	/**
-	 * 첨부파일
+	 * 인덴트 : 핸들링
+	 */
+	private void handleIntent() {
+		Intent intent = getIntent();
+		if (intent != null) {
+			Bundle extras = intent.getExtras();
+			if(extras != null) {
+				Serializable v = extras.getSerializable(Extras.VOLUNTEER);
+				Serializable m = extras.getSerializable(Extras.MY_LIST);
+
+				// 봉사활동 -> 후기작성
+				if(v != null && v instanceof Volunteer) initVolunteer((Volunteer) v);
+				// 마이리스트 -> 인증하기
+				else if(m != null && m instanceof MyList) initMyList((MyList) m);
+				// 커뮤니티 -> 글작성
+				else {}
+
+				//
+				initView();
+			}
+		}
+	}
+
+	private void initView() {
+		//
+		metContent.requestFocus();
+	}
+
+	/**
+	 * 첨부파일 설정
 	 *
 	 * @param chosenFile
      */
 	private void initAttachment(ChosenFile chosenFile) {
 		mChosenFile = chosenFile;
 
+		Log.d(TAG, "initAttachment: " + chosenFile);
+
 		final AttachmentSingleView attach = new AttachmentSingleView(this);
 		rlAttachment.addView(attach);
 		attach.setThumb(mChosenFile.getOriginalPath());
-		attach.setOnDeleteListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mChosenFile = null;
-				rlAttachment.removeView(attach);
-			}
-		});
+		attach.setOnDeleteListener(v -> {
+            mChosenFile = null;
+            rlAttachment.removeView(attach);
+        });
+	}
+
+	/**
+	 * TODO 봉사활동 설정
+	 */
+	private void initVolunteer(Volunteer v) {
+		metVolunteer.setVisibility(View.VISIBLE);
+	}
+
+	/**
+	 * TODO 마이리스트 설정
+	 */
+	private void initMyList(MyList m) {
+		metMyList.setVisibility(View.VISIBLE);
+	}
+
+	/**
+	 * 완료
+	 * TODO validation
+	 */
+	private void doDone() {
+	}
+
+	/**
+	 * 다이얼로그 : 봉사활동 목록
+	 */
+	private void dialogVolunteer() {
+
+	}
+
+	/**
+	 * 다이얼로그 : 페이스북 공유
+	 */
+	private void shareToFacebook() {
+		ShareLinkContent content = new ShareLinkContent.Builder()
+				//링크의 콘텐츠 제목
+				.setContentTitle("봉사활동 후기")
+				//게시물에 표시될 썸네일 이미지의 URL
+				.setImageUrl(Uri.parse("https://4310b1a9-a-5b13c88f-s-sites.googlegroups.com/a/j2edu.co.kr/home/bongsa-hwaldong/%EB%B4%89%EC%82%AC.jpg?attachauth=ANoY7crzTtirlQHaUHt2tEZ7WSgQn_Tws7PC3oHFMh-kRkg64THIgwKT5wYar1sbt-aNqWWb5hCZnQvAm3mxppJFpXZoHhfwUoERcyyiVXuEWYnKeLaawhd22lVdSRcKwhAiKS5CfN7Sy1WOhDFEsLJQPJSW-RD_xgNgo_Ny2NbCTGeCqUkroOoqt0oRCZbAWyLP7vkr2E9UZXW9USgy0psElpPqa3lNrbOw_nGxbhPKaFtuDTIeF6o%3D&attredirects=0"))
+				//공유될 링크
+				.setContentUrl(Uri.parse("http://52.78.106.73:8080/kozy/"))
+				//게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
+				.setContentDescription("지난 금요일 봉사활동 다녀온 후기입니다 ^^")
+				.build();
+
+		ShareDialog shareDialog = new ShareDialog(this);
+		shareDialog.show(content, ShareDialog.Mode.FEED);
+	}
+
+	/**
+	 * 요청 : 스케줄에 등록된 봉사활동 목록
+	 */
+	private void reqMyVolunteers() {
+
+	}
+
+	/**
+	 * 요청 : 봉사활동 검색
+	 */
+	private void reqVolunteers() {
+
+	}
+
+	/**
+	 * 요청 : 글작성
+	 */
+	private void reqPost() {
+
 	}
 
 	/**

@@ -290,6 +290,4 @@ public class AttachmentHelper {
         // filePicker.allowMultiple();
         filePicker.pickFile();
     }
-
-
 }

@@ -56,22 +56,25 @@ public class PushService extends FirebaseMessagingService {
 
 		Map data = remoteMessage.getData();
 
-		String[] datas = (String[]) data.values().toArray(new String[]{});
-		String title = remoteMessage.getNotification().getTitle();
-		int badgeCount = 1;
-		String pushMessage = datas[1];
-		String notiType = "watchList"; //서버에게 푸시 타입 알려줘야함
+		if (data != null) {
 
-		JsonParser parser = new JsonParser();
-		JsonElement element = parser.parse(pushMessage);
-		JsonArray jsonArray = element.getAsJsonArray();
-		for (int loop = 0; loop < jsonArray.size(); loop++) {
-			list.add(jsonArray.get(loop).getAsJsonObject().get("content").toString());
+			String[] datas = (String[]) data.values().toArray(new String[]{});
+			String title = remoteMessage.getNotification().getTitle();
+			int badgeCount = 1;
+			String pushMessage = datas[1];
+			String notiType = "watchList"; //서버에게 푸시 타입 알려줘야함
+
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(pushMessage);
+			JsonArray jsonArray = element.getAsJsonArray();
+			for (int loop = 0; loop < jsonArray.size(); loop++) {
+				list.add(jsonArray.get(loop).getAsJsonObject().get("content").toString());
+			}
+
+			sendBadgeUpdateIntent(badgeCount);
+			sendNotification(title, list, notiType);
+
 		}
-
-		sendBadgeUpdateIntent(badgeCount);
-		sendNotification(title, list, notiType);
-
 	}
 
 	private void sendNotification(String title, List<String> list, String notiType) {

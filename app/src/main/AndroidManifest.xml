@@ -32,14 +32,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />-->
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
 
-            <!--</intent-filter>-->
+            </intent-filter>
         </activity>
 
         <activity
@@ -91,14 +91,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <category android:name="android.intent.category.LAUNCHER" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />-->
 
-            </intent-filter>
+            <!--</intent-filter>-->
         </activity>
         <!-- 스케줄관리 -->
         <activity
@@ -165,7 +165,7 @@
         <!-- 커뮤니티 : 글 : 작성 & 수정 -->
         <activity
             android:name=".activity.PostCUActivity"
-            android:label="@string/volunteer_title"
+            android:label="@string/write"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:screenOrientation="portrait"

@@ -14,6 +14,7 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
@@ -44,6 +45,7 @@ import rx.functions.Action0;
 public class FacebookLoginActivity extends BaseActivity {
 	private CallbackManager mFacebookCallbackManager;
 	private ServiceManager serviceManager;
+	private AccessToken accessToken;
 
 
 	@Override
@@ -79,7 +81,7 @@ public class FacebookLoginActivity extends BaseActivity {
 					public void onSuccess(LoginResult loginResult) {
 						Ln.i("runFacebookLogin onSuccess()");
 
-						AccessToken accessToken = loginResult.getAccessToken();
+						accessToken = loginResult.getAccessToken();
 						DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						String expiredAt = sdf.format(accessToken.getExpires().getTime());
 
@@ -146,7 +148,7 @@ public class FacebookLoginActivity extends BaseActivity {
 
 
 							String userInfo = object.toString();
-							String token = loginResult.getAccessToken().toString();
+							String token = accessToken.toString();
 							String userId = loginResult.getAccessToken().getUserId();
 
 							serviceManager.loginFb(userInfo, token, userId)
@@ -164,12 +166,17 @@ public class FacebookLoginActivity extends BaseActivity {
 											SharePrefUtil.putSharedPreference("email", email);
 											SharePrefUtil.putSharedPreference("imgUrl", link);
 											SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
+											ServiceManager manager = new ServiceManager();
+
+											//완료되었을시 fcm 토큰을 발행하고 서버에 등록시킨다.
+											String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+											manager.registerFcmToken(refreshedToken);
 
 										}
 
 										@Override
 										public void onError(Throwable e) {
-
+											e.printStackTrace();
 										}
 
 										@Override

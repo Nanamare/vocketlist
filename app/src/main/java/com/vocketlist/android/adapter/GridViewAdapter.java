@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 
@@ -21,17 +23,23 @@ import butterknife.ButterKnife;
 public class GridViewAdapter extends android.widget.BaseAdapter {
 
 	private List<String> voketCategoryList;
+	private List<RadioButton> radioButtonList;
 	private Context context;
+	private int count;
 
-	private String[] string = {"일손지원","주거환경","의료관련","행정지원","안전예방","상담봉사","교육봉사"
-			,"멘토링","문화체육","환경","국제/해외","공익인권","이미용","기타"};
+	private String[] string = {"일손지원", "주거환경", "의료관련", "행정지원", "안전예방", "상담봉사", "교육봉사"
+			, "멘토링", "문화체육", "환경", "국제/해외", "공익인권", "이미용", "기타"};
 
 	public GridViewAdapter(Context context) {
 		voketCategoryList = new ArrayList<>();
+		radioButtonList = new ArrayList<>();
 		this.context = context;
-		for(int i = 0; i< string.length; i++){
+		for (int i = 0; i < string.length; i++) {
+			RadioButton button = new RadioButton(context);
+			radioButtonList.add(button);
 			voketCategoryList.add(string[i]);
 		}
+		count = 0;
 	}
 
 	@Override
@@ -50,27 +58,37 @@ public class GridViewAdapter extends android.widget.BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View converView, ViewGroup viewGroup) {
+	public View getView(int position, View convertView, ViewGroup viewGroup) {
 
 		final ViewHolder holder;
 
-		if (converView == null) {
-			converView = View.inflate(context, R.layout.item_gridview, null);
-			holder = new ViewHolder(converView);
-			converView.setTag(holder);
+		if (convertView == null) {
+			convertView = View.inflate(context, R.layout.item_gridview, null);
+			holder = new ViewHolder(convertView);
+			convertView.setTag(holder);
 		} else {
-			holder = (ViewHolder) converView.getTag();
+			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.cgTv.setText(voketCategoryList.get(position));
-		holder.radioButton.setChecked(true);
 
-		return converView;
+		holder.cgTv.setText(voketCategoryList.get(position));
+		for (int i = 0; i < radioButtonList.size(); i++) {
+			if (radioButtonList.get(i).isChecked()) {
+				count++;
+			}
+			if (count > 4) {
+				for (int j = 0; j < radioButtonList.size(); j++) {
+					radioButtonList.get(j).setChecked(false);
+					Toast.makeText(context, "더 이상 추가할수 없습니다.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+		return convertView;
 	}
 
 	static class ViewHolder {
 
 		@BindView(R.id.radioBtn)
-		AppCompatRadioButton radioButton;
+		RadioButton radioButton;
 		@BindView(R.id.cgTv)
 		TextView cgTv;
 
