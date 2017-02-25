@@ -1,9 +1,7 @@
 package com.vocketlist.android.dto;
 
-import com.google.gson.reflect.TypeToken;
-
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -14,57 +12,27 @@ import java.util.List;
  */
 public class Volunteer implements Serializable {
 
-	private String type; //관리자가 넣은것인지, 1365데이터인지
-	private String title; //봉사활동이름
-	private String start_date; // yyyy-MM-dd
-	private String rester_office; // 서울특별시 강남구
-	private String imgUrl;
 
-	public String getRester_office() {
-		return rester_office;
+	@SerializedName("page_count") public int mPageCount;
+	@SerializedName("page_current") public int mPageCurrent;
+	@SerializedName("links") public Link mLink;
+	@SerializedName("data") public List<Data> mDataList;
+	@SerializedName("count") public int mCount;
+	@SerializedName("page_size") public int mPageSize;
+	public static class Link {
+		@SerializedName("next") public String next;
+		@SerializedName("previous") public String previous;
 	}
 
-	public void setRester_office(String rester_office) {
-		this.rester_office = rester_office;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(String start_date) {
-		this.start_date = start_date;
-	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public static class Data implements Serializable {
+		@SerializedName("is_active") public boolean mIsActive;
+		@SerializedName("id") public int mId;
+		@SerializedName("organization_id") public int mOrganizationId;
+		@SerializedName("title") public String mTitle;
+		@SerializedName("start_date") public String mStartDate;
+		@SerializedName("first_register_office") public String mFirstOffice;
 	}
 
 
-
-	public static Type getListType() {
-		return new TypeToken<List<Volunteer>>() {
-		}.getType();
-	}
 
 }

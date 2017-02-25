@@ -1,35 +1,23 @@
 package com.vocketlist.android.net.errorchecker;
 
-import com.vocketlist.android.net.ServiceManager;
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.network.service.ErrorChecker;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 
 /**
  * Created by kinamare on 2017-02-22.
  */
 
-public class VoketDetailErrorChecker implements ErrorChecker<ResponseBody> {
-	ServiceManager manager;
+public class VoketDetailErrorChecker implements ErrorChecker<BaseResponse<VolunteerDetail>> {
+
 
 	@Override
-	public void checkError(ResponseBody data) throws RuntimeException {
-		if (data == null) {
-			throw new VoketError();
-		}
-		manager = new ServiceManager();
+	public void checkError(BaseResponse<VolunteerDetail> data) throws RuntimeException {
 
-		try {
-			Boolean result = manager.getStatusResult(data.string());
-			if (!result) {
-				throw new VoketError();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new VoketError(e.toString());
+		if (data == null) {
+			throw new VoketDetailError(data);
 		}
+
 
 	}
 }

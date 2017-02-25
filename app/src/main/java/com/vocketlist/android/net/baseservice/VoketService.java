@@ -1,11 +1,16 @@
 package com.vocketlist.android.net.baseservice;
 
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.dto.VolunteerDetail;
+
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -16,10 +21,10 @@ import rx.Observable;
 public interface VoketService {
 
 	@GET("services/list")
-	Observable<Response<ResponseBody>> getVoketList(@Query("token") String token);
+	Observable<Response<BaseResponse<Volunteer>>> getVoketList(@Query("page") int page);
 
-	@GET("service/detail")
-	Observable<Response<ResponseBody>> getVoketDetail(@Query("token") String token);
+	@GET("services/detail/{voketIdx}")
+	Observable<Response<BaseResponse<VolunteerDetail>>> getVoketDetail(@Path("voketIdx") int voketIdx);
 
 	@FormUrlEncoded
 	@POST("service/create")

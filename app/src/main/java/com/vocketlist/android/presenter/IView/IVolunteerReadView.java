@@ -1,5 +1,6 @@
 package com.vocketlist.android.presenter.IView;
 
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.VolunteerDetail;
 
 /**
@@ -7,5 +8,5 @@ import com.vocketlist.android.dto.VolunteerDetail;
  */
 
 public interface IVolunteerReadView {
-	void bindVoketDetailData(VolunteerDetail volunteerDetails);
+	void bindVoketDetailData(BaseResponse<VolunteerDetail> volunteerDetails);
 }

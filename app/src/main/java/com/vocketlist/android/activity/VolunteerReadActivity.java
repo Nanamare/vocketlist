@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vocketlist.android.R;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
@@ -69,10 +70,14 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	Button apply_cancel_btn;
 	@BindView(R.id.write_diary_btn)
 	Button write_diary_btn;
+	@BindView(R.id.isActiveDayTv)
+	TextView isActiveDayTv;
 
 	private IVolunteerCategoryPresenter presenter;
 
 	private AlertDialog dialog;
+
+	private int voketIndex;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,28 +85,41 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		setContentView(R.layout.activity_volunteer_read);
 		ButterKnife.bind(this);
 
+		Intent intent = getIntent();
+		if (intent != null) {
+			String voketIdx = intent.getStringExtra("voketId");
+			voketIndex = Integer.valueOf(voketIdx);
+			System.out.print(voketIndex);
+		}
+
+
 		setSupportActionBar(toolbar);
 
 		presenter = new VolunteerCategoryPresenter(this);
 
 		String token = SharePrefUtil.getSharedPreference("token");
-		presenter.getVoketDetail(token);
+		presenter.getVoketDetail(voketIndex);
 	}
 
 	@Override
-	public void bindVoketDetailData(VolunteerDetail volunteerDetails) {
-		voket_title_tv.setText(volunteerDetails.getTitle());
-		start_date_tv.setText(volunteerDetails.getStart_date());
-		end_date_tv.setText(volunteerDetails.getEnd_date());
-		start_time_tv.setText(volunteerDetails.getStart_time());
-		end_time_tv.setText(volunteerDetails.getEnd_date());
-		recruit_start_date_tv.setText(volunteerDetails.getRecruit_start_date());
-		recruit_end_date_tv.setText(volunteerDetails.getRecruit_end_date());
-		active_day_tv.setText(volunteerDetails.getActiveDay());
-		place_tv.setText(volunteerDetails.getPlace());
-		num_by_day_tv.setText(volunteerDetails.getNum_by_day());
-		host_name_tv.setText(volunteerDetails.getHostName());
-		category_tv.setText(volunteerDetails.getFirst_category());
+	public void bindVoketDetailData(BaseResponse<VolunteerDetail> volunteerDetails) {
+		voket_title_tv.setText(volunteerDetails.mResult.mTitle);
+		start_date_tv.setText(volunteerDetails.mResult.mStartDate);
+		end_date_tv.setText(volunteerDetails.mResult.mEndDate);
+		active_day_tv.setText(volunteerDetails.mResult.mActiveDay);
+		place_tv.setText(volunteerDetails.mResult.mPlace);
+		num_by_day_tv.setText(String.valueOf(volunteerDetails.mResult.mNumByDay));
+		host_name_tv.setText(volunteerDetails.mResult.mHostName);
+		category_tv.setText(volunteerDetails.mResult.mFirstCategory);
+		start_time_tv.setText(String.valueOf(volunteerDetails.mResult.mStartTime));
+		end_time_tv.setText(String.valueOf(volunteerDetails.mResult.mEndTime));
+		recruit_start_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitStartDate));
+		recruit_end_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitEndDate));
+		if (volunteerDetails.mResult.mIsActive) {
+			isActiveDayTv.setVisibility(View.VISIBLE);
+		} else {
+			isActiveDayTv.setVisibility(View.GONE);
+		}
 
 	}
 

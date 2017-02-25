@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.VolunteerCategoryViewHolder;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 
 import java.util.List;
@@ -18,18 +19,15 @@ import java.util.List;
 public class VolunteerCategoryAdapter extends BaseAdapter<VolunteerCategoryViewHolder> {
     /**
      * 생성자
-     * @param data
+     * @param volunteerList
      */
-    public VolunteerCategoryAdapter(List<Volunteer> data) {
-        super(data);
+    public VolunteerCategoryAdapter(List<Volunteer.Data> volunteerList) {
+        super(volunteerList);
     }
 
     @Override
     public VolunteerCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new VolunteerCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
     }
-    @Override
-    public void onBindViewHolder(VolunteerCategoryViewHolder holder, int position){
 
-    }
 }

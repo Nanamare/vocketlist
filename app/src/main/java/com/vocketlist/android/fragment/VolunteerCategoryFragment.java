@@ -11,14 +11,13 @@ import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
-import com.vocketlist.android.util.SharePrefUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindInt;
@@ -35,6 +34,8 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 	private IVolunteerCategoryPresenter presenter;
 
+	private int page = 1;
+	private Volunteer.Link link;
 
 	@BindInt(R.integer.volunteer_category_grid_column)
 	int column;
@@ -64,17 +65,9 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 		presenter = new VolunteerCategoryPresenter(this);
 
-		String token = SharePrefUtil.getSharedPreference("token");
-		presenter.getVoketList(token);
-
-		// 더미
-		List<Volunteer> dummy = new ArrayList<>();
-		for (int i = 0; i < Math.random() * 10; i++) {
-			dummy.add(new Volunteer());
-		}
-
 		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
-		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(dummy));
+		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(new ArrayList<>()));
+		presenter.getVoketList(page);
 	}
 
 	@Override
@@ -90,23 +83,26 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	@Override
 	public void onRefresh() {
 		super.onRefresh();
-
-		// TODO 리프레시
-		adapter.addAll(new ArrayList<Volunteer>());
+		presenter.getVoketList(1);
 	}
 
 	@Override
 	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
-		// TODO 더보기
-		adapter.add(new Volunteer());
+		if (link.next != null) {
+			presenter.getVoketList(Integer.valueOf(link.next));
+		}
 	}
 
 	@Override
-	public void getVoketList(List<Volunteer> volunteerList) {
-		adapter.clear();
-		adapter.addAll(volunteerList);
-		adapter.notifyDataSetChanged();
+	public void getVoketList(BaseResponse<Volunteer> volunteerList) {
+
+		if (page == 1) {
+			adapter.clear();
+		}
+		adapter.addAll(volunteerList.mResult.mDataList);
+		page = volunteerList.mResult.mPageCurrent;
+		link = volunteerList.mResult.mLink;
 	}
 }

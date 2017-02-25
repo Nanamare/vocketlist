@@ -65,7 +65,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="봉사기간"
                     android:textStyle="bold"/>
 
@@ -73,13 +73,11 @@
                     android:id="@+id/start_date_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:text="2017.01.24"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:text=" - "/>
 
                 <TextView
@@ -98,13 +96,11 @@
                     android:id="@+id/start_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:text="09"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:text=" - "/>
 
                 <TextView
@@ -128,7 +124,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="모집기간"
                     android:textStyle="bold"/>
 
@@ -161,7 +157,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="활동요일"
                     android:textStyle="bold"/>
 
@@ -180,7 +176,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="봉사장소"
                     android:textStyle="bold"/>
 
@@ -199,7 +195,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="모집인원"
                     android:textStyle="bold"/>
 
@@ -244,6 +240,7 @@
                     android:text="/"/>
 
                 <TextView
+                    android:id="@+id/isActiveDayTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="모집중"/>
@@ -257,7 +254,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="모집기관"
                     android:textStyle="bold"/>
 
@@ -277,7 +274,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="10dp"
                     android:text="카테고리"
                     android:textStyle="bold"/>
 

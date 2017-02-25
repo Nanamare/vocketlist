@@ -1,7 +1,6 @@
 package com.vocketlist.android.presenter;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.net.ServiceManager;
@@ -10,15 +9,6 @@ import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,8 +21,8 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 	private ServiceManager serviceManager;
 	private IVolunteerCategoryView view;
-	private List<Volunteer> volunteerList;
-	private VolunteerDetail volunteerDetails;
+	private BaseResponse<Volunteer> volunteer;
+	private BaseResponse<VolunteerDetail> volunteerDetails;
 	private IVolunteerReadView volunteerReadView;
 
 	public VolunteerCategoryPresenter() {
@@ -42,102 +32,57 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 	public VolunteerCategoryPresenter(IVolunteerCategoryView view) {
 		serviceManager = new ServiceManager();
 		this.view = view;
-		volunteerList = new ArrayList<>();
 	}
 
 	public VolunteerCategoryPresenter(IVolunteerReadView view) {
 		serviceManager = new ServiceManager();
 		this.volunteerReadView = view;
-		volunteerList = new ArrayList<>();
 	}
 
 	@Override
-	public void getVoketList(String token) {
-		serviceManager.getVoketList(token)
+	public void getVoketList(int page) {
+		serviceManager.getVoketList(page)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
+				.subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
 					@Override
 					public void onCompleted() {
-						view.getVoketList(volunteerList);
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<Volunteer>> baseResposeResponse) {
+						volunteer = baseResposeResponse.body();
+						view.getVoketList(volunteer);
+					}
+				});
+
+	}
+
+	@Override
+	public void getVoketDetail(int voketId) {
+		serviceManager.getVoketDetail(voketId)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<BaseResponse<VolunteerDetail>>>() {
+					@Override
+					public void onCompleted() {
+
 					}
 
 					@Override
 					public void onError(Throwable e) {
 
-
 					}
 
 					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
-						try {
-							String json = responseBodyResponse.body().string();
-							volunteerList = parseVoketList(json);
-
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-
-					private List<Volunteer> parseVoketList(String json) {
-						List<Volunteer> volunteerList = new ArrayList<>();
-						try {
-							JSONObject object = new JSONObject(json);
-							JSONArray jsonArray = new JSONArray(object.getString("result"));
-							String VoketJson = jsonArray.toString();
-							volunteerList.addAll(new Gson().fromJson(VoketJson, Volunteer.getListType()));
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						return volunteerList;
-					}
-
-				});
-	}
-
-	@Override
-	public void getVoketDetail(String token) {
-		serviceManager.getVoketDetail(token)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
-					@Override
-					public void onCompleted() {
+					public void onNext(Response<BaseResponse<VolunteerDetail>> baseResposeResponse) {
+						volunteerDetails = baseResposeResponse.body();
 						volunteerReadView.bindVoketDetailData(volunteerDetails);
 					}
-
-					@Override
-					public void onError(Throwable e) {
-
-					}
-
-					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
-						try {
-							String json = responseBodyResponse.body().string();
-							volunteerDetails = parseVoketDetail(json);
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-
-					}
-
-
-					private VolunteerDetail parseVoketDetail(String json) {
-						VolunteerDetail voketDetail = new VolunteerDetail();
-						Gson gson = new Gson();
-						try {
-							JSONObject object = new JSONObject(json);
-							String voketDetailJson = object.get("result").toString();
-							voketDetail = gson.fromJson(voketDetailJson, VolunteerDetail.class);
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						return voketDetail;
-					}
-
 				});
 	}
 
