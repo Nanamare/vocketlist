@@ -101,6 +101,7 @@
     <string name="empty_volunteer_category">해당 카테고리에는 봉사활동이 없네요.\n다른 카테고리에서 찾아보세요.</string>
     <string name="empty_community">작성된 글이 없네요.\n지금 바로 작성 해보세요.</string>
     <string name="empty_my_volunteer">등록된 봉사활동이 없습니다.\n검색해서 찾아보세요.</string>
+    <string name="empty_prepare">봉사하러 들어온 천사같은 당신!\n조금만 기다려 주세요\n\n해당 기능은 곧 이용 가능합니다</string>
 
     <!-- 토스트 -->
     <string name="toast_invalid_content">내용을 입력해 주세요</string>

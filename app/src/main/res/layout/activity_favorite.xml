@@ -26,18 +26,20 @@
     </android.support.design.widget.AppBarLayout>
 
     <!-- 콘텐츠 -->
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-        <TextView
-            style="?android:textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/favorite"/>
-    </android.support.v4.widget.NestedScrollView>
+        <!--<TextView-->
+            <!--style="?android:textAppearanceLarge"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/favorite"/>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <include layout="@layout/empty_prepare"/>
 
 </android.support.design.widget.CoordinatorLayout>
