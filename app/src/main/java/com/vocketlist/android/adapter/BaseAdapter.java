@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2017. 2. 14.
  */
 public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerView.Adapter<VH>{
-    private List<Serializable> mData;
+    private List<Serializable> mData = new ArrayList<>();
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
@@ -33,7 +33,6 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * @param data
      */
     public <T extends Serializable> BaseAdapter(List<T> data) {
-        this.mData = new ArrayList<>();
         addAll(data);
     }
 
@@ -50,9 +49,17 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * @param data
      */
     public <T extends Serializable> void addAll(List<T> data) {
+        if (data == null) {
+            return;
+        }
+
         int startIndex = mData.size();
         mData.addAll(startIndex, data);
         notifyItemRangeInserted(startIndex, data.size());
+    }
+
+    public <T extends Serializable> T getItem(int position) {
+        return (T) mData.get(position);
     }
 
     /**
