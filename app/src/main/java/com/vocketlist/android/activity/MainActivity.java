@@ -19,12 +19,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.binaryfork.spanny.Spanny;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
@@ -33,6 +35,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
+import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;

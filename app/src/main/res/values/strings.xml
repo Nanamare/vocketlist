@@ -104,6 +104,7 @@
 
     <!-- 토스트 -->
     <string name="toast_invalid_content">내용을 입력해 주세요</string>
+    <string name="toast_add_schedule">이 스케줄관리에 추가되었습니다.</string>
 
     <!-- 알림 설정 -->
     <string name="noti_setting_noti_title">알림설정</string>
