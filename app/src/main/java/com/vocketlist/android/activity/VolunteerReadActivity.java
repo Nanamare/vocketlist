@@ -136,12 +136,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		} else {
 			isActiveDayTv.setVisibility(View.GONE);
 		}
-		if (volunteerDetails.mResult.mIsParticipate) {
-			apply_btn_onClick(true);
-		} else {
-			apply_btn_onClick(false);
-		}
-		Glide.with(this).load("http://www.vocketlist.com" + volunteerDetails.mResult.mImageUrl).into(volunteer_iv);
+
+		Glide.with(this).load("http://www.vocketlist.com"+volunteerDetails.mResult.mImageUrl).into(volunteer_iv);
 
 	}
 
@@ -218,44 +214,5 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		//todo cancel schuedule logic
 	}
 
-
-	void apply_btn_onClick(boolean bool) {
-		if (bool) {
-			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_apply, null);
-			EditText name = (EditText) innerView.findViewById(R.id.dialog_apply_name_edt);
-			EditText email = (EditText) innerView.findViewById(R.id.dialog_apply_email_edt);
-			EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
-			Button doneBtn = (Button) innerView.findViewById(R.id.dialog_apply_done_btn);
-			Button cancelBtn = (Button) innerView.findViewById(R.id.dialog_apply_cancel_btn);
-			AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
-			alert.setView(innerView);
-
-			doneBtn.setOnClickListener(v -> {
-				if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
-					//todo
-					apply_btn.setVisibility(View.GONE);
-					apply_cancel_btn.setVisibility(View.VISIBLE);
-					dialog.dismiss();
-
-					//presenter 자리
-					volunteerReadPresenter.applyVolunteer(name.getText().toString(), email.getText().toString(), voketIndex);
-				}
-
-			});
-
-			cancelBtn.setOnClickListener(v -> {
-				dialog.dismiss();
-			});
-
-			dialog = alert.create();
-			dialog.show();
-
-		} else {
-			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_internal_apply
-					, (ViewGroup) findViewById(R.id.dialog_voket_internal_apply));
-			AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
-			alert.setView(innerView);
-		}
-
-	}
+	
 }
