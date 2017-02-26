@@ -26,7 +26,6 @@ android {
         // Define separate dev and prod product flavors.
         dev {
             // 컴파일 시간을 줄이기 위해서...
-            minSdkVersion 21
         }
 
         real {
