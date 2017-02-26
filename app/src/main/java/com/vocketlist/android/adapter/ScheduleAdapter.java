@@ -38,7 +38,7 @@ public class ScheduleAdapter extends BaseAdapter<ScheduleViewHolder> {
         Schedule schedule = getItem(position);
 
         if (schedule.mStartDate != null) {
-            schedule.mDay = String.format("%d", getDayOfMonth(schedule.mStartDate));
+            schedule.mDay = String.format("%d 일", getDayOfMonth(schedule.mStartDate));
         }
 
         if (prePosition >= 0 && schedule.mStartDate != null) {

@@ -30,6 +30,8 @@ import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 import com.vocketlist.android.util.SharePrefUtil;
 
+import org.w3c.dom.Text;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,6 +93,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 
 	private int voketIndex;
 
+	private String title;
+
 	private BaseResponse<VolunteerDetail> volunteerDetail;
 
 	@Override
@@ -136,9 +140,9 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		} else {
 			isActiveDayTv.setVisibility(View.GONE);
 		}
-
-
 		Glide.with(this).load("http://www.vocketlist.com"+volunteerDetails.mResult.mImageUrl).into(volunteer_iv);
+		//dialog 타이틀
+		title = volunteerDetails.mResult.mTitle;
 
 	}
 
@@ -150,8 +154,11 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
 		Button doneBtn = (Button) innerView.findViewById(R.id.dialog_apply_done_btn);
 		Button cancelBtn = (Button) innerView.findViewById(R.id.dialog_apply_cancel_btn);
+		TextView textView = (TextView)innerView.findViewById(R.id.dialog_vocket_title);
 		AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
 		alert.setView(innerView);
+
+		textView.setText(title);
 
 		doneBtn.setOnClickListener(v -> {
 			if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
