@@ -1,6 +1,7 @@
 package com.vocketlist.android.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -138,8 +139,11 @@ public class FacebookLoginActivity extends BaseActivity {
 //							String id = profile.getId();
 							String link = profile.getLinkUri().toString();
 							Ln.i("Link : " + link);
+							String imgUrl = "";
 							if (Profile.getCurrentProfile() != null) {
-								Ln.i("ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+								Uri imgUri = Profile.getCurrentProfile().getProfilePictureUri(250, 250);
+								Ln.i("ProfilePic" + imgUrl);
+								imgUrl = imgUri.toString();
 							}
 
 							Ln.i("Email : " + email);
@@ -148,7 +152,7 @@ public class FacebookLoginActivity extends BaseActivity {
 							Ln.i("Gender : " + gender);
 
 							SharePrefUtil.putSharedPreference("email", email);
-							SharePrefUtil.putSharedPreference("imgUrl", link);
+							SharePrefUtil.putSharedPreference("imgUrl", imgUrl);
 							SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
 
 							String userInfo = object.toString();
@@ -168,9 +172,9 @@ public class FacebookLoginActivity extends BaseActivity {
 										@Override
 										public void onCompleted() {
 											//완료 되었을시 페북 정보 클라이언트에 저장
-											SharePrefUtil.putSharedPreference("email", email);
-											SharePrefUtil.putSharedPreference("imgUrl", link);
-											SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
+//											SharePrefUtil.putSharedPreference("email", email);
+//											SharePrefUtil.putSharedPreference("imgUrl", imgUrl);
+//											SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
 											ServiceManager manager = new ServiceManager();
 
 											//완료되었을시 fcm 토큰을 발행하고 서버에 등록시킨다.
