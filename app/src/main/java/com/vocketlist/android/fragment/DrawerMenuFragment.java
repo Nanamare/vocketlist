@@ -96,6 +96,30 @@ public class DrawerMenuFragment extends Fragment {
         refreshUserInfo();
     }
 
+    /**
+     * 프로필설정
+     */
+    private void initProfile() {
+        String profile = SharePrefUtil.getSharedPreference("imgUrl");
+        String fullName = SharePrefUtil.getSharedPreference("fullName");
+
+        Log.d(TAG, "onActivityResult: profile:" + profile);
+        Log.d(TAG, "onActivityResult: fullName:" + fullName);
+
+
+        // 사진
+        if(!TextUtils.isEmpty(profile)) {
+            Glide.with(this)
+                    .load(profile)
+                    .centerCrop()
+                    .crossFade()
+                    .into(civPhoto);
+        }
+
+        // 이름
+        tvName.setText(fullName);
+    }
+
     private boolean isLogined() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && accessToken.isExpired() == false;
@@ -104,6 +128,8 @@ public class DrawerMenuFragment extends Fragment {
     private void switchLogin() {
         mLoginView.setVisibility(View.VISIBLE);
         mLogoutView.setVisibility(View.GONE);
+
+        initProfile();
     }
 
     private void switchLogout() {
@@ -117,28 +143,7 @@ public class DrawerMenuFragment extends Fragment {
 //        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         if(RequestCode.FACEBOOK_LOGIN == requestCode) {
-            if(Activity.RESULT_OK == resultCode) {
-                if(data != null) {
-                    String profile = SharePrefUtil.getSharedPreference("imgUrl");
-                    String fullName = SharePrefUtil.getSharedPreference("fullName");
-
-                    Log.d(TAG, "onActivityResult: profile:" + profile);
-                    Log.d(TAG, "onActivityResult: fullName:" + fullName);
-
-
-                    // 사진
-                    if(!TextUtils.isEmpty(profile)) {
-                        Glide.with(this)
-                                .load(profile)
-                                .centerCrop()
-                                .crossFade()
-                                .into(civPhoto);
-                    }
-
-                    // 이름
-                    tvName.setText(fullName);
-                }
-            }
+            if(Activity.RESULT_OK == resultCode) initProfile();
         }
     }
 }
