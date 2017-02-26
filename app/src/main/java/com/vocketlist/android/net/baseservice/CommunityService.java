@@ -24,12 +24,12 @@ import rx.Observable;
 public interface CommunityService {
 	//커뮤니티 리스트 조회
 	@GET("posts/")
-	Observable<Response<BaseResponse<CommunityList>>> getList(@Query("page") int page,
+	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
 															  @Query("page_size") int pageSize);
 
 	// 특정 커뮤니티 상세 조회
 	@GET("posts/{id}/")
-	Observable<Response<BaseResponse<CommunityDetail>>> getList(@Path("id") String id);
+	Observable<Response<BaseResponse<CommunityDetail>>> detail(@Path("id") int id);
 
 	//커뮤니티 글작성
 	@FormUrlEncoded
