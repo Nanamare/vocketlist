@@ -120,7 +120,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
-		if (link.mNext != null) {
+		if (link.mNext >= 0) {
 			if (getString(category.getTabResId()).equals("전체")) {
 				presenter.getVoketList(Integer.valueOf(link.mNext));
 			} else {
