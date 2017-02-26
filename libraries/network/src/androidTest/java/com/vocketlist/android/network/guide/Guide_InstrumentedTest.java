@@ -7,7 +7,6 @@ import com.vocketlist.android.network.converter.gson.GsonConverterFactory;
 import com.vocketlist.android.network.error.handler.ErrorHandlingCallAdapterBuilder;
 import com.vocketlist.android.network.error.handler.RxErrorHandler;
 import com.vocketlist.android.network.executor.Priority;
-import com.vocketlist.android.network.service.LoggingInterceptor;
 import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.network.service.WebkitCookieJar;
@@ -31,7 +30,7 @@ import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -61,8 +60,7 @@ public class Guide_InstrumentedTest {
                 .cookieJar(new WebkitCookieJar())
                 .connectTimeout(Timeout.getConnectionTimeout(), Timeout.UNIT)
                 .readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
-                .addInterceptor(new DefaultHeaderInterceptor())
-                .addNetworkInterceptor(new LoggingInterceptor(AppApplication.getInstance().getContext()));
+                .addInterceptor(new DefaultHeaderInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
@@ -116,8 +114,7 @@ public class Guide_InstrumentedTest {
                 .connectTimeout(Timeout.getConnectionTimeout(), Timeout.UNIT)
                 .readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
                 .addInterceptor(new DefaultHeaderInterceptor())
-                .addInterceptor(new MockInterpolator())
-                .addNetworkInterceptor(new LoggingInterceptor(g));
+                .addInterceptor(new MockInterpolator());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)

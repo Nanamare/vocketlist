@@ -55,7 +55,7 @@ public class ServiceManager {
 	private static final String BASE_URL = AppApplication.getInstance().getString(R.string.voketBaseUrl);
 
 
-	private static OkHttpClient.Builder mDefaultHttpClientBuilder = new OkHttpClient.Builder()
+	public static OkHttpClient.Builder mDefaultHttpClientBuilder = new OkHttpClient.Builder()
 			.cookieJar(new WebkitCookieJar())
 			.connectTimeout(Timeout.getConnectionTimeout(), Timeout.UNIT)
 			.readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
@@ -63,7 +63,7 @@ public class ServiceManager {
 			.addNetworkInterceptor(new LoggingInterceptor(AppApplication.getInstance().getContext()));
 
 
-	private static Retrofit retrofit = new Retrofit.Builder()
+	public static Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(BASE_URL)
 			.addCallAdapterFactory(ErrorHandlingCallAdapterBuilder.create()
 					.setCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -136,18 +136,18 @@ public class ServiceManager {
 				.lift(new ServiceErrorChecker<BaseResponse<VolunteerDetail>>(new VoketDetailErrorChecker()));
 	}
 
-	public Observable<Response<Post>> getCommunityList() {
-		return retrofit.create(CommunityService.class)
-				.getCommunityList()
-				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-				.lift(new ServiceErrorChecker<Post>(new CommunityErrorChecker()))
-				.doOnSubscribe(new Action0() {
-					@Override
-					public void call() {
-
-					}
-				});
-	}
+//	public Observable<Response<Post>> getCommunityList() {
+//		return retrofit.create(CommunityServiceManager.class)
+//				.getCommunityList()
+//				.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+//				.lift(new ServiceErrorChecker<Post>(new CommunityErrorChecker()))
+//				.doOnSubscribe(new Action0() {
+//					@Override
+//					public void call() {
+//
+//					}
+//				});
+//	}
 
 	public Observable<Response<ResponseBody>> applyVolunteer(String name, String phone,int service_id){
 
