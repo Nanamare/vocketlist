@@ -2,13 +2,12 @@ package com.vocketlist.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
+import android.support.v13.view.ViewCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.malinskiy.superrecyclerview.swipe.SwipeDismissRecyclerViewTouchListener;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
