@@ -14,6 +14,7 @@ import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.dto.Link;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
@@ -47,7 +48,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	private Category category;
 
 	private int page = 1;
-	private Volunteer.Link link;
+	private Link link;
 
 	/**
 	 * 인스턴스
@@ -119,11 +120,11 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
-		if (link.next != null) {
+		if (link.mNext >= 0) {
 			if (getString(category.getTabResId()).equals("전체")) {
-				presenter.getVoketList(Integer.valueOf(link.next));
+				presenter.getVoketList(Integer.valueOf(link.mNext));
 			} else {
-				presenter.getVocketCategoryList(getString(category.getTabResId()), Integer.valueOf(link.next));
+				presenter.getVocketCategoryList(getString(category.getTabResId()), Integer.valueOf(link.mNext));
 			}
 		}
 	}

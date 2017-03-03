@@ -26,7 +26,7 @@ public class NotificationPreference extends BasePreference {
             return NotificationPreference.instance;
         }
 
-        synchronized (FCMPreference.class) {
+        synchronized (NotificationPreference.class) {
             if (NotificationPreference.instance != null) {
                 return NotificationPreference.instance;
             }

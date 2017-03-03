@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.VolunteerReadActivity;
-import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 
 import java.io.Serializable;
@@ -49,9 +48,15 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
     public <T extends Serializable> void bind(T data) {
         mData = (Volunteer.Data)data;
         tvTitle.setText(mData.mTitle);
-        tvStartDate.setText(mData.mStartDate);
+        tvStartDate.setText(getDate(mData.mStartDate));
         tvAddress.setText(mData.mFirstOffice);
         Glide.with(context).load("http://www.vocketlist.com"+mData.imgUrl).into(ivThumbnail);
+    }
+
+    private String getDate(String date) {
+        String[] list = date.split("[ T]");
+
+        return list[0];
     }
 
     @OnClick(R.id.item_volunteer_ll)
