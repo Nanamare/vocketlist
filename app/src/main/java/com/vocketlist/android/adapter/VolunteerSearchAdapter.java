@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.VolunteerSearchViewHolder;
-import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.api.vocket.Volunteer;
 
 import java.util.List;
 

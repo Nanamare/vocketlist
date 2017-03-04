@@ -1,11 +1,13 @@
 package com.vocketlist.android.presenter.ipresenter;
 
+import com.vocketlist.android.defined.Category;
+
 /**
  * Created by kinamare on 2017-02-22.
  */
 
 public interface IVolunteerCategoryPresenter {
-	void getVoketList(int page);
-	void getVoketDetail(int voketIdx);
-	void getVocketCategoryList(String category, int page);
+	void getVocketList(int page);
+	void getVocketDetail(int vocketIdx);
+	void getVocketCategoryList(Category category, int page);
 }

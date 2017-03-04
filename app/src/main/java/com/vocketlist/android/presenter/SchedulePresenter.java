@@ -1,8 +1,9 @@
 package com.vocketlist.android.presenter;
 
+import com.vocketlist.android.api.schedule.ScheduleServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Schedule;
-import com.vocketlist.android.net.ServiceManager;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.presenter.IView.IScheduleView;
 import com.vocketlist.android.presenter.ipresenter.ISchedulePresenter;
 
@@ -16,18 +17,17 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class SchedulePresenter implements ISchedulePresenter {
 
-	private ServiceManager serviceManager;
+	private ServiceDefine serviceManager;
 	private BaseResponse<Schedule> scheduleBaseResponse;
 	private IScheduleView view;
 
 	public SchedulePresenter(IScheduleView view){
-		serviceManager = new ServiceManager();
 		this.view = view;
 	}
 
 	@Override
 	public void getScheduleList() {
-		serviceManager.getScheduleList()
+		ScheduleServiceManager.getScheduleList()
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Subscriber<Response<BaseResponse<Schedule>>>() {
 					@Override

@@ -15,7 +15,7 @@ import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Link;
-import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
@@ -35,13 +35,9 @@ import butterknife.BindView;
  * @since 2017. 2. 14.
  */
 public class VolunteerCategoryFragment extends RecyclerFragment implements IVolunteerCategoryView {
-	@BindView(R.id.tvLabel)
-	AppCompatTextView tvLabel;
-
-	@BindInt(R.integer.volunteer_category_grid_column)
-	int column;
-	@BindDimen(R.dimen.volunteer_category_grid_space)
-	int space;
+	@BindView(R.id.tvLabel) protected AppCompatTextView tvLabel;
+	@BindInt(R.integer.volunteer_category_grid_column) protected int column;
+	@BindDimen(R.dimen.volunteer_category_grid_space) protected int space;
 
 	private VolunteerCategoryAdapter adapter;
 	private IVolunteerCategoryPresenter presenter;
@@ -86,9 +82,9 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 				ViewCompat.setNestedScrollingEnabled(recyclerView, false);
 
 				if (getString(category.getTabResId()).equals("전체")) {
-					presenter.getVoketList(page);
+					presenter.getVocketList(page);
 				} else {
-					presenter.getVocketCategoryList(getString(category.getTabResId()), 1);
+					presenter.getVocketCategoryList(category, 1);
 				}
 
 
@@ -110,9 +106,9 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 	public void onRefresh() {
 		super.onRefresh();
 		if (getString(category.getTabResId()).equals("전체")) {
-			presenter.getVoketList(1);
+			presenter.getVocketList(1);
 		} else {
-			presenter.getVocketCategoryList(getString(category.getTabResId()), 1);
+			presenter.getVocketCategoryList(category, 1);
 		}
 	}
 
@@ -122,15 +118,15 @@ public class VolunteerCategoryFragment extends RecyclerFragment implements IVolu
 
 		if (link.mNext >= 0) {
 			if (getString(category.getTabResId()).equals("전체")) {
-				presenter.getVoketList(Integer.valueOf(link.mNext));
+				presenter.getVocketList(Integer.valueOf(link.mNext));
 			} else {
-				presenter.getVocketCategoryList(getString(category.getTabResId()), Integer.valueOf(link.mNext));
+				presenter.getVocketCategoryList(category, Integer.valueOf(link.mNext));
 			}
 		}
 	}
 
 	@Override
-	public void getVoketList(BaseResponse<Volunteer> volunteerList) {
+	public void getVocketList(BaseResponse<Volunteer> volunteerList) {
 
 		if (page == 1) {
 			adapter.clear();

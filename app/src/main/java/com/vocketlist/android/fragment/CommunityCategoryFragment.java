@@ -12,7 +12,7 @@ import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.Links;
 import com.vocketlist.android.dto.Post;
-import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;

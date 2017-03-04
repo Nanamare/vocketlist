@@ -22,7 +22,7 @@ public class Post implements Serializable {
 //	private String voketType;
 //	private String shareToFbUrl;
 //	private String date;
-//	private String imgUrl;
+//	private String mImageUrl;
 //	private List<Comment> comment;
 //	private int heartCnt;
 //
@@ -83,11 +83,11 @@ public class Post implements Serializable {
 //	}
 //
 //	public String getImgUrl() {
-//		return imgUrl;
+//		return mImageUrl;
 //	}
 //
-//	public void setImgUrl(String imgUrl) {
-//		this.imgUrl = imgUrl;
+//	public void setImgUrl(String mImageUrl) {
+//		this.mImageUrl = mImageUrl;
 //	}
 //
 //	public List<Comment> getComment() {

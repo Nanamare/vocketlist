@@ -1,7 +1,6 @@
 package com.vocketlist.android.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class GridViewAdapter extends android.widget.BaseAdapter {
 
-	private List<String> voketCategoryList;
+	private List<String> vocketCategoryList;
 	private List<RadioButton> radioButtonList;
 	private Context context;
 	private int count;
@@ -31,25 +30,25 @@ public class GridViewAdapter extends android.widget.BaseAdapter {
 			, "멘토링", "문화체육", "환경", "국제/해외", "공익인권", "이미용", "기타"};
 
 	public GridViewAdapter(Context context) {
-		voketCategoryList = new ArrayList<>();
+		vocketCategoryList = new ArrayList<>();
 		radioButtonList = new ArrayList<>();
 		this.context = context;
 		for (int i = 0; i < string.length; i++) {
 			RadioButton button = new RadioButton(context);
 			radioButtonList.add(button);
-			voketCategoryList.add(string[i]);
+			vocketCategoryList.add(string[i]);
 		}
 		count = 0;
 	}
 
 	@Override
 	public int getCount() {
-		return voketCategoryList.size();
+		return vocketCategoryList.size();
 	}
 
 	@Override
 	public Object getItem(int i) {
-		return voketCategoryList.get(i);
+		return vocketCategoryList.get(i);
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class GridViewAdapter extends android.widget.BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.cgTv.setText(voketCategoryList.get(position));
+		holder.cgTv.setText(vocketCategoryList.get(position));
 		for (int i = 0; i < radioButtonList.size(); i++) {
 			if (radioButtonList.get(i).isChecked()) {
 				count++;

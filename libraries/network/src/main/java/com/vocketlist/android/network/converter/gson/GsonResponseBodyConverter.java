@@ -37,7 +37,6 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
             Ln.d("response : " + originData);
             return adapter.read(jsonReader);
         } catch (Exception e) {
-
             throw new ParsingException(originData, e);
         } finally {
             value.close();

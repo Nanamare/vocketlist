@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.VolunteerReadActivity;
-import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.api.vocket.Volunteer;
 
 import java.io.Serializable;
 
@@ -50,7 +50,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
         tvTitle.setText(mData.mTitle);
         tvStartDate.setText(getDate(mData.mStartDate));
         tvAddress.setText(mData.mFirstOffice);
-        Glide.with(context).load("http://www.vocketlist.com"+mData.imgUrl).into(ivThumbnail);
+        Glide.with(context).load("http://www.vocketlist.com"+mData.mImageUrl).into(ivThumbnail);
     }
 
     private String getDate(String date) {
@@ -63,7 +63,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
     void tvTitleOnClick(){
       // 전달할값  mData.mId
         Intent intent = new Intent(context, VolunteerReadActivity.class);
-        intent.putExtra("voketId",String.valueOf(mData.mId));
+        intent.putExtra("vocketId",String.valueOf(mData.mId));
         context.startActivity(intent);
 
     }

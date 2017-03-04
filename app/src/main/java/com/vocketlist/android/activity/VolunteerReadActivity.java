@@ -1,9 +1,5 @@
 package com.vocketlist.android.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,16 +16,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.dto.VolunteerDetail;
+import com.vocketlist.android.api.vocket.VolunteerDetail;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.VolunteerReadPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
-import com.vocketlist.android.util.SharePrefUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,44 +38,25 @@ import butterknife.OnClick;
  * @since 2017. 2. 13.
  */
 public class VolunteerReadActivity extends DepthBaseActivity implements IVolunteerReadView {
-	@BindView(R.id.toolbar)
-	Toolbar toolbar;
-	@BindView(R.id.voket_title_tv)
-	TextView voket_title_tv;
-	@BindView(R.id.start_date_tv)
-	TextView start_date_tv;
-	@BindView(R.id.end_date_tv)
-	TextView end_date_tv;
-	@BindView(R.id.start_time_tv)
-	TextView start_time_tv;
-	@BindView(R.id.end_time_tv)
-	TextView end_time_tv;
-	@BindView(R.id.recruit_start_date_tv)
-	TextView recruit_start_date_tv;
-	@BindView(R.id.recruit_end_date_tv)
-	TextView recruit_end_date_tv;
-	@BindView(R.id.active_day_tv)
-	TextView active_day_tv;
-	@BindView(R.id.place_tv)
-	TextView place_tv;
-	@BindView(R.id.num_by_day_tv)
-	TextView num_by_day_tv;
-	@BindView(R.id.host_name_tv)
-	TextView host_name_tv;
-	@BindView(R.id.category_tv)
-	TextView category_tv;
-	@BindView(R.id.apply_btn)
-	Button apply_btn;
-	@BindView(R.id.apply_cancel_btn)
-	Button apply_cancel_btn;
-	@BindView(R.id.write_diary_btn)
-	Button write_diary_btn;
-	@BindView(R.id.isActiveDayTv)
-	TextView isActiveDayTv;
-	@BindView(R.id.content_tv)
-	TextView content_tv;
-	@BindView(R.id.volunteer_iv)
-	ImageView volunteer_iv;
+	@BindView(R.id.toolbar) protected Toolbar toolbar;
+	@BindView(R.id.vocket_title_tv) protected TextView mVocketTitleText;
+	@BindView(R.id.start_date_tv) protected TextView mStartDateText;
+	@BindView(R.id.end_date_tv) protected TextView mEndDateText;
+	@BindView(R.id.start_time_tv) protected TextView mStartTimeText;
+	@BindView(R.id.end_time_tv) protected TextView mEndTimeText;
+	@BindView(R.id.recruit_start_date_tv) protected TextView mRecruitStartDateText;
+	@BindView(R.id.recruit_end_date_tv) protected TextView mRecruitEndDateText;
+	@BindView(R.id.active_day_tv) protected TextView mActiveDayText;
+	@BindView(R.id.place_tv) protected TextView mPlaceText;
+	@BindView(R.id.num_by_day_tv) protected TextView mNumByDayText;
+	@BindView(R.id.host_name_tv) protected TextView mHostNameText;
+	@BindView(R.id.category_tv) protected TextView mCategoryText;
+	@BindView(R.id.apply_btn) protected Button mApplyBtn;
+	@BindView(R.id.apply_cancel_btn) protected Button mApplyCancelBtn;
+	@BindView(R.id.write_diary_btn) protected Button mWriteDiaryBtn;
+	@BindView(R.id.isActiveDayTv) protected TextView mIsActiveDayText;
+	@BindView(R.id.content_tv) protected TextView mContentText;
+	@BindView(R.id.volunteer_iv) protected ImageView mVolunteerImageView;
 
 	private IVolunteerCategoryPresenter presenter;
 
@@ -91,7 +64,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 
 	private AlertDialog dialog;
 
-	private int voketIndex;
+	private int vocketIndex;
 
 	private String title;
 
@@ -107,9 +80,9 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 
 		Intent intent = getIntent();
 		if (intent != null) {
-			String voketIdx = intent.getStringExtra("voketId");
-			voketIndex = Integer.valueOf(voketIdx);
-			System.out.print(voketIndex);
+			String vocketIdx = intent.getStringExtra("vocketId");
+			vocketIndex = Integer.valueOf(vocketIdx);
+			System.out.print(vocketIndex);
 		}
 
 		setSupportActionBar(toolbar);
@@ -117,32 +90,31 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		presenter = new VolunteerCategoryPresenter(this);
 		volunteerReadPresenter = new VolunteerReadPresenter(this);
 
-		String token = SharePrefUtil.getSharedPreference("token");
-		presenter.getVoketDetail(voketIndex);
+		presenter.getVocketDetail(vocketIndex);
 	}
 
 	@Override
-	public void bindVoketDetailData(BaseResponse<VolunteerDetail> volunteerDetails) {
+	public void bindVocketDetailData(BaseResponse<VolunteerDetail> volunteerDetails) {
 		volunteerDetail = volunteerDetails;
-		voket_title_tv.setText(volunteerDetails.mResult.mTitle);
-		start_date_tv.setText(volunteerDetails.mResult.mStartDate);
-		end_date_tv.setText(volunteerDetails.mResult.mEndDate);
-		active_day_tv.setText(volunteerDetails.mResult.mActiveDay);
-		place_tv.setText(volunteerDetails.mResult.mPlace);
-		num_by_day_tv.setText(String.valueOf(volunteerDetails.mResult.mNumByDay));
-		host_name_tv.setText(volunteerDetails.mResult.mHostName);
-		category_tv.setText(volunteerDetails.mResult.mFirstCategory);
-		start_time_tv.setText(volunteerDetails.mResult.mStartTime);
-		end_time_tv.setText(volunteerDetails.mResult.mEndTime);
-		recruit_start_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitStartDate));
-		recruit_end_date_tv.setText(String.valueOf(volunteerDetails.mResult.mRecruitEndDate));
-		content_tv.setText(volunteerDetails.mResult.mContent);
+		mVocketTitleText.setText(volunteerDetails.mResult.mTitle);
+		mStartDateText.setText(volunteerDetails.mResult.mStartDate);
+		mEndDateText.setText(volunteerDetails.mResult.mEndDate);
+		mActiveDayText.setText(volunteerDetails.mResult.mActiveDay);
+		mPlaceText.setText(volunteerDetails.mResult.mPlace);
+		mNumByDayText.setText(String.valueOf(volunteerDetails.mResult.mNumByDay));
+		mHostNameText.setText(volunteerDetails.mResult.mHostName);
+		mCategoryText.setText(getString(volunteerDetails.mResult.mFirstCategory.getTabResId()));
+		mStartTimeText.setText(volunteerDetails.mResult.mStartTime);
+		mEndTimeText.setText(volunteerDetails.mResult.mEndTime);
+		mRecruitStartDateText.setText(String.valueOf(volunteerDetails.mResult.mRecruitStartDate));
+		mRecruitEndDateText.setText(String.valueOf(volunteerDetails.mResult.mRecruitEndDate));
+		mContentText.setText(volunteerDetails.mResult.mContent);
 		if (volunteerDetails.mResult.mIsActive) {
-			isActiveDayTv.setVisibility(View.VISIBLE);
+			mIsActiveDayText.setVisibility(View.VISIBLE);
 		} else {
-			isActiveDayTv.setVisibility(View.GONE);
+			mIsActiveDayText.setVisibility(View.GONE);
 		}
-		Glide.with(this).load("http://www.vocketlist.com" + volunteerDetails.mResult.mImageUrl).into(volunteer_iv);
+		Glide.with(this).load("http://www.vocketlist.com" + volunteerDetails.mResult.mImageUrl).into(mVolunteerImageView);
 		//dialog 타이틀
 		title = volunteerDetails.mResult.mTitle;
 		isInternalApply = volunteerDetails.mResult.mIsParticipate;
@@ -152,7 +124,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	@OnClick(R.id.apply_btn)
 	void apply_onClick() {
 		if (isInternalApply == true) {
-			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_apply, null);
+			View innerView = getLayoutInflater().inflate(R.layout.dialog_vocket_apply, null);
 			EditText name = (EditText) innerView.findViewById(R.id.dialog_apply_name_edt);
 			EditText email = (EditText) innerView.findViewById(R.id.dialog_apply_email_edt);
 			EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
@@ -167,12 +139,12 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 			doneBtn.setOnClickListener(v -> {
 				if (isValid(name.getText().toString(), email.getText().toString(), phone.getText().toString())) {
 					//todo
-					apply_btn.setVisibility(View.GONE);
-					apply_cancel_btn.setVisibility(View.VISIBLE);
+					mApplyBtn.setVisibility(View.GONE);
+					mApplyCancelBtn.setVisibility(View.VISIBLE);
 					dialog.dismiss();
 
 					//presenter 자리
-					volunteerReadPresenter.applyVolunteer(name.getText().toString(), email.getText().toString(), voketIndex);
+					volunteerReadPresenter.applyVolunteer(name.getText().toString(), email.getText().toString(), vocketIndex);
 				}
 
 			});
@@ -183,7 +155,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 			dialog = alert.create();
 			dialog.show();
 		} else {
-			View innerView = getLayoutInflater().inflate(R.layout.dialog_voket_internal_apply, null);
+			View innerView = getLayoutInflater().inflate(R.layout.dialog_vocket_internal_apply, null);
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setView(innerView);
 			dialog = alert.create();
@@ -260,8 +232,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	@OnClick(R.id.apply_cancel_btn)
 	void apply_cancel_onClick() {
 		Toast.makeText(this, "신청이 취소 되었습니다.", Toast.LENGTH_SHORT).show();
-		apply_btn.setVisibility(View.VISIBLE);
-		apply_cancel_btn.setVisibility(View.GONE);
+		mApplyBtn.setVisibility(View.VISIBLE);
+		mApplyCancelBtn.setVisibility(View.GONE);
 		//todo cancel schuedule logic
 	}
 

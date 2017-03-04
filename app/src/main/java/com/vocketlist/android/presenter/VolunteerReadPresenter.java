@@ -1,7 +1,7 @@
 package com.vocketlist.android.presenter;
 
-import com.vocketlist.android.net.ServiceManager;
-import com.vocketlist.android.net.basepresenter.BasePresenter;
+import com.vocketlist.android.api.basepresenter.BasePresenter;
+import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 
@@ -16,20 +16,18 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class VolunteerReadPresenter extends BasePresenter implements IVolunteerReadPresenter {
 
-	private ServiceManager serviceManager;
 	private IVolunteerReadView view;
 
 	public VolunteerReadPresenter(IVolunteerReadView view) {
-		serviceManager = new ServiceManager();
 		this.view = view;
 	}
 
 
 	@Override
 	public void applyVolunteer(String name, String phone,int service_id) {
-		serviceManager.applyVolunteer(name, phone,service_id)
+		VocketServiceManager.applyVolunteer(name, phone,service_id)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
+				.subscribe(new Subscriber<Response<Void>>() {
 					@Override
 					public void onCompleted() {
 						view.showCompleteDialog();
@@ -41,7 +39,7 @@ public class VolunteerReadPresenter extends BasePresenter implements IVolunteerR
 					}
 
 					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
+					public void onNext(Response<Void> responseBodyResponse) {
 						onCompleted();
 					}
 				});
