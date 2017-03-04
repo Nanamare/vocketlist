@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 public class CommunityDetail {
     @SerializedName("id") public int mId;
     @SerializedName("author") public Author mAuthor;
-    @SerializedName("Service") public Serivce mService;
-    @SerializedName("Image") public String mImageUrl;
+    @SerializedName("service") public Serivce mService;
+    @SerializedName("image") public String mImageUrl;
     @SerializedName("content") public String mContent;
     @SerializedName("like_count") public int mLikeCount;
     @SerializedName("like") public boolean mIsLiked;
@@ -18,15 +18,15 @@ public class CommunityDetail {
 
     public static class Serivce {
         @SerializedName("id") public int mId;
-        @SerializedName("tititl") public String mTitle;
+        @SerializedName("title") public String mTitle;
         @SerializedName("start_date") public String mStartDate;
         @SerializedName("end_date") public String mEndDate;
         @SerializedName("recruit_start_date") public String mRecuirStartEnd;
         @SerializedName("recruit_end_date") public String mRecruitEndEnd;
-        @SerializedName("start_time") public int mStartTime;
-        @SerializedName("end_time") public int mEndTime;
-        @SerializedName("activeDay") public String mActiveDay;
-        @SerializedName("hostName") public String mHostName;
+        @SerializedName("start_time") public String mStartTime;
+        @SerializedName("end_time") public String mEndTime;
+        @SerializedName("active_day") public String mActiveDay;
+        @SerializedName("host_name") public String mHostName;
         @SerializedName("place") public String mPlace;
         @SerializedName("content") public String mContent;
         @SerializedName("is_active") public boolean mIsActive;
