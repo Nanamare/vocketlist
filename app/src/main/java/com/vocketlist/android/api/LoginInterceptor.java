@@ -18,6 +18,14 @@ public class LoginInterceptor implements Interceptor {
         mLoginToken = token;
     }
 
+    public static String getLoginToken() {
+        if (mLoginToken == null) {
+            return mLoginToken;
+        }
+
+        return new String(mLoginToken);
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();

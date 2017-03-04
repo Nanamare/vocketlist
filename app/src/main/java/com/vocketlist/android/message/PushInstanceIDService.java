@@ -2,9 +2,9 @@ package com.vocketlist.android.message;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.vocketlist.android.api.SimpleSubscriber;
-import com.vocketlist.android.api.login.UserServiceManager;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.preference.FCMPreference;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -32,6 +32,6 @@ public class PushInstanceIDService extends FirebaseInstanceIdService {
 
     private void sendRegistrationToServer(String token) {
         UserServiceManager.registerFcmToken(token)
-                .subscribe(new SimpleSubscriber<Response<BaseResponse<Boolean>>>());
+                .subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>());
     }
 }

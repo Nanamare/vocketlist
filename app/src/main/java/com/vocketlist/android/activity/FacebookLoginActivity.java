@@ -18,8 +18,8 @@ import com.facebook.login.LoginResult;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.ServiceManager;
-import com.vocketlist.android.api.login.LoginModel;
-import com.vocketlist.android.api.login.UserServiceManager;
+import com.vocketlist.android.api.user.LoginModel;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -36,8 +36,6 @@ import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 2..

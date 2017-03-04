@@ -1,9 +1,9 @@
 package com.vocketlist.android.presenter;
 
+import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Volunteer;
 import com.vocketlist.android.dto.VolunteerDetail;
-import com.vocketlist.android.api.ServiceManager;
 import com.vocketlist.android.api.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.IView.IVolunteerCategoryView;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
@@ -19,29 +19,26 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class VolunteerCategoryPresenter extends BasePresenter implements IVolunteerCategoryPresenter {
 
-	private ServiceManager serviceManager;
 	private IVolunteerCategoryView view;
 	private BaseResponse<Volunteer> volunteer;
 	private BaseResponse<VolunteerDetail> volunteerDetails;
 	private IVolunteerReadView volunteerReadView;
 
 	public VolunteerCategoryPresenter() {
-		serviceManager = new ServiceManager();
+
 	}
 
 	public VolunteerCategoryPresenter(IVolunteerCategoryView view) {
-		serviceManager = new ServiceManager();
 		this.view = view;
 	}
 
 	public VolunteerCategoryPresenter(IVolunteerReadView view) {
-		serviceManager = new ServiceManager();
 		this.volunteerReadView = view;
 	}
 
 	@Override
 	public void getVoketList(int page) {
-		serviceManager.getVoketList(page)
+		VocketServiceManager.getVocketList(page)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
 					@Override
@@ -66,7 +63,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 	@Override
 	public void getVoketDetail(int voketId) {
-		serviceManager.getVoketDetail(voketId)
+		VocketServiceManager.getVocketDetail(voketId)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Subscriber<Response<BaseResponse<VolunteerDetail>>>() {
 					@Override
@@ -89,7 +86,7 @@ public class VolunteerCategoryPresenter extends BasePresenter implements IVolunt
 
 	@Override
 	public void getVocketCategoryList(String category,int page) {
-		serviceManager.getVocketCategoryList(category, page)
+		VocketServiceManager.getVocketCategoryList(category, page)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
 					@Override
