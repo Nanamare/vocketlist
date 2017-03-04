@@ -21,7 +21,7 @@ import rx.Observable;
  * Created by kinamare on 2017-02-21.
  */
 
-public interface CommunityService {
+interface CommunityService {
 	//커뮤니티 리스트 조회
 	@GET("posts/")
 	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
@@ -36,7 +36,7 @@ public interface CommunityService {
 	@POST("posts/")
 	Observable<Response<BaseResponse<Void>>> write(@Part MultipartBody.Part image
 											, @Field("content") String content
-											, @Field("voketType") String voketxType);
+											, @Field("vocketType") String vocketType);
 
 //	글 좋아요 / 취소
 //	@POST("posts/like/{post_id}")

@@ -1,11 +1,9 @@
-package com.vocketlist.android.dto;
+package com.vocketlist.android.api.vocket;
 
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import com.vocketlist.android.defined.Category;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Created by kinamare on 2017-02-22.
@@ -24,7 +22,7 @@ public class VolunteerDetail implements Serializable {
 	@SerializedName("place") public String mPlace;
 	@SerializedName("content") public String mContent;
 	@SerializedName("is_active") public boolean mIsActive;
-	@SerializedName("first_category") public String mFirstCategory;
+	@SerializedName("first_category") public Category mFirstCategory;
 	@SerializedName("second_category") public String mSecondCategory;
 	@SerializedName("first_register_office") public String mFirstRegisterOffice;
 	@SerializedName("second_register_office") public String mSecondRegisterOffice;

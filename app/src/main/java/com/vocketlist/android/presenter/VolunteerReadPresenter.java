@@ -27,7 +27,7 @@ public class VolunteerReadPresenter extends BasePresenter implements IVolunteerR
 	public void applyVolunteer(String name, String phone,int service_id) {
 		VocketServiceManager.applyVolunteer(name, phone,service_id)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<ResponseBody>>() {
+				.subscribe(new Subscriber<Response<Void>>() {
 					@Override
 					public void onCompleted() {
 						view.showCompleteDialog();
@@ -39,7 +39,7 @@ public class VolunteerReadPresenter extends BasePresenter implements IVolunteerR
 					}
 
 					@Override
-					public void onNext(Response<ResponseBody> responseBodyResponse) {
+					public void onNext(Response<Void> responseBodyResponse) {
 						onCompleted();
 					}
 				});

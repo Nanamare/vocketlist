@@ -47,7 +47,7 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/voket_title_tv"
+                    android:id="@+id/vocket_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"

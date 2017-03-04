@@ -3,7 +3,7 @@ package com.vocketlist.android.api.user;
 import com.facebook.AccessToken;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.vocketlist.android.api.LoginInterceptor;
-import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.common.helper.DeviceHelper;
 import com.vocketlist.android.dto.BaseResponse;
@@ -21,14 +21,18 @@ import rx.functions.Func1;
  * Created by SeungTaek.Lim on 2017. 3. 4..
  */
 
-public class UserServiceManager {
-    private static UserService sUserService = ServiceManager.retrofit.create(UserService.class);
+public final class UserServiceManager {
+    private static UserService sUserService = ServiceDefine.retrofit.create(UserService.class);
 
     public static Observable<Response<BaseResponse<Void>>> registerFcmToken(String fcmToken) {
         return sUserService
                 .registerToken(fcmToken, DeviceHelper.getDeviceId())
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<BaseResponse<Void>>(new BaseServiceErrorChecker<Void>()));
+    }
+
+    private UserServiceManager() {
+
     }
 
     public static Observable<Response<BaseResponse<LoginModel>>> autoLogin() {

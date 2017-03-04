@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.baseservice;
+package com.vocketlist.android.api.my;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -23,7 +23,7 @@ public interface MyListService {
 			, @Field("myListId") String myListId, @Field("isDone") boolean isDone);
 
 	@POST("myList/create")
-	Observable<Response<ResponseBody>> addNewVoketList(@Field("token") String token
+	Observable<Response<ResponseBody>> addNewVocketList(@Field("token") String token
 			, @Field("content") String content, @Field("isDone") boolean isDone
 			, @Field("date") String date);
 }

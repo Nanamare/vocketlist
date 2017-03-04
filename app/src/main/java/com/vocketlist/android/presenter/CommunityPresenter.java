@@ -1,8 +1,8 @@
 package com.vocketlist.android.presenter;
 
 import com.vocketlist.android.dto.Post;
-import com.vocketlist.android.dto.Volunteer;
-import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.vocket.Volunteer;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
@@ -17,14 +17,13 @@ import java.util.List;
 public class CommunityPresenter extends BasePresenter implements ICommunityPresenter {
 
 	private ICommunityView iCommunityView;
-	private ServiceManager serviceManager;
+	private ServiceDefine serviceManager;
 	private List<Post> communityList;
 	private List<Volunteer> volunteers;
 
 
 	public CommunityPresenter(ICommunityView view) {
 		iCommunityView = view;
-		serviceManager = new ServiceManager();
 		communityList = new ArrayList<>();
 	}
 

@@ -5,7 +5,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.dto.Volunteer;
+import com.vocketlist.android.api.vocket.Volunteer;
 
 import java.io.Serializable;
 

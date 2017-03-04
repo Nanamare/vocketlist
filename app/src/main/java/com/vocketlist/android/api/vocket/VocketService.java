@@ -1,8 +1,7 @@
 package com.vocketlist.android.api.vocket;
 
+import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.dto.Volunteer;
-import com.vocketlist.android.dto.VolunteerDetail;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -18,25 +17,24 @@ import rx.Observable;
  * Created by kinamare on 2017-02-21.
  */
 
-public interface VocketService {
+interface VocketService {
 
 	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketList(@Query("page") int page);
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("category") Category category
+																		, @Query("page")int page);
 
-	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("category") String category
-	,@Query("page")int page);
-
-	@GET("services/detail/{voketIdx}/")
-	Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(@Path("voketIdx") int voketIdx);
+	@GET("services/detail/{vocketIdx}/")
+	Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(@Path("vocketIdx") int vocketIdx);
 
 	@FormUrlEncoded
 	@POST("service/create")
-	Observable<Response<ResponseBody>> addVocket(@Field("token") String token, @Field("name") String name
-	, @Field("phone")int Phone, @Field("voketId")String voketId);
+	Observable<Response<ResponseBody>> addVocket(@Field("token") String token
+												, @Field("name") String name
+												, @Field("phone")int Phone
+												, @Field("vocketId")String vocketId);
 
 	@FormUrlEncoded
 	@POST("services/participate/{service_id}/")
-	Observable<Response<ResponseBody>> applyVolunteer(@Field("name")String name
+	Observable<Response<Void>> applyVolunteer(@Field("name")String name
 	                                                  ,@Field("phone")String phone,@Path("service_id")int service_id);
 }

@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.errorchecker;
+package com.vocketlist.android.api.vocket.error;
 
 import com.vocketlist.android.network.service.ErrorChecker;
 

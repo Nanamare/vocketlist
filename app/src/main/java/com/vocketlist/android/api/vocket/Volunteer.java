@@ -1,6 +1,8 @@
-package com.vocketlist.android.dto;
+package com.vocketlist.android.api.vocket;
 
 import com.google.gson.annotations.SerializedName;
+import com.vocketlist.android.dto.Link;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class Volunteer implements Serializable {
 		@SerializedName("title") public String mTitle;
 		@SerializedName("start_date") public String mStartDate;
 		@SerializedName("first_register_office") public String mFirstOffice;
-		@SerializedName("image")public String imgUrl;
+		@SerializedName("image")public String mImageUrl;
 	}
 
 

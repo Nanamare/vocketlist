@@ -17,7 +17,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
-import com.vocketlist.android.api.ServiceManager;
 import com.vocketlist.android.api.user.LoginModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
@@ -43,7 +42,6 @@ import rx.functions.Action0;
 
 public class FacebookLoginActivity extends BaseActivity {
 	private CallbackManager mFacebookCallbackManager;
-	private ServiceManager serviceManager;
 	private AccessToken accessToken;
 
 
@@ -53,9 +51,6 @@ public class FacebookLoginActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_login);
 		ButterKnife.bind(this);
-
-		serviceManager = new ServiceManager();
-
 
 		initFacebook();
 	}

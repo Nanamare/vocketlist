@@ -1,6 +1,6 @@
 package com.vocketlist.android.api.community;
 
-import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityList;
@@ -16,10 +16,14 @@ import rx.Observable;
  * Created by SeungTaek.Lim on 2017. 2. 26..
  */
 
-public class CommunityServiceManager {
+public final class CommunityServiceManager {
     private static final int DEAULT_PAGE_SIZE = 20;
 
-    private static CommunityService service = ServiceManager.retrofit.create(CommunityService.class);
+    private static CommunityService service = ServiceDefine.retrofit.create(CommunityService.class);
+
+    private CommunityServiceManager() {
+
+    }
 
     public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo) {
         return service.list(pageNo, DEAULT_PAGE_SIZE)

@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.errorchecker;
+package com.vocketlist.android.api.vocket.error;
 
 /**
  * Created by kinamare on 2017-02-26.

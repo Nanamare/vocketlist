@@ -2,7 +2,7 @@ package com.vocketlist.android.api.community;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityList;
@@ -35,7 +35,7 @@ public class CommunityService_Test {
         mListResponse = null;
         mDetailResponse = null;
 
-        ServiceManager.mockInterceptor.setResponse(null);
+        ServiceDefine.mockInterceptor.setResponse(null);
 
         RxJavaPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
@@ -70,7 +70,7 @@ public class CommunityService_Test {
         assertNotNull(mListResponse);
         assertTrue(mListResponse.mSuccess);
         assertNotNull(mListResponse.mResult);
-        assertTrue(mListResponse.mResult.mCount == mListResponse.mResult.mData.size());
+        assertTrue(mListResponse.mResult.mData.size() > 0);
         assertTrue(mListResponse.mResult.mPageNumber == 1);
 
         for (CommunityList.CommunityData communityData : mListResponse.mResult.mData) {

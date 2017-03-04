@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.baseservice;
+package com.vocketlist.android.api.schedule;
 
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Schedule;

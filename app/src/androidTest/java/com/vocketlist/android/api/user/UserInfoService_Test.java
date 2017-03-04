@@ -4,7 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.vocketlist.android.api.LoginInterceptor;
-import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.service.EmptySubscriber;
 
@@ -36,7 +36,7 @@ public class UserInfoService_Test {
         mLoginModel = null;
         mResponseRegisterFcm = null;
 
-        ServiceManager.mockInterceptor.setResponse(null);
+        ServiceDefine.mockInterceptor.setResponse(null);
 
         RxJavaPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {

@@ -55,9 +55,6 @@ public final class ServiceErrorChecker<T> implements Observable.Operator<Respons
                     return;
                 }
 
-                if (response.isSuccessful() == false) {
-                }
-
                 if (mErrorChecker == null) {
                     subscriber.onNext(response);
                     return;

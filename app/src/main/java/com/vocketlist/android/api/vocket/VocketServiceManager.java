@@ -1,57 +1,53 @@
 package com.vocketlist.android.api.vocket;
 
-import com.vocketlist.android.api.errorchecker.ApplyVolunteerErrorChecker;
-import com.vocketlist.android.api.vocket.error.VocketCategoryErrorChecker;
-import com.vocketlist.android.api.vocket.error.VoketDetailErrorChecker;
-import com.vocketlist.android.api.vocket.error.VoketErrorChecker;
+import com.vocketlist.android.api.BaseServiceErrorChecker;
+import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.dto.Volunteer;
-import com.vocketlist.android.dto.VolunteerDetail;
 import com.vocketlist.android.network.executor.Priority;
 import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Observable;
 
-import static com.vocketlist.android.api.ServiceManager.retrofit;
+import static com.vocketlist.android.api.ServiceDefine.retrofit;
 
 /**
  * Created by SeungTaek.Lim on 2017. 3. 4..
  */
 
-public class VocketServiceManager {
+public final class VocketServiceManager {
     private static VocketService service = retrofit.create(VocketService.class);
 
     public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(int page) {
-        return service
-                .getVocketList(page)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<BaseResponse<Volunteer>>(new VoketErrorChecker()));
+        return getVocketList(null, page);
     }
 
-    public static Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(String category, int page) {
+    private VocketServiceManager() {
+
+    }
+
+    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(Category category, int page) {
         return service
                 .getVocketCategoryList(category, page)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new VocketCategoryErrorChecker()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Volunteer>()));
 
     }
 
-    public static Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(int voketId) {
+    public static Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(int vocketId) {
         return service
-                .getVocketDetail(voketId)
+                .getVocketDetail(vocketId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<BaseResponse<VolunteerDetail>>(new VoketDetailErrorChecker()));
+                .lift(new ServiceErrorChecker<BaseResponse<VolunteerDetail>>(new BaseServiceErrorChecker()));
     }
 
-    public static Observable<Response<ResponseBody>> applyVolunteer(String name, String phone, int service_id){
+    public static Observable<Response<Void>> applyVolunteer(String name, String phone, int service_id){
 
         return service
                 .applyVolunteer(name, phone,service_id)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new ApplyVolunteerErrorChecker()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker()));
 
     }
 }
