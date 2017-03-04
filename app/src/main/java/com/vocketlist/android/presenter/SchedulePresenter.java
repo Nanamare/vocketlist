@@ -2,7 +2,7 @@ package com.vocketlist.android.presenter;
 
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Schedule;
-import com.vocketlist.android.net.ServiceManager;
+import com.vocketlist.android.api.ServiceManager;
 import com.vocketlist.android.presenter.IView.IScheduleView;
 import com.vocketlist.android.presenter.ipresenter.ISchedulePresenter;
 

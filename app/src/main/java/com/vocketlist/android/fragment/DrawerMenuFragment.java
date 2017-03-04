@@ -17,14 +17,12 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.FacebookLoginActivity;
-import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.defined.RequestCode;
+import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
-import com.vocketlist.android.util.SharePrefUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,8 +98,8 @@ public class DrawerMenuFragment extends Fragment {
      * 프로필설정
      */
     private void initProfile() {
-        String profile = SharePrefUtil.getSharedPreference("imgUrl");
-        String fullName = SharePrefUtil.getSharedPreference("fullName");
+        String profile = FacebookPreperence.getInstance().getUserImageUrl();
+        String fullName = FacebookPreperence.getInstance().getUserName();
 
         Log.d(TAG, "onActivityResult: profile:" + profile);
         Log.d(TAG, "onActivityResult: fullName:" + fullName);

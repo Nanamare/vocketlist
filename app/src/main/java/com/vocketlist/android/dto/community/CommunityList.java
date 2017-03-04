@@ -13,6 +13,7 @@ import java.util.List;
 public class CommunityList implements Serializable {
     @SerializedName("count") public int mCount;
     @SerializedName("page_count") public int mPageCount;
+    @SerializedName("page_current") public int mPageNumber;
     @SerializedName("page_size") public int mPageSize;
     @SerializedName("links") public Link mLinks;
     @SerializedName("data") public List<CommunityData> mData;

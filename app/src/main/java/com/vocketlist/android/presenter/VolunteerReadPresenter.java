@@ -1,7 +1,7 @@
 package com.vocketlist.android.presenter;
 
-import com.vocketlist.android.net.ServiceManager;
-import com.vocketlist.android.net.basepresenter.BasePresenter;
+import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 

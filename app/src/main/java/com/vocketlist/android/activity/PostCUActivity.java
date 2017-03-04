@@ -34,9 +34,9 @@ import com.vocketlist.android.adapter.VolunteerSearchAdapter;
 import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dto.MyList;
 import com.vocketlist.android.dto.Volunteer;
-import com.vocketlist.android.helper.AttachmentHelper;
+import com.vocketlist.android.common.helper.AttachmentHelper;
 import com.vocketlist.android.manager.ToastManager;
-import com.vocketlist.android.net.Parameters;
+import com.vocketlist.android.api.Parameters;
 import com.vocketlist.android.view.AttachmentSingleView;
 
 import java.io.File;

@@ -13,11 +13,10 @@ public class CommunityDetail {
     @SerializedName("content") public String mContent;
     @SerializedName("like_count") public int mLikeCount;
     @SerializedName("like") public boolean mIsLiked;
-//    @SerializedName("comments") p
     @SerializedName("updated") public String mUpdated;
     @SerializedName("created") public String mCreated;
 
-    private class Serivce {
+    public static class Serivce {
         @SerializedName("id") public int mId;
         @SerializedName("tititl") public String mTitle;
         @SerializedName("start_date") public String mStartDate;
@@ -35,7 +34,7 @@ public class CommunityDetail {
         @SerializedName("second_category") public String mSecondCategory;
         @SerializedName("first_register_office") public String mFirstRegisterOffice;
         @SerializedName("second_register_office") public String mSecondRegisterOffice;
-        @SerializedName("recruit_num_by_day") public int RecruitNumByDay;
+        @SerializedName("recruit_num_by_day") public int mRecruitNumByDay;
         @SerializedName("image") public String mImageUrl;
         @SerializedName("organization_id") public int mOrganiztionId;
         @SerializedName("url") public String mUrl;

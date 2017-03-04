@@ -1,9 +1,5 @@
 package com.vocketlist.android.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +23,6 @@ import com.vocketlist.android.presenter.VolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.VolunteerReadPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
-import com.vocketlist.android.util.SharePrefUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -117,7 +109,6 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		presenter = new VolunteerCategoryPresenter(this);
 		volunteerReadPresenter = new VolunteerReadPresenter(this);
 
-		String token = SharePrefUtil.getSharedPreference("token");
 		presenter.getVoketDetail(voketIndex);
 	}
 

@@ -15,30 +15,29 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
-import com.vocketlist.android.defined.Extras;
-import com.vocketlist.android.net.ServiceManager;
+import com.vocketlist.android.api.ServiceManager;
+import com.vocketlist.android.api.login.LoginModel;
+import com.vocketlist.android.api.login.UserServiceManager;
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
-import com.vocketlist.android.util.SharePrefUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 2..
@@ -151,15 +150,18 @@ public class FacebookLoginActivity extends BaseActivity {
 							Ln.i("LastName : " + lastName);
 							Ln.i("Gender : " + gender);
 
-							SharePrefUtil.putSharedPreference("email", email);
-							SharePrefUtil.putSharedPreference("imgUrl", imgUrl);
-							SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
 
 							String userInfo = object.toString();
 							String token = accessToken.getToken();
 							String userId = loginResult.getAccessToken().getUserId();
 
-							serviceManager.loginFb(userInfo, token, userId)
+							FacebookPreperence.getInstance().setEmail(email);
+							FacebookPreperence.getInstance().setUserImageUrl(imgUrl);
+							FacebookPreperence.getInstance().setUserName(lastName + firstName);
+							FacebookPreperence.getInstance().setUserInfo(object.toString());
+							FacebookPreperence.getInstance().setUserId(userId);
+
+							UserServiceManager.loginWithFacebook(userInfo, token, userId)
 									.observeOn(AndroidSchedulers.mainThread())
 									.doOnTerminate(new Action0() {
 										@Override
@@ -168,40 +170,20 @@ public class FacebookLoginActivity extends BaseActivity {
 											finish();
 										}
 									})
-									.subscribe(new Subscriber<Response<ResponseBody>>() {
+									.subscribe(new Subscriber<Response<BaseResponse<LoginModel>>>() {
 										@Override
 										public void onCompleted() {
-											//완료 되었을시 페북 정보 클라이언트에 저장
-//											SharePrefUtil.putSharedPreference("email", email);
-//											SharePrefUtil.putSharedPreference("imgUrl", imgUrl);
-//											SharePrefUtil.putSharedPreference("fullName", lastName + firstName);
-											ServiceManager manager = new ServiceManager();
-
 											//완료되었을시 fcm 토큰을 발행하고 서버에 등록시킨다.
-											String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-											manager.registerFcmToken(refreshedToken);
 
 										}
 
 										@Override
 										public void onError(Throwable e) {
-											e.printStackTrace();
+
 										}
 
 										@Override
-										public void onNext(Response<ResponseBody> responseBodyResponse) {
-											try {
-												String json = responseBodyResponse.body().string();
-												JsonObject obj = (JsonObject) new JsonParser().parse(json);
-												JsonObject jsonObject = (JsonObject) obj.get("result");
-												//페북 로그인시 서버에서 내려주는 100줄짜리 토큰
-												String token = jsonObject.getAsJsonPrimitive("token").getAsString();
-												SharePrefUtil.putSharedPreference("token", token);
-
-											} catch (IOException e) {
-												e.printStackTrace();
-											}
-
+										public void onNext(Response<BaseResponse<LoginModel>> baseResponseResponse) {
 										}
 									});
 

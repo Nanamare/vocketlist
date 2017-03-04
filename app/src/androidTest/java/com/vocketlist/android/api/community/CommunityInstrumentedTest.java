@@ -2,10 +2,11 @@ package com.vocketlist.android.api.community;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.vocketlist.android.api.ServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.community.CommunityDetail;
 import com.vocketlist.android.dto.community.CommunityList;
-import com.vocketlist.android.net.CommunityServiceManager;
+import com.vocketlist.android.api.CommunityServiceManager;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import org.junit.Before;
@@ -33,6 +34,9 @@ public class CommunityInstrumentedTest {
     @Before
     public void setup() {
         mListResponse = null;
+        mDetailResponse = null;
+
+        ServiceManager.mockInterceptor.setResponse(null);
 
         RxJavaPlugins.getInstance().reset();
         RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
@@ -42,7 +46,6 @@ public class CommunityInstrumentedTest {
             }
         });
     }
-
 
     @Test
     public void 커뮤니티_정보_가져오기() {
@@ -67,11 +70,26 @@ public class CommunityInstrumentedTest {
 
         assertNotNull(mListResponse);
         assertTrue(mListResponse.mSuccess);
+        assertNotNull(mListResponse.mResult);
+        assertTrue(mListResponse.mResult.mCount == mListResponse.mResult.mData.size());
+        assertTrue(mListResponse.mResult.mPageNumber == 1);
+
+        for (CommunityList.CommunityData communityData : mListResponse.mResult.mData) {
+            assertNotNull(communityData.mAuthor);
+            assertNotNull(communityData.mContent);
+            assertNotNull(communityData.mCreateDate);
+            assertNotNull(communityData.mImageUrl);
+            assertNotNull(communityData.mUpdateDate);
+
+            assertTrue(communityData.mAuthor.mId >= 0);
+            assertNotNull(communityData.mAuthor.mEmail);
+        }
     }
 
     @Test
     public void 커뮤니티_상세_정보() {
-        CommunityServiceManager.detail(4)
+        final int communityId = 4;
+        CommunityServiceManager.detail(communityId)
                 .subscribe(new Subscriber<Response<BaseResponse<CommunityDetail>>>() {
                     @Override
                     public void onCompleted() {
@@ -91,5 +109,25 @@ public class CommunityInstrumentedTest {
 
         assertNotNull(mDetailResponse);
         assertTrue(mDetailResponse.mSuccess);
+
+        assertNotNull(mDetailResponse.mResult);
+        assertTrue(mDetailResponse.mResult.mId == communityId);
+        assertNotNull(mDetailResponse.mResult.mAuthor);
+        assertNotNull(mDetailResponse.mResult.mContent);
+        assertNotNull(mDetailResponse.mResult.mCreated);
+        assertTrue(mDetailResponse.mResult.mLikeCount >= 0);
+        assertNotNull(mDetailResponse.mResult.mService);
+        assertNotNull(mDetailResponse.mResult.mUpdated);
+
+        assertTrue(mDetailResponse.mResult.mAuthor.mId >= 0);
+        assertNotNull(mDetailResponse.mResult.mAuthor.mEmail);
+
+        assertTrue(mDetailResponse.mResult.mService.mId >= 0);
+        assertNotNull(mDetailResponse.mResult.mService.mTitle);
+        assertNotNull(mDetailResponse.mResult.mService.mContent);
+        assertNotNull(mDetailResponse.mResult.mService.mActiveDay);
+        assertNotNull(mDetailResponse.mResult.mService.mEndDate);
+        assertNotNull(mDetailResponse.mResult.mService.mFirestCategory);
+        assertTrue(mDetailResponse.mResult.mService.mOrganiztionId >= 0);
     }
 }
