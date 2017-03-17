@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -17,14 +16,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -75,33 +72,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 
-
+		FirebaseCrash.log("Activity created");
 		FirebaseMessaging.getInstance().subscribeToTopic("news");
 		FirebaseMessaging.getInstance().subscribeToTopic("reports");
-		//
-		setSupportActionBar(mToolbar);
+
 		setRootActivity(true);
 
-		// 헤더 CI 적용
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
-		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		getSupportActionBar().setCustomView(
-				getLayoutInflater().inflate(R.layout.appbar_title, null),
-				new ActionBar.LayoutParams(
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						Gravity.CENTER
-				)
-		);
-
 		initViews();
-		FirebaseCrash.log("Activity created");
 
 		//런칭시 팝업창
-		if (!NoticePreference.getInstance().isToday()) dialogIntroduce();
+		if (!NoticePreference.getInstance().isToday()) {
+			dialogIntroduce();
+		}
 	}
 
 	/**
@@ -123,12 +109,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	}
 
 	private void initViews() {
+		initToolbar();
 		initDrawer();
 		initBottomNavigation();
 
 		mNavigationView.setNavigationItemSelectedListener(this);
 		NavigationDrawerView headerView = (NavigationDrawerView) mNavigationView.getHeaderView(0);
 		headerView.setFragmentManager(getSupportFragmentManager(), new DrawerMenuFragment());
+	}
+
+	private void initToolbar() {
+		// 헤더 CI 적용
+		setSupportActionBar(mToolbar);
+
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				getLayoutInflater().inflate(R.layout.appbar_title, null),
+				new ActionBar.LayoutParams(
+						ActionBar.LayoutParams.WRAP_CONTENT,
+						ActionBar.LayoutParams.WRAP_CONTENT,
+						Gravity.CENTER
+				)
+		);
 	}
 
 	private void initDrawer() {
@@ -143,7 +146,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	private void initBottomNavigation() {
 		bottomBar.setOnTabSelectListener(this, true);
 
-		//
 		goToFragment(VolunteerFragment.class);
 	}
 

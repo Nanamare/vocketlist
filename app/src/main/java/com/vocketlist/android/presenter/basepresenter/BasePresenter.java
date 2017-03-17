@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.basepresenter;
+package com.vocketlist.android.presenter.basepresenter;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;

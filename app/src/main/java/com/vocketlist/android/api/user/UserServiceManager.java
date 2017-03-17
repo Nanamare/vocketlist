@@ -1,10 +1,13 @@
 package com.vocketlist.android.api.user;
 
+import android.text.TextUtils;
+
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.api.LoginInterceptor;
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.common.helper.DeviceHelper;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.executor.Priority;
@@ -57,6 +60,8 @@ public final class UserServiceManager {
                     public Response<BaseResponse<LoginModel>> call(Response<BaseResponse<LoginModel>> responseBodyResponse) {
                         LoginInterceptor.setLoginToken(responseBodyResponse.body().mResult.mToken);
 
+                        // 정상적으로 로그인이되었으면 서버에 토큰 정보를 전달한다.
+                        // todo : 토큰 정보 전달시 실패되는 경우에 대하여 고려가 필요하다.
                         UserServiceManager
                                 .registerFcmToken(FirebaseInstanceId.getInstance().getToken())
                                 .subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>());
@@ -64,5 +69,17 @@ public final class UserServiceManager {
                         return responseBodyResponse;
                     }
                 });
+    }
+
+    public static boolean isLogin() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null
+                && accessToken.isExpired() == false
+                && !TextUtils.isEmpty(LoginInterceptor.getLoginToken());
+    }
+
+    public static void logout() {
+        LoginManager.getInstance().logOut();
+        LoginInterceptor.setLoginToken(null);
     }
 }

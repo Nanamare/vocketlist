@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.basepresenter;
+package com.vocketlist.android.presenter.basepresenter;
 
 /**
  * Created by kinamare on 2017-02-16.
