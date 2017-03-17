@@ -95,6 +95,21 @@ public class UserInfoService_Test {
     }
 
     @Test
+    public void 페이스북_비로그인_상태에서_vocketlist_서비스_autoLogin_시도_Test() {
+        UserServiceManager.autoLogin()
+                .subscribe(new EmptySubscriber<Response<BaseResponse<LoginModel>>>() {
+                    @Override
+                    public void onNext(Response<BaseResponse<LoginModel>> baseResponseResponse) {
+                        super.onNext(baseResponseResponse);
+
+                        mLoginModel = baseResponseResponse.body().mResult;
+                    }
+                });
+
+        assertNull(mLoginModel);
+    }
+
+    @Test
     public void 서비스_로그인된_상태에서_FCM_토큰_등록_Test() {
         페이스북_로그인된_상황에서_vocketlist_서비스에_로그인_시도_Test();
 

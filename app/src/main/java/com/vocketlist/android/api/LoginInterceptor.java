@@ -2,6 +2,8 @@ package com.vocketlist.android.api;
 
 import android.text.TextUtils;
 
+import com.vocketlist.android.roboguice.log.Ln;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -16,6 +18,8 @@ public class LoginInterceptor implements Interceptor {
 
     public static synchronized void setLoginToken(String token) {
         mLoginToken = token;
+
+        Ln.i("setLoginToken : " + token);
     }
 
     public static String getLoginToken() {

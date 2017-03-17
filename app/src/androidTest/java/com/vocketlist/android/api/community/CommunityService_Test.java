@@ -129,4 +129,9 @@ public class CommunityService_Test {
         assertNotNull(mDetailResponse.mResult.mService.mFirestCategory);
         assertTrue(mDetailResponse.mResult.mService.mOrganiztionId >= 0);
     }
+
+    @Test
+    public void 커뮤니티_내용_작성() {
+
+    }
 }

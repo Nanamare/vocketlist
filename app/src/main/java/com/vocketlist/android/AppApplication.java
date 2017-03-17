@@ -5,8 +5,14 @@ import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
+import com.vocketlist.android.api.user.LoginModel;
+import com.vocketlist.android.api.user.UserServiceManager;
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.network.utils.NetworkState;
 import com.vocketlist.android.roboguice.log.Ln;
+
+import retrofit2.Response;
 
 /**
  * Created by lsit on 2017. 1. 30..
@@ -21,6 +27,12 @@ public class AppApplication extends Application {
         this.instance = this;
 
         inits();
+        tryAutoLogin();
+    }
+
+    private void tryAutoLogin() {
+        UserServiceManager.autoLogin()
+                .subscribe(new EmptySubscriber<Response<BaseResponse<LoginModel>>>());
     }
 
     private void inits() {

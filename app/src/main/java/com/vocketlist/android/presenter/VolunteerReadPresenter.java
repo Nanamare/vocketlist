@@ -1,11 +1,10 @@
 package com.vocketlist.android.presenter;
 
-import com.vocketlist.android.api.basepresenter.BasePresenter;
+import com.vocketlist.android.presenter.basepresenter.BasePresenter;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

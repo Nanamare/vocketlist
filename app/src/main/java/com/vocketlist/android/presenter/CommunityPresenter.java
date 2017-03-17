@@ -3,7 +3,7 @@ package com.vocketlist.android.presenter;
 import com.vocketlist.android.dto.Post;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.basepresenter.BasePresenter;
+import com.vocketlist.android.presenter.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
 

@@ -16,10 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.facebook.AccessToken;
-import com.facebook.login.LoginManager;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.FacebookLoginActivity;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.RequestCode;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -72,7 +71,7 @@ public class DrawerMenuFragment extends Fragment {
     }
 
     private void refreshUserInfo() {
-        if (isLogined()) {
+        if (UserServiceManager.isLogin()) {
             switchLogin();
         } else {
             switchLogout();
@@ -90,7 +89,7 @@ public class DrawerMenuFragment extends Fragment {
 
     @OnClick(R.id.btnLogout)
     protected void onClickLogoutBtn() {
-        LoginManager.getInstance().logOut();
+        UserServiceManager.logout();
         refreshUserInfo();
     }
 
@@ -116,11 +115,6 @@ public class DrawerMenuFragment extends Fragment {
 
         // 이름
         tvName.setText(fullName);
-    }
-
-    private boolean isLogined() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        return accessToken != null && accessToken.isExpired() == false;
     }
 
     private void switchLogin() {
