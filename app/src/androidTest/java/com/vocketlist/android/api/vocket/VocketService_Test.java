@@ -27,11 +27,13 @@ import static junit.framework.Assert.assertTrue;
 public class VocketService_Test {
     private BaseResponse<Volunteer> mVolunteer;
     private BaseResponse<VolunteerDetail> mDetail;
+    private BaseResponse<Participate> mParticipate;
 
     @Before
     public void setup() {
         mVolunteer = null;
         mDetail = null;
+        mParticipate = null;
 
         ServiceDefine.mockInterceptor.setResponse(null);
 
@@ -47,7 +49,7 @@ public class VocketService_Test {
     @Test
     public void vocket_카테고리_별_리스트_가져오기_Test() {
         final int pageNum = 1;
-        VocketServiceManager.getVocketList(Category.All, pageNum)
+        VocketServiceManager.getVocketList(Category.Activity, pageNum)
                 .subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
                     @Override
                     public void onCompleted() {
@@ -115,8 +117,27 @@ public class VocketService_Test {
     }
 
     @Test
-    public void applyVolunteer_Test() {
-//        VocketServiceManager.applyVolunteer()
-        assertNotNull("VocketServiceManager.applyVolunteer()의 역할이 뭔지 몰라 테스트 하지 못하였습니다", null);
+    public void 보킷리스트_봉사_신청_또는_취소_Test() {
+        vocket_카테고리_별_리스트_가져오기_Test();
+
+        VocketServiceManager.applyVolunteer(mVolunteer.mResult.mDataList.get(0).mId, "임승택", "010-3839-3981")
+                .subscribe(new Subscriber<Response<BaseResponse<Participate>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<Participate>> participate) {
+                        mParticipate = participate.body();
+                    }
+                });
+
+        assertNotNull(mParticipate);
     }
 }

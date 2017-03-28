@@ -144,7 +144,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 					dialog.dismiss();
 
 					//presenter 자리
-					volunteerReadPresenter.applyVolunteer(name.getText().toString(), email.getText().toString(), vocketIndex);
+					volunteerReadPresenter.applyVolunteer(vocketIndex, name.getText().toString(), email.getText().toString());
 				}
 
 			});

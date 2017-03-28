@@ -5,5 +5,5 @@ package com.vocketlist.android.presenter.ipresenter;
  */
 
 public interface IVolunteerReadPresenter {
-	void applyVolunteer(String name, String phone, int service_id);
+	void applyVolunteer(int service_id, String name, String phone);
 }
