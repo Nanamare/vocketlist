@@ -1,8 +1,10 @@
 package com.vocketlist.android.presenter;
 
-import com.vocketlist.android.presenter.basepresenter.BasePresenter;
+import com.vocketlist.android.api.vocket.Participate;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
+import com.vocketlist.android.presenter.basepresenter.BasePresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 
 import retrofit2.Response;
@@ -23,22 +25,22 @@ public class VolunteerReadPresenter extends BasePresenter implements IVolunteerR
 
 
 	@Override
-	public void applyVolunteer(String name, String phone,int service_id) {
-		VocketServiceManager.applyVolunteer(name, phone,service_id)
+	public void applyVolunteer(int service_id, String name, String phone) {
+		VocketServiceManager.applyVolunteer(service_id, name, phone)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<Void>>() {
+				.subscribe(new Subscriber<Response<BaseResponse<Participate>>>() {
 					@Override
 					public void onCompleted() {
-						view.showCompleteDialog();
+
 					}
 
 					@Override
 					public void onError(Throwable e) {
-						e.printStackTrace();
+
 					}
 
 					@Override
-					public void onNext(Response<Void> responseBodyResponse) {
+					public void onNext(Response<BaseResponse<Participate>> baseResponseResponse) {
 						onCompleted();
 					}
 				});
