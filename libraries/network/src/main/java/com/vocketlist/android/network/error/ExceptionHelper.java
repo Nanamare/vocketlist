@@ -29,7 +29,7 @@ public final class ExceptionHelper {
         Throwable cause = throwable;
 
         while (cause.getCause() != null) {
-            cause = throwable.getCause();
+            cause = cause.getCause();
         }
 
         return cause.getMessage();

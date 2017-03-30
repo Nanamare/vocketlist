@@ -38,9 +38,9 @@ interface CommunityService {
 											, @Field("content") String content
 											, @Field("vocketType") String vocketType);
 
-//	글 좋아요 / 취소
-//	@POST("posts/like/{post_id}")
-//	Observable<Response<BaseResponse<>>> like(@Path("post_id") String postId);
+	// 글 좋아요 / 취소
+	@POST("posts/like/{post_id}")
+	Observable<Response<BaseResponse<CommunityLike>>> like(@Path("post_id") int postId);
 
 	// 등록된 글 수정
 	@PUT("posts/{id}/")

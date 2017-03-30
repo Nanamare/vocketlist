@@ -36,4 +36,10 @@ public final class CommunityServiceManager {
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityDetail>()));
     }
+
+    public static Observable<Response<BaseResponse<CommunityLike>>> like(int postId) {
+        return service.like(postId)
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityLike>()));
+    }
 }

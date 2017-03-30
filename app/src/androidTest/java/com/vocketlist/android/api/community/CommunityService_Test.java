@@ -29,11 +29,13 @@ import static junit.framework.Assert.assertTrue;
 public class CommunityService_Test {
     private BaseResponse<CommunityList> mListResponse;
     private BaseResponse<CommunityDetail> mDetailResponse;
+    private BaseResponse<CommunityLike> mLikeResponse;
 
     @Before
     public void setup() {
         mListResponse = null;
         mDetailResponse = null;
+        mLikeResponse = null;
 
         ServiceDefine.mockInterceptor.setResponse(null);
 
@@ -63,7 +65,7 @@ public class CommunityService_Test {
                     @Override
                     public void onNext(Response<BaseResponse<CommunityList>> baseResponseResponse) {
                         mListResponse = baseResponseResponse.body();
-                    };
+                    }
 
                 });
 
@@ -77,7 +79,7 @@ public class CommunityService_Test {
             assertNotNull(communityData.mAuthor);
             assertNotNull(communityData.mContent);
             assertNotNull(communityData.mCreateDate);
-            assertNotNull(communityData.mImageUrl);
+//            assertNotNull(communityData.mImageUrl);
             assertNotNull(communityData.mUpdateDate);
 
             assertTrue(communityData.mAuthor.mId >= 0);
@@ -133,5 +135,35 @@ public class CommunityService_Test {
     @Test
     public void 커뮤니티_내용_작성() {
 
+    }
+
+    @Test
+    public void 커뮤니티_좋아요_싫어요_테스트() {
+        커뮤니티_정보_가져오기();
+
+        CommunityList.CommunityData communityData = mListResponse.mResult.mData.get(0);
+
+        CommunityServiceManager.like(communityData.mId)
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityLike>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityLike>> baseResponseResponse) {
+                        mLikeResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mLikeResponse);
+        assertTrue(mLikeResponse.mSuccess);
+        assertNotNull(mLikeResponse.mResult);
+//        assertTrue(communityData.mId == mLikeResponse.mResult.mPost); // 차후 post는 int로 변경될 예정..
     }
 }
