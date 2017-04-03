@@ -11,12 +11,12 @@ import java.util.List;
  */
 
 public class CommunityList implements Serializable {
+    @SerializedName("page_count") public int mPageCnt;
     @SerializedName("count") public int mCount;
-    @SerializedName("page_count") public int mPageCount;
-    @SerializedName("page_current") public int mPageNumber;
+    @SerializedName("data") public List<CommunityData> mData;
     @SerializedName("page_size") public int mPageSize;
     @SerializedName("links") public Link mLinks;
-    @SerializedName("data") public List<CommunityData> mData;
+    @SerializedName("page_current") public int mPageCurrentCnt;
 
     public static class CommunityData implements Serializable  {
         @SerializedName("id") public int mId;

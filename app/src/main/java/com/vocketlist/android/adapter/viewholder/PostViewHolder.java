@@ -5,14 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
-import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.preference.FacebookPreperence;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,6 +45,8 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
+
+		private CommunityList.CommunityData communityData;
     private RecyclerViewItemClickListener mListener;
 
     /**
@@ -52,24 +59,123 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
         itemView.setOnClickListener(this);
     }
 
-    @NonNull
-    @Override
-    public <T extends Serializable> void bind(T data) {
-        if (data instanceof Post) {
-            Post post = (Post) data;
+	@NonNull
+	@Override
+	public <T extends Serializable> void bind(T data) {
+		if (data instanceof CommunityList.CommunityData) {
+			communityData = (CommunityList.CommunityData) data;
+			if (!TextUtils.isEmpty(FacebookPreperence.getInstance().getUserImageUrl())) {
+				// 작성자 : 프로필 : 사진
+				Glide.with(context)
+						.load("")
+						.centerCrop()
+						.placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
+						.crossFade()
+						.into(civPhoto);
+			}
+			tvName.setText(communityData.mAuthor.mName);
+			//tvVolunteer.setText(communityData.);
+			if (!TextUtils.isEmpty(communityData.mImageUrl)) {
+				Glide.with(context)
+						.load(communityData.mImageUrl)
+						.into(ivPhoto);
+			}
 
-            // 작성자 : 프로필 : 사진
-            Glide.with(context)
-                    .load("")
-                    .centerCrop()
-                    .placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
-                    .crossFade()
-                    .into(civPhoto);
-        }
-    }
+			btnFavorite.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
 
-    @Override
-    public void onClick(View v) {
-        if(mListener != null) mListener.onItemClick(v, getAdapterPosition());
-    }
+				}
+			});
+
+			btnComment.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+
+				}
+			});
+
+			btnFacebook.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+
+				}
+			});
+
+			btnKakaolink.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+
+				}
+			});
+
+			//tvCount.setText("좋아요 " + communityData.);
+
+			tvComments.setText(communityData.mContent);
+
+			tvCommentMore.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+
+				}
+			});
+
+			String createdDate = communityData.mCreateDate;
+			DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			try {
+				Date time = format.parse(createdDate);
+				tvCreated.setText(calculateTime(time));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+
+		}
+	}
+
+	private static class TIME_MAXIMUM {
+		public static final int SEC = 60;
+		public static final int MIN = 60;
+		public static final int HOUR = 24;
+		public static final int DAY = 30;
+		public static final int MONTH = 12;
+	}
+
+	public String calculateTime(Date date) {
+
+		long curTime = System.currentTimeMillis();
+		long regTime = date.getTime();
+		long diffTime = (curTime - regTime) / 1000;
+
+		String msg = null;
+
+		if (diffTime < TIME_MAXIMUM.SEC) {
+			// sec
+			msg = diffTime + "초전";
+		} else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
+			// min
+			System.out.println(diffTime);
+
+			msg = diffTime + "분전";
+		} else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
+			// hour
+			msg = (diffTime) + "시간전";
+		} else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
+			// day
+			msg = (diffTime) + "일전";
+		} else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
+			// day
+			msg = (diffTime) + "달전";
+		} else {
+			msg = (diffTime) + "년전";
+		}
+
+		return msg;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(mListener != null) mListener.onItemClick(v, getAdapterPosition());
+	}
+
 }

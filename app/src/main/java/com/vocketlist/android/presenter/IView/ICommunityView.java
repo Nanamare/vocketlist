@@ -9,5 +9,4 @@ import java.util.List;
  */
 
 public interface ICommunityView {
-	void getCommunityList(List<Post> communityList);
 }

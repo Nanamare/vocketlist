@@ -8,19 +8,25 @@ import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
+import com.vocketlist.android.api.Link;
+import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
-import com.vocketlist.android.dto.Links;
-import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
-import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * Created by kinamare on 2017-02-20.
@@ -33,9 +39,9 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 	private PostAdapter adapter;
 	private ICommunityPresenter presenter;
-
-	private Links links;
-
+	private Link links;
+	private int communityListPgCnt = 1;
+	private int page = 1;
 	/**
 	 * 인스턴스
 	 *
@@ -61,19 +67,50 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		if (c != null && c instanceof CommunityCategory) {
 			CommunityCategory category = (CommunityCategory) c;
 
-			// 더미
-			List<Post> dummy = new ArrayList<>();
-			for (int i = 0; i < 20; i++) {
-				dummy.add(new Post());
-			}
-
-			//
-			recyclerView.setAdapter(adapter = new PostAdapter(dummy, this));
-
-			presenter = new CommunityPresenter(this);
-			presenter.getCommunityList();
+			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>()));
+			requestCommunityList(communityListPgCnt++);
 		}
 	}
+
+	private void requestCommunityList(int pageNum) {
+		CommunityServiceManager.list(pageNum)
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideRefreshView();
+					}
+				})
+				.subscribe(new Subscriber<Response<BaseResponse<CommunityList>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						Ln.e(e, "getCommunityList : " + e.toString());
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<CommunityList>> baseResponseResponse) {
+						setCommunityList(baseResponseResponse.body());
+					}
+				});
+
+	}
+
+	private void hideRefreshView() {
+		recyclerView.setRefreshing(false);
+		recyclerView.hideMoreProgress();
+	}
+
+	private void setCommunityList(BaseResponse<CommunityList> communityList) {
+		adapter.addAll(communityList.mResult.mData);
+		page = communityList.mResult.mPageCurrentCnt;
+		links = communityList.mResult.mLinks;
+	}
+
 
 	@Override
 	protected int getLayoutId() {
@@ -104,12 +141,5 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	@Override
 	public void onItemClick(View v, int position) {
 
-	}
-
-	@Override
-	public void getCommunityList(List<Post> communityList) {
-		adapter.clear();
-		adapter.addAll(communityList);
-		adapter.notifyDataSetChanged();
 	}
 }

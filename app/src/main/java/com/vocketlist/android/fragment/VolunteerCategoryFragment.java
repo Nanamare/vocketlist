@@ -43,10 +43,8 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 	@BindDimen(R.dimen.volunteer_category_grid_space) protected int space;
 
 	private VolunteerCategoryAdapter adapter;
-
 	private Category category = Category.All;
 	private int page = 1;
-
 	private Link link;
 
 	/**
@@ -101,9 +99,9 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 	}
 
 	private void requestVocketList(int pageNum, Category category) {
-		if (recyclerView.isLoadingMore()) {
-			return;
-		}
+//		if (recyclerView.isLoadingMore()) {
+//			return;
+//		}
 
 		VocketServiceManager.getVocketList(category, pageNum)
 				.observeOn(AndroidSchedulers.mainThread())
