@@ -3,6 +3,7 @@ package com.vocketlist.android.api.community;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.vocketlist.android.api.ServiceDefine;
+import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityList;

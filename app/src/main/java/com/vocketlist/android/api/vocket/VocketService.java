@@ -19,7 +19,7 @@ import rx.Observable;
 interface VocketService {
 
 	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("category") Category category, @Query("page")int page);
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category, @Query("page")int page);
 
 	@GET("services/detail/{vocketIdx}/")
 	Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(@Path("vocketIdx") int vocketIdx);

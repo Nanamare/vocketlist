@@ -1,4 +1,4 @@
-package com.vocketlist.android.api.community;
+package com.vocketlist.android.api.community.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class CommunityLike {
-    @SerializedName("post") public String mPost;
+    @SerializedName("post_id") public int mPost;
     @SerializedName("is_like") public boolean mIsLike;
-    @SerializedName("user") public int mUser;
+    @SerializedName("user_id") public int mUser;
 }
