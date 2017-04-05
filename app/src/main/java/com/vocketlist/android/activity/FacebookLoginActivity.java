@@ -128,7 +128,6 @@ public class FacebookLoginActivity extends BaseActivity {
 
 
 							Profile profile = Profile.getCurrentProfile();
-//							String id = profile.getId();
 							String link = profile.getLinkUri().toString();
 							Ln.i("Link : " + link);
 							String imgUrl = "";

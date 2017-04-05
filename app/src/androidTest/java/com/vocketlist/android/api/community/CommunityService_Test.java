@@ -3,10 +3,11 @@ package com.vocketlist.android.api.community;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.community.model.CommunityLike;
-import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.community.model.CommunityDetail;
+import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
+import com.vocketlist.android.api.community.model.CommunityWrite;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import org.junit.Before;
@@ -31,12 +32,14 @@ public class CommunityService_Test {
     private BaseResponse<CommunityList> mListResponse;
     private BaseResponse<CommunityDetail> mDetailResponse;
     private BaseResponse<CommunityLike> mLikeResponse;
+    private BaseResponse<CommunityWrite> mWriteResponse;
 
     @Before
     public void setup() {
         mListResponse = null;
         mDetailResponse = null;
         mLikeResponse = null;
+        mWriteResponse = null;
 
         ServiceDefine.mockInterceptor.setResponse(null);
 
@@ -78,9 +81,8 @@ public class CommunityService_Test {
 
         for (CommunityList.CommunityData communityData : mListResponse.mResult.mData) {
             assertNotNull(communityData.mAuthor);
-            assertNotNull(communityData.mContent);
+//            assertNotNull(communityData.mContent);
             assertNotNull(communityData.mCreateDate);
-//            assertNotNull(communityData.mImageUrl);
             assertNotNull(communityData.mUpdateDate);
 
             assertTrue(communityData.mAuthor.mId >= 0);
@@ -90,7 +92,9 @@ public class CommunityService_Test {
 
     @Test
     public void 커뮤니티_상세_정보() {
-        final int communityId = 4;
+        커뮤니티_정보_가져오기();
+        final int communityId = mListResponse.mResult.mData.get(0).mId;
+
         CommunityServiceManager.detail(communityId)
                 .subscribe(new Subscriber<Response<BaseResponse<CommunityDetail>>>() {
                     @Override
@@ -118,24 +122,79 @@ public class CommunityService_Test {
         assertNotNull(mDetailResponse.mResult.mContent);
         assertNotNull(mDetailResponse.mResult.mCreated);
         assertTrue(mDetailResponse.mResult.mLikeCount >= 0);
-        assertNotNull(mDetailResponse.mResult.mService);
         assertNotNull(mDetailResponse.mResult.mUpdated);
 
         assertTrue(mDetailResponse.mResult.mAuthor.mId >= 0);
         assertNotNull(mDetailResponse.mResult.mAuthor.mEmail);
-
-        assertTrue(mDetailResponse.mResult.mService.mId >= 0);
-        assertNotNull(mDetailResponse.mResult.mService.mTitle);
-        assertNotNull(mDetailResponse.mResult.mService.mContent);
-        assertNotNull(mDetailResponse.mResult.mService.mActiveDay);
-        assertNotNull(mDetailResponse.mResult.mService.mEndDate);
-        assertNotNull(mDetailResponse.mResult.mService.mFirestCategory);
-        assertTrue(mDetailResponse.mResult.mService.mOrganiztionId >= 0);
     }
 
     @Test
-    public void 커뮤니티_내용_작성() {
+    public void 커뮤니티_내용_작성_모든_정보() {
+        CommunityServiceManager.write(1, "/mnt/sdcard/test.jpg", "test")
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+                        mWriteResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mWriteResponse);
+    }
+
+    @Test
+    public void 커뮤니티_내용_작성_이미지제외() {
+        CommunityServiceManager.write(1, null, "test")
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+                        mWriteResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mWriteResponse);
+    }
+
+    @Test
+    public void 커뮤니티_내용_작성_내용_제외() {
+        CommunityServiceManager.write(1, "/mnt/sdcard/test.jpg", null)
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+                        mWriteResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mWriteResponse);
     }
 
     @Test
