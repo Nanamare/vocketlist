@@ -23,6 +23,13 @@
     <!-- 커뮤니티 : 첨부파일 -->
     <dimen name="attachment_height">202.5dp</dimen>
 
+    <!-- 공지사항 -->
+    <dimen name="notice_header_height">48dp</dimen>
+    <dimen name="notice_header_padding">16dp</dimen>
+
+    <!-- CI : Gray : inset-->
+    <dimen name="ci_gray_inset">150dp</dimen>
+
 
     <!-- 폰트 크기 -->
     <dimen name="font_25">8.3sp</dimen>

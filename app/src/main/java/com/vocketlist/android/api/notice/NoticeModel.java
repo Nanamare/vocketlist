@@ -17,6 +17,7 @@ public class NoticeModel {
         @SerializedName("id") public int mId;
         @SerializedName("title") public String mTitle;
         @SerializedName("content") public String mContent;
+        @SerializedName("photo") public String mPhoto;
         @SerializedName("link") public String mLink;
         @SerializedName("timestamp") public String timestamp;
     }

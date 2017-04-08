@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import retrofit2.Response;
 import rx.Scheduler;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
@@ -49,6 +51,7 @@ public class Notice_InstrumentedTest {
                 "\t\t  \t\"id\": 1,\n" +
                 "\t\t  \t\"title\": \"첫번째 타이틀\",\n" +
                 "\t\t  \t\"content\": \"내용\",\n" +
+                "\t\t  \t\"photo\": \"https://source.unsplash.com/category/nature\",\n" +
                 "\t\t  \t\"link\": \"http://www.naver.com\",\n" +
                 "\t\t  \t\"timestamp\": \"2017.04.01\"\n" +
                 "\t  \t},\n" +
@@ -57,6 +60,7 @@ public class Notice_InstrumentedTest {
                 "\t\t  \t\"id\": 2,\n" +
                 "\t\t  \t\"title\": \"첫번째 타이틀\",\n" +
                 "\t\t  \t\"content\": \"내용\",\n" +
+                "\t\t  \t\"photo\": \"https://source.unsplash.com/category/nature\",\n" +
                 "\t\t  \t\"link\": \"http://www.naver.com\",\n" +
                 "\t\t  \t\"timestamp\": \"2017.04.01\"\n" +
                 "\t  \t}\n" +
@@ -67,6 +71,13 @@ public class Notice_InstrumentedTest {
 
         ServiceDefine.mockInterceptor.setResponse(mockData);
         NoticeServiceManager.getNotice()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnTerminate(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        ServiceDefine.mockInterceptor.setResponse(null);
+//                    }
+//                })
                 .subscribe(new Subscriber<Response<BaseResponse<NoticeModel>>>() {
                     @Override
                     public void onCompleted() {

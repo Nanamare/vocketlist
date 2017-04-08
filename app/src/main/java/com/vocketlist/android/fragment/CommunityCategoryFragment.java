@@ -13,6 +13,7 @@ import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.Links;
 import com.vocketlist.android.dto.Post;
 import com.vocketlist.android.api.vocket.Volunteer;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.presenter.CommunityPresenter;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * 커뮤니티 : 카테고리
  */
-public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView {
+public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView, RecyclerViewItemClickListener {
 
 	private PostAdapter adapter;
 	private ICommunityPresenter presenter;
@@ -67,7 +68,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 			}
 
 			//
-			recyclerView.setAdapter(adapter = new PostAdapter(dummy));
+			recyclerView.setAdapter(adapter = new PostAdapter(dummy, this));
 
 			presenter = new CommunityPresenter(this);
 			presenter.getCommunityList();
@@ -98,6 +99,11 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 		// TODO 더보기
 		adapter.add(new Volunteer());
+	}
+
+	@Override
+	public void onItemClick(View v, int position) {
+
 	}
 
 	@Override

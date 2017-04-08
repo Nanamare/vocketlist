@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/notice_header_height"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/notice_header_padding"
+    android:paddingRight="@dimen/notice_header_padding">
+
+    <!-- 레이블 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvLabel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_48"
+        tools:text="보킷리스트 서비스가 오픈" />
+
+    <!-- 확장 아이콘 -->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivExpandIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/notice_header_padding"
+        android:alpha=".3"
+        android:src="@drawable/ic_action_expand_more"
+        android:tint="@color/material_grey900" />
+</LinearLayout>
