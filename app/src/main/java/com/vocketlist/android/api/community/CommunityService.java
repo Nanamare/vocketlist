@@ -4,14 +4,12 @@ import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
-import com.vocketlist.android.api.community.model.Modify;
 import com.vocketlist.android.dto.BaseResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -42,16 +40,12 @@ interface CommunityService {
 											, @Part("content") RequestBody content
 											, @Part("service_id") RequestBody serviceId);
 
-//	@Multipart
-//	@POST("posts/")
-//	Observable<Response<BaseResponse<CommunityWrite>>> write(@Part MultipartBody.Part image
-//															, @Part("content") RequestBody content);
-
 	// 커뮤니티 글 수정
 	@PUT("posts/{id}/")
-	Observable<Response<BaseResponse<Modify>>> modify(@Path("id") String contentId,
-													  @Part MultipartBody.Part image,
-													  @Field("content") String content);
+	Observable<Response<BaseResponse<CommunityWrite>>> modify(@Path("id") int contentId,
+													  @Part MultipartBody.Part image
+													, @Part("content") RequestBody content
+													, @Part("service_id") RequestBody serviceId);
 
 	// 커뮤니티 글 삭제
 	@DELETE("posts/{id}/")
