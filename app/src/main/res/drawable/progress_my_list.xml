@@ -9,6 +9,7 @@
                 android:centerY="0.75"
                 android:endColor="#0d1522"
                 android:startColor="#000001" />
+            <corners android:radius="3dp" />
         </shape>
     </item>
 
@@ -16,6 +17,7 @@
         <clip>
             <shape>
                 <solid android:color="@android:color/white" />
+                <corners android:radius="3dp" />
             </shape>
         </clip>
     </item>
@@ -24,8 +26,10 @@
         <clip>
             <shape>
                 <solid android:color="@color/point_E47B75" />
+                <corners android:radius="3dp" />
             </shape>
         </clip>
     </item>
+
 
 </layer-list>

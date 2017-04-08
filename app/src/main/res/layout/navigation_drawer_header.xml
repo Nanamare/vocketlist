@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="156dp"
     android:background="@android:color/transparent"
@@ -30,7 +31,7 @@
                 android:layout_width="83.3dp"
                 android:layout_height="83.3dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/ci_inset"
                 app:civ_border_color="@android:color/white"
                 app:civ_border_overlay="false"
@@ -44,16 +45,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="15.3dp"
                 android:layout_alignBottom="@+id/civPhoto"
-                android:layout_marginLeft="17dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="17dp"
                 android:layout_marginRight="17dp"
-                android:layout_toRightOf="@+id/civPhoto"
-                android:background="#7f7f7f"
+                android:layout_toEndOf="@+id/civPhoto"
+                android:background="@drawable/shape_bg_progress_my_list"
                 android:max="100"
                 android:padding="0.6dp"
-                android:progress="20"
                 android:progressDrawable="@drawable/progress_my_list"
-                android:secondaryProgress="100" />
+                android:secondaryProgress="100"
+                tools:progress="20" />
 
             <!-- 달성류 & 후기갯수 -->
             <android.support.v7.widget.AppCompatTextView
@@ -61,12 +62,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/pbGoal"
-                android:layout_alignLeft="@+id/pbGoal"
-                android:layout_alignRight="@+id/pbGoal"
+                android:layout_alignEnd="@+id/pbGoal"
+                android:layout_alignStart="@+id/pbGoal"
                 android:layout_marginBottom="5dp"
                 android:letterSpacing="0.05"
-                android:text="마이리스트 0건중 0건 완료"
-                android:textSize="@dimen/font_27" />
+                android:textSize="@dimen/font_27"
+                tools:text="@string/my_list_progress" />
 
             <!-- 이름 -->
             <android.support.v7.widget.AppCompatTextView
@@ -74,11 +75,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/tvProgress"
-                android:layout_alignLeft="@+id/pbGoal"
+                android:layout_alignStart="@+id/pbGoal"
                 android:layout_marginBottom="7dp"
-                android:text="Full name"
                 android:textColor="@color/point_424C57"
-                android:textSize="@dimen/font_45" />
+                android:textSize="@dimen/font_45"
+                tools:text="Full name" />
 
             <!-- 로그아웃 -->
             <android.support.v7.widget.AppCompatButton
@@ -88,8 +89,8 @@
                 android:layout_height="20dp"
                 android:layout_above="@+id/tvProgress"
                 android:layout_alignBottom="@+id/tvName"
+                android:layout_alignEnd="@+id/pbGoal"
                 android:layout_marginBottom="25dp"
-                android:layout_alignRight="@+id/pbGoal"
                 android:background="@drawable/bg_logout"
                 android:padding="5dp"
                 android:text="@string/logout"
@@ -102,20 +103,30 @@
     <!-- 일반 사용자 -->
     <RelativeLayout
         android:id="@+id/rlLogout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
         android:visibility="gone">
 
-        <android.support.v7.widget.AppCompatImageView
+        <!-- 로그인 버튼 -->
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <!-- 로그인 가이드 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-5dp"
-            android:src="@drawable/dummy_navi_login" />
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/guide_facebook_login"
+            android:textSize="@dimen/font_36" />
 
     </RelativeLayout>
 
