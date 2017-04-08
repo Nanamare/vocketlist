@@ -44,12 +44,6 @@ public final class CommunityServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityDetail>()));
     }
 
-    public static Observable<Response<BaseResponse<CommunityLike>>> like(int postId) {
-        return service.like(postId)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityLike>()));
-    }
-
     public static Observable<Response<BaseResponse<CommunityWrite>>> write(int vocketServiceId, String imagePath, String content) {
         MultipartBody.Part image = getMultipartBody(imagePath);
         RequestBody description = null;
@@ -64,6 +58,24 @@ public final class CommunityServiceManager {
         }
 
         return service.write(image, description, serviceId)
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityWrite>()));
+    }
+
+    public static Observable<Response<BaseResponse<CommunityWrite>>> modify(int communityId, int vocketServiceId, String imagePath, String content) {
+        MultipartBody.Part image = getMultipartBody(imagePath);
+        RequestBody description = null;
+        RequestBody serviceId = null;
+
+        if (content != null) {
+            description = RequestBody.create(okhttp3.MultipartBody.FORM, content);
+        }
+
+        if (vocketServiceId > 0) {
+            serviceId = RequestBody.create(okhttp3.MultipartBody.FORM, Integer.toString(vocketServiceId));
+        }
+
+        return service.modify(communityId, image, description, serviceId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityWrite>()));
     }
@@ -87,6 +99,12 @@ public final class CommunityServiceManager {
         return service.delete(postId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
+    }
+
+    public static Observable<Response<BaseResponse<CommunityLike>>> like(int postId) {
+        return service.like(postId)
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityLike>()));
     }
 
 }

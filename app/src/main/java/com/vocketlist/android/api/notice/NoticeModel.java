@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 4. 8.
  */
-public class Notice {
+public class NoticeModel {
     @SerializedName("id") public Integer mId;
     @SerializedName("title") public String mTitle;
     @SerializedName("content") public String mContent;
