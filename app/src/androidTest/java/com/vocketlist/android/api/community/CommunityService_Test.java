@@ -226,4 +226,29 @@ public class CommunityService_Test {
         assertNotNull(mLikeResponse.mResult);
 //        assertTrue(communityData.mId == mLikeResponse.mResult.mPost); // 차후 post는 int로 변경될 예정..
     }
+
+    @Test
+    public void 커뮤니티_내용_수정_테스트() {
+        커뮤니티_정보_가져오기();
+
+        CommunityServiceManager.modify(mListResponse.mResult.mData.get(0).mId , 1, "/mnt/sdcard/test.jpg", "test")
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+                        mWriteResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mWriteResponse);
+    }
 }
