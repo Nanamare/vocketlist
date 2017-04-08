@@ -33,7 +33,11 @@ public final class CommunityServiceManager {
     }
 
     public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo) {
-        return service.list(pageNo, DEAULT_PAGE_SIZE)
+        return search(pageNo, null);
+    }
+
+    public static Observable<Response<BaseResponse<CommunityList>>> search(int pageNo, String searchKeyword) {
+        return service.list(pageNo, DEAULT_PAGE_SIZE, searchKeyword)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityList>()));
     }

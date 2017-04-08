@@ -80,13 +80,13 @@ public class CommunityService_Test {
         assertTrue(mListResponse.mResult.mPageNumber == 1);
 
         for (CommunityList.CommunityData communityData : mListResponse.mResult.mData) {
-            assertNotNull(communityData.mAuthor);
+            assertNotNull(communityData.mUser);
 //            assertNotNull(communityData.mContent);
             assertNotNull(communityData.mCreateDate);
             assertNotNull(communityData.mUpdateDate);
 
-            assertTrue(communityData.mAuthor.mId >= 0);
-            assertNotNull(communityData.mAuthor.mEmail);
+            assertTrue(communityData.mUser.mId >= 0);
+            assertNotNull(communityData.mUser.mEmail);
         }
     }
 
@@ -118,14 +118,14 @@ public class CommunityService_Test {
 
         assertNotNull(mDetailResponse.mResult);
         assertTrue(mDetailResponse.mResult.mId == communityId);
-        assertNotNull(mDetailResponse.mResult.mAuthor);
+        assertNotNull(mDetailResponse.mResult.mUser);
         assertNotNull(mDetailResponse.mResult.mContent);
         assertNotNull(mDetailResponse.mResult.mCreated);
         assertTrue(mDetailResponse.mResult.mLikeCount >= 0);
         assertNotNull(mDetailResponse.mResult.mUpdated);
 
-        assertTrue(mDetailResponse.mResult.mAuthor.mId >= 0);
-        assertNotNull(mDetailResponse.mResult.mAuthor.mEmail);
+        assertTrue(mDetailResponse.mResult.mUser.mId >= 0);
+        assertNotNull(mDetailResponse.mResult.mUser.mEmail);
     }
 
     @Test
@@ -225,5 +225,30 @@ public class CommunityService_Test {
         assertTrue(mLikeResponse.mSuccess);
         assertNotNull(mLikeResponse.mResult);
 //        assertTrue(communityData.mId == mLikeResponse.mResult.mPost); // 차후 post는 int로 변경될 예정..
+    }
+
+    @Test
+    public void 커뮤니티_내용_수정_테스트() {
+        커뮤니티_정보_가져오기();
+
+        CommunityServiceManager.modify(mListResponse.mResult.mData.get(0).mId , 1, "/mnt/sdcard/test.jpg", "test")
+                .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Ln.e(e, "onError");
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+                        mWriteResponse = baseResponseResponse.body();
+                    }
+                });
+
+        assertNotNull(mWriteResponse);
     }
 }
