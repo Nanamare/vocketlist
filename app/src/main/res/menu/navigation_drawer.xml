@@ -18,11 +18,11 @@
             app:actionLayout="@layout/menu_count"/>
 
         <!-- 관심정보 모아보기 -->
-        <item
-            android:id="@+id/naviFavorite"
-            android:actionLayout="@layout/drawer_menu_favorite_list"
-            android:title="@string/favorite"
-            app:actionLayout="@layout/menu_count"/>
+        <!--<item-->
+            <!--android:id="@+id/naviFavorite"-->
+            <!--android:actionLayout="@layout/drawer_menu_favorite_list"-->
+            <!--android:title="@string/favorite"-->
+            <!--app:actionLayout="@layout/menu_count"/>-->
     </group>
 
     <group
