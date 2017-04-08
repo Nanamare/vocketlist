@@ -91,7 +91,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 						.crossFade()
 						.into(civPhoto);
 			}
-			tvName.setText(communityData.mAuthor.mName);
+			tvName.setText(communityData.mUser.mName);
 			//tvVolunteer.setText(communityData.);
 			if (!TextUtils.isEmpty(communityData.mImageUrl)) {
 				Glide.with(context)
@@ -144,10 +144,10 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			//댓글 보여주기
 			if(communityData.mComment != null) {
 				if (communityData.mComment.size() == 1) {
-					tvComment.setText(communityData.mComment.get(1).getContent());
+					tvComment.setText(communityData.mComment.get(1).mContent);
 				} else if (communityData.mComment.size() >= 2) {
-					tvComment.setText(communityData.mComment.get(1).getContent() + "\n" +
-							communityData.mComment.get(2).getContent());
+					tvComment.setText(communityData.mComment.get(1).mContent + "\n" +
+							communityData.mComment.get(2).mContent);
 				}
 			}
 

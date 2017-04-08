@@ -18,11 +18,10 @@ import rx.Observable;
 
 interface VocketService {
 
-	@FormUrlEncoded
 	@GET("services/list/")
 	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category,
 																		@Query("page")int page,
-																		@Field("search") String search);
+																		@Query( value = "search", encoded = true) String search);
 
 	@GET("services/detail/{vocketIdx}/")
 	Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(@Path("vocketIdx") int vocketIdx);

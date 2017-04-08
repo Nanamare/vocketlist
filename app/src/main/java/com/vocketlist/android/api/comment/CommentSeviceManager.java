@@ -44,10 +44,10 @@ public final class CommentSeviceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentWriteModel>()));
     }
 
-    public static Observable<Response<BaseResponse<CommentDeleteModel>>> delete(int commentId) {
+    public static Observable<Response<BaseResponse<Void>>> delete(int commentId) {
         return SERVICE.delete(commentId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentDeleteModel>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
     }
 
     public static Observable<Response<BaseResponse<CommentDetailModel>>> detail(int commentId) {

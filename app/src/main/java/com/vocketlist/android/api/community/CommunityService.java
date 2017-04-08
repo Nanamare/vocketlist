@@ -27,11 +27,10 @@ import rx.Observable;
 
 interface CommunityService {
 	//커뮤니티 리스트 조회
-	@FormUrlEncoded
 	@GET("posts/")
 	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
 														   @Query("page_size") int pageSize,
-														   @Field("search") String searchKeyWord);
+														   @Query(value = "search", encoded = true) String searchKeyWord);
 
 	// 특정 커뮤니티 상세 조회
 	@GET("posts/{id}/")
