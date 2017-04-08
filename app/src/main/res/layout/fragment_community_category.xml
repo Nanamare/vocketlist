@@ -7,7 +7,7 @@
 
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/activity_post_comment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_empty="@layout/empty_community_category"

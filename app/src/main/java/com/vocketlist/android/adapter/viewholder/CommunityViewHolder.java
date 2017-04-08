@@ -3,6 +3,8 @@ package com.vocketlist.android.adapter.viewholder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
@@ -21,13 +23,17 @@ import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.api.community.model.CommunityList;
+import com.vocketlist.android.dto.Comment;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,7 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class PostViewHolder extends BaseViewHolder implements View.OnClickListener {
+public class CommunityViewHolder extends BaseViewHolder implements View.OnClickListener {
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
@@ -51,19 +57,21 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
     @BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
     @BindView(R.id.ivCountIcon) AppCompatImageView ivCountIcon;
     @BindView(R.id.tvCount) AppCompatTextView tvCount;
-    @BindView(R.id.tvComments) AppCompatTextView tvComments;
+		@BindView(R.id.tvComment) AppCompatTextView tvComment;
+    @BindView(R.id.tvContents) AppCompatTextView tvContents;
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
 
 		private CommunityList.CommunityData communityData;
     private RecyclerViewItemClickListener mListener;
+		private AlertDialog dialog;
 
     /**
      * 생성자
      * @param itemView
      */
-    public PostViewHolder(View itemView, RecyclerViewItemClickListener listener) {
+    public CommunityViewHolder(View itemView, RecyclerViewItemClickListener listener) {
         super(itemView);
         mListener = listener;
         itemView.setOnClickListener(this);
@@ -98,12 +106,15 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
 				}
 			});
 
-			btnFavorite.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
+			if(communityData.mIsLike){
+				//좋아요 상태
 
-				}
-			});
+			} else {
+				//좋아요 취소 상태
+
+			}
+
+			btnFavorite.setOnClickListener(this);
 
 			btnComment.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -126,28 +137,39 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
 				}
 			});
 
-			//tvCount.setText("좋아요 " + communityData.);
+			tvCount.setText("좋아요 " + communityData.mLikeCount);
 
-			tvComments.setText(communityData.mContent);
+			tvContents.setText(communityData.mContent);
+
+			//댓글 보여주기
+			if(communityData.mComment != null) {
+				if (communityData.mComment.size() == 1) {
+					tvComment.setText(communityData.mComment.get(1).getContent());
+				} else if (communityData.mComment.size() >= 2) {
+					tvComment.setText(communityData.mComment.get(1).getContent() + "\n" +
+							communityData.mComment.get(2).getContent());
+				}
+			}
 
 			tvCommentMore.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
+					if(communityData.mComment != null) {
+							goToCommentActivity.putExtra("commentList",communityData.mComment);
+					}
 					context.startActivity(goToCommentActivity);
 				}
 			});
 
 			String createdDate = communityData.mCreateDate;
-			//yyyy-MM-dd'T'HH:mm:ss
-			DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			try {
 				Date time = format.parse(createdDate);
 				tvCreated.setText(calculateTime(time));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
 
 		}
 	}

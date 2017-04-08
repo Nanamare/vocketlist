@@ -25,41 +25,54 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-        <com.malinskiy.superrecyclerview.SuperRecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-    <LinearLayout
-        android:layout_below="@+id/activity_post_comment_nestedSv"
-        android:weightSum="10"
-        android:padding="10dp"
+    <!-- 콘텐츠 -->
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <android.support.v7.widget.AppCompatEditText
-            android:layout_weight="8"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="댓글 달기..."/>
+            android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="게시"/>
-
-    </LinearLayout>
+            <com.malinskiy.superrecyclerview.SuperRecyclerView
+                android:id="@+id/activity_post_comment_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activity_post_comment_recyclerView"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:hint="댓글 달기..."/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="게시"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
     <!-- 미구현 Placeholder-->
     <!--<include layout="@layout/empty_prepare"/>-->
 

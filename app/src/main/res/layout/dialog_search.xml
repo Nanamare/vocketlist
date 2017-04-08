@@ -15,7 +15,7 @@
 
     <!-- 결과 -->
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/activity_post_comment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:layout_empty="@layout/empty_dialog_search"

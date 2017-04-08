@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
@@ -17,7 +18,6 @@ import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.presenter.IView.ICommunityView;
-import com.vocketlist.android.presenter.ipresenter.ICommunityPresenter;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import java.io.Serializable;
@@ -38,7 +38,6 @@ import rx.functions.Action0;
 public class CommunityCategoryFragment extends RecyclerFragment implements ICommunityView, RecyclerViewItemClickListener {
 
 	private PostAdapter adapter;
-	private ICommunityPresenter presenter;
 	private Link links;
 	private int communityListPgCnt = 1;
 	private int page = 1;
@@ -67,7 +66,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		if (c != null && c instanceof CommunityCategory) {
 			CommunityCategory category = (CommunityCategory) c;
 
-			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>()));
+			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>(),listener));
 			requestCommunityList(communityListPgCnt++);
 		}
 	}
@@ -137,6 +136,17 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		// TODO 더보기
 		adapter.add(new Volunteer());
 	}
+
+	RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {
+		@Override
+		public void onItemClick(View v, int position) {
+			switch (v.getId()){
+				case R.id.btnFavorite :{
+					Toast.makeText(getContext(), "좋아요 클릭", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	};
 
 	@Override
 	public void onItemClick(View v, int position) {
