@@ -1,7 +1,8 @@
 package com.vocketlist.android.api.comment.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.vocketlist.android.dto.Link;
+import com.vocketlist.android.api.Link;
+import com.vocketlist.android.api.community.model.User;
 
 import java.util.List;
 
@@ -18,6 +19,10 @@ public class CommentListModel {
     @SerializedName("page_count") public int mPageCount;
 
     public static class Comment {
-        // todo 내용 채워야 함
+        @SerializedName("id") public int mCommentId;
+        @SerializedName("user") public User mUserInfo;
+        @SerializedName("content") public String mContent;
+        @SerializedName("reply_count") public int mReplyCount;
+        @SerializedName("timestamp") public String mTimestamp;
     }
 }

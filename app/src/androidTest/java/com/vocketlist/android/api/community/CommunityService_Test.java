@@ -80,13 +80,13 @@ public class CommunityService_Test {
         assertTrue(mListResponse.mResult.mPageNumber == 1);
 
         for (CommunityList.CommunityData communityData : mListResponse.mResult.mData) {
-            assertNotNull(communityData.mAuthor);
+            assertNotNull(communityData.mUser);
 //            assertNotNull(communityData.mContent);
             assertNotNull(communityData.mCreateDate);
             assertNotNull(communityData.mUpdateDate);
 
-            assertTrue(communityData.mAuthor.mId >= 0);
-            assertNotNull(communityData.mAuthor.mEmail);
+            assertTrue(communityData.mUser.mId >= 0);
+            assertNotNull(communityData.mUser.mEmail);
         }
     }
 
@@ -118,14 +118,14 @@ public class CommunityService_Test {
 
         assertNotNull(mDetailResponse.mResult);
         assertTrue(mDetailResponse.mResult.mId == communityId);
-        assertNotNull(mDetailResponse.mResult.mAuthor);
+        assertNotNull(mDetailResponse.mResult.mUser);
         assertNotNull(mDetailResponse.mResult.mContent);
         assertNotNull(mDetailResponse.mResult.mCreated);
         assertTrue(mDetailResponse.mResult.mLikeCount >= 0);
         assertNotNull(mDetailResponse.mResult.mUpdated);
 
-        assertTrue(mDetailResponse.mResult.mAuthor.mId >= 0);
-        assertNotNull(mDetailResponse.mResult.mAuthor.mEmail);
+        assertTrue(mDetailResponse.mResult.mUser.mId >= 0);
+        assertNotNull(mDetailResponse.mResult.mUser.mEmail);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.vocketlist.android.api.community.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.vocketlist.android.dto.Link;
+import com.vocketlist.android.api.Link;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CommunityList implements Serializable {
 
     public static class CommunityData implements Serializable  {
         @SerializedName("id") public int mId;
-        @SerializedName("author") public Author mAuthor;
+        @SerializedName("author") public User mUser;
         @SerializedName("image") public String mImageUrl;
         @SerializedName("content") public String mContent;
         @SerializedName("updated") public String mUpdateDate;

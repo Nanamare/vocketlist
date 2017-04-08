@@ -28,11 +28,14 @@ public final class VocketServiceManager {
     }
 
     public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(Category category, int page) {
+        return search(category, page, null);
+    }
+
+    public static Observable<Response<BaseResponse<Volunteer>>> search(Category category, int page, String searchKeyword) {
         return service
-                .getVocketCategoryList(category, page)
+                .getVocketCategoryList(category, page, searchKeyword)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Volunteer>()));
-
     }
 
     public static Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(int vocketId) {
