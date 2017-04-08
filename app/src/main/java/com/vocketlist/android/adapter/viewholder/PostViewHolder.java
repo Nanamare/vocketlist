@@ -10,6 +10,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.io.Serializable;
 
@@ -22,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class PostViewHolder extends BaseViewHolder {
+public class PostViewHolder extends BaseViewHolder implements View.OnClickListener {
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
@@ -39,12 +40,16 @@ public class PostViewHolder extends BaseViewHolder {
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
+    private RecyclerViewItemClickListener mListener;
+
     /**
      * 생성자
      * @param itemView
      */
-    public PostViewHolder(View itemView) {
+    public PostViewHolder(View itemView, RecyclerViewItemClickListener listener) {
         super(itemView);
+        mListener = listener;
+        itemView.setOnClickListener(this);
     }
 
     @NonNull
@@ -61,5 +66,10 @@ public class PostViewHolder extends BaseViewHolder {
                     .crossFade()
                     .into(civPhoto);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mListener != null) mListener.onItemClick(v, getAdapterPosition());
     }
 }

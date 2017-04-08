@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.PostViewHolder;
 import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.util.List;
 
@@ -17,16 +18,19 @@ import java.util.List;
  */
 public class PostAdapter extends BaseAdapter<PostViewHolder> {
 
+    private RecyclerViewItemClickListener mListener;
+
     /**
      * 생성자
      * @param data
      */
-    public PostAdapter(List<Post> data) {
+    public PostAdapter(List<Post> data, RecyclerViewItemClickListener listener) {
         super(data);
+        mListener = listener;
     }
 
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false));
+        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false), mListener);
     }
 }
