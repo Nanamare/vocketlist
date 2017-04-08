@@ -122,6 +122,26 @@
     <string name="dialog_introduce_message">멀게만 느껴졌던 봉사활동,\n\"보킷리스트\"와 함꼐 시작해 보세요!</string>
     <string name="dialog_introduce_check">오늘 하루 보지 않기</string>
 
+    <!-- 문의 -->
+    <string name="help_question_email">cs@vocketlist.com</string>
+    <string name="help_question_email_content">- 사용중인 기기 : %1$s \n- 운영체제 버전 : %2$s\n- 보킷리스트 버전 : %3$s</string>
+    <string name="help_question_email_subject">[문의]</string>
+    <string name="help_question_with_email">아래 도움말로도 해소되지 않는 문의사항이 있으시면 cs@vocketlist.com 으로 메일을 보내주세요! 신속하게 답변을 드리겠습니다.</string>
+    <string name="help_title">도움말</string>
+    <string-array name="help_titles">
+        <item>%1$d. ‘보킷 활동’은 무엇인가요?</item>
+        <item>%1$d. ‘커뮤니티’는 무엇인가요?</item>
+        <item>%1$d. ‘마이리스트’는 무엇인가요?</item>
+        <item>%1$d. 마이리스트의 ‘인증’과 ‘달성’은 어떻게 하나요?</item>
+        <item>%1$d. 참여하고 싶은 봉사활동 신청은 어떻게 하나요?</item>
+    </string-array>
+    <string-array name="help_contents">
+        <item>보킷활동은 나의 관심 분야를 바탕으로 큐레이션된 봉사활동 정보입니다. 회원 가입 후 마이페이지에서 관심 분야를 선택해야 ‘보킷 활동’에 반영됩니다.</item>
+        <item>커뮤니티에서는 참여한 봉사활동 및 선행 후기를 사진 혹은 글로 남길 수 있습니다. 다른 사람들의 다양한 후기도 확인할 수 있습니다.</item>
+        <item>마이리스트는 평소 실천하고 싶었던 선행을 작성하고 목표 달성률을 체크할 수 있는 기능입니다.</item>
+        <item>마이리스트 작성 시 ‘인증’ 이라는 버튼이 생깁니다. 인증은 스스로 실천한 선행을 사진과 글로 남기는 것입니다. 인증 버튼을 누르면 후기로 남길 수 있는 커뮤니티* 페이지로 이동하게 되고, 커뮤니티에 사진 및 글 등록 시 ‘달성’으로 바뀌게 됩니다.\n마이리스트에 작성한 목록이 인증에서 달성으로 바뀔 때 마다 달성률도 변화합니다</item>
+        <item>보킷리스트는 봉사활동 정보를 제공하며 신청은 해당 외부 페이지에서 할 수 있습니다.\n다만 보킷리스트 자체적으로 진행하는 활동은 서비스 내에서 바로 신청할 수 있습니다.</item>
+    </string-array>
 
     <!-- 알림 설정 -->
     <string name="noti_setting_noti_title">알림설정</string>
