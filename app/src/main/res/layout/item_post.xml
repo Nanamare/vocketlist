@@ -178,9 +178,9 @@
 
         </LinearLayout>
 
-        <!-- 댓글 -->
+        <!-- 내용 -->
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tvComments"
+            android:id="@+id/tvContents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
@@ -189,6 +189,18 @@
             android:text="너무 즐거운 봉사활동이었어요 신난당 깍-"
             android:textColor="@android:color/black"
             android:textSize="@dimen/font_36" />
+
+        <!-- 댓글 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:text="나도 진짜 가고 싶었는데! 담에 같이 ㄱ"
+            android:textColor="@color/black_38"
+            android:textSize="@dimen/font_36" />
+
 
         <!-- 댓글 더보기 -->
         <android.support.v7.widget.AppCompatTextView

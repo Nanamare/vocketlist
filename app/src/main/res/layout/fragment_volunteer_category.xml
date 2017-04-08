@@ -24,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/activity_post_comment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CommunityDetail {
     @SerializedName("id") public int mId;
-    @SerializedName("author") public Author mAuthor;
+    @SerializedName("author") public User mUser;
     @SerializedName("service") public Serivce mService;
     @SerializedName("image") public String mImageUrl;
     @SerializedName("content") public String mContent;

@@ -30,9 +30,10 @@ public class PostCommentActivity extends DepthBaseActivity implements
 {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
+    @BindView(R.id.activity_post_comment_recyclerView) SuperRecyclerView recyclerView;
 
     private CommentAdapter adapter;
+    private List<Comment> commentList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,11 @@ public class PostCommentActivity extends DepthBaseActivity implements
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            commentList = (List<Comment>) bundle.getSerializable("commentList");
+        }
 
         // 더미
         List<Comment> dummy = new ArrayList<>();
@@ -53,7 +59,9 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
         recyclerView.setupMoreListener(this, 1);
+
         recyclerView.setAdapter(adapter = new CommentAdapter(dummy));
+
     }
 
     @Override

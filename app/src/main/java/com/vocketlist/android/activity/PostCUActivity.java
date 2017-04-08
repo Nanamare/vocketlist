@@ -372,7 +372,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 				.show();
 		View cv = md.getCustomView();
 		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
-		SuperRecyclerView rv = ButterKnife.findById(md, R.id.recyclerView);
+		SuperRecyclerView rv = ButterKnife.findById(md, R.id.activity_post_comment_recyclerView);
 
 		// 검색뷰 폰트 크기
 		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);

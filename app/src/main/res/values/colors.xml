@@ -9,6 +9,7 @@
     <color name="colorAccent">@color/material_grey900</color>
 
     <color name="transparent">#00000000</color>
+    <color name="transparent_20">#33000000</color>
 
     <color name="white_60">#99FFFFFF</color>
     <color name="white_87">#DEFFFFFF</color>

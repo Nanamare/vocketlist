@@ -19,12 +19,16 @@ import rx.Observable;
 interface VocketService {
 
 	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category, @Query("page")int page);
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category,
+																		@Query("page")int page,
+																		@Query( value = "search", encoded = true) String search);
 
 	@GET("services/detail/{vocketIdx}/")
 	Observable<Response<BaseResponse<VolunteerDetail>>> getVocketDetail(@Path("vocketIdx") int vocketIdx);
 
 	@FormUrlEncoded
 	@POST("services/participate/{service_id}/")
-	Observable<Response<BaseResponse<Participate>>> participate(@Path("service_id")int service_id, @Field("name")String name, @Field("phone")String phone);
+	Observable<Response<BaseResponse<Participate>>> participate(@Path("service_id")int service_id,
+																@Field("name")String name,
+																@Field("phone")String phone);
 }

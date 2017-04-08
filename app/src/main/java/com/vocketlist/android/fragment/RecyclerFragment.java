@@ -27,7 +27,7 @@ public abstract class RecyclerFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener
         , OnMoreListener
 {
-    @BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
+    @BindView(R.id.activity_post_comment_recyclerView) SuperRecyclerView recyclerView;
 
     protected RecyclerView.LayoutManager layoutManager;
 

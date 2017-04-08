@@ -1,6 +1,7 @@
 package com.vocketlist.android.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,8 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.api.user.LoginModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.preference.BasePreference;
+import com.vocketlist.android.preference.CommonPreference;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -135,6 +138,7 @@ public class FacebookLoginActivity extends BaseActivity {
 								Uri imgUri = Profile.getCurrentProfile().getProfilePictureUri(250, 250);
 								Ln.i("ProfilePic" + imgUrl);
 								imgUrl = imgUri.toString();
+								CommonPreference.getInstance().setPreference("imgUrl",imgUrl);
 							}
 
 							Ln.i("Email : " + email);
