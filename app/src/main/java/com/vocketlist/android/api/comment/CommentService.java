@@ -1,6 +1,5 @@
 package com.vocketlist.android.api.comment;
 
-import com.vocketlist.android.api.comment.model.CommentDeleteModel;
 import com.vocketlist.android.api.comment.model.CommentDetailModel;
 import com.vocketlist.android.api.comment.model.CommentListModel;
 import com.vocketlist.android.api.comment.model.CommentWriteModel;
@@ -39,7 +38,7 @@ public interface CommentService {
                                                                 @Field("content") String content);
 
     @DELETE("comments/{id}/")
-    Observable<Response<BaseResponse<CommentDeleteModel>>> delete(@Path("id") int commentId);
+    Observable<Response<BaseResponse<Void>>> delete(@Path("id") int commentId);
 
     @GET("comments/{id}/")
     Observable<Response<BaseResponse<CommentDetailModel>>> detail(@Path("id") int commentId);
