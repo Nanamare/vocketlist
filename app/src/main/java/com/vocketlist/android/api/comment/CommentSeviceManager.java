@@ -2,7 +2,6 @@ package com.vocketlist.android.api.comment;
 
 import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.comment.model.CommentDeleteModel;
 import com.vocketlist.android.api.comment.model.CommentDetailModel;
 import com.vocketlist.android.api.comment.model.CommentListModel;
 import com.vocketlist.android.api.comment.model.CommentWriteModel;
