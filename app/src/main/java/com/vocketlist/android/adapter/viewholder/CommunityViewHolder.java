@@ -1,15 +1,25 @@
 package com.vocketlist.android.adapter.viewholder;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
+import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
@@ -81,6 +91,13 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
 						.into(ivPhoto);
 			}
 
+			ivPhoto.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					createCommunityDetailDialog();
+				}
+			});
+
 			btnFavorite.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -116,11 +133,13 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
 			tvCommentMore.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-
+					Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
+					context.startActivity(goToCommentActivity);
 				}
 			});
 
 			String createdDate = communityData.mCreateDate;
+			//yyyy-MM-dd'T'HH:mm:ss
 			DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 			try {
 				Date time = format.parse(createdDate);
@@ -131,6 +150,33 @@ public class PostViewHolder extends BaseViewHolder implements View.OnClickListen
 
 
 		}
+	}
+
+	private void createCommunityDetailDialog() {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View innerView = inflater.inflate(R.layout.dialog_community_detail, null);
+		ImageView image = (ImageView) innerView.findViewById(R.id.dialog_iv);
+		ImageButton cancleBtn = (ImageButton) innerView.findViewById(R.id.dialog_cancleBtn);
+		AlertDialog.Builder alert = new AlertDialog.Builder(context);
+		alert.setView(innerView);
+		dialog = alert.create();
+		dialog.show();
+
+		WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+		params.width = WindowManager.LayoutParams.MATCH_PARENT;
+		params.height = WindowManager.LayoutParams.MATCH_PARENT;
+		dialog.getWindow().setAttributes(params);
+		FrameLayout.LayoutParams imageParams =
+				new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		image.setLayoutParams(imageParams);
+		image.setImageResource(R.drawable.dummy_profile);
+
+		cancleBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+			}
+		});
 	}
 
 	private static class TIME_MAXIMUM {

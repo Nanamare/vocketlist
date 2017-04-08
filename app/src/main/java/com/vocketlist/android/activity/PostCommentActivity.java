@@ -53,7 +53,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
         recyclerView.setupMoreListener(this, 1);
-        recyclerView.setAdapter(adapter = new CommentAdapter(dummy));
+        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<Comment>()));
     }
 
     @Override

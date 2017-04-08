@@ -18,7 +18,7 @@
     <string name="login">로그인 후 이용하세요.</string>
 
     <string name="my_list_progress">마이리스트 %1$d건 중 %2$d건 완료</string>
-    
+
     <!-- 탭 -->
     <string name="tab_all">전체</string>
     <string name="tab_act">활동지원</string>

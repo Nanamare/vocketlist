@@ -18,7 +18,7 @@
         app:civ_border_width="1dp" />
 
     <!-- 내용 : 이름 + 본문 -->
-    <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,5 +37,7 @@
         android:layout_below="@+id/tvName"
         android:background="@color/black_12"
         android:orientation="vertical" />
+
+
 
 </RelativeLayout>

@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.adapter.viewholder.PostViewHolder;
+import com.vocketlist.android.adapter.viewholder.CommunityViewHolder;
 import com.vocketlist.android.dto.Post;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class PostAdapter extends BaseAdapter<PostViewHolder> {
+public class PostAdapter extends BaseAdapter<CommunityViewHolder> {
 
     private RecyclerViewItemClickListener mListener;
 
