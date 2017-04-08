@@ -14,14 +14,14 @@ import rx.Observable;
  * Created by SeungTaek.Lim on 2017. 4. 8..
  */
 
-public class NoticeServiceManager {
+public final class NoticeServiceManager {
     private static NoticeService SERVICE = ServiceDefine.retrofit.create(NoticeService.class);
 
     private NoticeServiceManager() {
 
     }
 
-    public Observable<Response<BaseResponse<NoticeModel>>> getNotice() {
+    public static Observable<Response<BaseResponse<NoticeModel>>> getNotice() {
         return SERVICE.notice()
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<NoticeModel>()));

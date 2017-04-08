@@ -161,10 +161,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				goToActivity(NotificationActivity.class);
 				break;
 
-			// 관심정보 모아보기
-			case R.id.naviFavorite:
-				goToActivity(FavoriteActivity.class);
-				break;
+//			// 관심정보 모아보기
+//			case R.id.naviFavorite:
+//				goToActivity(FavoriteActivity.class);
+//				break;
 
 			// 마이리스트
 			case R.id.naviMyList:
