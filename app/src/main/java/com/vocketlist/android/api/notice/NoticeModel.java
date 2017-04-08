@@ -2,6 +2,8 @@ package com.vocketlist.android.api.notice;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * 공지사항
  *
@@ -9,9 +11,13 @@ import com.google.gson.annotations.SerializedName;
  * @since 2017. 4. 8.
  */
 public class NoticeModel {
-    @SerializedName("id") public Integer mId;
-    @SerializedName("title") public String mTitle;
-    @SerializedName("content") public String mContent;
-    @SerializedName("link") public String mLink;
-    @SerializedName("timestamp") public String timestamp;
+    @SerializedName("data") public List<Notice> mNoticeList;
+
+    public static class Notice {
+        @SerializedName("id") public int mId;
+        @SerializedName("title") public String mTitle;
+        @SerializedName("content") public String mContent;
+        @SerializedName("link") public String mLink;
+        @SerializedName("timestamp") public String timestamp;
+    }
 }

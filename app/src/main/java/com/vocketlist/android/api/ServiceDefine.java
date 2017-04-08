@@ -36,6 +36,7 @@ public final class ServiceDefine {
 			.readTimeout(Timeout.getReadTimeout(), Timeout.UNIT)
 			.addInterceptor(new LoginInterceptor())
 			.addInterceptor(new HttpResponseErrorInterceptor())
+			.addInterceptor(mockInterceptor)
 			.addNetworkInterceptor(new LoggingInterceptor(AppApplication.getInstance().getContext()));
 
 
