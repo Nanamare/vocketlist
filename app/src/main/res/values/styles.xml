@@ -29,4 +29,5 @@
     <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/font_36</item>
     </style>
+
 </resources>

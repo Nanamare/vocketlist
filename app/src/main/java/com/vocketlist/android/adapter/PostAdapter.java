@@ -4,8 +4,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.adapter.viewholder.PostViewHolder;
-import com.vocketlist.android.dto.Post;
+import com.vocketlist.android.adapter.viewholder.CommunityViewHolder;
+import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class PostAdapter extends BaseAdapter<PostViewHolder> {
+public class PostAdapter extends BaseAdapter<CommunityViewHolder> {
 
     private RecyclerViewItemClickListener mListener;
 
@@ -24,13 +24,14 @@ public class PostAdapter extends BaseAdapter<PostViewHolder> {
      * 생성자
      * @param data
      */
-    public PostAdapter(List<Post> data, RecyclerViewItemClickListener listener) {
+    public PostAdapter(List<CommunityList> data, RecyclerViewItemClickListener listener) {
         super(data);
         mListener = listener;
     }
 
+
     @Override
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false), mListener);
+    public CommunityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new CommunityViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false), mListener);
     }
 }
