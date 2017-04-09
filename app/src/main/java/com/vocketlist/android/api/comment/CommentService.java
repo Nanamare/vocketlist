@@ -27,12 +27,12 @@ public interface CommentService {
                                                               @Query("page_size") int pageSize);
 
     @FormUrlEncoded
-    @POST("comments")
+    @POST("comments/")
     Observable<Response<BaseResponse<CommentWriteModel>>> write(@Field("post_id") int postId,
                                                                 @Field("content") String content);
 
     @FormUrlEncoded
-    @POST("comments")
+    @POST("comments/")
     Observable<Response<BaseResponse<CommentWriteModel>>> write(@Field("post_id") int postId,
                                                                 @Field("parent_id") int parentCommentId,
                                                                 @Field("content") String content);

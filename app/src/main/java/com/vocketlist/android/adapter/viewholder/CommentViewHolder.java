@@ -48,8 +48,8 @@ public class CommentViewHolder extends BaseViewHolder {
                 .crossFade()
                 .into(civPhoto);
 
-            //이름
-            tvName.setText(commentList.mContent);
+            //이름 + 내용
+            tvName.setText(commentList.mUserInfo.mName+" - "+commentList.mContent);
 
         }
 

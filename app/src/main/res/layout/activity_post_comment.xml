@@ -61,6 +61,7 @@
                     android:background="@drawable/ic_action_expand_more"/>
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/activity_post_comment_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -69,6 +70,7 @@
                     android:hint="댓글 달기..."/>
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/activity_post_comment_sendBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

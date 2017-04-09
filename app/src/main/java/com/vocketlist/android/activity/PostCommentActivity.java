@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.CommentAdapter;
 import com.vocketlist.android.api.Link;
+import com.vocketlist.android.api.comment.CommentService;
 import com.vocketlist.android.api.comment.CommentServiceManager;
 import com.vocketlist.android.api.comment.model.CommentListModel;
+import com.vocketlist.android.api.comment.model.CommentWriteModel;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Comment;
 
@@ -22,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,7 +46,10 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.activity_post_comment_recyclerView) SuperRecyclerView recyclerView;
+    @BindView(R.id.activity_post_comment_tv) AppCompatEditText contentsTv;
+    @BindView(R.id.activity_post_comment_sendBtn) AppCompatTextView sendBtn;
 
+    private BaseResponse<CommentWriteModel> commentModel;
     private CommentAdapter adapter;
     private List<Comment> commentList;
     private int roomId = 0;
@@ -118,5 +127,49 @@ public class PostCommentActivity extends DepthBaseActivity implements
     public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
         // TODO 더보기
         adapter.add(new Comment());
+    }
+
+    @OnClick(R.id.activity_post_comment_sendBtn)
+    void sendBtn(){
+        String content = contentsTv.getText().toString();
+        if(content.length() == 0 ){
+            Toast.makeText(this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        } else {
+            CommentServiceManager.write(25,0,content)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(new Action0() {
+                    @Override
+                    public void call() {
+
+                    }
+                })
+                .subscribe(new Subscriber<Response<BaseResponse<CommentWriteModel>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<BaseResponse<CommentWriteModel>> baseResponseResponse) {
+                        commentModel = baseResponseResponse.body();
+                        clearTextView();
+                        updateCommentList();
+                    }
+                });
+        }
+    }
+
+    private void updateCommentList() {
+//        다시 불러올지 , 클라이언트에서 처리할지 아직 협의안됨
+//        requestCommentList();
+    }
+
+    private void clearTextView() {
+        contentsTv.setText("");
     }
 }
