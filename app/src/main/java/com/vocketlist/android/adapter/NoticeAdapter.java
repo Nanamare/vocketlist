@@ -1,7 +1,6 @@
 package com.vocketlist.android.adapter;
 
 import android.support.annotation.NonNull;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 

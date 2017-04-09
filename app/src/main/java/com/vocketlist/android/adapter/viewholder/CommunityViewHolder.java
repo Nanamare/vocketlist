@@ -57,7 +57,10 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
     @BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
     @BindView(R.id.ivCountIcon) AppCompatImageView ivCountIcon;
     @BindView(R.id.tvCount) AppCompatTextView tvCount;
+		@BindView(R.id.CommentUserNm) AppCompatTextView tvCommentUserNm;
 		@BindView(R.id.tvComment) AppCompatTextView tvComment;
+		@BindView(R.id.CommentUserNm2) AppCompatTextView tvCommentUserNm2;
+		@BindView(R.id.tvComment2) AppCompatTextView tvComment2;
     @BindView(R.id.tvContents) AppCompatTextView tvContents;
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
@@ -144,11 +147,19 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			//댓글 보여주기
 			if(communityData.mComment != null) {
 				if (communityData.mComment.size() == 1) {
+					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
 					tvComment.setText(communityData.mComment.get(1).mContent);
 				} else if (communityData.mComment.size() >= 2) {
-					tvComment.setText(communityData.mComment.get(1).mContent + "\n" +
-							communityData.mComment.get(2).mContent);
+					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
+					tvCommentUserNm2.setText(communityData.mComment.get(2).mUserInfo.mName);
+					tvComment.setText(communityData.mComment.get(1).mContent);
+					tvComment2.setText(communityData.mComment.get(2).mContent);
 				}
+			} else {
+				tvComment.setVisibility(View.GONE);
+				tvComment2.setVisibility(View.GONE);
+				tvCommentUserNm.setVisibility(View.GONE);
+				tvCommentUserNm2.setVisibility(View.GONE);
 			}
 
 			tvCommentMore.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +168,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 					Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
 					if(communityData.mComment != null) {
 							goToCommentActivity.putExtra("commentList",communityData.mComment);
+							goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
 					}
 					context.startActivity(goToCommentActivity);
 				}

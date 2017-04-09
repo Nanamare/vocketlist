@@ -11,11 +11,12 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
+import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -41,6 +42,9 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	private Link links;
 	private int communityListPgCnt = 1;
 	private int page = 1;
+	private  BaseResponse<CommunityList> communityList;
+	private BaseResponse<CommunityLike> communityLike;
+	private int communityPosition;
 	/**
 	 * 인스턴스
 	 *
@@ -105,6 +109,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	}
 
 	private void setCommunityList(BaseResponse<CommunityList> communityList) {
+		this.communityList = communityList;
 		adapter.addAll(communityList.mResult.mData);
 		page = communityList.mResult.mPageCurrentCnt;
 		links = communityList.mResult.mLinks;
@@ -142,14 +147,92 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		public void onItemClick(View v, int position) {
 			switch (v.getId()){
 				case R.id.btnFavorite :{
-					Toast.makeText(getContext(), "좋아요 클릭", Toast.LENGTH_SHORT).show();
+					communityPosition = position;
+					requestFavorite();
 				}
 			}
 		}
 	};
 
+	private void requestFavorite() {
+		CommunityServiceManager.like(communityList.mResult.mData.get(communityPosition).mId)
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				})
+				.subscribe(new Subscriber<Response<BaseResponse<CommunityLike>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+            e.printStackTrace();
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<CommunityLike>> baseResponseResponse) {
+						communityLike = baseResponseResponse.body();
+						refreshFavoriteBtn();
+					}
+				});
+	}
+
+	private void refreshFavoriteBtn() {
+		if(communityLike.mResult.mIsLike){
+			//좋아요 이미지
+			Toast.makeText(getContext(),"좋아요" , Toast.LENGTH_SHORT).show();
+		} else {
+			//좋아요 취소 이미지
+			Toast.makeText(getContext(),"좋아요 취소" , Toast.LENGTH_SHORT).show();
+		}
+		//좋아요 갯수 업데이트
+//		communityLike.mResult.mLikeCnt
+
+
+	}
+
 	@Override
 	public void onItemClick(View v, int position) {
 
 	}
+
+	/**
+	private void refreshFavoriteCount(int page, int postId) {
+		CommunityServiceManager.list(page)
+				.map(new Func1<Response<BaseResponse<CommunityList>>, Integer>() {
+					@Override
+					public Integer call(Response<BaseResponse<CommunityList>> baseResponseResponse) {
+						return baseResponseResponse.body().mResult.mData.get(postId).mLikeCount;
+					}
+				})
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				})
+				.subscribe(new Subscriber<Integer>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(Integer integer) {
+						Ln.i("좋아요 갯수", integer);
+					}
+				});
+	}
+	**/
 }

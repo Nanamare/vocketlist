@@ -1,5 +1,6 @@
 package com.vocketlist.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,10 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.CommentAdapter;
+import com.vocketlist.android.api.Link;
+import com.vocketlist.android.api.comment.CommentServiceManager;
+import com.vocketlist.android.api.comment.model.CommentListModel;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Comment;
 
 import java.util.ArrayList;
@@ -17,6 +22,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * 커뮤니티 : 댓글
@@ -34,6 +43,11 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     private CommentAdapter adapter;
     private List<Comment> commentList;
+    private int roomId = 0;
+    private int postPageCnt = 1;
+    private int page = 1;
+    private Link link;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +58,11 @@ public class PostCommentActivity extends DepthBaseActivity implements
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if(bundle != null) {
             commentList = (List<Comment>) bundle.getSerializable("commentList");
+            Intent intent = getIntent();
+            if(intent != null) roomId = intent.getExtras().getInt("CommunityRoomId");
         }
-
         // 더미
         List<Comment> dummy = new ArrayList<>();
         for (int i = 0; i < Math.random() * 15; i++) {
@@ -61,7 +76,41 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setupMoreListener(this, 1);
 
         recyclerView.setAdapter(adapter = new CommentAdapter(dummy));
+        requestCommentList();
 
+    }
+
+    private void requestCommentList() {
+        CommentServiceManager.list(roomId, postPageCnt)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnTerminate(new Action0() {
+                @Override
+                public void call() {
+
+                }
+            })
+            .subscribe(new Subscriber<Response<BaseResponse<CommentListModel>>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Response<BaseResponse<CommentListModel>> baseResponseResponse) {
+                    setCommentList(baseResponseResponse.body());
+                }
+            });
+
+    }
+
+    private void setCommentList(BaseResponse<CommentListModel> commentList) {
+        adapter.addAll(commentList.mResult.mCommentList);
+        link = commentList.mResult.mLink;
     }
 
     @Override

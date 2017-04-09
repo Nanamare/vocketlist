@@ -17,11 +17,11 @@ import rx.Observable;
  * Created by SeungTaek.Lim on 2017. 4. 8..
  */
 
-public final class CommentSeviceManager {
+public final class CommentServiceManager {
     private static final int DEFAULT_PAGE_SIZE = 20;
     private static final CommentService SERVICE = ServiceDefine.retrofit.create(CommentService.class);
 
-    private CommentSeviceManager() {
+    private CommentServiceManager() {
 
     }
 

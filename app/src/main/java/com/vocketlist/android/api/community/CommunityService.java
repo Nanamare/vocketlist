@@ -55,6 +55,6 @@ interface CommunityService {
 	Observable<Response<BaseResponse<Void>>> delete(@Path("id") int postId);
 
 	// 커뮤니티 좋아요 / 취소
-	@POST("posts/like/{post_id}")
+	@POST("posts/like/{post_id}/")
 	Observable<Response<BaseResponse<CommunityLike>>> like(@Path("post_id") int postId);
 }

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.model.User;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class CommentListModel {
     @SerializedName("page_current") public int mPageIndex;
     @SerializedName("page_count") public int mPageCount;
 
-    public static class Comment {
+    public static class Comment implements Serializable{
         @SerializedName("id") public int mCommentId;
         @SerializedName("user") public User mUserInfo;
         @SerializedName("content") public String mContent;

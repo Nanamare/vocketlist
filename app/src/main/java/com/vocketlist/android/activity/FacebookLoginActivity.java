@@ -131,8 +131,8 @@ public class FacebookLoginActivity extends BaseActivity {
 
 
 							Profile profile = Profile.getCurrentProfile();
-							String link = profile.getLinkUri().toString();
-							Ln.i("Link : " + link);
+//							String link = profile.getLinkUri().toString();
+//							Ln.i("Link : " + link);
 							String imgUrl = "";
 							if (Profile.getCurrentProfile() != null) {
 								Uri imgUri = Profile.getCurrentProfile().getProfilePictureUri(250, 250);
@@ -149,6 +149,7 @@ public class FacebookLoginActivity extends BaseActivity {
 
 							String userInfo = object.toString();
 							String token = accessToken.getToken();
+							Ln.i("VocketSiteToken",token);
 							String userId = loginResult.getAccessToken().getUserId();
 
 							FacebookPreperence.getInstance().setEmail(email);
