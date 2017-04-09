@@ -63,25 +63,19 @@ public class PostCommentActivity extends DepthBaseActivity implements
             Intent intent = getIntent();
             if(intent != null) roomId = intent.getExtras().getInt("CommunityRoomId");
         }
-        // 더미
-        List<Comment> dummy = new ArrayList<>();
-        for (int i = 0; i < Math.random() * 15; i++) {
-            dummy.add(new Comment());
-        }
 
         // 레이아웃 : 라사이클러
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
-        recyclerView.setupMoreListener(this, 1);
-
-        recyclerView.setAdapter(adapter = new CommentAdapter(dummy));
+        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
         requestCommentList();
 
     }
 
     private void requestCommentList() {
-        CommentServiceManager.list(roomId, postPageCnt)
+//        roomId, postPageCnt
+        CommentServiceManager.list(25, 1)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnTerminate(new Action0() {
                 @Override
@@ -97,7 +91,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
                 @Override
                 public void onError(Throwable e) {
-
+                    e.printStackTrace();
                 }
 
                 @Override
@@ -111,6 +105,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
     private void setCommentList(BaseResponse<CommentListModel> commentList) {
         adapter.addAll(commentList.mResult.mCommentList);
         link = commentList.mResult.mLink;
+        adapter.notifyDataSetChanged();
     }
 
     @Override

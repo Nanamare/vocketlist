@@ -21,8 +21,8 @@ import rx.Observable;
  */
 
 public interface CommentService {
-    @GET("comments")
-    Observable<Response<BaseResponse<CommentListModel>>> list(@Field("post_id") int postId,
+    @GET("comments/")
+    Observable<Response<BaseResponse<CommentListModel>>> list(@Query("post_id") int postId,
                                                               @Query("page") int pageNum,
                                                               @Query("page_size") int pageSize);
 

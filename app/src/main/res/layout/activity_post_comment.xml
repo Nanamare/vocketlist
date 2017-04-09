@@ -17,7 +17,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="56dp"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
@@ -33,47 +33,53 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <com.malinskiy.superrecyclerview.SuperRecyclerView
+                android:layout_weight="9"
                 android:id="@+id/activity_post_comment_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
 
             <LinearLayout
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_post_comment_recyclerView"
                 android:orientation="horizontal"
-                android:padding="10dp"
                 android:weightSum="10">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_action_expand_more"/>
 
                 <android.support.v7.widget.AppCompatEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="8"
+                    android:background="@null"
                     android:hint="댓글 달기..."/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="게시"/>
+                    android:text="게시"
+                    android:textColor="@color/point_5FA9D0"
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-    <!-- 미구현 Placeholder-->
-    <!--<include layout="@layout/empty_prepare"/>-->
 
 </android.support.design.widget.CoordinatorLayout>
