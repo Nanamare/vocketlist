@@ -152,6 +152,9 @@ dependencies {
 
     //firebase-auth
     compile 'com.google.firebase:firebase-auth:10.0.1'
+
+    //rxBinding
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

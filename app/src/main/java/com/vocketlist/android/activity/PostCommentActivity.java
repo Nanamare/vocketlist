@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -56,7 +58,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
     private int postPageCnt = 1;
     private int page = 1;
     private Link link;
-
+    private boolean isCheckBlank;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,19 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
         requestCommentList();
 
+        checkCommentsBlank(contentsTv);
+    }
+
+    private void checkCommentsBlank(AppCompatEditText contentsTv) {
+        Observable<CharSequence> primaryBtn = RxTextView.textChanges(contentsTv);
+        primaryBtn.map(charSequence -> charSequence.length() > 0).subscribe(aBoolean -> {
+            isCheckBlank = aBoolean;
+            if(isCheckBlank){
+                sendBtn.setTextColor(getResources().getColor(R.color.point_5FA9D0));
+            }else {
+                sendBtn.setTextColor(getResources().getColor(R.color.gray_8080));
+            }
+        });
     }
 
     private void requestCommentList() {
@@ -129,6 +144,8 @@ public class PostCommentActivity extends DepthBaseActivity implements
         adapter.add(new Comment());
     }
 
+
+
     @OnClick(R.id.activity_post_comment_sendBtn)
     void sendBtn(){
         String content = contentsTv.getText().toString();
@@ -158,15 +175,24 @@ public class PostCommentActivity extends DepthBaseActivity implements
                     public void onNext(Response<BaseResponse<CommentWriteModel>> baseResponseResponse) {
                         commentModel = baseResponseResponse.body();
                         clearTextView();
-                        updateCommentList();
+                        updateCommentList(commentModel);
                     }
                 });
         }
     }
 
-    private void updateCommentList() {
+    private void updateCommentList(BaseResponse<CommentWriteModel> commentModel) {
 //        다시 불러올지 , 클라이언트에서 처리할지 아직 협의안됨
 //        requestCommentList();
+
+        CommentListModel.Comment comment = new CommentListModel.Comment();
+        comment.mContent = commentModel.mResult.mContent;
+        comment.mCommentId = commentModel.mResult.mCommentId;
+        comment.mTimestamp = commentModel.mResult.mTimestamp;
+        comment.mUserInfo = commentModel.mResult.mUserInfo;
+
+        adapter.add(comment);
+        adapter.notifyDataSetChanged();
     }
 
     private void clearTextView() {
