@@ -2,9 +2,8 @@ package com.vocketlist.android.adapter.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
@@ -18,22 +17,21 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.api.community.model.CommunityList;
-import com.vocketlist.android.dto.Comment;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -102,6 +100,15 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 						.into(ivPhoto);
 			}
 
+			//수정, 삭제 스피너
+			btnMore.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					setSpinner();
+				}
+			});
+
+
 			ivPhoto.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -147,15 +154,18 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			//댓글 보여주기
 			if(communityData.mComment != null) {
 				if (communityData.mComment.size() == 1) {
+					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 보기");
 					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
 					tvComment.setText(communityData.mComment.get(1).mContent);
 				} else if (communityData.mComment.size() >= 2) {
+					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 모두 보기");
 					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
 					tvCommentUserNm2.setText(communityData.mComment.get(2).mUserInfo.mName);
 					tvComment.setText(communityData.mComment.get(1).mContent);
 					tvComment2.setText(communityData.mComment.get(2).mContent);
 				}
 			} else {
+				tvCommentMore.setText("댓글을 등록해보세요.");
 				tvComment.setVisibility(View.GONE);
 				tvComment2.setVisibility(View.GONE);
 				tvCommentUserNm.setVisibility(View.GONE);
@@ -184,6 +194,49 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			}
 
 		}
+	}
+
+	private void setSpinner() {
+		LayoutInflater layoutInflater
+				= LayoutInflater.from(context);
+		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
+		final PopupWindow popupWindow = new PopupWindow(popupView,
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.showAsDropDown(btnMore, 0, 20);
+
+		LinearLayout llDelete = (LinearLayout) popupView.findViewById(R.id.popup_delete);
+		llDelete.setOnClickListener(v1 -> {
+			android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context)
+					.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+
+						//삭제하고 데이터 제거후 업데이트
+
+						dialog.dismiss();
+
+						popupWindow.dismiss();
+
+					}).setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+						dialog.dismiss();     //닫기
+						popupWindow.dismiss();
+
+					}).setMessage(R.string.delete_communityList);
+
+			alert.show();
+		});
+
+		LinearLayout llModify = (LinearLayout) popupView.findViewById(R.id.popup_modify);
+
+		llModify.setOnClickListener(v1 -> {
+
+			popupWindow.dismiss();
+			Toast.makeText(context,"수정", Toast.LENGTH_SHORT)
+					.show();
+		});
+
 	}
 
 	private void createCommunityDetailDialog() {

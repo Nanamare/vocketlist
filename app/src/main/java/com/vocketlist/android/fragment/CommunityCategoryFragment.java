@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.vocketlist.android.R;
@@ -47,6 +48,9 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	private BaseResponse<CommunityLike> communityLike;
 	private int communityPosition;
 	private CommunityCategory category = CommunityCategory.All;
+
+	private ArrayAdapter<String> menuList;
+
 	/**
 	 * 인스턴스
 	 *

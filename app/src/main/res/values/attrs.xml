@@ -8,4 +8,10 @@
         <attr name="android:icon"/>
         <attr name="android:text"/>
     </declare-styleable>
+
+    <!-- single item spinner -->
+    <attr format="reference" name="spinnerDropDownItemStyle"/>
+    <attr format="dimension" name="listPreferredItemHeightSmall"/>
+    <attr format="dimension" name="dropdownListPreferredItemHeight"/>
+
 </resources>

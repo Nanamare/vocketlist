@@ -152,7 +152,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         if(content.length() == 0 ){
             Toast.makeText(this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
-            CommentServiceManager.write(25,0,content)
+            CommentServiceManager.write(55,0,content)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
                     @Override
