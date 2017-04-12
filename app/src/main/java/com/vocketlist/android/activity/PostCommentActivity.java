@@ -74,6 +74,14 @@ public class PostCommentActivity extends DepthBaseActivity implements
             if(intent != null) roomId = intent.getExtras().getInt("CommunityRoomId");
         }
 
+        // 레이아웃 : 라사이클러
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setRefreshListener(this);
+        recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
+        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
+        requestCommentList();
+
+
         //댓글아이콘을 클릭했을때는 포커스온
         Intent intent = getIntent();
         if(intent != null){
@@ -81,13 +89,6 @@ public class PostCommentActivity extends DepthBaseActivity implements
                 contentsEdt.requestFocus();
             }
         }
-
-        // 레이아웃 : 라사이클러
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setRefreshListener(this);
-        recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
-        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
-        requestCommentList();
 
         checkCommentsBlank(contentsEdt);
     }

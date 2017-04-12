@@ -1,11 +1,15 @@
 package com.vocketlist.android.fragment;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.vocketlist.android.R;
@@ -163,9 +167,88 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 					communityPosition = position;
 					requestFavorite();
 				}
+				case R.id.btnMore :{
+					setSpinner(v, position);
+				}
 			}
 		}
 	};
+
+	private void setSpinner(View btnMore, int position) {
+
+		LayoutInflater layoutInflater
+				= LayoutInflater.from(getContext());
+		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
+		final PopupWindow popupWindow = new PopupWindow(popupView,
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.showAsDropDown(btnMore, 0, 20);
+
+		LinearLayout llDelete = (LinearLayout) popupView.findViewById(R.id.popup_delete);
+		llDelete.setOnClickListener(v1 -> {
+			android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(getContext())
+					.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+
+						//삭제하고 데이터 제거후 업데이트
+
+						deleteCommunityRoom(position);
+						adapter.remove(position);
+
+						dialog.dismiss();
+
+						popupWindow.dismiss();
+
+					}).setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+						dialog.dismiss();     //닫기
+						popupWindow.dismiss();
+
+					}).setMessage(R.string.delete_communityList);
+
+			alert.show();
+		});
+
+		LinearLayout llModify = (LinearLayout) popupView.findViewById(R.id.popup_modify);
+
+		llModify.setOnClickListener(v1 -> {
+
+			popupWindow.dismiss();
+			Toast.makeText(getContext() ,"수정" , Toast.LENGTH_SHORT)
+					.show();
+		});
+
+	}
+
+	private void deleteCommunityRoom(int position) {
+		CommunityServiceManager.delete(communityList.mResult.mData.get(position).mId)
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				})
+				.subscribe(new Subscriber<Response<BaseResponse<Void>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
+						adapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
+						adapter.notifyDataSetChanged();
+					}
+				});
+	}
+
 
 	private void requestFavorite() {
 		CommunityServiceManager.like(communityList.mResult.mData.get(communityPosition).mId)

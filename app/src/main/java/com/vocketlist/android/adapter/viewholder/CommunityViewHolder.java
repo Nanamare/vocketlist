@@ -24,7 +24,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.PostCommentActivity;
+import com.vocketlist.android.api.community.CommunityServiceManager;
 import com.vocketlist.android.api.community.model.CommunityList;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
@@ -35,6 +37,10 @@ import java.util.Date;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * 뷰홀더 : 커뮤니티 : 글
@@ -101,12 +107,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			}
 
 			//수정, 삭제 스피너
-			btnMore.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					setSpinner();
-				}
-			});
+			btnMore.setOnClickListener(this);
 
 
 			ivPhoto.setOnClickListener(new View.OnClickListener() {
@@ -201,49 +202,6 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 		context.startActivity(goToCommentActivity);
 	}
 
-	private void setSpinner() {
-
-		LayoutInflater layoutInflater
-				= LayoutInflater.from(context);
-		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
-		final PopupWindow popupWindow = new PopupWindow(popupView,
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, true);
-
-		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.showAsDropDown(btnMore, 0, 20);
-
-		LinearLayout llDelete = (LinearLayout) popupView.findViewById(R.id.popup_delete);
-		llDelete.setOnClickListener(v1 -> {
-			android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context)
-					.setPositiveButton(android.R.string.ok, (dialog, which) -> {
-
-						//삭제하고 데이터 제거후 업데이트
-
-						dialog.dismiss();
-
-						popupWindow.dismiss();
-
-					}).setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-						dialog.dismiss();     //닫기
-						popupWindow.dismiss();
-
-					}).setMessage(R.string.delete_communityList);
-
-			alert.show();
-		});
-
-		LinearLayout llModify = (LinearLayout) popupView.findViewById(R.id.popup_modify);
-
-		llModify.setOnClickListener(v1 -> {
-
-			popupWindow.dismiss();
-			Toast.makeText(context,"수정", Toast.LENGTH_SHORT)
-					.show();
-		});
-
-	}
 
 	private void createCommunityDetailDialog() {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
