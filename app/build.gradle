@@ -136,6 +136,8 @@ dependencies {
     compile 'com.github.mcginty:material-colors:1.1.0'
     // 에디트 텍스트 : https://github.com/rengwuxian/MaterialEditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    // 링크 텍스트 : https://github.com/armcha/AutoLinkTextView
+    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
 
     // Circle Image : https://github.com/hdodenhof/CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'

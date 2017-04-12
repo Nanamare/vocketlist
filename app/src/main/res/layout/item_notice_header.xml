@@ -2,22 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/notice_header_height"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:minHeight="@dimen/notice_header_height"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/notice_header_padding"
-    android:paddingRight="@dimen/notice_header_padding">
+    android:padding="@dimen/notice_header_padding">
 
     <!-- 레이블 -->
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvLabel"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="@android:color/black"
         android:textSize="@dimen/font_48"
-        tools:text="보킷리스트 서비스가 오픈" />
+        tools:text="보킷리스트 서비스가 오픈\n보킷리스트 서비스가 오픈" />
 
     <!-- 확장 아이콘 -->
     <android.support.v7.widget.AppCompatImageView
