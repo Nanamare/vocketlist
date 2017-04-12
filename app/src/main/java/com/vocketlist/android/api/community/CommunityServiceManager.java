@@ -32,8 +32,8 @@ public final class CommunityServiceManager {
 
     }
 
-    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo) {
-        return search(pageNo, null);
+    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo,String userName) {
+        return search(pageNo, userName);
     }
 
     public static Observable<Response<BaseResponse<CommunityList>>> search(int pageNo, String searchKeyword) {
@@ -49,9 +49,13 @@ public final class CommunityServiceManager {
     }
 
     public static Observable<Response<BaseResponse<CommunityWrite>>> write(int vocketServiceId, String imagePath, String content) {
-        MultipartBody.Part image = getMultipartBody(imagePath);
+        MultipartBody.Part image = null;
         RequestBody description = null;
         RequestBody serviceId = null;
+
+        if(imagePath != null){
+            image = getMultipartBody(imagePath);
+        }
 
         if (content != null) {
             description = RequestBody.create(okhttp3.MultipartBody.FORM, content);
@@ -60,8 +64,7 @@ public final class CommunityServiceManager {
         if (vocketServiceId > 0) {
             serviceId = RequestBody.create(okhttp3.MultipartBody.FORM, Integer.toString(vocketServiceId));
         }
-        //image, content, vocketServiceId
-//        image, description, serviceId
+
         return service.write(image, description, serviceId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityWrite>()));

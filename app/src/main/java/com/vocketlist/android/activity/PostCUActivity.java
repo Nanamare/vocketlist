@@ -207,28 +207,10 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		setSupportActionBar(toolbar);
 
 		checkThePemission();
-//		// 헤더 CI 적용
-//		getSupportActionBar().setDisplayShowCustomEnabled(true);
-//		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//		getSupportActionBar().setCustomView(
-//				getLayoutInflater().inflate(R.layout.appbar_sub_title, null),
-//				new ActionBar.LayoutParams(
-//						ActionBar.LayoutParams.WRAP_CONTENT,
-//						ActionBar.LayoutParams.WRAP_CONTENT,
-//						Gravity.CENTER
-//				)
-//		);
 
-		checkThePemission();
-
-//		picTv.setOnClickListener(view -> takepicture());
-//		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
-
-		//
 		mAttachmentHelper = new AttachmentHelper(this);
 		mAttachmentHelper.setPickerCallback(this);
 
-		//
 		handleIntent();
 	}
 
@@ -363,37 +345,63 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 */
 	private void doDone() {
 		Toast.makeText(this, "등록중", Toast.LENGTH_SHORT).show();
+		if(mChosenFile!=null) {
+			CommunityServiceManager.write(1, mChosenFile.getOriginalPath(), metContent.getText().toString())
+					.doOnTerminate(new Action0() {
+						@Override
+						public void call() {
 
-		CommunityServiceManager.write(1,mChosenFile.getOriginalPath(),metContent.getText().toString())
-				.doOnTerminate(new Action0() {
-					@Override
-					public void call() {
+						}
+					})
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+						@Override
+						public void onCompleted() {
 
-					}
-				})
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
-					@Override
-					public void onCompleted() {
+						}
 
-					}
+						@Override
+						public void onError(Throwable e) {
+							e.printStackTrace();
+						}
 
-					@Override
-					public void onError(Throwable e) {
-						e.printStackTrace();
-					}
+						@Override
+						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+							mWriteResponse = baseResponseResponse.body();
+							moveToCommunityFmt();
+						}
+					});
+		} else {
+			CommunityServiceManager.write(1, null, metContent.getText().toString())
+					.doOnTerminate(new Action0() {
+						@Override
+						public void call() {
 
-					@Override
-					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
-						mWriteResponse = baseResponseResponse.body();
-						moveToCommunityFmt();
-					}
-				});
+						}
+					})
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+						@Override
+						public void onCompleted() {
+
+						}
+
+						@Override
+						public void onError(Throwable e) {
+							e.printStackTrace();
+						}
+
+						@Override
+						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+							mWriteResponse = baseResponseResponse.body();
+							moveToCommunityFmt();
+						}
+					});
+
+		}
 	}
 
 	private void moveToCommunityFmt() {
-		Intent intent = new Intent(this, CommunityCategoryFragment.class);
-		startActivity(intent);
 		finish();
 	}
 

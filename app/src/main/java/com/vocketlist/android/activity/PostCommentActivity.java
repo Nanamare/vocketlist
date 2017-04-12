@@ -200,6 +200,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     @Override
     protected void onResume(){
+        super.onResume();
         requestCommentList();
     }
 }
