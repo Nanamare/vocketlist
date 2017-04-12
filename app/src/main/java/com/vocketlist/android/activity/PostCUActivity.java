@@ -31,10 +31,15 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerSearchAdapter;
+import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityWrite;
 import com.vocketlist.android.defined.Extras;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.MyList;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.common.helper.AttachmentHelper;
+import com.vocketlist.android.fragment.CommunityCategoryFragment;
+import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.api.Parameters;
 import com.vocketlist.android.view.AttachmentSingleView;
@@ -52,6 +57,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * 커뮤니티 : 작성 + 수정
@@ -68,16 +77,6 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	@BindView(R.id.toolbar)
 	Toolbar toolbar;
-//	@BindView(R.id.activity_post_create_update_picTv)
-//	TextView picTv;
-//	@BindView(R.id.activity_post_create_update_picIv)
-//	ImageView picIv;
-//	@BindView(R.id.activity_post_create_update_shareToFb_tv)
-//	TextView shareToFb_tv;
-
-//	private Bitmap bp;
-//	private File imgfile;
-//	private String mCurrentPhotoPath;
 
 	@BindView(R.id.rlAttachment) RelativeLayout rlAttachment;
 	@BindView(R.id.metVolunteer) MaterialEditText metVolunteer;
@@ -170,6 +169,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	private ChosenFile mChosenFile;
 	private Volunteer.Data mVolunteer;
 	private MyList.Data mMyList;
+	private BaseResponse<CommunityWrite> mWriteResponse;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -206,6 +206,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		ButterKnife.bind(this);
 		setSupportActionBar(toolbar);
 
+		checkThePemission();
 //		// 헤더 CI 적용
 //		getSupportActionBar().setDisplayShowCustomEnabled(true);
 //		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -361,6 +362,39 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * TODO validation
 	 */
 	private void doDone() {
+		Toast.makeText(this, "등록중", Toast.LENGTH_SHORT).show();
+
+		CommunityServiceManager.write(1,mChosenFile.getOriginalPath(),metContent.getText().toString())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				})
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+						mWriteResponse = baseResponseResponse.body();
+						moveToCommunityFmt();
+					}
+				});
+	}
+
+	private void moveToCommunityFmt() {
+		Intent intent = new Intent(this, CommunityCategoryFragment.class);
+		startActivity(intent);
+		finish();
 	}
 
 	/**

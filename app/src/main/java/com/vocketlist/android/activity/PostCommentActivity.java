@@ -182,8 +182,6 @@ public class PostCommentActivity extends DepthBaseActivity implements
     }
 
     private void updateCommentList(BaseResponse<CommentWriteModel> commentModel) {
-//        다시 불러올지 , 클라이언트에서 처리할지 아직 협의안됨
-//        requestCommentList();
 
         CommentListModel.Comment comment = new CommentListModel.Comment();
         comment.mContent = commentModel.mResult.mContent;
@@ -197,5 +195,11 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     private void clearTextView() {
         contentsTv.setText("");
+    }
+
+
+    @Override
+    protected void onResume(){
+        requestCommentList();
     }
 }

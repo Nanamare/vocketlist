@@ -153,7 +153,7 @@ public class CommunityService_Test {
 
     @Test
     public void 커뮤니티_내용_작성_이미지제외() {
-        CommunityServiceManager.write(1, null, "test")
+        CommunityServiceManager.write(25, null, "test")
                 .subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
                     @Override
                     public void onCompleted() {

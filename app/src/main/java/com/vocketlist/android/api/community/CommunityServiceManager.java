@@ -60,7 +60,8 @@ public final class CommunityServiceManager {
         if (vocketServiceId > 0) {
             serviceId = RequestBody.create(okhttp3.MultipartBody.FORM, Integer.toString(vocketServiceId));
         }
-
+        //image, content, vocketServiceId
+//        image, description, serviceId
         return service.write(image, description, serviceId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityWrite>()));

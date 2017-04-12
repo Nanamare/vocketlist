@@ -176,7 +176,7 @@ public class FacebookLoginActivity extends BaseActivity {
 
 										@Override
 										public void onError(Throwable e) {
-
+											e.printStackTrace();
 										}
 
 										@Override
