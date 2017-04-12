@@ -16,7 +16,6 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.CommentAdapter;
 import com.vocketlist.android.api.Link;
-import com.vocketlist.android.api.comment.CommentService;
 import com.vocketlist.android.api.comment.CommentServiceManager;
 import com.vocketlist.android.api.comment.model.CommentListModel;
 import com.vocketlist.android.api.comment.model.CommentWriteModel;
@@ -48,7 +47,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.activity_post_comment_recyclerView) SuperRecyclerView recyclerView;
-    @BindView(R.id.activity_post_comment_tv) AppCompatEditText contentsTv;
+    @BindView(R.id.activity_post_comment_tv) AppCompatEditText contentsEdt;
     @BindView(R.id.activity_post_comment_sendBtn) AppCompatTextView sendBtn;
 
     private BaseResponse<CommentWriteModel> commentModel;
@@ -75,6 +74,14 @@ public class PostCommentActivity extends DepthBaseActivity implements
             if(intent != null) roomId = intent.getExtras().getInt("CommunityRoomId");
         }
 
+        //댓글아이콘을 클릭했을때는 포커스온
+        Intent intent = getIntent();
+        if(intent != null){
+            if(R.id.btnComment == intent.getExtras().getInt("viewId")){
+                contentsEdt.requestFocus();
+            }
+        }
+
         // 레이아웃 : 라사이클러
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setRefreshListener(this);
@@ -82,7 +89,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
         requestCommentList();
 
-        checkCommentsBlank(contentsTv);
+        checkCommentsBlank(contentsEdt);
     }
 
     private void checkCommentsBlank(AppCompatEditText contentsTv) {
@@ -148,7 +155,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     @OnClick(R.id.activity_post_comment_sendBtn)
     void sendBtn(){
-        String content = contentsTv.getText().toString();
+        String content = contentsEdt.getText().toString();
         if(content.length() == 0 ){
             Toast.makeText(this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
@@ -194,7 +201,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
     }
 
     private void clearTextView() {
-        contentsTv.setText("");
+        contentsEdt.setText("");
     }
 
 

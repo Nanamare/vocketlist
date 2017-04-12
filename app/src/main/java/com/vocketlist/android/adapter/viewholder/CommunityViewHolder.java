@@ -129,7 +129,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			btnComment.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-
+					goToCommentActivity(view);
 				}
 			});
 
@@ -175,12 +175,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			tvCommentMore.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
-					if(communityData.mComment != null) {
-							goToCommentActivity.putExtra("commentList",communityData.mComment);
-							goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
-					}
-					context.startActivity(goToCommentActivity);
+					goToCommentActivity(view);
 				}
 			});
 
@@ -196,7 +191,18 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 		}
 	}
 
+	private void goToCommentActivity(View view) {
+		Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
+		if(communityData.mComment != null) {
+			goToCommentActivity.putExtra("commentList",communityData.mComment);
+			goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
+		}
+		if(view != null) goToCommentActivity.putExtra("viewId",view.getId());
+		context.startActivity(goToCommentActivity);
+	}
+
 	private void setSpinner() {
+
 		LayoutInflater layoutInflater
 				= LayoutInflater.from(context);
 		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
