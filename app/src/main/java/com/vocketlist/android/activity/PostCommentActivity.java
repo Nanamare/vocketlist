@@ -139,6 +139,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
     }
 
     private void setCommentList(BaseResponse<CommentListModel> commentList) {
+        adapter.clear();
         adapter.addAll(commentList.mResult.mCommentList);
         link = commentList.mResult.mLink;
         adapter.notifyDataSetChanged();
@@ -233,7 +234,9 @@ public class PostCommentActivity extends DepthBaseActivity implements
     };
 
     private void requestDeleteComment(int position) {
-        CommentServiceManager.delete(commentListModel.mResult.mCommentList.get(position).mCommentId)
+//        ((CommentListModel.Comment)adapter.getItem(position)).mCommentId 이게 올바른 로직
+//         commentListModel.mResult.mCommentList.get(position).mCommentId
+        CommentServiceManager.delete(((CommentListModel.Comment)adapter.getItem(position)).mCommentId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnTerminate(new Action0() {
                 @Override
