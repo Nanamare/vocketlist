@@ -166,9 +166,11 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 				case R.id.btnFavorite :{
 					communityPosition = position;
 					requestFavorite();
+					break;
 				}
 				case R.id.btnMore :{
 					setSpinner(v, position);
+					break;
 				}
 			}
 		}

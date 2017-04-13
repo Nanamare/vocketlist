@@ -2,7 +2,6 @@ package com.vocketlist.android.adapter.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -17,16 +16,11 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.PostCommentActivity;
-import com.vocketlist.android.api.community.CommunityServiceManager;
 import com.vocketlist.android.api.community.model.CommunityList;
-import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
@@ -37,10 +31,6 @@ import java.util.Date;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 
 /**
  * 뷰홀더 : 커뮤니티 : 글
