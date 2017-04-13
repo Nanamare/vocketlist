@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.CommentViewHolder;
 import com.vocketlist.android.dto.Comment;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.util.List;
 
@@ -16,16 +17,20 @@ import java.util.List;
  * @since 2017. 2. 14.
  */
 public class CommentAdapter extends BaseAdapter<CommentViewHolder> {
+
+    private RecyclerViewItemClickListener mListener;
+
     /**
      * 생성자
      * @param data
      */
-    public CommentAdapter(List<Comment> data) {
+    public CommentAdapter(List<Comment> data, RecyclerViewItemClickListener mListener) {
         super(data);
+        this.mListener = mListener;
     }
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false));
+        return new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false), mListener);
     }
 }

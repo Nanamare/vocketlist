@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -21,6 +22,7 @@ import com.vocketlist.android.api.comment.model.CommentListModel;
 import com.vocketlist.android.api.comment.model.CommentWriteModel;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.Comment;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
     private int page = 1;
     private Link link;
     private boolean isCheckBlank;
+    private BaseResponse<CommentListModel> commentListModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +81,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
-        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>()));
+        recyclerView.setAdapter(adapter = new CommentAdapter(new ArrayList<>(),listener));
         requestCommentList();
 
 
@@ -107,7 +110,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     private void requestCommentList() {
 //        roomId, postPageCnt
-        CommentServiceManager.list(25, 1)
+        CommentServiceManager.list(55, 1)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnTerminate(new Action0() {
                 @Override
@@ -128,6 +131,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
                 @Override
                 public void onNext(Response<BaseResponse<CommentListModel>> baseResponseResponse) {
+                    commentListModel = baseResponseResponse.body();
                     setCommentList(baseResponseResponse.body());
                 }
             });
@@ -210,5 +214,53 @@ public class PostCommentActivity extends DepthBaseActivity implements
     protected void onResume(){
         super.onResume();
         requestCommentList();
+    }
+
+    RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {
+        @Override
+        public void onItemClick(View v, int position) {
+            switch (v.getId()){
+                case R.id.civPhoto:{
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            requestDeleteComment(position);
+                        }
+                    });
+                }
+            }
+        }
+    };
+
+    private void requestDeleteComment(int position) {
+        CommentServiceManager.delete(commentListModel.mResult.mCommentList.get(position).mCommentId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnTerminate(new Action0() {
+                @Override
+                public void call() {
+
+                }
+            })
+            .subscribe(new Subscriber<Response<BaseResponse<Void>>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                    adapter.remove(position);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
+                    Toast.makeText(PostCommentActivity.this, "완료", Toast.LENGTH_SHORT).show();
+                    adapter.remove(position);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
     }
 }
