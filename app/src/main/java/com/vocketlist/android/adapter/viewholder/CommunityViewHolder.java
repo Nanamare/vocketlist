@@ -124,19 +124,9 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 				}
 			});
 
-			btnFacebook.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
+			btnFacebook.setOnClickListener(this);
 
-				}
-			});
-
-			btnKakaolink.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-
-				}
-			});
+			btnKakaolink.setOnClickListener(this);
 
 			tvCount.setText("좋아요 " + communityData.mLikeCount);
 

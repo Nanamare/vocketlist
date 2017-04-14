@@ -1,10 +1,12 @@
 package com.vocketlist.android.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
@@ -163,13 +167,21 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		@Override
 		public void onItemClick(View v, int position) {
 			switch (v.getId()){
-				case R.id.btnFavorite :{
+				case R.id.btnFavorite : {
 					communityPosition = position;
 					requestFavorite();
 					break;
 				}
-				case R.id.btnMore :{
+				case R.id.btnMore : {
 					setSpinner(v, position);
+					break;
+				}
+				case R.id.btnKakaolink : {
+
+					break;
+				}
+				case R.id.btnFacebook : {
+					shareToFacebook(position);
 					break;
 				}
 			}
@@ -298,6 +310,31 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	public void onItemClick(View v, int position) {
 
 	}
+
+	private void shareToFacebook(int position) {
+		String mImageUrl = "";
+		if(!TextUtils.isEmpty(communityList.mResult.mData.get(position).mImageUrl)){
+			mImageUrl = communityList.mResult.mData.get(position).mImageUrl;
+		} else {
+			mImageUrl = "https://i.vimeocdn.com/video/620559869_1280.jpg";
+		}
+		ShareLinkContent content = new ShareLinkContent.Builder()
+				//링크의 콘텐츠 제목
+				.setContentTitle(communityList.mResult.mData.get(position).mUser.mName+" 님이 작성하신 글입니다.")
+				//게시물에 표시될 썸네일 이미지의 URL
+				.setImageUrl(Uri.parse(mImageUrl))
+				//공유될 링크 (봉사 활동에 대한 내용)
+				.setContentUrl(Uri.parse("http://52.78.106.73:8080/kozy/"))
+				//게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
+				.setContentDescription(communityList.mResult.mData.get(position).mContent)
+				.build();
+
+		ShareDialog shareDialog = new ShareDialog(CommunityCategoryFragment.this);
+		shareDialog.show(content, ShareDialog.Mode.FEED);
+	}
+
+
+
 
 	/**
 	private void refreshFavoriteCount(int page, int postId) {
