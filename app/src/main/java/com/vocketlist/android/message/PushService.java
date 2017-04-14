@@ -12,17 +12,12 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.FavoriteActivity;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.message.notitype.Notitype;
 import com.vocketlist.android.roboguice.log.Ln;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

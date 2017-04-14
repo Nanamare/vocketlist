@@ -3,6 +3,7 @@ package com.vocketlist.android.defined;
 import android.support.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
+import com.vocketlist.android.AppApplication;
 import com.vocketlist.android.R;
 
 /**
@@ -24,6 +25,10 @@ public enum Category {
     Category(@StringRes int tabResid, @StringRes int descResId) {
         this.tabResId = tabResid;
         this.descResId = descResId;
+    }
+
+    public String getTabString(){
+        return AppApplication.getInstance().getContext().getString(tabResId);
     }
 
     public int getTabResId() {
