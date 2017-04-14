@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
@@ -177,7 +179,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 					break;
 				}
 				case R.id.btnKakaolink : {
-
+					shareKakaoLink(position);
 					break;
 				}
 				case R.id.btnFacebook : {
@@ -187,6 +189,32 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 			}
 		}
 	};
+
+	private void shareKakaoLink(int position) {
+		try{
+			final KakaoLink kakaoLink = KakaoLink.getKakaoLink(getContext());
+			final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+
+        /*메시지 추가*/
+			kakaoBuilder.addText("카카오링크 테스트입니다.");
+
+        /*이미지 가로/세로 사이즈는 80px 보다 커야하며, 이미지 용량은 500kb 이하로 제한된다.*/
+			String url = "https://lh3.googleusercontent.com/4FMghyiNYU73ECn5bHOKG0X1Nv_A5J7z2eRjHGIGxtQtK7L-fyNVuqcvyq6C1vIUxgPP=w300-rw";
+			kakaoBuilder.addImage(url, 160, 160);
+
+        /*앱 실행버튼 추가*/
+			kakaoBuilder.addAppButton("앱 실행 혹은 다운로드");
+
+        /*메시지 발송*/
+			kakaoLink.sendMessage(String.valueOf(kakaoBuilder), getContext());
+
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+
+	}
 
 	private void setSpinner(View btnMore, int position) {
 
