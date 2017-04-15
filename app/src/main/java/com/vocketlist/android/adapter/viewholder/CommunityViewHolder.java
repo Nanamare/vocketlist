@@ -3,8 +3,6 @@ package com.vocketlist.android.adapter.viewholder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
@@ -23,17 +21,13 @@ import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.api.community.model.CommunityList;
-import com.vocketlist.android.dto.Comment;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -102,6 +96,10 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 						.into(ivPhoto);
 			}
 
+			//수정, 삭제 스피너
+			btnMore.setOnClickListener(this);
+
+
 			ivPhoto.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -122,23 +120,13 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			btnComment.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-
+					goToCommentActivity(view);
 				}
 			});
 
-			btnFacebook.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
+			btnFacebook.setOnClickListener(this);
 
-				}
-			});
-
-			btnKakaolink.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-
-				}
-			});
+			btnKakaolink.setOnClickListener(this);
 
 			tvCount.setText("좋아요 " + communityData.mLikeCount);
 
@@ -147,15 +135,18 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			//댓글 보여주기
 			if(communityData.mComment != null) {
 				if (communityData.mComment.size() == 1) {
+					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 보기");
 					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
 					tvComment.setText(communityData.mComment.get(1).mContent);
 				} else if (communityData.mComment.size() >= 2) {
+					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 모두 보기");
 					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
 					tvCommentUserNm2.setText(communityData.mComment.get(2).mUserInfo.mName);
 					tvComment.setText(communityData.mComment.get(1).mContent);
 					tvComment2.setText(communityData.mComment.get(2).mContent);
 				}
 			} else {
+				tvCommentMore.setText("댓글을 등록해보세요.");
 				tvComment.setVisibility(View.GONE);
 				tvComment2.setVisibility(View.GONE);
 				tvCommentUserNm.setVisibility(View.GONE);
@@ -165,12 +156,7 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 			tvCommentMore.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
-					if(communityData.mComment != null) {
-							goToCommentActivity.putExtra("commentList",communityData.mComment);
-							goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
-					}
-					context.startActivity(goToCommentActivity);
+					goToCommentActivity(view);
 				}
 			});
 
@@ -185,6 +171,17 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 
 		}
 	}
+
+	private void goToCommentActivity(View view) {
+		Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
+		if(communityData.mComment != null) {
+			goToCommentActivity.putExtra("commentList",communityData.mComment);
+			goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
+		}
+		if(view != null) goToCommentActivity.putExtra("viewId",view.getId());
+		context.startActivity(goToCommentActivity);
+	}
+
 
 	private void createCommunityDetailDialog() {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

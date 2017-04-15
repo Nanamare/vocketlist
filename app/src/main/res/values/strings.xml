@@ -152,5 +152,7 @@
     <string name="noti_setting_community_title">커뮤니티</string>
     <string name="noti_setting_community_subtitle">커뮤니티에서 나와 관련된 활동을 알려주세요</string>
 
+    <!--커뮤니티 -->
+    <string name="delete_communityList">커뮤니티 글을 삭제 하시겠습니까?</string>
 
 </resources>

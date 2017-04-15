@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
-import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.api.vocket.VolunteerDetail;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.presenter.IView.IVolunteerReadView;
 import com.vocketlist.android.presenter.VolunteerCategoryPresenter;

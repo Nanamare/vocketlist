@@ -42,6 +42,7 @@ import com.vocketlist.android.fragment.CommunityCategoryFragment;
 import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.api.Parameters;
+import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.view.AttachmentSingleView;
 
 import java.io.File;
@@ -207,28 +208,10 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		setSupportActionBar(toolbar);
 
 		checkThePemission();
-//		// 헤더 CI 적용
-//		getSupportActionBar().setDisplayShowCustomEnabled(true);
-//		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//		getSupportActionBar().setCustomView(
-//				getLayoutInflater().inflate(R.layout.appbar_sub_title, null),
-//				new ActionBar.LayoutParams(
-//						ActionBar.LayoutParams.WRAP_CONTENT,
-//						ActionBar.LayoutParams.WRAP_CONTENT,
-//						Gravity.CENTER
-//				)
-//		);
 
-		checkThePemission();
-
-//		picTv.setOnClickListener(view -> takepicture());
-//		shareToFb_tv.setOnClickListener(view -> shareToFacebook());
-
-		//
 		mAttachmentHelper = new AttachmentHelper(this);
 		mAttachmentHelper.setPickerCallback(this);
 
-		//
 		handleIntent();
 	}
 
@@ -362,38 +345,66 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * TODO validation
 	 */
 	private void doDone() {
-		Toast.makeText(this, "등록중", Toast.LENGTH_SHORT).show();
+		if(mChosenFile!=null) {
+			CommunityServiceManager.write(1, mChosenFile.getOriginalPath(), metContent.getText().toString())
+					.doOnTerminate(new Action0() {
+						@Override
+						public void call() {
 
-		CommunityServiceManager.write(1,mChosenFile.getOriginalPath(),metContent.getText().toString())
-				.doOnTerminate(new Action0() {
-					@Override
-					public void call() {
+						}
+					})
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+						@Override
+						public void onCompleted() {
 
-					}
-				})
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
-					@Override
-					public void onCompleted() {
+						}
 
-					}
+						@Override
+						public void onError(Throwable e) {
+							e.printStackTrace();
+						}
 
-					@Override
-					public void onError(Throwable e) {
-						e.printStackTrace();
-					}
+						@Override
+						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+							mWriteResponse = baseResponseResponse.body();
+							moveToCommunityFmt();
 
-					@Override
-					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
-						mWriteResponse = baseResponseResponse.body();
-						moveToCommunityFmt();
-					}
-				});
+						}
+					});
+		} else {
+			CommunityServiceManager.write(1, null, metContent.getText().toString())
+					.doOnTerminate(new Action0() {
+						@Override
+						public void call() {
+
+						}
+					})
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+						@Override
+						public void onCompleted() {
+
+						}
+
+						@Override
+						public void onError(Throwable e) {
+							e.printStackTrace();
+						}
+
+						@Override
+						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+							mWriteResponse = baseResponseResponse.body();
+							moveToCommunityFmt();
+						}
+					});
+
+			Toast.makeText(PostCUActivity.this, "등록 완료", Toast.LENGTH_SHORT).show();
+
+		}
 	}
 
 	private void moveToCommunityFmt() {
-		Intent intent = new Intent(this, CommunityCategoryFragment.class);
-		startActivity(intent);
 		finish();
 	}
 
@@ -429,13 +440,13 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	private void shareToFacebook() {
 		ShareLinkContent content = new ShareLinkContent.Builder()
 				//링크의 콘텐츠 제목
-				.setContentTitle("봉사활동 후기")
+				.setContentTitle(FacebookPreperence.getInstance().getUserName()+"님이 작성하신 글입니다.")
 				//게시물에 표시될 썸네일 이미지의 URL
-				.setImageUrl(Uri.parse("https://4310b1a9-a-5b13c88f-s-sites.googlegroups.com/a/j2edu.co.kr/home/bongsa-hwaldong/%EB%B4%89%EC%82%AC.jpg?attachauth=ANoY7crzTtirlQHaUHt2tEZ7WSgQn_Tws7PC3oHFMh-kRkg64THIgwKT5wYar1sbt-aNqWWb5hCZnQvAm3mxppJFpXZoHhfwUoERcyyiVXuEWYnKeLaawhd22lVdSRcKwhAiKS5CfN7Sy1WOhDFEsLJQPJSW-RD_xgNgo_Ny2NbCTGeCqUkroOoqt0oRCZbAWyLP7vkr2E9UZXW9USgy0psElpPqa3lNrbOw_nGxbhPKaFtuDTIeF6o%3D&attredirects=0"))
-				//공유될 링크
+				.setImageUrl(Uri.parse("https://i.vimeocdn.com/video/620559869_1280.jpg"))
+				//공유될 링크 (봉사 활동에 대한 내용)
 				.setContentUrl(Uri.parse("http://52.78.106.73:8080/kozy/"))
 				//게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
-				.setContentDescription("지난 금요일 봉사활동 다녀온 후기입니다 ^^")
+				.setContentDescription(metContent.getText().toString())
 				.build();
 
 		ShareDialog shareDialog = new ShareDialog(this);

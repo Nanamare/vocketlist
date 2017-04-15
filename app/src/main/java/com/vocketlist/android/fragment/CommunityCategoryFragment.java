@@ -1,12 +1,23 @@
 package com.vocketlist.android.fragment;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
@@ -18,6 +29,7 @@ import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -45,6 +57,10 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	private  BaseResponse<CommunityList> communityList;
 	private BaseResponse<CommunityLike> communityLike;
 	private int communityPosition;
+	private CommunityCategory category = CommunityCategory.All;
+
+	private ArrayAdapter<String> menuList;
+
 	/**
 	 * 인스턴스
 	 *
@@ -67,16 +83,23 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 		Bundle args = getArguments();
 		Serializable c = args.getSerializable(Args.CATEGORY);
-		if (c != null && c instanceof CommunityCategory) {
-			CommunityCategory category = (CommunityCategory) c;
 
+		if (c != null && c instanceof CommunityCategory) {
+			this.category = (CommunityCategory) c;
 			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>(),listener));
-			requestCommunityList(communityListPgCnt++);
+			if(category.getResId() == R.string.com_all) {
+				requestCommunityList(communityListPgCnt++,null);
+			} else if(category.getResId() == R.string.com_myWriting){
+				requestCommunityList(communityListPgCnt++, "신현성");
+			} else {
+				//명언 보기
+			}
+
 		}
 	}
 
-	private void requestCommunityList(int pageNum) {
-		CommunityServiceManager.list(pageNum)
+	private void requestCommunityList(int pageNum,String userName) {
+		CommunityServiceManager.list(pageNum, userName)
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnTerminate(new Action0() {
 					@Override
@@ -146,13 +169,128 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		@Override
 		public void onItemClick(View v, int position) {
 			switch (v.getId()){
-				case R.id.btnFavorite :{
+				case R.id.btnFavorite : {
 					communityPosition = position;
 					requestFavorite();
+					break;
+				}
+				case R.id.btnMore : {
+					setSpinner(v, position);
+					break;
+				}
+				case R.id.btnKakaolink : {
+					shareKakaoLink(position);
+					break;
+				}
+				case R.id.btnFacebook : {
+					shareToFacebook(position);
+					break;
 				}
 			}
 		}
 	};
+
+	private void shareKakaoLink(int position) {
+		try{
+			final KakaoLink kakaoLink = KakaoLink.getKakaoLink(getContext());
+			final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+
+        /*메시지 추가*/
+			kakaoBuilder.addText("카카오링크 테스트입니다.");
+
+        /*이미지 가로/세로 사이즈는 80px 보다 커야하며, 이미지 용량은 500kb 이하로 제한된다.*/
+			String url = "https://lh3.googleusercontent.com/4FMghyiNYU73ECn5bHOKG0X1Nv_A5J7z2eRjHGIGxtQtK7L-fyNVuqcvyq6C1vIUxgPP=w300-rw";
+			kakaoBuilder.addImage(url, 160, 160);
+
+        /*앱 실행버튼 추가*/
+			kakaoBuilder.addAppButton("앱 실행 혹은 다운로드");
+
+        /*메시지 발송*/
+			kakaoLink.sendMessage(String.valueOf(kakaoBuilder), getContext());
+
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+
+	}
+
+	private void setSpinner(View btnMore, int position) {
+
+		LayoutInflater layoutInflater
+				= LayoutInflater.from(getContext());
+		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
+		final PopupWindow popupWindow = new PopupWindow(popupView,
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.showAsDropDown(btnMore, 0, 20);
+
+		LinearLayout llDelete = (LinearLayout) popupView.findViewById(R.id.popup_delete);
+		llDelete.setOnClickListener(v1 -> {
+			android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(getContext())
+					.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+
+						//삭제하고 데이터 제거후 업데이트
+
+						deleteCommunityRoom(position);
+						adapter.remove(position);
+
+						dialog.dismiss();
+
+						popupWindow.dismiss();
+
+					}).setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+						dialog.dismiss();     //닫기
+						popupWindow.dismiss();
+
+					}).setMessage(R.string.delete_communityList);
+
+			alert.show();
+		});
+
+		LinearLayout llModify = (LinearLayout) popupView.findViewById(R.id.popup_modify);
+
+		llModify.setOnClickListener(v1 -> {
+
+			popupWindow.dismiss();
+			Toast.makeText(getContext() ,"수정" , Toast.LENGTH_SHORT)
+					.show();
+		});
+
+	}
+
+	private void deleteCommunityRoom(int position) {
+		CommunityServiceManager.delete(communityList.mResult.mData.get(position).mId)
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+
+					}
+				})
+				.subscribe(new Subscriber<Response<BaseResponse<Void>>>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
+						adapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
+						adapter.notifyDataSetChanged();
+					}
+				});
+	}
+
 
 	private void requestFavorite() {
 		CommunityServiceManager.like(communityList.mResult.mData.get(communityPosition).mId)
@@ -200,6 +338,31 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	public void onItemClick(View v, int position) {
 
 	}
+
+	private void shareToFacebook(int position) {
+		String mImageUrl = "";
+		if(!TextUtils.isEmpty(communityList.mResult.mData.get(position).mImageUrl)){
+			mImageUrl = communityList.mResult.mData.get(position).mImageUrl;
+		} else {
+			mImageUrl = "https://i.vimeocdn.com/video/620559869_1280.jpg";
+		}
+		ShareLinkContent content = new ShareLinkContent.Builder()
+				//링크의 콘텐츠 제목
+				.setContentTitle(communityList.mResult.mData.get(position).mUser.mName+" 님이 작성하신 글입니다.")
+				//게시물에 표시될 썸네일 이미지의 URL
+				.setImageUrl(Uri.parse(mImageUrl))
+				//공유될 링크 (봉사 활동에 대한 내용)
+				.setContentUrl(Uri.parse("http://52.78.106.73:8080/kozy/"))
+				//게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
+				.setContentDescription(communityList.mResult.mData.get(position).mContent)
+				.build();
+
+		ShareDialog shareDialog = new ShareDialog(CommunityCategoryFragment.this);
+		shareDialog.show(content, ShareDialog.Mode.FEED);
+	}
+
+
+
 
 	/**
 	private void refreshFavoriteCount(int page, int postId) {

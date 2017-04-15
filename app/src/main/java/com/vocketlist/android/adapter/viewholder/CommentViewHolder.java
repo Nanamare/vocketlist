@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.comment.model.CommentListModel;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
 import java.io.Serializable;
 
@@ -20,18 +21,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class CommentViewHolder extends BaseViewHolder {
+public class CommentViewHolder extends BaseViewHolder implements View.OnClickListener{
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
 
     private CommentListModel.Comment commentList;
+    private RecyclerViewItemClickListener mListener;
     /**
      * 생성자
      * @param itemView
      */
-    public CommentViewHolder(View itemView) {
+    public CommentViewHolder(View itemView, RecyclerViewItemClickListener mListener) {
         super(itemView);
+        this.mListener = mListener;
+        itemView.setOnClickListener(this);
     }
 
     @NonNull
@@ -47,11 +51,17 @@ public class CommentViewHolder extends BaseViewHolder {
                 .placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
                 .crossFade()
                 .into(civPhoto);
+            civPhoto.setOnClickListener(this);
 
             //이름 + 내용
             tvName.setText(commentList.mUserInfo.mName+" - "+commentList.mContent);
-
+            tvName.setOnClickListener(this);
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(mListener != null) mListener.onItemClick(view, getAdapterPosition());
     }
 }
