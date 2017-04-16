@@ -1,6 +1,5 @@
 package com.vocketlist.android.fragment;
 
-import android.app.TimePickerDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,19 +7,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
-import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.util.LocalSpinnerManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,27 +84,24 @@ public class VolunteerFragment extends BaseFragment {
 
         AppCompatTextView startTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_start_date_tv);
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
+        AppCompatSpinner localTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_spinner);
+        AppCompatSpinner localDetailTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_detail_spinner);
 
-        startTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                com.vocketlist.android.util.TimePickerDialog dialog =
-                    com.vocketlist.android.util.TimePickerDialog.newInstance(view);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                dialog.show(ft, "TimeDialog");
-            }
+        startTv.setOnClickListener(view -> {
+            com.vocketlist.android.util.TimePickerDialog dialog =
+                com.vocketlist.android.util.TimePickerDialog.newInstance(view);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            dialog.show(ft, "TimeDialog");
         });
 
-        endTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                com.vocketlist.android.util.TimePickerDialog dialog =
-                    com.vocketlist.android.util.TimePickerDialog.newInstance(view);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                dialog.show(ft, "TimeDialog");
-            }
+        endTv.setOnClickListener(view -> {
+            com.vocketlist.android.util.TimePickerDialog dialog =
+                com.vocketlist.android.util.TimePickerDialog.newInstance(view);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            dialog.show(ft, "TimeDialog");
         });
 
+        LocalSpinnerManager.getInstance(localTv, localDetailTv);
 
 
     }

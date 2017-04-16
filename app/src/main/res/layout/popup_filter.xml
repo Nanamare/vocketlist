@@ -50,15 +50,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_weight="1"
-            android:hint="지역 정하기"
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_weight="0.5"
+            android:spinnerMode="dialog"
+            android:id="@+id/popup_filter_local_spinner"
+            android:prompt="@string/local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatTextView
+
+        <View
             android:layout_weight="1"
-            android:hint="지역 세분화"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_weight="0.5"
+            android:id="@+id/popup_filter_local_detail_spinner"
+            android:spinnerMode="dialog"
+            android:prompt="@string/local_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

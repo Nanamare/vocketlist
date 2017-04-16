@@ -137,6 +137,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		adapter.addAll(communityList.mResult.mData);
 		page = communityList.mResult.mPageCurrentCnt;
 		links = communityList.mResult.mLinks;
+		adapter.notifyDataSetChanged();
 	}
 
 
@@ -362,7 +363,12 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		shareDialog.show(content, ShareDialog.Mode.FEED);
 	}
 
-
+	@Override
+	public void onResume(){
+		super.onResume();
+		communityListPgCnt = 0;
+		requestCommunityList(communityListPgCnt++,null);
+	}
 
 
 	/**

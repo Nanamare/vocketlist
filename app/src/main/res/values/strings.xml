@@ -155,4 +155,8 @@
     <!--커뮤니티 -->
     <string name="delete_communityList">커뮤니티 글을 삭제 하시겠습니까?</string>
 
+    <!-- 지역 스피너 -->
+    <string name="local">지역 선택</string>
+    <string name="local_detail">시군구 선택</string>
+
 </resources>
