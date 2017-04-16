@@ -73,8 +73,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
             commentList = (List<Comment>) bundle.getSerializable("commentList");
-            Intent intent = getIntent();
-            if(intent != null) roomId = intent.getExtras().getInt("CommunityRoomId");
+            roomId = bundle.getInt("CommunityRoomId");
         }
 
         // 레이아웃 : 라사이클러
@@ -110,7 +109,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
     private void requestCommentList() {
 //        roomId, postPageCnt
-        CommentServiceManager.list(55, 1)
+        CommentServiceManager.list(roomId, 1)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnTerminate(new Action0() {
                 @Override
@@ -165,7 +164,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         if(content.length() == 0 ){
             Toast.makeText(this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
-            CommentServiceManager.write(55,0,content)
+            CommentServiceManager.write(roomId, 0, content)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
                     @Override

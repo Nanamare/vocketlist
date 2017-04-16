@@ -32,7 +32,7 @@ public final class CommunityServiceManager {
 
     }
 
-    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo,String userName) {
+    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo, String userName) {
         return search(pageNo, userName);
     }
 

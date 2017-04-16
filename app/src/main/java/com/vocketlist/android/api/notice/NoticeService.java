@@ -13,6 +13,8 @@ import rx.Observable;
 public interface NoticeService {
     // notice는 임의로 정한 api
     // todo 차후 서버와 협의하여 api명 정한대로 수정 필요
-    @GET("notice")
+    @GET("notifications/list")
     Observable<Response<BaseResponse<NoticeModel>>> notice();
+
+
 }

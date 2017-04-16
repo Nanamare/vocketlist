@@ -176,9 +176,11 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
 		Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
 		if(communityData.mComment != null) {
 			goToCommentActivity.putExtra("commentList",communityData.mComment);
-			goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
 		}
-		if(view != null) goToCommentActivity.putExtra("viewId",view.getId());
+
+		goToCommentActivity.putExtra("CommunityRoomId",communityData.mId);
+		goToCommentActivity.putExtra("viewId",view.getId());
+
 		context.startActivity(goToCommentActivity);
 	}
 

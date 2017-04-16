@@ -46,6 +46,7 @@ public final class UserServiceManager {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         String token = (accessToken != null) ? accessToken.getToken() : "";
 
+        Ln.d("facebook : token = " + token);
         return loginWithFacebook(FacebookPreperence.getInstance().getUserInfo(),
                         token,
                         FacebookPreperence.getInstance().getUserId());
@@ -62,6 +63,7 @@ public final class UserServiceManager {
                         LoginInterceptor.setLoginToken(responseBodyResponse.body().mResult.mToken);
                         // 정상적으로 로그인이되었으면 서버에 토큰 정보를 전달한다.
                         // todo : 토큰 정보 전달시 실패되는 경우에 대하여 고려가 필요하다.
+                        Ln.d("login token : " + responseBodyResponse.body().mResult.mToken);
                         UserServiceManager
                                 .registerFcmToken(FirebaseInstanceId.getInstance().getToken())
                                 .subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>());
