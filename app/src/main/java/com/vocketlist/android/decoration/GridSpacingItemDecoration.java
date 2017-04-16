@@ -13,7 +13,8 @@ import android.view.View;
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount;
-    private int spacing;
+    private int hSpacing;
+    private int vSpacing;
     private boolean includeEdge;
 
     /**
@@ -24,8 +25,21 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
      * @param includeEdge
      */
     public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+        this(spanCount, spacing, spacing, includeEdge);
+    }
+
+    /**
+     * 생성자
+     *
+     * @param spanCount
+     * @param hSpacing
+     * @param vSpacing
+     * @param includeEdge
+     */
+    public GridSpacingItemDecoration(int spanCount, int hSpacing, int vSpacing, boolean includeEdge) {
         this.spanCount = spanCount;
-        this.spacing = spacing;
+        this.hSpacing = hSpacing;
+        this.vSpacing = vSpacing;
         this.includeEdge = includeEdge;
     }
 
@@ -35,18 +49,18 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
         int column = position % spanCount; // item column
 
         if (includeEdge) {
-            outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-            outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+            outRect.left = hSpacing - column * hSpacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+            outRect.right = (column + 1) * hSpacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
 
             if (position < spanCount) { // top edge
-                outRect.top = spacing;
+                outRect.top = vSpacing;
             }
-            outRect.bottom = spacing; // item bottom
+            outRect.bottom = vSpacing; // item bottom
         } else {
-            outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-            outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+            outRect.left = column * hSpacing / spanCount; // column * ((1f / spanCount) * spacing)
+            outRect.right = hSpacing - (column + 1) * hSpacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
             if (position >= spanCount) {
-                outRect.top = spacing; // item top
+                outRect.top = vSpacing; // item top
             }
         }
     }

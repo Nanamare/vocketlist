@@ -12,6 +12,8 @@
     <!---->
     <string name="close">닫기</string>
     <string name="detail_view">자세히 보기</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
 
     <!-- 인증 -->
     <string name="logout">로그아웃</string>
@@ -34,7 +36,7 @@
     <string name="com_writing">글\n작성</string>
 
     <!-- 카테고리 -->
-    <string-array name="category">
+    <string-array name="categories">
         <item>일손지원</item>
         <item>주거환경</item>
         <item>의료관련</item>
@@ -49,6 +51,11 @@
         <item>공익인권</item>
         <item>이미용</item>
         <item>기타</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>여자</item>
+        <item>남자</item>
     </string-array>
 
     <string name="desc_all">모든 봉사활동 정보가 바로 여기!</string>
@@ -121,6 +128,8 @@
     <string name="dialog_introduce_title">나만을 위한 봉사 큐레이터</string>
     <string name="dialog_introduce_message">멀게만 느껴졌던 봉사활동,\n\"보킷리스트\"와 함꼐 시작해 보세요!</string>
     <string name="dialog_introduce_check">오늘 하루 보지 않기</string>
+
+    <string name="dialog_category_max">관심분야는 최대 5개까지 선택할 수 있습니다.</string>
 
     <!-- 문의 -->
     <string name="help_question_email">cs@vocketlist.com</string>

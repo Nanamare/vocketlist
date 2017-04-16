@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -35,299 +36,331 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="30dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="30dp">
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="20dp">
+
+            <!-- 내정보 : 상단 -->
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="63.3dp"
                 android:orientation="horizontal">
 
+                <!-- 사진 -->
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileIv"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/dummy_profile" />
-
+                    android:id="@+id/civPhoto"
+                    android:layout_width="63.3dp"
+                    android:layout_height="63.3dp"
+                    android:src="@drawable/ci_inset"
+                    app:civ_border_color="@color/material_black"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0.3dp"
+                    app:civ_fill_color="@color/material_grey100"
+                    tools:src="@drawable/dummy_profile" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
                     android:orientation="vertical">
 
+                    <!-- 이름 -->
                     <LinearLayout
-                        android:id="@+id/nameLL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="0dp"
+                        android:layout_gravity="top"
+                        android:layout_weight="1"
+                        android:gravity="top">
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
-                            android:text="이름" />
+                            android:minWidth="70dp"
+                            android:text="이름"
+                            android:textColor="@color/material_black"
+                            android:textSize="@dimen/font_33" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvDisplayName"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="bongbongbong" />
+                            android:layout_weight="1"
+                            android:textSize="@dimen/font_33"
+                            tools:text="bongbongbong" />
+
+                        <!-- 로그아웃 -->
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnLogout"
+                            style="?selectableItemBackground"
+                            android:layout_width="50dp"
+                            android:layout_height="19dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/bg_logout"
+                            android:padding="5dp"
+                            android:text="@string/logout"
+                            android:textColor="#808080"
+                            android:textSize="@dimen/font_25" />
                     </LinearLayout>
 
+                    <!-- 이메일-->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/nameLL">
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
-                            android:text="계정" />
+                            android:minWidth="70dp"
+                            android:text="계정"
+                            android:textColor="@color/material_black"
+                            android:textSize="@dimen/font_33" />
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
+                            android:textSize="@dimen/font_33"
+                            tools:text="bong@daum.net" />
+
+                        <android.support.v7.widget.AppCompatImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="bong@daum.net" />
+                            android:src="@drawable/ic_facebook" />
                     </LinearLayout>
 
+                    <!-- 비밀번호 찾기 -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/nameLL">
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="bottom">
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="20dp"
-                            android:text="비밀번호" />
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
+                            android:minWidth="70dp"
+                            android:text="비밀번호"
+                            android:textColor="@color/material_black"
+                            android:textSize="@dimen/font_33" />
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvForgot"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="비밀번호가 기억나지 않으세요?" />
+                            android:layout_weight="60"
+                            android:text="비밀번호가 기억나지 않으세요?"
+                            android:textColor="@color/black_38"
+                            android:textSize="@dimen/font_33" />
+
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingLeft="2dp"
-                    android:text="로그아웃"
-                    android:background="@drawable/edittextbackground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/black_12" />
+            <!-- 내정보 : 생일 -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10">
+                android:layout_marginTop="22dp"
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="87.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="생년월일" />
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:text="생년월일"
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_33" />
 
-                <TextView
-                    android:id="@+id/profile_birth_tv"
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvBirth"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:gravity="center_horizontal"
-                    android:text="클릭해서 생년월일을 정해주세요." />
+                    android:hint="클릭해서 생년월일을 정해주세요."
+                    android:textColor="@color/material_black"
+                    android:textColorHint="@color/black_38"
+                    android:textSize="@dimen/font_33" />
             </LinearLayout>
 
+            <!-- 내정보 : 성별 -->
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="87.3dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
-                    android:text="성별" />
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:text="성별 "
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_33" />
 
                 <RadioGroup
-                    android:orientation="horizontal"
+                    android:id="@+id/rgGender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/woman_radioBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="여자" />
+                    android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/man_radioBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/rbFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="여자"
+                        android:textColor="@color/material_black"
+                        android:textSize="@dimen/font_33" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="남자" />
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/rbMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="남자"
+                        android:textColor="@color/material_black"
+                        android:textSize="@dimen/font_33" />
+
                 </RadioGroup>
 
             </LinearLayout>
 
+            <!-- 구분선 -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="17dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/black_12" />
 
-            <LinearLayout
+            <!-- 관심정보 : 타이틀 -->
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="추가관심정보 (선택사항)"
+                android:textColor="@color/material_black"
+                android:textSize="@dimen/font_39" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="추가관심정보 (선택사항)"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
+            <!-- 관심정보 : 설명 -->
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="추가관심정보를 선택하시면 추천정보를 받을 수 있습니다."
+                android:textColor="@color/black_38"
+                android:textSize="@dimen/font_33" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="추가관심정보를 선택하시면 추천정보를 받을 수 있습니다." />
-            </LinearLayout>
+            <!-- 분야 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="33dp"
+                android:text="분야 (최대 5개 복수선택 가능)"
+                android:textColor="@color/material_black"
+                android:textSize="@dimen/font_33" />
 
-            <LinearLayout
+            <!-- 분야 : 목록 -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:layout_marginStart="-6dp"
+                android:layout_marginEnd="-6dp"
+                android:layout_marginTop="16dp"
+                tools:background="@color/black_7" />
 
-                <TextView
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-분야 (최대 5개 복수선택 가능)" />
+            <!-- 지역 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="33dp"
+                android:text="지역 (최대 2개 지역)"
+                android:textColor="@color/material_black"
+                android:textSize="@dimen/font_33" />
 
-                <com.vocketlist.android.view.NonNestScrollGridView
-                    android:id="@+id/profileGv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="auto_fit">
-
-                </com.vocketlist.android.view.NonNestScrollGridView>
-
-            </LinearLayout>
-
+            <!-- 지역 : 선택 -->
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-지역 (최대 2지역)" />
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:layout_height="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:orientation="horizontal">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="1." />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/edittextbackground"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="도" />
+                    android:gravity="center"
+                    android:text="도"
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_30" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                <View
+                    android:layout_width="6.7dp"
+                    android:layout_height="match_parent" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/edittextbackground"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="시군구" />
+                    android:gravity="center"
+                    android:text="시군구"
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_30" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_height="20dp"
+                android:layout_marginTop="26dp"
+                android:orientation="horizontal">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="2." />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/edittextbackground"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="도" />
+                    android:gravity="center"
+                    android:text="도"
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_30" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                <View
+                    android:layout_width="6.7dp"
+                    android:layout_height="match_parent" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/edittextbackground"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="시군구" />
+                    android:gravity="center"
+                    android:text="시군구"
+                    android:textColor="@color/material_black"
+                    android:textSize="@dimen/font_30" />
             </LinearLayout>
-
 
         </LinearLayout>
 

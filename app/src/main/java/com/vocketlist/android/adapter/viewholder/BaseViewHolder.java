@@ -19,15 +19,13 @@ import butterknife.ButterKnife;
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     protected Context context;
-    protected View vRoot;
+
     /**
      * 생성자
      * @param itemView
      */
     public BaseViewHolder(View itemView) {
         super(itemView);
-
-        vRoot = itemView;
         context = itemView.getContext();
 
         ButterKnife.bind(this, itemView);
