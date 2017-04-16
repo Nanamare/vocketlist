@@ -11,9 +11,9 @@
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lineSpacingMultiplier="1.2"
+        android:lineSpacingMultiplier="1.4"
         android:textColor="@color/black_87"
-        android:textSize="@dimen/font_48"
+        android:textSize="@dimen/font_42"
         tools:text="보킷리스트 서비스 오픈 기념 이벤트를 진행합니다! 많은 관심과 사랑부탁드려요!" />
 
 </LinearLayout>
