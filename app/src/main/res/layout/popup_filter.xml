@@ -21,14 +21,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:layout_weight="1"
+            android:id="@+id/popup_filter_start_date_tv"
             android:hint="시작 날짜 정하기"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:layout_weight="1"
+            android:id="@+id/popup_filter_end_date_tv"
             android:hint="종료 날짜 정하기"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -48,13 +50,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:layout_weight="1"
             android:hint="지역 정하기"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:layout_weight="1"
             android:hint="지역 세분화"
             android:layout_width="wrap_content"
@@ -80,7 +82,7 @@
             android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.AppCompatButton
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|center_vertical"
             android:layout_weight="2"
             android:textStyle="bold"
             android:text="적용하기"
