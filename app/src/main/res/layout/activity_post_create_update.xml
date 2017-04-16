@@ -60,6 +60,7 @@
 
                 <!-- 내용 -->
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:background="@color/transparent"
                     android:id="@+id/metContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

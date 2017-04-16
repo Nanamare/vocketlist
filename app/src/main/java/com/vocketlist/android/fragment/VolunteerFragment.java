@@ -1,5 +1,6 @@
 package com.vocketlist.android.fragment;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,6 +9,8 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
@@ -59,6 +62,20 @@ public class VolunteerFragment extends BaseFragment {
 
         // TODO : 필터
         AppCompatImageButton btnFilter = ButterKnife.findById(getActivity(), R.id.btnFilter);
-        btnFilter.setOnClickListener(v -> Ln.d(v));
+        btnFilter.setOnClickListener(v -> generateFilterLayout(v));
+    }
+
+    private void generateFilterLayout(View filterView) {
+        LayoutInflater layoutInflater
+            = LayoutInflater.from(getContext());
+        View popupView = layoutInflater.inflate(R.layout.popup_filter, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(filterView,0,0);
+
     }
 }

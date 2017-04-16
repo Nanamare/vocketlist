@@ -33,7 +33,7 @@ public final class VocketServiceManager {
 
     public static Observable<Response<BaseResponse<Volunteer>>> search(Category category, int page, String searchKeyword) {
         return service
-                .getVocketCategoryList(category.getTabString(), page, searchKeyword)
+                .getVocketCategoryList(category, page, searchKeyword)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Volunteer>()));
     }

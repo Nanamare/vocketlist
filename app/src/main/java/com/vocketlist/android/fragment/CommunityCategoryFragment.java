@@ -132,6 +132,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	}
 
 	private void setCommunityList(BaseResponse<CommunityList> communityList) {
+		adapter.clear();
 		this.communityList = communityList;
 		adapter.addAll(communityList.mResult.mData);
 		page = communityList.mResult.mPageCurrentCnt;

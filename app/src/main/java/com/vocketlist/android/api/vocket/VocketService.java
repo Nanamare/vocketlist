@@ -19,7 +19,7 @@ import rx.Observable;
 interface VocketService {
 
 	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("search") String category,
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category,
 																		@Query("page")int page,
 																		@Query( value = "search", encoded = true) String search);
 

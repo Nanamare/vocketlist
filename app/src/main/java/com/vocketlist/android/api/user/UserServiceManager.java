@@ -15,6 +15,7 @@ import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.preference.FacebookPreperence;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -59,7 +60,6 @@ public final class UserServiceManager {
                     @Override
                     public Response<BaseResponse<LoginModel>> call(Response<BaseResponse<LoginModel>> responseBodyResponse) {
                         LoginInterceptor.setLoginToken(responseBodyResponse.body().mResult.mToken);
-
                         // 정상적으로 로그인이되었으면 서버에 토큰 정보를 전달한다.
                         // todo : 토큰 정보 전달시 실패되는 경우에 대하여 고려가 필요하다.
                         UserServiceManager
