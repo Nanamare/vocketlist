@@ -47,6 +47,7 @@
                 android:autoLink="email"
                 android:lineSpacingMultiplier="1.2"
                 android:linksClickable="true"
+                android:textSize="@dimen/font_42"
                 android:padding="16dp"
                 tools:text="@string/help_question_with_email" />
 
