@@ -38,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class CommunityViewHolder extends BaseViewHolder implements View.OnClickListener {
+public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityData> implements View.OnClickListener {
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
@@ -74,9 +74,8 @@ public class CommunityViewHolder extends BaseViewHolder implements View.OnClickL
         itemView.setOnClickListener(this);
     }
 
-	@NonNull
 	@Override
-	public <T extends Serializable> void bind(T data) {
+	public void bind(CommunityList.CommunityData data) {
 		if (data instanceof CommunityList.CommunityData) {
 			communityData = (CommunityList.CommunityData) data;
 			if (!TextUtils.isEmpty(FacebookPreperence.getInstance().getUserImageUrl())) {

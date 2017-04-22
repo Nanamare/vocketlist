@@ -21,22 +21,22 @@ public final class MyListServiceManager {
 
     private static final MyListService SERVICE = ServiceDefine.retrofit.create(MyListService.class);
 
-    public static Observable<Response<BaseResponse<MyListContent>>> write(String content, boolean isDone) {
+    public static Observable<Response<BaseResponse<MyListModel>>> write(String content, boolean isDone) {
         return SERVICE.write(content, isDone)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListContent>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListModel>()));
     }
 
-    public static Observable<Response<BaseResponse<MyListContent>>> modify(int id, String content, boolean isDone) {
+    public static Observable<Response<BaseResponse<MyListModel>>> modify(int id, String content, boolean isDone) {
         return SERVICE.modify(id, content, isDone)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListContent>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListModel>()));
     }
 
-    public static Observable<Response<BaseResponse<List<MyListContent>>>> get(int page) {
+    public static Observable<Response<BaseResponse<MyListModel>>> get(int page) {
         return SERVICE.get(page, DEFAULT_PAGE_SIZE)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<List<MyListContent>>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListModel>()));
     }
 
     public static Observable<Response<BaseResponse<Void>>> delete(int id) {

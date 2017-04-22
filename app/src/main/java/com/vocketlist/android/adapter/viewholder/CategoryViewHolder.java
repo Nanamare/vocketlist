@@ -15,7 +15,7 @@ import butterknife.BindView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 4. 16.
  */
-public class CategoryViewHolder extends BaseViewHolder implements View.OnClickListener {
+public class CategoryViewHolder extends BaseViewHolder<String> implements View.OnClickListener {
     private RecyclerViewItemClickListener mListener;
 
     @BindView(R.id.cbLabel) AppCompatCheckBox cbLabel;
@@ -32,7 +32,7 @@ public class CategoryViewHolder extends BaseViewHolder implements View.OnClickLi
         itemView.setOnClickListener(this);
     }
 
-    @NonNull
+    @Override
     public void bind(String data) {
         super.bind(data);
         cbLabel.setText(data);

@@ -1,16 +1,13 @@
 package com.vocketlist.android.adapter.viewholder;
 
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.view.View;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.comment.model.CommentListModel;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
-
-import java.io.Serializable;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class CommentViewHolder extends BaseViewHolder implements View.OnClickListener{
+public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> implements View.OnClickListener{
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
@@ -38,9 +35,8 @@ public class CommentViewHolder extends BaseViewHolder implements View.OnClickLis
         itemView.setOnClickListener(this);
     }
 
-    @NonNull
     @Override
-    public <T extends Serializable> void bind(T data) {
+    public void bind(CommentListModel.Comment data) {
         if(data instanceof CommentListModel.Comment){
             commentList = (CommentListModel.Comment) data;
 

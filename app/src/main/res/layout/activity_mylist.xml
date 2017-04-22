@@ -67,12 +67,16 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <!-- 이전 년도 -->
+                    <android.support.v7.widget.AppCompatImageButton
+                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />
+                        android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
-                    <TextView
+                    <!-- 년도 -->
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvYear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -80,17 +84,25 @@
                         android:textSize="25sp"
                         tools:text="2017" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <!-- 다음 년도 -->
+                    <android.support.v7.widget.AppCompatImageButton
+                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/myList_lv"
+                <!-- 목록 -->
+                <com.malinskiy.superrecyclerview.SuperRecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+                    android:layout_height="match_parent"
+                    app:layout_empty="@layout/empty_my_list"
+                    app:layout_moreProgress="@layout/layout_more_progress"
+                    app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+                    app:recyclerClipToPadding="false"
+                    app:recyclerPadding="0dp"
+                    app:scrollbarStyle="outsideOverlay" />
 
             </LinearLayout>
 
@@ -131,14 +143,15 @@
                 android:textSize="@dimen/font_39"
                 tools:text="" />
 
-            <!-- 게시 -->
-            <android.support.v7.widget.AppCompatImageButton
+            <!-- 등록 -->
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/btnComment"
                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:enabled="false" />
+                android:enabled="false"
+                android:text="@string/register" />
 
         </LinearLayout>
     </LinearLayout>

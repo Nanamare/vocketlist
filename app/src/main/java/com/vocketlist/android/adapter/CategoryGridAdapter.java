@@ -17,7 +17,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 4. 16.
  */
-public class CategoryGridAdapter extends BaseAdapter<CategoryViewHolder> {
+public class CategoryGridAdapter extends BaseAdapter<String, CategoryViewHolder> {
     private RecyclerViewItemClickListener mListener;
 
     private SparseBooleanArray selectedItems;

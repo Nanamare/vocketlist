@@ -1,77 +1,43 @@
 package com.vocketlist.android.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.dto.MyList;
+import com.vocketlist.android.adapter.viewholder.MyListViewHolder;
+import com.vocketlist.android.api.my.MyListModel;
+import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 
+import java.io.Serializable;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * Created by kinamare on 2017-02-24.
+ * 어댑터 : 도움말
+ *
+ * @author Jungho Song (dev@threeword.com)
+ * @since 2017. 4. 22.
  */
+public class MyListAdapter extends BaseAdapter<MyListModel.MyList, MyListViewHolder> {
 
-public class MyListAdapter extends android.widget.BaseAdapter {
+	private RecyclerViewItemClickListener mListener;
 
-	private List<MyList> myLists;
-	private Context context;
-
-	public MyListAdapter(Context context, List<MyList> lists){
-		myLists = lists;
-		this.context = context;
-
-	}
-	@Override
-	public int getCount() {
-		return myLists.size();
+	/**
+	 * 생성자
+	 *
+	 * @param data
+	 */
+	public MyListAdapter(List<MyListModel.MyList> data, RecyclerViewItemClickListener listener) {
+		super(data);
+		mListener = listener;
 	}
 
 	@Override
-	public Object getItem(int i) {
-		return myLists.get(i);
+	public MyListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		return new MyListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_list, parent, false), mListener);
 	}
 
 	@Override
-	public long getItemId(int i) {
-		return i;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-
-		final ViewHolder viewHolder;
-
-		if (convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.mylistview_item, null);
-
-			viewHolder = new ViewHolder(convertView);
-			convertView.setTag(viewHolder);
-
-		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
-		return convertView;
-	}
-
-	public static class ViewHolder {
-
-
-		public ViewHolder(View view) {
-			ButterKnife.bind(this, view);
-		}
-
-	}
-
-	public void addMyList(MyList myList){
-		myLists.add(myList);
-
+	public void onBindViewHolder(MyListViewHolder holder, int position) {
+		holder.bind(getItem(position));
 	}
 }

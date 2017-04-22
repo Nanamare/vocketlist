@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder {
+public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     protected Context context;
 
@@ -35,8 +35,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * 데이터 바인딩
      * @param data
      */
-    @NonNull
-    public <T extends Serializable> void bind(T data){
+    public void bind(T data){
         // Do nothing
     }
 }

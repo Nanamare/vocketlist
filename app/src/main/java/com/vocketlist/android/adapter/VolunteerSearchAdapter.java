@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class VolunteerSearchAdapter extends BaseAdapter<VolunteerSearchViewHolder> {
+public class VolunteerSearchAdapter extends BaseAdapter<Volunteer.Data, VolunteerSearchViewHolder> {
 
     /**
      * 생성자

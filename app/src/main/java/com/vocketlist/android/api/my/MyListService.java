@@ -2,8 +2,6 @@ package com.vocketlist.android.api.my;
 
 import com.vocketlist.android.dto.BaseResponse;
 
-import java.util.List;
-
 import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -19,17 +17,17 @@ import rx.Observable;
 
 public interface MyListService {
 	@POST("users/mylist/")
-	Observable<Response<BaseResponse<MyListContent>>> write(@Query("content") String content,
-														   @Query("is_done") boolean isDone);
+	Observable<Response<BaseResponse<MyListModel>>> write(@Query("content") String content,
+														  @Query("is_done") boolean isDone);
 
 	@PATCH("users/mylist/{id}")
-	Observable<Response<BaseResponse<MyListContent>>> modify(@Path("id") int id,
-											   @Query("content") String content,
-											   @Query("is_done")  boolean isDone);
+	Observable<Response<BaseResponse<MyListModel>>> modify(@Path("id") int id,
+														   @Query("content") String content,
+														   @Query("is_done")  boolean isDone);
 
 	@GET("users/mylist/")
-	Observable<Response<BaseResponse<List<MyListContent>>>> get(@Query("page") int page,
-												  @Query("page_size") int pageSize);
+	Observable<Response<BaseResponse<MyListModel>>> get(@Query("page") int page,
+															  @Query("page_size") int pageSize);
 
 	@DELETE("users/mylist/{id}/")
 	Observable<Response<BaseResponse<Void>>> delete(@Path("id") int id);

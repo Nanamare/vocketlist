@@ -16,7 +16,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class PostAdapter extends BaseAdapter<CommunityViewHolder> {
+public class PostAdapter extends BaseAdapter<CommunityList.CommunityData, CommunityViewHolder> {
 
     private RecyclerViewItemClickListener mListener;
 
@@ -24,7 +24,7 @@ public class PostAdapter extends BaseAdapter<CommunityViewHolder> {
      * 생성자
      * @param data
      */
-    public PostAdapter(List<CommunityList> data, RecyclerViewItemClickListener listener) {
+    public PostAdapter(List<CommunityList.CommunityData> data, RecyclerViewItemClickListener listener) {
         super(data);
         mListener = listener;
     }

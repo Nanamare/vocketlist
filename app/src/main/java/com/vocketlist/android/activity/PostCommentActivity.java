@@ -147,13 +147,15 @@ public class PostCommentActivity extends DepthBaseActivity implements
     @Override
     public void onRefresh() {
         // TODO 리프레시
-        adapter.addAll(new ArrayList<Comment>());
+//        adapter.addAll(new ArrayList<Comment>());
+        recyclerView.setRefreshing(false);
     }
 
     @Override
     public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
         // TODO 더보기
-        adapter.add(new Comment());
+//        adapter.add(new Comment());
+        recyclerView.hideMoreProgress();
     }
 
 

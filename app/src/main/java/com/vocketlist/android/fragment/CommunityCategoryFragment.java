@@ -154,7 +154,8 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		super.onRefresh();
 
 		// TODO 리프레시
-		adapter.addAll(new ArrayList<Volunteer>());
+//		adapter.addAll(new ArrayList<Volunteer>());
+		recyclerView.setRefreshing(false);
 	}
 
 	@Override
@@ -162,7 +163,8 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
 		// TODO 더보기
-		adapter.add(new Volunteer());
+//		adapter.add(new Volunteer());
+		recyclerView.hideMoreProgress();
 	}
 
 	RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {

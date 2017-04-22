@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class VolunteerCategoryViewHolder extends BaseViewHolder {
+public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @BindView(R.id.ivThumbnail) AppCompatImageView ivThumbnail;
     @BindView(R.id.tvTitle) AppCompatTextView tvTitle;
@@ -43,9 +43,8 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder {
 
     }
 
-    @NonNull
     @Override
-    public <T extends Serializable> void bind(T data) {
+    public void bind(Volunteer.Data data) {
         mData = (Volunteer.Data)data;
         tvTitle.setText(mData.mTitle);
         tvStartDate.setText(getDate(mData.mStartDate));
