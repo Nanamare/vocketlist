@@ -10,8 +10,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -30,6 +28,12 @@ interface CommunityService {
 	@GET("posts/")
 	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
 														   @Query("page_size") int pageSize,
+														   @Query(value = "search", encoded = true) String searchKeyWord);
+
+	@GET("posts/")
+	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
+														   @Query("page_size") int pageSize,
+														   @Query("user_id") String userId,
 														   @Query(value = "search", encoded = true) String searchKeyWord);
 
 	// 특정 커뮤니티 상세 조회

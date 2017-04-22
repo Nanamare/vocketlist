@@ -56,13 +56,17 @@ public final class CommentServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentDetailModel>()));
     }
 
-    public static Observable<Response<BaseResponse<CommentWriteModel>>> modify(int commentId, int postId, int parentCommentId, String content) {
+    public static Observable<Response<BaseResponse<CommentWriteModel>>> modify(int commentId, String content) {
+        return modify(commentId, 0, content);
+    }
+
+    public static Observable<Response<BaseResponse<CommentWriteModel>>> modify(int commentId, int parentCommentId, String content) {
         Observable<Response<BaseResponse<CommentWriteModel>>> observable;
 
         if (parentCommentId > 0) {
-            observable = SERVICE.modify(commentId, postId, parentCommentId, content);
+            observable = SERVICE.modify(commentId, parentCommentId, content);
         } else {
-            observable = SERVICE.modify(commentId, postId, content);
+            observable = SERVICE.modify(commentId, content);
         }
 
         return observable.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))

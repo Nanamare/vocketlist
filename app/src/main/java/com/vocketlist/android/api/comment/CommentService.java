@@ -46,6 +46,11 @@ public interface CommentService {
     @FormUrlEncoded
     @PATCH("comments/{id}/")
     Observable<Response<BaseResponse<CommentWriteModel>>> modify(@Path("id") int commentId,
+                                                                 @Field("content") String content);
+
+    @FormUrlEncoded
+    @PATCH("comments/{id}/")
+    Observable<Response<BaseResponse<CommentWriteModel>>> modify(@Path("id") int commentId,
                                                                  @Field("post_id") int postId,
                                                                  @Field("content") String content);
 

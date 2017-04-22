@@ -54,7 +54,7 @@ public class CommunityService_Test {
 
     @Test
     public void 커뮤니티_정보_가져오기() {
-        CommunityServiceManager.list(1)
+        CommunityServiceManager.list(1, null)
                 .subscribe(new Subscriber<Response<BaseResponse<CommunityList>>>() {
                     @Override
                     public void onCompleted() {

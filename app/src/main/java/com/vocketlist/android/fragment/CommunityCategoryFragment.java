@@ -29,7 +29,6 @@ import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
-import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -88,7 +87,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 			this.category = (CommunityCategory) c;
 			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>(),listener));
 			if(category.getResId() == R.string.com_all) {
-				requestCommunityList(communityListPgCnt++,null);
+				requestCommunityList(communityListPgCnt++, null);
 			} else if(category.getResId() == R.string.com_myWriting){
 				requestCommunityList(communityListPgCnt++, "신현성");
 			} else {

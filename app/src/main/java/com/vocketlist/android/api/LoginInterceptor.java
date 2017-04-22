@@ -36,7 +36,8 @@ public class LoginInterceptor implements Interceptor {
         Request.Builder requestBuilder = original.newBuilder();
 
         if (TextUtils.isEmpty(mLoginToken) == false) {
-                requestBuilder.header("authorization", "JWT " + mLoginToken);
+            requestBuilder.header("authorization", "JWT " + mLoginToken);
+            Ln.d("authorization : JWT " + mLoginToken);
         }
 
         Request request = requestBuilder.build();
