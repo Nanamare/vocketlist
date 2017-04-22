@@ -17,17 +17,18 @@ import rx.Observable;
 
 public interface MyListService {
 	@POST("users/mylist/")
-	Observable<Response<BaseResponse<MyListModel>>> write(@Query("content") String content,
+	Observable<Response<BaseResponse<MyListModel.MyList>>> write(@Query("content") String content,
 														  @Query("is_done") boolean isDone);
 
 	@PATCH("users/mylist/{id}")
-	Observable<Response<BaseResponse<MyListModel>>> modify(@Path("id") int id,
+	Observable<Response<BaseResponse<MyListModel.MyList>>> modify(@Path("id") int id,
 														   @Query("content") String content,
 														   @Query("is_done")  boolean isDone);
 
 	@GET("users/mylist/")
-	Observable<Response<BaseResponse<MyListModel>>> get(@Query("page") int page,
-															  @Query("page_size") int pageSize);
+	Observable<Response<BaseResponse<MyListModel>>> get(@Query("year") int year,
+														@Query("page") int page,
+														@Query("page_size") int pageSize);
 
 	@DELETE("users/mylist/{id}/")
 	Observable<Response<BaseResponse<Void>>> delete(@Path("id") int id);

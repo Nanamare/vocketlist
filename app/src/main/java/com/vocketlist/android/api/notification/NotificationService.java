@@ -3,9 +3,10 @@ package com.vocketlist.android.api.notification;
 import com.vocketlist.android.dto.BaseResponse;
 
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -13,9 +14,10 @@ import rx.Observable;
  */
 
 public interface NotificationService {
+    @FormUrlEncoded
     @POST("notifications/")
-    Observable<Response<BaseResponse<Void>>> setting(@Path("type") NotificationType type,
-                                                     @Path("is_switch_on") boolean switchOn);
+    Observable<Response<BaseResponse<Void>>> setting(@Field("type") NotificationType type,
+                                                     @Field("is_switch_on") boolean switchOn);
 
 
     @GET("notifications/")
