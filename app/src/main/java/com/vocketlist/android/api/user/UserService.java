@@ -2,9 +2,12 @@ package com.vocketlist.android.api.user;
 
 import com.vocketlist.android.dto.BaseResponse;
 
+import java.util.List;
+
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import rx.Observable;
@@ -27,6 +30,10 @@ interface UserService {
 	@PUT("users/token/verify/")
 	Observable<Response<BaseResponse<LoginModel>>> tokenVerify(@Field("token") String token);
 
-//	@GET("users/")
-//	Observable<Response<BaseResponse<FavoritListModel>>>
+	@GET("users/favorite/")
+	Observable<Response<BaseResponse<FavoritListModel>>> getFavorite();
+
+	@FormUrlEncoded
+	@POST("users/favorite/")
+	Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(@Field(value = "favorite") List<String> favoriteList);
 }

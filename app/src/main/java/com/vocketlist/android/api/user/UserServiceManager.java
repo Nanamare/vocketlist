@@ -17,6 +17,8 @@ import com.vocketlist.android.network.service.ServiceHelper;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
 
+import java.util.List;
+
 import retrofit2.Response;
 import rx.Observable;
 import rx.functions.Func1;
@@ -26,10 +28,10 @@ import rx.functions.Func1;
  */
 
 public final class UserServiceManager {
-    private static UserService sUserService = ServiceDefine.retrofit.create(UserService.class);
+    private static final UserService SERVICE = ServiceDefine.retrofit.create(UserService.class);
 
     public static Observable<Response<BaseResponse<Void>>> registerFcmToken(String fcmToken) {
-        return sUserService
+        return SERVICE
                 .registerToken(fcmToken, DeviceHelper.getDeviceId())
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<BaseResponse<Void>>(new BaseServiceErrorChecker<Void>()));
@@ -53,7 +55,7 @@ public final class UserServiceManager {
     }
 
     public static Observable<Response<BaseResponse<LoginModel>>> loginWithFacebook(String userInfo, String token, String userId) {
-        return sUserService
+        return SERVICE
                 .loginFb(userInfo, token, userId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<LoginModel>()))
@@ -83,5 +85,17 @@ public final class UserServiceManager {
     public static void logout() {
         LoginManager.getInstance().logOut();
         LoginInterceptor.setLoginToken(null);
+    }
+
+    public static Observable<Response<BaseResponse<FavoritListModel>>> getFavorite() {
+        return SERVICE.getFavorite()
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
+    }
+
+    public static Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(List<String> favoriteList) {
+        return SERVICE.setFavorite(favoriteList)
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
     }
 }
