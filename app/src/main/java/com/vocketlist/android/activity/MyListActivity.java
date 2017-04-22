@@ -15,12 +15,12 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.MyListAdapter;
-import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.my.MyListModel;
 import com.vocketlist.android.api.my.MyListServiceManager;
 import com.vocketlist.android.decoration.DividerInItemDecoration;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import java.util.Calendar;
@@ -173,43 +173,12 @@ public class MyListActivity extends DepthBaseActivity implements
 
 	/**
 	 * 요청 : 목록
-	 * @param yearn
+	 * @param year
 	 * @param page
 	 */
-	private void reqList(int yearn, int page) {
-		String mockData = "{\n" +
-				"  \"success\": true,\n" +
-				"  \"message\": \"sucess\",\n" +
-				"  \"result\": {\n" +
-				"    \"data\": [\n" +
-				"      {\n" +
-				"        \"id\": 0,\n" +
-				"        \"content\": \"6개월이상 텀블러 사용하기\",\n" +
-				"        \"is_done\": true\n" +
-				"      },\n" +
-				"      {\n" +
-				"        \"id\": 1,\n" +
-				"        \"content\": \"6개월이상 텀블러 사용하기\",\n" +
-				"        \"is_done\": false\n" +
-				"      },\n" +
-				"      {\n" +
-				"        \"id\": 2,\n" +
-				"        \"content\": \"6개월이상 텀블러 사용하기\",\n" +
-				"        \"is_done\": true\n" +
-				"      },\n" +
-				"      {\n" +
-				"        \"id\": 3,\n" +
-				"        \"content\": \"6개월이상 텀블러 사용하기\",\n" +
-				"        \"is_done\": true\n" +
-				"      }\n" +
-				"    ]\n" +
-				"  }\n" +
-				"}";
-
-		ServiceDefine.mockInterceptor.setResponse(mockData);
-		MyListServiceManager.get(page)
+    private void reqList(int year, int page) {
+        MyListServiceManager.get(year, page)
 				.observeOn(AndroidSchedulers.mainThread())
-				.doOnTerminate(() -> ServiceDefine.mockInterceptor.setResponse(null))
 				.subscribe(new Subscriber<Response<BaseResponse<MyListModel>>>() {
 					@Override
 					public void onCompleted() {
@@ -239,15 +208,36 @@ public class MyListActivity extends DepthBaseActivity implements
 		else recyclerView.hideProgress();
 	}
 
-	private void reqAdd() {
-
+	private void reqAdd(String content) {
+		MyListServiceManager.write(content, false)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<MyListModel.MyList>> baseResponseResponse) {
+						mAdapter.add(baseResponseResponse.body().mResult);
+					}
+				});
 	}
 
-	private void reqDelete() {
-
+	private void reqDelete(int id) {
+		MyListServiceManager.delete(id)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
+						// todo : 리스트에서 삭제하는 로직 필요
+					}
+				});
 	}
 
-	private void reqModify() {
-
+	private void reqModify(int id, String contents) {
+		MyListServiceManager.modify(id, contents, false)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<MyListModel.MyList>> baseResponseResponse) {
+						// todo : 리스트 갱신하는 로직 필요
+					}
+				});
 	}
 }
