@@ -101,6 +101,7 @@ public class VolunteerFragment extends BaseFragment {
             dialog.show(ft, "TimeDialog");
         });
 
+        //popwindow가 활성화 되면
         LocalSpinnerManager.getInstance(localTv, localDetailTv);
 
 

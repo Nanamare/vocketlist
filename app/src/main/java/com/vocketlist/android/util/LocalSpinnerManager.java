@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 
@@ -56,8 +57,8 @@ public class LocalSpinnerManager implements Spinner.OnItemSelectedListener {
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view,
 	                           int position, long id) {
-//		txt_time.setText("position : " + position +
-//				parent.getItemAtPosition(position));
+		Toast.makeText(getApplicationContext(), "position : " + position +
+				parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
