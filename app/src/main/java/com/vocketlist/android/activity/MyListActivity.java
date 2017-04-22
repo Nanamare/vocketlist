@@ -2,8 +2,12 @@ package com.vocketlist.android.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -19,10 +23,13 @@ import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.roboguice.log.Ln;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,13 +47,36 @@ public class MyListActivity extends DepthBaseActivity implements
 {
 	@BindView(R.id.toolbar)	Toolbar toolbar;
 	@BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
+	@BindView(R.id.ibPrevYear) AppCompatImageButton ibPrevYear;
+	@BindView(R.id.tvYear) AppCompatTextView tvYear;
+	@BindView(R.id.ibNextYear) AppCompatImageButton ibNextYear;
 
+	@OnClick(R.id.ibPrevYear)
+	void onPrevYearClick() {
+		mCalendar.add(Calendar.YEAR, -1);
+
+		// TODO 임시 - 나중에 서버 응답 후 OK면 갱신
+		updateYear();
+		reqList(mCalendar.get(Calendar.YEAR), 1);
+	}
+
+	@OnClick(R.id.ibNextYear)
+	void onNextYearClick() {
+		mCalendar.add(Calendar.YEAR, 1);
+
+		// TODO 임시 - 나중에 서버 응답 후 OK면 갱신
+		updateYear();
+		reqList(mCalendar.get(Calendar.YEAR), 1);
+	}
+
+	private Calendar mCalendar;
 	private MyListAdapter mAdapter;
+
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mylist);
+		setContentView(R.layout.activity_my_list);
 		ButterKnife.bind(this);
 
 		setSupportActionBar(toolbar);
@@ -59,7 +89,12 @@ public class MyListActivity extends DepthBaseActivity implements
 		recyclerView.setRefreshingColorResources(R.color.point_424C57, R.color.point_5FA9D0, R.color.material_white, R.color.point_E47B75);
 		recyclerView.setupMoreListener(this, 1);
 
-		reqList(1);
+		//
+		mCalendar = Calendar.getInstance(Locale.getDefault());
+		updateYear();
+
+		//
+		reqList(mCalendar.get(Calendar.YEAR), 1);
 	}
 
 	@Override
@@ -78,7 +113,24 @@ public class MyListActivity extends DepthBaseActivity implements
 		switch (v.getId()) {
 			// 더보기
 			case R.id.ibMore: {
+				Object d = v.getTag();
 
+				if(d instanceof MyListModel.MyList) {
+					MyListModel.MyList data = (MyListModel.MyList) d;
+
+					PopupMenu popup = new PopupMenu(v.getContext(), v, GravityCompat.END, R.attr.actionOverflowMenuStyle, 0);
+					popup.inflate(R.menu.certification_modify_delete);
+					popup.setOnMenuItemClickListener(item -> {
+						int id = item.getItemId();
+						switch (id) {
+							case R.id.action_certification: doCertification(data); break;
+							case R.id.action_modify: doModify(data); break;
+							case R.id.action_delete: doDelete (data); break;
+						}
+						return true;
+					});
+					popup.show();
+				}
 			} break;
 
 			// 기본
@@ -88,11 +140,43 @@ public class MyListActivity extends DepthBaseActivity implements
 		}
 	}
 
-	private void goToCommunity() {
+	/**
+	 * 년도 갱신
+	 */
+	private void updateYear() {
+		tvYear.setText(String.valueOf(mCalendar.get(Calendar.YEAR)));
+	}
+
+	/**
+	 * 인증
+	 * @param data
+	 */
+	private void doCertification(MyListModel.MyList data) {
 
 	}
 
-	private void reqList(int page) {
+	/**
+	 * 수정
+	 * @param data
+	 */
+	private void doModify(MyListModel.MyList data) {
+
+	}
+
+	/**
+	 * 삭제
+	 * @param data
+	 */
+	private void doDelete(MyListModel.MyList data) {
+
+	}
+
+	/**
+	 * 요청 : 목록
+	 * @param yearn
+	 * @param page
+	 */
+	private void reqList(int yearn, int page) {
 		String mockData = "{\n" +
 				"  \"success\": true,\n" +
 				"  \"message\": \"sucess\",\n" +
@@ -144,6 +228,10 @@ public class MyListActivity extends DepthBaseActivity implements
 				});
 	}
 
+	/**
+	 * 응답 : 목록
+	 * @param response
+	 */
 	private void resList(BaseResponse<MyListModel> response) {
 		List<MyListModel.MyList> myLists = response.mResult.mMyListList;
 		if (myLists != null)

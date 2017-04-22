@@ -50,7 +50,8 @@ public class MyListViewHolder extends BaseViewHolder<MyListModel.MyList> impleme
         tvContent.setText(String.valueOf(data.mContent));
         setDone(data.mIsDone);
 
-        cbDone.setOnClickListener(this);
+        itemView.setTag(data);
+        ibMore.setTag(data);
         ibMore.setOnClickListener(this);
     }
 
@@ -67,13 +68,15 @@ public class MyListViewHolder extends BaseViewHolder<MyListModel.MyList> impleme
         // 완료
         if(isDone) {
             cbDone.setChecked(true);
-            tvContent.setPaintFlags(tvContent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            tvContent.setEnabled(true);
+            if((tvContent.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) != Paint.STRIKE_THRU_TEXT_FLAG)
+                tvContent.setPaintFlags(tvContent.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+            tvContent.setEnabled(false);
         }
         else {
             cbDone.setChecked(false);
-            tvContent.setPaintFlags(tvContent.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-            tvContent.setEnabled(false);
+            if((tvContent.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) == Paint.STRIKE_THRU_TEXT_FLAG)
+                tvContent.setPaintFlags(tvContent.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+            tvContent.setEnabled(true);
         }
     }
 }

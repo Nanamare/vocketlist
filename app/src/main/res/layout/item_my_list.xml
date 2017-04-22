@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:minWidth="40dp"
-    android:paddingBottom="8dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="8dp">
 
     <!-- 완료표시 -->
     <android.support.v7.widget.AppCompatCheckBox
@@ -16,6 +17,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
+        android:background="@color/transparent"
         android:clickable="false"
         android:text="" />
 

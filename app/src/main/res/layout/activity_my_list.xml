@@ -69,6 +69,7 @@
 
                     <!-- 이전 년도 -->
                     <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/ibPrevYear"
                         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
@@ -86,6 +87,7 @@
 
                     <!-- 다음 년도 -->
                     <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/ibNextYear"
                         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_empty="@layout/empty_my_list"
                     app:layout_moreProgress="@layout/layout_more_progress"
                     app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
