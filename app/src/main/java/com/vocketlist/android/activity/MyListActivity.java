@@ -44,7 +44,6 @@ public class MyListActivity extends DepthBaseActivity {
 
 		setSupportActionBar(toolbar);
 
-
 		MyList mockList = new MyList();
 		myLists = new ArrayList<>();
 		myLists.add(mockList);
