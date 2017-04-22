@@ -19,8 +19,8 @@ public final class MyListServiceManager {
 
     private static final MyListService SERVICE = ServiceDefine.retrofit.create(MyListService.class);
 
-    public static Observable<Response<BaseResponse<MyListModel.MyList>>> write(String content, boolean isDone) {
-        return SERVICE.write(content, isDone)
+    public static Observable<Response<BaseResponse<MyListModel.MyList>>> write(int year, String content, boolean isDone) {
+        return SERVICE.write(year, content, isDone)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<MyListModel.MyList>()));
     }
