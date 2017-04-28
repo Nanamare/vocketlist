@@ -1,16 +1,24 @@
 package com.vocketlist.android.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
@@ -20,6 +28,7 @@ import com.vocketlist.android.api.my.MyListServiceManager;
 import com.vocketlist.android.decoration.DividerInItemDecoration;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -30,6 +39,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,11 +55,15 @@ public class MyListActivity extends DepthBaseActivity implements
 	, OnMoreListener
 	, RecyclerViewItemClickListener
 {
+	private static final String TAG = MyListActivity.class.getSimpleName();
+
 	@BindView(R.id.toolbar)	Toolbar toolbar;
 	@BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
 	@BindView(R.id.ibPrevYear) AppCompatImageButton ibPrevYear;
 	@BindView(R.id.tvYear) AppCompatTextView tvYear;
 	@BindView(R.id.ibNextYear) AppCompatImageButton ibNextYear;
+	@BindView(R.id.etContent) AppCompatEditText etContent;
+	@BindView(R.id.btnDone) AppCompatTextView btnDone;
 
 	@OnClick(R.id.ibPrevYear)
 	void onPrevYearClick() {
@@ -69,9 +83,24 @@ public class MyListActivity extends DepthBaseActivity implements
 		reqList(mCalendar.get(Calendar.YEAR), 1);
 	}
 
+	@OnTextChanged(value = R.id.etContent, callback = OnTextChanged.Callback.TEXT_CHANGED)
+	void onCommentTextChanged(CharSequence s, int start, int before, int count) {
+		btnDone.setEnabled(s.length() > 0);
+	}
+
+	@OnClick(R.id.btnDone)
+	void onDoneClick() {
+		if(!TextUtils.isEmpty(etContent.getText().toString().trim())){
+			reqAdd(mCalendar.get(Calendar.YEAR), etContent.getText().toString());
+
+			if(etContent.getEditableText() != null) etContent.getEditableText().clear();
+			etContent.clearFocus();
+		}
+		else ToastManager.show(R.string.toast_my_list_modify_empty);
+	}
+
 	private Calendar mCalendar;
 	private MyListAdapter mAdapter;
-
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +181,7 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param data
 	 */
 	private void doCertification(MyListModel.MyList data) {
-
+		// TODO 인증하러가기
 	}
 
 	/**
@@ -160,7 +189,27 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param data
 	 */
 	private void doModify(MyListModel.MyList data) {
+		new MaterialDialog.Builder(this)
+				.title(R.string.dialog_my_list_modify_title)
+				.inputType(InputType.TYPE_CLASS_TEXT)
+				.input("", data.mContent, (dialog, input) -> {
+					// Do something
+				})
+				.negativeText(R.string.cancel).onNegative((dialog, which) -> {
+					dialog.dismiss();
+				})
+				.positiveText(R.string.modify).onPositive((dialog, which) -> {
+					Log.d(TAG, "doModify: ");
 
+					EditText et = dialog.getInputEditText();
+					if(!TextUtils.isEmpty(et.getText().toString().trim())){
+						dialog.dismiss();
+						reqModify(data.mId, et.getText().toString());
+					}
+					else ToastManager.show(R.string.toast_my_list_modify_empty);
+				})
+				.autoDismiss(false)
+				.show();
 	}
 
 	/**
@@ -168,7 +217,7 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param data
 	 */
 	private void doDelete(MyListModel.MyList data) {
-
+		reqDelete(data.mId);
 	}
 
 	/**
@@ -208,8 +257,12 @@ public class MyListActivity extends DepthBaseActivity implements
 		else recyclerView.hideProgress();
 	}
 
-	private void reqAdd(String content) {
-		MyListServiceManager.write(content, false)
+	/**
+	 * 요청 : 추가
+	 * @param content
+	 */
+	private void reqAdd(int year, String content) {
+		MyListServiceManager.write(year, content, false)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
 					@Override
@@ -219,24 +272,33 @@ public class MyListActivity extends DepthBaseActivity implements
 				});
 	}
 
+	/**
+	 * 요청 : 삭제
+	 * @param id
+	 */
 	private void reqDelete(int id) {
 		MyListServiceManager.delete(id)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>() {
 					@Override
 					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
-						// todo : 리스트에서 삭제하는 로직 필요
+						mAdapter.removeWithId(id);
 					}
 				});
 	}
 
+	/**
+	 * 요청 : 수정
+	 * @param id
+	 * @param contents
+	 */
 	private void reqModify(int id, String contents) {
 		MyListServiceManager.modify(id, contents, false)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
 					@Override
 					public void onNext(Response<BaseResponse<MyListModel.MyList>> baseResponseResponse) {
-						// todo : 리스트 갱신하는 로직 필요
+						mAdapter.change(baseResponseResponse.body().mResult);
 					}
 				});
 	}

@@ -76,7 +76,7 @@
 
     <!-- -->
     <string name="progress">달성률 %1$d / 커뮤니티 %2$d건</string>
-    
+
     <!-- -->
     <string name="notification">알림설정</string>
     <string name="favorite">관심정보 모아보기</string>
@@ -178,6 +178,8 @@
     <!-- 마이리스트 -->
     <string name="my_list_desc">일상 속 작은 활동들로\n나만의 선행 버킷리스트를 만들어 목표를 달성하세요!\n인증버튼을 통해 후기 등록 시 ‘달성’처리 됩니다</string>
     <string name="hint_my_list_add">새로운 버킷리스트 등록하기</string>
+    <string name="dialog_my_list_modify_title">마이리스트 수정</string>
+    <string name="toast_my_list_modify_empty">내용을 입력해 주세요.</string>
 
 
 </resources>

@@ -4,6 +4,8 @@ import com.vocketlist.android.dto.BaseResponse;
 
 import retrofit2.Response;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -16,14 +18,17 @@ import rx.Observable;
  */
 
 public interface MyListService {
+	@FormUrlEncoded
 	@POST("users/mylist/")
-	Observable<Response<BaseResponse<MyListModel.MyList>>> write(@Query("content") String content,
-														  @Query("is_done") boolean isDone);
+	Observable<Response<BaseResponse<MyListModel.MyList>>> write(@Field("year") int year,
+																 @Field("content") String content,
+																 @Field("is_done") boolean isDone);
 
-	@PATCH("users/mylist/{id}")
+	@FormUrlEncoded
+	@PATCH("users/mylist/{id}/")
 	Observable<Response<BaseResponse<MyListModel.MyList>>> modify(@Path("id") int id,
-														   @Query("content") String content,
-														   @Query("is_done")  boolean isDone);
+														   @Field("content") String content,
+														   @Field("is_done")  boolean isDone);
 
 	@GET("users/mylist/")
 	Observable<Response<BaseResponse<MyListModel>>> get(@Query("year") int year,

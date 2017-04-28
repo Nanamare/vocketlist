@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +19,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.CategoryGridAdapter;
+import com.vocketlist.android.api.user.FavoritListModel;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
+import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.manager.ToastManager;
+import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -37,9 +40,10 @@ import butterknife.BindArray;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * 프로필관리
@@ -122,6 +126,13 @@ public class ProfileActivity extends DepthBaseActivity implements
 
 		//
 		handleIntent();
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+
+		reqFavoriteList();
 	}
 
 	@Override
@@ -230,5 +241,39 @@ public class ProfileActivity extends DepthBaseActivity implements
 		}
 
 		return new Date();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		saveFavoriteList();
+	}
+
+	private void reqFavoriteList() {
+		UserServiceManager.getFavorite()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<FavoritListModel>> baseResponseResponse) {
+						FavoritListModel model = baseResponseResponse.body().mResult;
+
+						mAdapter.clearSelections();
+						for (String name : model.mFavoriteList) {
+							mAdapter.setSelection(name, true);
+						}
+					}
+				});
+	}
+
+	private void saveFavoriteList() {
+		if (mAdapter == null) {
+			return;
+		}
+
+		List<String> favoriteList = mAdapter.getSelectedItems();
+
+		UserServiceManager.setFavorite(favoriteList)
+				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>());
 	}
 }

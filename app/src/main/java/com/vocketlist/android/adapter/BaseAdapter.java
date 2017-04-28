@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2017. 2. 14.
  */
 public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH>{
-    private List<T> mData = new ArrayList<>();
+    protected List<T> mData = new ArrayList<>();
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
@@ -79,6 +79,16 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     public void remove(int position) {
         mData.remove(position);
         notifyItemRemoved(position);
+    }
+
+    /**
+     * 데이터변경
+     * @param position
+     * @param data
+     */
+    public void change(int position, T data) {
+        mData.set(position, data);
+        notifyItemChanged(position);
     }
 
     /**
