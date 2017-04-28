@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class VolunteerCategoryAdapter extends BaseAdapter<VolunteerCategoryViewHolder> {
+public class VolunteerCategoryAdapter extends BaseAdapter<Volunteer.Data, VolunteerCategoryViewHolder> {
     /**
      * 생성자
      * @param volunteerList

@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by SeungTaek.Lim on 2017. 2. 25..
  */
 
-public class ScheduleViewHolder extends BaseViewHolder {
+public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
     private Schedule mSchedule;
 
     protected TextView mHeader;
@@ -51,9 +51,8 @@ public class ScheduleViewHolder extends BaseViewHolder {
         return new ScheduleViewHolder(view);
     }
 
-    @NonNull
     @Override
-    public <T extends Serializable> void bind(T data) {
+    public void bind(Schedule data) {
         super.bind(data);
 
         mSchedule = (Schedule) data;

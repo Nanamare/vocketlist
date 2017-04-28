@@ -13,7 +13,8 @@ import java.util.List;
  * Created by SeungTaek.Lim on 2017. 2. 25..
  */
 
-public class ScheduleAdapter extends BaseAdapter<ScheduleViewHolder> {
+public class ScheduleAdapter extends BaseAdapter<Schedule, ScheduleViewHolder> {
+
     public ScheduleAdapter(List<Schedule> data) {
         super(data);
     }

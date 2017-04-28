@@ -1,11 +1,13 @@
 package com.vocketlist.android.api.my;
 
-import okhttp3.ResponseBody;
+import com.vocketlist.android.dto.BaseResponse;
+
 import retrofit2.Response;
-import retrofit2.http.Field;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -14,16 +16,20 @@ import rx.Observable;
  */
 
 public interface MyListService {
+	@POST("users/mylist/")
+	Observable<Response<BaseResponse<MyListModel.MyList>>> write(@Query("content") String content,
+														  @Query("is_done") boolean isDone);
 
-	@GET("myList")
-	Observable<Response<ResponseBody>> getMyList(@Query("token") String token);
+	@PATCH("users/mylist/{id}")
+	Observable<Response<BaseResponse<MyListModel.MyList>>> modify(@Path("id") int id,
+														   @Query("content") String content,
+														   @Query("is_done")  boolean isDone);
 
-	@PUT("myList/isDone")
-	Observable<Response<ResponseBody>> updateIsDone(@Field("token") String token
-			, @Field("myListId") String myListId, @Field("isDone") boolean isDone);
+	@GET("users/mylist/")
+	Observable<Response<BaseResponse<MyListModel>>> get(@Query("year") int year,
+														@Query("page") int page,
+														@Query("page_size") int pageSize);
 
-	@POST("myList/create")
-	Observable<Response<ResponseBody>> addNewVocketList(@Field("token") String token
-			, @Field("content") String content, @Field("isDone") boolean isDone
-			, @Field("date") String date);
+	@DELETE("users/mylist/{id}/")
+	Observable<Response<BaseResponse<Void>>> delete(@Path("id") int id);
 }

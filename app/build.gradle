@@ -6,7 +6,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -92,6 +92,17 @@ android.applicationVariants.all { variant ->
     }
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.1'
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -99,8 +110,8 @@ dependencies {
     })
 
 //    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 
     // 내부 라이브러리
@@ -132,6 +143,10 @@ dependencies {
 
     // 매티리얼 다이얼로그 : https://github.com/afollestad/material-dialogs
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
+    // 메티리얼 다이얼로그 : 날짜/시간 선택 : https://github.com/wdullaer/MaterialDateTimePicker
+    compile 'co.infinum:materialdatetimepicker-support:3.1.3'
+//    compile 'com.wdullaer:materialdatetimepicker:3.1.3'
+
     // Material color : https://github.com/mcginty/material-colors
     compile 'com.github.mcginty:material-colors:1.1.0'
     // 에디트 텍스트 : https://github.com/rengwuxian/MaterialEditText

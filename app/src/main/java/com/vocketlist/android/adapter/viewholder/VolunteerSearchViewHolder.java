@@ -17,7 +17,7 @@ import butterknife.BindView;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class VolunteerSearchViewHolder extends BaseViewHolder {
+public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
 
@@ -29,9 +29,8 @@ public class VolunteerSearchViewHolder extends BaseViewHolder {
         super(itemView);
     }
 
-    @NonNull
     @Override
-    public <T extends Serializable> void bind(T data) {
+    public void bind(Volunteer.Data data) {
         if (data instanceof Volunteer.Data) {
             Volunteer.Data volunteer = (Volunteer.Data) data;
 

@@ -100,10 +100,6 @@ public class DrawerMenuFragment extends Fragment {
         String profile = FacebookPreperence.getInstance().getUserImageUrl();
         String fullName = FacebookPreperence.getInstance().getUserName();
 
-        Log.d(TAG, "onActivityResult: profile:" + profile);
-        Log.d(TAG, "onActivityResult: fullName:" + fullName);
-
-
         // 사진
         if(!TextUtils.isEmpty(profile)) {
             Glide.with(this)

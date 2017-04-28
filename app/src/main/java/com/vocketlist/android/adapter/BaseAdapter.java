@@ -14,8 +14,8 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerView.Adapter<VH>{
-    private List<Serializable> mData = new ArrayList<>();
+public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH>{
+    private List<T> mData = new ArrayList<>();
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
@@ -32,7 +32,7 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * 생성자
      * @param data
      */
-    public <T extends Serializable> BaseAdapter(List<T> data) {
+    public BaseAdapter(List<T> data) {
         addAll(data);
     }
 
@@ -40,7 +40,7 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * 목록추가
      * @param data
      */
-    public <T extends Serializable> void add(T data) {
+    public void add(T data) {
         insert(data, mData.size());
     }
 
@@ -48,7 +48,7 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * 단일추가
      * @param data
      */
-    public <T extends Serializable> void addAll(List<T> data) {
+    public void addAll(List<T> data) {
         if (data == null) {
             return;
         }
@@ -58,7 +58,7 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
         notifyItemRangeInserted(startIndex, data.size());
     }
 
-    public <T extends Serializable> T getItem(int position) {
+    public T getItem(int position) {
         return (T) mData.get(position);
     }
 
@@ -67,7 +67,7 @@ public abstract class BaseAdapter<VH extends BaseViewHolder> extends RecyclerVie
      * @param data
      * @param position
      */
-    public <T extends Serializable> void insert(T data, int position) {
+    public void insert(T data, int position) {
         mData.add(position, data);
         notifyItemInserted(position);
     }

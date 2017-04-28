@@ -41,6 +41,10 @@ public class FacebookPreperence extends BasePreference {
         setPreference(KEY_EMAIL, email);
     }
 
+    public String getEmail() {
+        return getPreferenceString(KEY_EMAIL, null);
+    }
+
     public void setUserImageUrl(String userImageUrl) {
         setPreference(KEY_USER_IMAGE_URL, userImageUrl);
     }
