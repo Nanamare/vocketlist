@@ -6,7 +6,6 @@ import java.util.List;
 
 import retrofit2.Response;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -14,9 +13,6 @@ import rx.Observable;
  */
 
 public interface AddressService {
-    @GET("services/address/first/")
-    Observable<Response<BaseResponse<List<AddressFirstInfo>>>> getFirstAddress();
-
-    @GET("services/address/second/")
-    Observable<Response<BaseResponse<List<AddressSecondInfo>>>> getSecondAddress(@Query("first_id") int id);
+    @GET("services/address/")
+    Observable<Response<BaseResponse<List<AddressInfo>>>> getFirstAddress();
 }

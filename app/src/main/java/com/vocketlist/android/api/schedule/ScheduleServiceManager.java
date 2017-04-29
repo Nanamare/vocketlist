@@ -23,7 +23,6 @@ public final class ScheduleServiceManager {
     }
 
     public static Observable<Response<BaseResponse<Schedule>>> getScheduleList(){
-
         return  service
                 .getScheduleList()
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))

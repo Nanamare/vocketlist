@@ -80,7 +80,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		tvLabel.setText(getString(category.getDescResId()));
 
 		recyclerView.setAdapter(adapter = new VolunteerCategoryAdapter(new ArrayList<>()));
-		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, true));
+		recyclerView.addItemDecoration(new GridSpacingItemDecoration(column, space, false));
 
 		ViewCompat.setNestedScrollingEnabled(recyclerView, false);
 	}

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
+import com.vocketlist.android.api.address.AddressServiceManager;
 import com.vocketlist.android.api.user.LoginModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
@@ -12,6 +13,8 @@ import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.network.utils.NetworkState;
 import com.vocketlist.android.roboguice.log.Ln;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import retrofit2.Response;
 
 /**
@@ -39,6 +42,19 @@ public class AppApplication extends Application {
         Ln.init(this);
         NetworkState.init(this);
         initFacebook();
+        initRealm();
+        AddressServiceManager.refreshAddress();
+    }
+
+    private void initRealm() {
+        // Context.getFilesDir()에 "default.realm"란 이름으로 Realm 파일이 위치한다
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("vocketlist.realm")
+                .schemaVersion(1)
+                .build();
+
+        Realm.setDefaultConfiguration(config);
     }
 
     private void initFacebook() {
