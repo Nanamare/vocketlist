@@ -14,6 +14,7 @@
         android:prompt="@string/local"
         android:spinnerMode="dialog"/>
 
+
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/local_detail_spinner"
         android:layout_width="0dp"
@@ -21,5 +22,7 @@
         android:layout_weight="1"
         android:prompt="@string/local"
         android:spinnerMode="dialog"/>
+
+
 
 </LinearLayout>
