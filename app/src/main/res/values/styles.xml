@@ -24,10 +24,18 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- 버튼 -->
     <style name="Button" />
-
     <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/font_36</item>
+    </style>
+
+    <!-- 탭레이아웃 -->
+    <style name="TabLayout" parent="TextAppearance.Design.Tab"/>
+    <style name="TabLayout.Label">
+        <item name="android:textSize">@dimen/font_33</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">0dp</item>
     </style>
 
 </resources>
