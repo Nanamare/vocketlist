@@ -97,8 +97,11 @@ public final class UserServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
     }
 
-    public static Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(List<String> favoriteList) {
-        return SERVICE.setFavorite(favoriteList)
+    public static Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(List<String> favoriteList, int secondAddressId) {
+        Observable<Response<BaseResponse<FavoritListModel>>> observable = (secondAddressId > 0) ? SERVICE.setFavorite(favoriteList, secondAddressId)
+                                                                                                : SERVICE.setFavorite(favoriteList);
+
+        return observable
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
     }

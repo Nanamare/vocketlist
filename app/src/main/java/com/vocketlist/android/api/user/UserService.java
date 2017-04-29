@@ -36,4 +36,9 @@ interface UserService {
 	@FormUrlEncoded
 	@POST("users/favorite/")
 	Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(@Field(value = "favorite") List<String> favoriteList);
+
+	@FormUrlEncoded
+	@POST("users/favorite/")
+	Observable<Response<BaseResponse<FavoritListModel>>> setFavorite(@Field(value = "favorite") List<String> favoriteList,
+																	 @Field("region") int secondAddressId);
 }
