@@ -1,24 +1,58 @@
 package com.vocketlist.android.adapter.viewholder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.dto.Schedule;
+import com.vocketlist.android.util.DateUtil;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+
+/**
+ *
+ */
+public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
+
+    @BindView(R.id.tvDate) AppCompatTextView tvDate;
+    @BindView(R.id.llInfo) LinearLayout llInfo;
+    @BindView(R.id.tvLabel) AppCompatTextView tvLabel;
+    @BindView(R.id.tvTime) AppCompatTextView tvTime;
+
+    /**
+     * 생성자
+     *
+     * @param itemView
+     */
+    public ScheduleViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    public void bind(Schedule data) {
+        super.bind(data);
+
+        tvDate.setText(DateUtil.convertDateForSchedule() + '');
+    }
+}
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 25..
  */
 
+/**
 public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
     private Schedule mSchedule;
 
@@ -58,12 +92,12 @@ public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
         mSchedule = (Schedule) data;
 
         if (Schedule.ScheduleType.GROUP_HEADER == mSchedule.mType) {
-            mHeader.setText(mSchedule.mHeaderTitle);
+//            mHeader.setText(mSchedule.mHeaderTitle);
 
         } else {
-            mDate.setText(mSchedule.mDay);
-            mContent.setText(mSchedule.mTitle);
-            mTime.setText(getDurationTime());
+//            mDate.setText(mSchedule.mDay);
+//            mContent.setText(mSchedule.mTitle);
+//            mTime.setText(getDurationTime());
         }
     }
 
@@ -81,3 +115,4 @@ public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
         return String.format("%02d:%02d", hour, minute);
     }
 }
+ **/
