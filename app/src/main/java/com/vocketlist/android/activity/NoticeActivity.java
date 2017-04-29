@@ -11,7 +11,6 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.NoticeAdapter;
 import com.vocketlist.android.adapter.viewholder.ListItemNotice;
-import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.notice.NoticeModel;
 import com.vocketlist.android.api.notice.NoticeServiceManager;
 import com.vocketlist.android.decoration.DividerInItemDecoration;
@@ -77,36 +76,8 @@ public class NoticeActivity extends DepthBaseActivity implements
      * 요청 : 목록
      */
     private void reqList(int page) {
-        String mockData = "{\n" +
-                "  \"success\": true,\n" +
-                "  \"result\": {\n" +
-                "  \t\"data\": [\n" +
-                "\t  \t{\n" +
-                "\t\t  \t\"id\": 1,\n" +
-                "\t\t  \t\"title\": \"첫번째 타이틀\",\n" +
-                "\t\t  \t\"content\": \"내용\",\n" +
-                "\t\t  \t\"photo\": \"https://source.unsplash.com/category/nature\",\n" +
-                "\t\t  \t\"link\": \"http://www.naver.com\",\n" +
-                "\t\t  \t\"timestamp\": \"2017.04.01\"\n" +
-                "\t  \t},\n" +
-                "\n" +
-                "\t  \t{\n" +
-                "\t\t  \t\"id\": 2,\n" +
-                "\t\t  \t\"title\": \"첫번째 타이틀\",\n" +
-                "\t\t  \t\"content\": \"내용\",\n" +
-                "\t\t  \t\"photo\": \"https://source.unsplash.com/category/nature\",\n" +
-                "\t\t  \t\"link\": \"http://www.naver.com\",\n" +
-                "\t\t  \t\"timestamp\": \"2017.04.01\"\n" +
-                "\t  \t}\n" +
-                "  \t]\n" +
-                "  },\n" +
-                "  \"message\": \"success\"\n" +
-                "}";
-
-        ServiceDefine.mockInterceptor.setResponse(mockData);
         NoticeServiceManager.getNotice()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnTerminate(() -> ServiceDefine.mockInterceptor.setResponse(null))
                 .subscribe(new Subscriber<Response<BaseResponse<NoticeModel>>>() {
                     @Override
                     public void onCompleted() {
