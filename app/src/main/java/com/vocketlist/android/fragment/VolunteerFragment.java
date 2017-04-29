@@ -85,6 +85,7 @@ public class VolunteerFragment extends BaseFragment {
         AppCompatTextView startTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_start_date_tv);
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
         LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
+        LocalSelectView localSelectView = (LocalSelectView) popupView.findViewById(R.id.local_select_view);
         startTv.setOnClickListener(view -> {
             com.vocketlist.android.util.TimePickerDialog dialog =
                 com.vocketlist.android.util.TimePickerDialog.newInstance(view);
@@ -99,8 +100,15 @@ public class VolunteerFragment extends BaseFragment {
             dialog.show(ft, "TimeDialog");
         });
 
-        LocalSelectView localSelectView = new LocalSelectView(getContext());
-        layout.addView(localSelectView);
+//        LocalSelectView localSelectView = new LocalSelectView(getContext());
+//        layout.addView(localSelectView);
+
+
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.WRAP_CONTENT,
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            1.0f);
+//        layout.setLayoutParams(params);
 
 //        AppCompatSpinner localTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_spinner);
 //        AppCompatSpinner localDetailTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_detail_spinner);

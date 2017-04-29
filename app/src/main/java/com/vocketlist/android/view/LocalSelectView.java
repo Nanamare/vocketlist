@@ -9,40 +9,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.api.address.AddressFirstInfo;
+import com.vocketlist.android.api.address.AddressModel;
 import com.vocketlist.android.api.address.AddressServiceManager;
-import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.api.address.FirstAddress;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by kinamare on 2017-04-29.
+ * @author kinamare
  * 지역 선택 뷰
  */
 
-public class LocalSelectView extends LinearLayout implements Spinner.OnItemSelectedListener{
+public class LocalSelectView extends LinearLayout {
 
 	private static final String TAG = LocalSelectView.class.getSimpleName();
+	private static final int BASEVALUE = 0;
 
 	@BindView(R.id.local_spinner) AppCompatSpinner local_spinner;
 	@BindView(R.id.local_detail_spinner) AppCompatSpinner local_detail_spinner;
 
-	private Context context;
-	private List<AddressFirstInfo> firstInfo;
-
-	private String[] firstInfoArray;
+	private List<AddressModel.SecondAddress> getSecondAddress;
+	private List<FirstAddress> sFirstAddress;
 
 	public LocalSelectView(Context context) {
 		this(context, null);
@@ -54,76 +49,67 @@ public class LocalSelectView extends LinearLayout implements Spinner.OnItemSelec
 
 	public LocalSelectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		this.context = context;
 		View v = LayoutInflater.from(context).inflate(R.layout.local_select_view, this, true);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT,
-				1.0f);
-		v.setLayoutParams(params);
-		ButterKnife.bind(this, v);
+		ButterKnife.bind(this,v);
 
-		AddressServiceManager.getFirstAddress()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<BaseResponse<List<AddressFirstInfo>>>>() {
-					@Override
-					public void onCompleted() {
-
-					}
-
-					@Override
-					public void onError(Throwable e) {
-						e.printStackTrace();
-					}
-
-					@Override
-					public void onNext(Response<BaseResponse<List<AddressFirstInfo>>> baseResponseResponse) {
-						firstInfo = baseResponseResponse.body().mResult;
-						transferArray(firstInfo);
-						initSpinner();
-					}
-				});
+		initFirstSpinner();
+		initSecondSpinner(BASEVALUE);
 	}
 
-	private void initSpinner() {
+
+	private void initFirstSpinner() {
+
+		sFirstAddress = AddressServiceManager.getFirstAddressList();
+		String[] firstArray = new String[sFirstAddress.size()];
+
+		for (int i =0; i < sFirstAddress.size(); i++){
+			firstArray[i] = sFirstAddress.get(i).mName;
+		}
 
 		ArrayAdapter localAdapter = new ArrayAdapter(
-				getApplicationContext(), R.layout.custom_spinner_item, firstInfoArray);
+				getApplicationContext(), R.layout.custom_spinner_item,firstArray);
 
 		localAdapter.setDropDownViewResource(
 				R.layout.custom_spinner_dropdown_item);
 
 		local_spinner.setAdapter(localAdapter);
-		local_spinner.setPrompt("도레미");
+		local_spinner.setPrompt("지역 설정");
+
+		local_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+				initSecondSpinner(position);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+		});
 
 	}
 
-	private void transferArray(List<AddressFirstInfo> firstInfo) {
-		firstInfoArray = firstInfo.toArray(new String[firstInfo.size()]);
-	}
+	private void initSecondSpinner(int position) {
+		getSecondAddress = AddressServiceManager.getSecondAddress(sFirstAddress.get(position).mName);
+		String[] secondArray = new String[getSecondAddress.size()];
 
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-		switch (view.getId()){
-			case R.id.local_spinner : {
-						Toast.makeText(context, "position : " + position +
-				parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-				break;
-			}
-			case R.id.local_detail_spinner : {
-
-				break;
-			}
+		for (int i =0; i < getSecondAddress.size(); i++){
+			secondArray[i] = getSecondAddress.get(i).mAddressName;
 		}
 
+		ArrayAdapter localAdapter = new ArrayAdapter(
+				getApplicationContext(), R.layout.custom_spinner_item, secondArray);
+
+		localAdapter.setDropDownViewResource(
+				R.layout.custom_spinner_dropdown_item);
+
+		local_detail_spinner.setAdapter(localAdapter);
+		local_detail_spinner.setPrompt("지역 세부 설정");
+
+
+
 	}
 
-	@Override
-	public void onNothingSelected(AdapterView<?> adapterView) {
-
-	}
 
 
 }
