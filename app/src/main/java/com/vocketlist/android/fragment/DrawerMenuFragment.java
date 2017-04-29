@@ -45,6 +45,21 @@ public class DrawerMenuFragment extends Fragment {
 
 //    protected CallbackManager mCallbackManager;
 
+    @OnClick(R.id.login_button)
+    protected void onClickFacebookLoginBtn() {
+        Ln.d("facebook login button click");
+
+        Intent intent = new Intent(getContext(), FacebookLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivityForResult(intent, RequestCode.FACEBOOK_LOGIN);
+    }
+
+    @OnClick(R.id.btnLogout)
+    protected void onClickLogoutBtn() {
+        UserServiceManager.logout();
+        refreshUserInfo();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,31 +81,17 @@ public class DrawerMenuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         refreshUserInfo();
     }
 
-    private void refreshUserInfo() {
-        if (UserServiceManager.isLogin()) {
-            switchLogin();
-        } else {
-            switchLogout();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if(RequestCode.FACEBOOK_LOGIN == requestCode) {
+            if(Activity.RESULT_OK == resultCode) initProfile();
         }
-    }
-
-    @OnClick(R.id.login_button)
-    protected void onClickFacebookLoginBtn() {
-        Ln.d("facebook login button click");
-
-        Intent intent = new Intent(getContext(), FacebookLoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivityForResult(intent, RequestCode.FACEBOOK_LOGIN);
-    }
-
-    @OnClick(R.id.btnLogout)
-    protected void onClickLogoutBtn() {
-        UserServiceManager.logout();
-        refreshUserInfo();
     }
 
     /**
@@ -111,6 +112,15 @@ public class DrawerMenuFragment extends Fragment {
 
         // 이름
         tvName.setText(fullName);
+
+        // TODO 전체 갯수 / 완료 개수
+        int totalCount = 8;
+        int doneCount = 3;
+
+        // 진행률
+        pbGoal.setMax(totalCount);
+        pbGoal.setProgress(doneCount);
+        tvProgress.setText(getString(R.string.my_list_progress, totalCount, doneCount));
     }
 
     private void switchLogin() {
@@ -125,13 +135,11 @@ public class DrawerMenuFragment extends Fragment {
         mLogoutView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-        if(RequestCode.FACEBOOK_LOGIN == requestCode) {
-            if(Activity.RESULT_OK == resultCode) initProfile();
+    private void refreshUserInfo() {
+        if (UserServiceManager.isLogin()) {
+            switchLogin();
+        } else {
+            switchLogout();
         }
     }
 }
