@@ -42,6 +42,7 @@
                     android:id="@+id/llVolunteerTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/layer_tab_bg_volunteer"
                     android:orientation="horizontal">
 
                     <!-- 탭 -->
@@ -50,14 +51,21 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:tabMode="fixed" />
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/transparent"
+                        app:tabMode="fixed"
+                        app:tabPadding="0dp"
+                        app:tabSelectedTextColor="@color/point_5FA9D0"
+                        app:tabTextAppearance="@style/TabLayout.Label"
+                        app:tabTextColor="#7f7f7f" />
 
                     <!-- 필터 아이콘 -->
                     <android.support.v7.widget.AppCompatImageButton
                         android:id="@+id/btnFilter"
                         style="@style/Button.Tab"
                         android:layout_width="50dp"
-                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_action_clear_all" />
                 </LinearLayout>
 
@@ -66,6 +74,7 @@
                     android:id="@+id/llCommunityTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/layer_tab_bg_community"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="invisible">
@@ -76,7 +85,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        app:tabMode="fixed" />
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/transparent"
+                        app:tabMode="fixed"
+                        app:tabPadding="0dp"
+                        app:tabSelectedTextColor="@color/point_E47B75"
+                        app:tabTextAppearance="@style/TabLayout.Label"
+                        app:tabTextColor="#7f7f7f" />
 
                     <!-- 간격 -->
                     <View

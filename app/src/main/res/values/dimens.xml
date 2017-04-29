@@ -33,6 +33,9 @@
     <!-- 프로필 -->
     <dimen name="category_grid_spacing">10dp</dimen>
 
+    <dimen name="tab_indicator_height">1.7dp</dimen>
+    <dimen name="tab_indicator_padding">-1.7dp</dimen>
+
 
     <!-- 폰트 크기 -->
     <dimen name="font_25">8.3sp</dimen>
