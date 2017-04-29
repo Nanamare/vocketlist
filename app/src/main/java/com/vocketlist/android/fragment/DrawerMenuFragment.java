@@ -111,6 +111,10 @@ public class DrawerMenuFragment extends Fragment {
 
         // 이름
         tvName.setText(fullName);
+
+        //달성률
+        pbGoal.setProgress((int) UserServiceManager.getLoginInfo().mUserInfo.mMyList.mRemain);
+
     }
 
     private void switchLogin() {
