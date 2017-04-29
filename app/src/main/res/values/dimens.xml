@@ -15,7 +15,7 @@
     <dimen name="content_margin_bottom">56dp</dimen>
 
     <!-- 봉사활동 : 목록 -->
-    <dimen name="volunteer_category_grid_space">5dp</dimen>
+    <dimen name="volunteer_category_grid_space">3.3dp</dimen>
 
     <!-- 커뮤니티 : 액션 -->
     <dimen name="new_post_button_bar_height">40dp</dimen>
