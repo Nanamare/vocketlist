@@ -2,12 +2,12 @@ package com.vocketlist.android.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageButton;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +19,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
 import com.vocketlist.android.defined.Category;
-import com.vocketlist.android.util.LocalSpinnerManager;
+import com.vocketlist.android.view.LocalSelectView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,9 +84,7 @@ public class VolunteerFragment extends BaseFragment {
 
         AppCompatTextView startTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_start_date_tv);
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
-        AppCompatSpinner localTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_spinner);
-        AppCompatSpinner localDetailTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_detail_spinner);
-
+        LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
         startTv.setOnClickListener(view -> {
             com.vocketlist.android.util.TimePickerDialog dialog =
                 com.vocketlist.android.util.TimePickerDialog.newInstance(view);
@@ -101,8 +99,14 @@ public class VolunteerFragment extends BaseFragment {
             dialog.show(ft, "TimeDialog");
         });
 
+        LocalSelectView localSelectView = new LocalSelectView(getContext());
+        layout.addView(localSelectView);
+
+//        AppCompatSpinner localTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_spinner);
+//        AppCompatSpinner localDetailTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_detail_spinner);
+
         //popwindow가 활성화 되면
-        LocalSpinnerManager.getInstance(localTv, localDetailTv);
+//        LocalSpinnerManager.getInstance(localTv, localDetailTv);
 
 
     }

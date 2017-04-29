@@ -56,7 +56,7 @@
                 android:secondaryProgress="100"
                 tools:progress="20" />
 
-            <!-- 달성류 & 후기갯수 -->
+            <!-- 전체개수 / 완료개수 -->
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tvProgress"
                 android:layout_width="match_parent"

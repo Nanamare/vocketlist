@@ -16,7 +16,7 @@ import rx.Observable;
  * Created by SeungTaek.Lim on 2017. 4. 29..
  */
 
-public final class AddressServiceManager {
+    public final class AddressServiceManager {
     private static final AddressService SERVICE = ServiceDefine.retrofit.create(AddressService.class);
 
     public static final Observable<Response<BaseResponse<List<AddressFirstInfo>>>> getFirstAddress() {
