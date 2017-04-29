@@ -26,7 +26,7 @@ import static junit.framework.Assert.assertTrue;
  */
 @RunWith(AndroidJUnit4.class)
 public class Address_InstrumentedTest {
-    private List<AddressInfo> mFirstAddressList;
+    private List<AddressModel> mFirstAddressList;
 
     @Before
     public void setup() {
@@ -46,9 +46,9 @@ public class Address_InstrumentedTest {
     @Test
     public void 주소가져오기_테스트() {
         AddressServiceManager.getsFirstAddress()
-                .subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressInfo>>>>() {
+                .subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>() {
                     @Override
-                    public void onNext(Response<BaseResponse<List<AddressInfo>>> baseResponseResponse) {
+                    public void onNext(Response<BaseResponse<List<AddressModel>>> baseResponseResponse) {
                         mFirstAddressList = baseResponseResponse.body().mResult;
                     }
                 });

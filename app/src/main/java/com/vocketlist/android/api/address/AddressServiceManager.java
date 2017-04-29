@@ -24,22 +24,22 @@ import rx.functions.Func1;
 public final class AddressServiceManager {
     private static final AddressService SERVICE = ServiceDefine.retrofit.create(AddressService.class);
 
-    private static List<String> sFirstAddress = new ArrayList<>();
-    private static Map<String, List<AddressInfo.SecondAddress>> sSecondAddress = new HashMap<String, List<AddressInfo.SecondAddress>>();
+    private static List<FirstAddress> sFirstAddress = new ArrayList<>();
+    private static Map<String, List<AddressModel.SecondAddress>> sSecondAddress = new HashMap<String, List<AddressModel.SecondAddress>>();
 
-    public static final Observable<Response<BaseResponse<List<AddressInfo>>>> getsFirstAddress() {
+    public static final Observable<Response<BaseResponse<List<AddressModel>>>> getsFirstAddress() {
         return SERVICE.getFirstAddress()
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<List<AddressInfo>>()))
-                .map(new Func1<Response<BaseResponse<List<AddressInfo>>>, Response<BaseResponse<List<AddressInfo>>>>() {
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<List<AddressModel>>()))
+                .map(new Func1<Response<BaseResponse<List<AddressModel>>>, Response<BaseResponse<List<AddressModel>>>>() {
                     @Override
-                    public Response<BaseResponse<List<AddressInfo>>> call(Response<BaseResponse<List<AddressInfo>>> baseResponseResponse) {
+                    public Response<BaseResponse<List<AddressModel>>> call(Response<BaseResponse<List<AddressModel>>> baseResponseResponse) {
                         sFirstAddress.clear();
                         sSecondAddress.clear();
 
-                        for (AddressInfo addressInfo : baseResponseResponse.body().mResult) {
-                            sFirstAddress.add(addressInfo.mAddressName);
-                            sSecondAddress.put(addressInfo.mAddressName, addressInfo.mSecondAddress);
+                        for (AddressModel addressModel : baseResponseResponse.body().mResult) {
+                            sFirstAddress.add(new FirstAddress(addressModel.mId, addressModel.mAddressName));
+                            sSecondAddress.put(addressModel.mAddressName, addressModel.mSecondAddress);
                         }
 
                         return baseResponseResponse;
@@ -48,14 +48,14 @@ public final class AddressServiceManager {
     }
 
     public static void refreshAddress() {
-        getsFirstAddress().subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressInfo>>>>());
+        getsFirstAddress().subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>());
     }
 
-    public static List<String> getFirstAddressList() {
+    public static List<FirstAddress> getFirstAddressList() {
         return sFirstAddress;
     }
 
-    public static List<AddressInfo.SecondAddress> getSecondAddress(String firstAddressName) {
+    public static List<AddressModel.SecondAddress> getSecondAddress(String firstAddressName) {
         return sSecondAddress.get(firstAddressName);
     }
 }

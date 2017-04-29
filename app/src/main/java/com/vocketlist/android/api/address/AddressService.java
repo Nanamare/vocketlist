@@ -14,5 +14,5 @@ import rx.Observable;
 
 public interface AddressService {
     @GET("services/address/")
-    Observable<Response<BaseResponse<List<AddressInfo>>>> getFirstAddress();
+    Observable<Response<BaseResponse<List<AddressModel>>>> getFirstAddress();
 }
