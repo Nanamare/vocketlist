@@ -6,25 +6,34 @@
               android:orientation="vertical">
 
     <!-- 이미지 -->
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_launcher"/>
+        android:layout_height="150dp"
+        android:background="@mipmap/ic_launcher">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivThumbnail"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:background="@color/black_7"
             android:scaleType="centerCrop"/>
 
         <!-- TODO 내/외 컨텐츠 구분 뱃지 추가 -->
 
-    </FrameLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/is_recruit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="모집중"
+            android:textSize="13.3dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,19 +53,6 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="@string/volunteer_title"
-            android:textSize="13.3dp"
-            android:textStyle="bold"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/is_recruit_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
-            android:text="모집중"
             android:textSize="13.3dp"
             android:textStyle="bold"/>
 

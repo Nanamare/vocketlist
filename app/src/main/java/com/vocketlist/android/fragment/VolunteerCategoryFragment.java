@@ -10,13 +10,13 @@ import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
+import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.decoration.GridSpacingItemDecoration;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.dto.Link;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import java.io.Serializable;
@@ -152,11 +152,11 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
 		if (link == null
-				|| link.mNext == page) {
+				|| link.mNextId == page) {
 			return;
 		}
 
-		requestVocketList(link.mNext, category);
+		requestVocketList(link.mNextId, category);
 	}
 
 	public void setVocketList(BaseResponse<Volunteer> volunteerList) {
