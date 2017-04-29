@@ -1,30 +1,20 @@
 package com.vocketlist.android.adapter.viewholder;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.dto.Schedule;
+import com.vocketlist.android.api.schedule.ScheduleModel;
 import com.vocketlist.android.util.DateUtil;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-
-import butterknife.BindString;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
- *
+ * 뷰홀더 : 스케쥴
  */
-public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
+public class ScheduleViewHolder extends BaseViewHolder<ScheduleModel.Schedule> {
 
     @BindView(R.id.tvDate) AppCompatTextView tvDate;
     @BindView(R.id.llInfo) LinearLayout llInfo;
@@ -41,10 +31,14 @@ public class ScheduleViewHolder extends BaseViewHolder<Schedule> {
     }
 
     @Override
-    public void bind(Schedule data) {
+    public void bind(ScheduleModel.Schedule data) {
         super.bind(data);
 
-        tvDate.setText(DateUtil.convertDateForSchedule() + '');
+        //
+        tvDate.setText(DateUtil.convertDateForSchedule(data.mStartDate) + "\n-\n" + DateUtil.convertDateForSchedule(data.mEndDate));
+        llInfo.setSelected(data.mIsDone);
+        tvLabel.setText(data.mTitle);
+        tvTime.setText(DateUtil.convertTimeForSchedule(data.mStartTime) + " ~ " + DateUtil.convertTimeForSchedule(data.mEndTime) + " / " + data.mArea);
     }
 }
 

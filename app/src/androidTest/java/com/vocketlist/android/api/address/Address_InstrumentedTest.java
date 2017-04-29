@@ -26,13 +26,11 @@ import static junit.framework.Assert.assertTrue;
  */
 @RunWith(AndroidJUnit4.class)
 public class Address_InstrumentedTest {
-    private List<AddressFirstInfo> mFirstAddressList;
-    private List<AddressSecondInfo> mSecondAddressList;
+    private List<AddressModel> mFirstAddressList;
 
     @Before
     public void setup() {
         mFirstAddressList = null;
-        mSecondAddressList = null;
 
         ServiceDefine.mockInterceptor.setResponse(null);
 
@@ -47,31 +45,15 @@ public class Address_InstrumentedTest {
 
     @Test
     public void 주소가져오기_테스트() {
-        AddressServiceManager.getFirstAddress()
-                .subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressFirstInfo>>>>() {
+        AddressServiceManager.getsFirstAddress()
+                .subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>() {
                     @Override
-                    public void onNext(Response<BaseResponse<List<AddressFirstInfo>>> baseResponseResponse) {
+                    public void onNext(Response<BaseResponse<List<AddressModel>>> baseResponseResponse) {
                         mFirstAddressList = baseResponseResponse.body().mResult;
                     }
                 });
 
         assertNotNull(mFirstAddressList);
         assertTrue(mFirstAddressList.size() > 0);
-    }
-
-    @Test
-    public void 두번째_주소_가져오기_테스트() {
-        주소가져오기_테스트();
-
-        AddressServiceManager.getSecondAddress(mFirstAddressList.get(0).mId)
-                .subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressSecondInfo>>>>() {
-                    @Override
-                    public void onNext(Response<BaseResponse<List<AddressSecondInfo>>> baseResponseResponse) {
-                        mSecondAddressList = baseResponseResponse.body().mResult;
-                    }
-                });
-
-        assertNotNull(mSecondAddressList);
-        assertTrue(mSecondAddressList.size() > 0);
     }
 }

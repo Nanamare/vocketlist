@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'     // ButterKnife (https://github.com/JakeWharton/butterknife)
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'                   // https://realm.io/kr/docs/java/latest/
 
 android {
     compileSdkVersion 25
@@ -174,6 +175,8 @@ dependencies {
 
     //rxBinding
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    // realm
 }
 
 apply plugin: 'com.google.gms.google-services'

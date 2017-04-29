@@ -6,30 +6,42 @@
               android:orientation="vertical">
 
     <!-- 이미지 -->
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_launcher"/>
+        android:layout_height="150dp"
+        android:background="@mipmap/ic_launcher">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivThumbnail"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:background="@color/black_7"
             android:scaleType="centerCrop"/>
 
         <!-- TODO 내/외 컨텐츠 구분 뱃지 추가 -->
 
-    </FrameLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/is_recruit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="모집중"
+            android:textSize="13.3dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="11.7dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="6.7dp"
         android:weightSum="10">
 
         <!-- 이름 -->
@@ -38,52 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="@string/volunteer_title"
-            android:textSize="@dimen/font_45"
-            android:textStyle="bold"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
-            android:text="("
-            android:textSize="@dimen/font_45"
-            android:textStyle="bold"/>
-
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/is_recruit_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
-            android:text="모집중"
-            android:textSize="@dimen/font_45"
-            android:textStyle="bold"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
-            android:text=")"
-            android:textSize="@dimen/font_45"
+            android:textSize="13.3dp"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -92,6 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingBottom="11.3dp"
         android:weightSum="10">
 
         <!-- 설명 -->
@@ -100,43 +72,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:minHeight="80dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="1dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="2017-02-25"
-            android:textSize="@dimen/font_36"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="80dp"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
-            android:text="/"
-            android:textSize="@dimen/font_45"
-            android:textStyle="bold"/>
-
+            android:textSize="11.7dp"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:minHeight="80dp"
-            android:paddingBottom="1dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="서울시 서초구"
-            android:textSize="@dimen/font_45"/>
+            android:textSize="11.7dp"/>
 
     </LinearLayout>
 </LinearLayout>

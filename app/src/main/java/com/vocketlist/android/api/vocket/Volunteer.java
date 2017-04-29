@@ -1,7 +1,7 @@
 package com.vocketlist.android.api.vocket;
 
 import com.google.gson.annotations.SerializedName;
-import com.vocketlist.android.dto.Link;
+import com.vocketlist.android.api.Link;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.vocketlist.android.api.schedule;
 
+import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.dto.Schedule;
 import com.vocketlist.android.network.executor.Priority;
 import com.vocketlist.android.network.service.ServiceErrorChecker;
 import com.vocketlist.android.network.service.ServiceHelper;
@@ -22,11 +22,10 @@ public final class ScheduleServiceManager {
 
     }
 
-    public static Observable<Response<BaseResponse<Schedule>>> getScheduleList(){
-
+    public static Observable<Response<BaseResponse<ScheduleModel>>> getScheduleList(){
         return  service
                 .getScheduleList()
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new ScheduleErrorChecker()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<>()));
     }
 }
