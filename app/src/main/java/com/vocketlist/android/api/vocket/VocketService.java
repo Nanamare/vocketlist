@@ -19,7 +19,11 @@ import rx.Observable;
 interface VocketService {
 
 	@GET("services/list/")
-	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query("first_category") Category category,
+	Observable<Response<BaseResponse<Volunteer>>> getVocketCategoryList(@Query(value = "category", encoded = true) Category category,
+																		@Query(value = "start_date", encoded = true) String startDate,
+																		@Query(value = "end_date", encoded = true) String endDate,
+																		@Query("region") String secondAddressId,
+																		@Query(value = "type", encoded = true) String type,
 																		@Query("page")int page,
 																		@Query( value = "search", encoded = true) String search);
 
