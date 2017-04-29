@@ -1,7 +1,6 @@
 package com.vocketlist.android.adapter.viewholder;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -11,8 +10,6 @@ import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.VolunteerReadActivity;
 import com.vocketlist.android.api.vocket.Volunteer;
-
-import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +46,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
         tvTitle.setText(mData.mTitle);
         tvStartDate.setText(getDate(mData.mStartDate));
         tvAddress.setText(mData.mFirstOffice);
+        tvRecruit.setVisibility(mData.mIsActive ? View.VISIBLE : View.GONE);
         Glide.with(context).load("http://www.vocketlist.com"+mData.mImageUrl).into(ivThumbnail);
     }
 
