@@ -90,6 +90,7 @@ public class LocalSelectView extends LinearLayout {
 	}
 
 	private void initSecondSpinner(int position) {
+
 		getSecondAddress = AddressServiceManager.getSecondAddress(sFirstAddress.get(position).mName);
 		String[] secondArray = new String[getSecondAddress.size()];
 
@@ -105,8 +106,6 @@ public class LocalSelectView extends LinearLayout {
 
 		local_detail_spinner.setAdapter(localAdapter);
 		local_detail_spinner.setPrompt("지역 세부 설정");
-
-
 
 	}
 

@@ -23,6 +23,4 @@
         android:prompt="@string/local"
         android:spinnerMode="dialog"/>
 
-
-
 </LinearLayout>

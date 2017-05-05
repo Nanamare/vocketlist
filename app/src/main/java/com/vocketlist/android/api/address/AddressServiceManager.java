@@ -48,7 +48,8 @@ import rx.functions.Func1;
     }
 
     public static void refreshAddress() {
-        getsFirstAddress().subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>());
+        getsFirstAddress().subscribe(
+        		new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>());
     }
 
     public static List<FirstAddress> getFirstAddressList() {
