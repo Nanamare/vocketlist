@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/local_ll_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:weightSum="2">
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/local_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:prompt="@string/local"
+        android:spinnerMode="dialog"/>
+
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/local_detail_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:prompt="@string/local"
+        android:spinnerMode="dialog"/>
+
+</LinearLayout>

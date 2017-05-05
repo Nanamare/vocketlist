@@ -175,6 +175,11 @@
     <!--커뮤니티 -->
     <string name="delete_communityList">커뮤니티 글을 삭제 하시겠습니까?</string>
 
+
+    <!-- 지역 스피너 -->
+    <string name="local">지역 선택</string>
+    <string name="local_detail">시군구 선택</string>
+
     <!-- 마이리스트 -->
     <string name="my_list_desc">일상 속 작은 활동들로\n나만의 선행 버킷리스트를 만들어 목표를 달성하세요!\n인증버튼을 통해 후기 등록 시 ‘달성’처리 됩니다</string>
     <string name="hint_my_list_add">새로운 버킷리스트 등록하기</string>

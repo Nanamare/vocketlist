@@ -113,14 +113,15 @@ public class DrawerMenuFragment extends Fragment {
         // 이름
         tvName.setText(fullName);
 
-        // TODO 전체 갯수 / 완료 개수
-        int totalCount = 8;
-        int doneCount = 3;
+        // 전체 갯수 / 완료 개수
+        int totalCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mTotal;
+        int doneCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mFinish;
 
         // 진행률
         pbGoal.setMax(totalCount);
         pbGoal.setProgress(doneCount);
         tvProgress.setText(getString(R.string.my_list_progress, totalCount, doneCount));
+
     }
 
     private void switchLogin() {

@@ -30,6 +30,8 @@ import rx.functions.Func1;
 public final class UserServiceManager {
     private static final UserService SERVICE = ServiceDefine.retrofit.create(UserService.class);
 
+    private static LoginModel loginModel;
+
     public static Observable<Response<BaseResponse<Void>>> registerFcmToken(String fcmToken) {
         return SERVICE
                 .registerToken(fcmToken, DeviceHelper.getDeviceId())
@@ -63,6 +65,8 @@ public final class UserServiceManager {
                     @Override
                     public Response<BaseResponse<LoginModel>> call(Response<BaseResponse<LoginModel>> responseBodyResponse) {
                         LoginInterceptor.setLoginToken(responseBodyResponse.body().mResult.mToken);
+                        loginModel = responseBodyResponse.body().mResult;
+
                         // 정상적으로 로그인이되었으면 서버에 토큰 정보를 전달한다.
                         // todo : 토큰 정보 전달시 실패되는 경우에 대하여 고려가 필요하다.
                         Ln.d("login token : " + responseBodyResponse.body().mResult.mToken);
@@ -100,5 +104,9 @@ public final class UserServiceManager {
         return observable
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
+    }
+
+    public static LoginModel getLoginInfo(){
+        return loginModel;
     }
 }

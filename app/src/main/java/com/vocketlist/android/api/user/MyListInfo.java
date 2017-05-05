@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public final class MyListInfo {
     @SerializedName("total_mylist") public int mTotal;
-    @SerializedName("finfinish_mylistish") public int mFinish;
-    @SerializedName("mylist_completion_rate") public int mRemain;
+    @SerializedName("finish_mylist") public int mFinish;
+    @SerializedName("mylist_completion_rate") public float mRemain;
 }

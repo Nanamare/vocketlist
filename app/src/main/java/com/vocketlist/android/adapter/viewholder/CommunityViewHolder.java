@@ -91,7 +91,7 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 			//tvVolunteer.setText(communityData.);
 			if (!TextUtils.isEmpty(communityData.mImageUrl)) {
 				Glide.with(context)
-						.load(communityData.mImageUrl)
+						.load("http://vocketlist.com"+communityData.mImageUrl)
 						.into(ivPhoto);
 			}
 

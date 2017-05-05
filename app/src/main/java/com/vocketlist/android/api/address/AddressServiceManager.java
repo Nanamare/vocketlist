@@ -21,7 +21,7 @@ import rx.functions.Func1;
  * Created by SeungTaek.Lim on 2017. 4. 29..
  */
 
-public final class AddressServiceManager {
+    public final class AddressServiceManager {
     private static final AddressService SERVICE = ServiceDefine.retrofit.create(AddressService.class);
 
     private static List<FirstAddress> sFirstAddress = new ArrayList<>();
@@ -48,7 +48,8 @@ public final class AddressServiceManager {
     }
 
     public static void refreshAddress() {
-        getsFirstAddress().subscribe(new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>());
+        getsFirstAddress().subscribe(
+        		new EmptySubscriber<Response<BaseResponse<List<AddressModel>>>>());
     }
 
     public static List<FirstAddress> getFirstAddressList() {

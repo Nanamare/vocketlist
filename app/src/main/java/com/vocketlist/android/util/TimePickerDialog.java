@@ -38,7 +38,7 @@ public class TimePickerDialog extends DialogFragment implements DatePickerDialog
 
 	@Override
 	public void onDateSet(DatePicker datePicker, int year, int mothOfYear, int dayOfMonth) {
-		txt_time.setText(year+"-"+(mothOfYear+1)+"-"+dayOfMonth);
+		txt_time.setText(year+" - "+(mothOfYear+1)+" - "+dayOfMonth);
 	}
 
 }

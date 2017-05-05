@@ -1,5 +1,7 @@
 package com.vocketlist.android.api.address;
 
+import java.util.List;
+
 /**
  * Created by SeungTaek.Lim on 2017. 4. 29..
  */
@@ -12,4 +14,9 @@ public class FirstAddress {
         mId = id;
         mName = addressName;
     }
+
+    public String getAddress(){
+        return mName;
+    }
+
 }
