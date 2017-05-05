@@ -6,7 +6,9 @@ import android.support.v13.view.ViewCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerCategoryAdapter;
@@ -44,8 +46,15 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 
 	private VolunteerCategoryAdapter adapter;
 	private Category category = Category.All;
-	private int page = 1;
+	private String startDate;
+	private String endDate;
+	private int secondAddressId;
+	private String searchKeyword;
+	private boolean useVocketList = false;
 	private Link link;
+
+	private int pageSize = 1;
+	private int page = 1;
 
 	/**
 	 * 인스턴스
@@ -72,8 +81,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		loadBundleData(savedInstanceState);
 
 		initView();
-
-		requestVocketList(page, category);
+		onRefresh();
 	}
 
 	private void initView() {
@@ -98,12 +106,18 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		}
 	}
 
-	private void requestVocketList(int pageNum, Category category) {
+	private void requestVocketList(Category category,
+								   String startDate,
+								   String endDate,
+								   int secondAddressId,
+								   boolean useVocketFilter,
+								   String searchKeyword,
+								   int pageNum) {
 //		if (recyclerView.isLoadingMore()) {
 //			return;
 //		}
 
-		VocketServiceManager.getVocketList(category, pageNum)
+		VocketServiceManager.search(category, startDate, endDate, secondAddressId, useVocketFilter, searchKeyword, pageNum)
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnTerminate(new Action0() {
 					@Override
@@ -141,10 +155,8 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 
 	@Override
 	public void onRefresh() {
-		super.onRefresh();
-
 		page = 1;
-		requestVocketList(page, category);
+		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, page);
 	}
 
 	@Override
@@ -152,11 +164,26 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
 		if (link == null
-				|| link.mNextId == page) {
+				|| link.mNextId == page
+				|| link.mNextId > pageSize) {
 			return;
 		}
 
-		requestVocketList(link.mNextId, category);
+		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, link.mNextId);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		resetSearch();
+	}
+
+	private void resetSearch() {
+		startDate = null;
+		endDate = null;
+		secondAddressId = 0;
+		useVocketList = false;
+		searchKeyword = null;
 	}
 
 	public void setVocketList(BaseResponse<Volunteer> volunteerList) {
@@ -164,6 +191,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 			adapter.clear();
 		}
 		adapter.addAll(volunteerList.mResult.mDataList);
+		pageSize = volunteerList.mResult.mPageSize;
 		page = volunteerList.mResult.mPageCurrent;
 		link = volunteerList.mResult.mLink;
 	}
@@ -171,5 +199,20 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 	private void hideRefreshView() {
 		recyclerView.setRefreshing(false);
 		recyclerView.hideMoreProgress();
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		if (TextUtils.isEmpty(query)) {
+			Toast.makeText(getContext(), R.string.hint_search, Toast.LENGTH_SHORT).show();
+			searchKeyword = null;
+			return false;
+		}
+
+		searchKeyword = query;
+		page = 1;
+
+		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, page);
+		return true;
 	}
 }

@@ -19,23 +19,23 @@ import static com.vocketlist.android.api.ServiceDefine.retrofit;
 public final class VocketServiceManager {
     private static VocketService service = retrofit.create(VocketService.class);
 
-    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(int page) {
-        return getVocketList(null, page);
-    }
+//    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(int page) {
+//        return getVocketList(null, page);
+//    }
 
     private VocketServiceManager() {
 
     }
 
-    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(Category category, int page) {
-        return search((Category.All == category) ? null : category,
-                null,
-                null,
-                0,
-                false,
-                null,
-                page);
-    }
+//    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(Category category, int page) {
+//        return search((Category.All == category) ? null : category,
+//                null,
+//                null,
+//                0,
+//                false,
+//                null,
+//                page);
+//    }
 
     public static Observable<Response<BaseResponse<Volunteer>>> search(Category category,
                                                                        String startDate,
@@ -45,7 +45,7 @@ public final class VocketServiceManager {
                                                                        String searchKeyword,
                                                                        int page) {
         return service
-                .getVocketCategoryList(category,
+                .getVocketCategoryList((Category.All == category) ? null : category,
                         startDate,
                         endDate,
                         (secondAddressId > 0) ? Integer.toString(secondAddressId) : null,

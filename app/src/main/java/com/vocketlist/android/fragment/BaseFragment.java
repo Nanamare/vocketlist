@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.vocketlist.android.R;
+import com.vocketlist.android.roboguice.log.Ln;
 
 
 /**
@@ -31,7 +32,6 @@ public class BaseFragment extends Fragment implements SearchView.OnQueryTextList
         // 검색
         MenuItem mi = menu.findItem(R.id.action_search);
         SearchView sv = (SearchView) mi.getActionView();
-//        sv.setIconified(false);
         sv.setQueryHint(getString(R.string.hint_search));
         sv.setOnQueryTextListener(this);
 
@@ -40,11 +40,13 @@ public class BaseFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        Ln.d("onQueryTextSubmit : " + query + ", class : " + this.getClass().getSimpleName());
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        Ln.d("onQueryTextChange : " + newText + ", class : " + this.getClass().getSimpleName());
+        return true;
     }
 }
