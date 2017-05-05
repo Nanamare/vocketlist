@@ -82,6 +82,10 @@
     <string name="favorite">관심정보 모아보기</string>
     <string name="my_list">마이리스트</string>
 
+    <!-- 봉사 상세 정보 -->
+    <string name="volunteer_read_toolbar_title">봉사활동 상세정보</string>
+    <string name="volunteer_read_period">봉사기간</string>
+
     <!-- -->
     <string name="profile_manage">프로필관리</string>
     <string name="schedule_manage">스케쥴관리</string>

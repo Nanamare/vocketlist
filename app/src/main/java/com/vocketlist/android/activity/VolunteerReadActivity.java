@@ -39,7 +39,7 @@ import butterknife.OnClick;
  */
 public class VolunteerReadActivity extends DepthBaseActivity implements IVolunteerReadView {
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
-	@BindView(R.id.vocket_title_tv) protected TextView mVocketTitleText;
+	@BindView(R.id.volunteer_read_title) protected TextView mVocketTitleText;
 	@BindView(R.id.start_date_tv) protected TextView mStartDateText;
 	@BindView(R.id.end_date_tv) protected TextView mEndDateText;
 	@BindView(R.id.start_time_tv) protected TextView mStartTimeText;
@@ -51,11 +51,11 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 	@BindView(R.id.num_by_day_tv) protected TextView mNumByDayText;
 	@BindView(R.id.host_name_tv) protected TextView mHostNameText;
 	@BindView(R.id.category_tv) protected TextView mCategoryText;
-	@BindView(R.id.apply_btn) protected Button mApplyBtn;
-	@BindView(R.id.apply_cancel_btn) protected Button mApplyCancelBtn;
-	@BindView(R.id.write_diary_btn) protected Button mWriteDiaryBtn;
+	@BindView(R.id.apply_btn) protected TextView mApplyBtn;
+	@BindView(R.id.apply_cancel_btn) protected TextView mApplyCancelBtn;
+	@BindView(R.id.write_diary_btn) protected TextView mWriteDiaryBtn;
 	@BindView(R.id.isActiveDayTv) protected TextView mIsActiveDayText;
-	@BindView(R.id.content_tv) protected TextView mContentText;
+	@BindView(R.id.volunteer_read_detail_content) protected TextView mContentText;
 	@BindView(R.id.volunteer_iv) protected ImageView mVolunteerImageView;
 
 	private IVolunteerCategoryPresenter presenter;
