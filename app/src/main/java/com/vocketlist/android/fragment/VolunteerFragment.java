@@ -100,22 +100,6 @@ public class VolunteerFragment extends BaseFragment {
             dialog.show(ft, "TimeDialog");
         });
 
-//        LocalSelectView localSelectView = new LocalSelectView(getContext());
-//        layout.addView(localSelectView);
-
-
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.WRAP_CONTENT,
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            1.0f);
-//        layout.setLayoutParams(params);
-
-//        AppCompatSpinner localTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_spinner);
-//        AppCompatSpinner localDetailTv  = (AppCompatSpinner)popupView.findViewById(R.id.popup_filter_local_detail_spinner);
-
-        //popwindow가 활성화 되면
-//        LocalSpinnerManager.getInstance(localTv, localDetailTv);
-
 
     }
 }
