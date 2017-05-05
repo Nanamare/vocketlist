@@ -25,10 +25,10 @@ import rx.Observable;
 
 interface CommunityService {
 	//커뮤니티 리스트 조회
-	@GET("posts/")
-	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
-														   @Query("page_size") int pageSize,
-														   @Query(value = "search", encoded = true) String searchKeyWord);
+//	@GET("posts/")
+//	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,
+//														   @Query("page_size") int pageSize,
+//														   @Query(value = "search", encoded = true) String searchKeyWord);
 
 	@GET("posts/")
 	Observable<Response<BaseResponse<CommunityList>>> list(@Query("page") int page,

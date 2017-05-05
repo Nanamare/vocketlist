@@ -24,11 +24,11 @@ import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
-import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -52,13 +52,18 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	private PostAdapter adapter;
 	private Link links;
 	private int communityListPgCnt = 1;
+
+	private String searchKeyword;
 	private int page = 1;
+
+
 	private  BaseResponse<CommunityList> communityList;
 	private BaseResponse<CommunityLike> communityLike;
 	private int communityPosition;
 	private CommunityCategory category = CommunityCategory.All;
 
 	private ArrayAdapter<String> menuList;
+	private int pageCount;
 
 	/**
 	 * 인스턴스
@@ -78,27 +83,43 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		if(view == null) return;
+		if(view == null) {
+			return;
+		}
 
 		Bundle args = getArguments();
 		Serializable c = args.getSerializable(Args.CATEGORY);
 
+		resetSearch();
+
 		if (c != null && c instanceof CommunityCategory) {
 			this.category = (CommunityCategory) c;
 			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>(),listener));
-			if(category.getResId() == R.string.com_all) {
-				requestCommunityList(communityListPgCnt++, null);
-			} else if(category.getResId() == R.string.com_myWriting){
-				requestCommunityList(communityListPgCnt++, "신현성");
-			} else {
-				//명언 보기
-			}
 
+			requestCommunityList(communityListPgCnt++, null);
 		}
 	}
 
-	private void requestCommunityList(int pageNum,String userName) {
-		CommunityServiceManager.list(pageNum, userName)
+	@Override
+	public void onStart() {
+		super.onStart();
+
+
+	}
+
+	private void resetSearch() {
+		searchKeyword = null;
+	}
+
+	private void requestCommunityList(int pageNum, String searchKeyword) {
+		String name = (category.getResId() == R.string.com_myWriting) ? FacebookPreperence.getInstance().getUserName() : null;
+
+		if (category.getResId() == R.string.com_wisdom) {
+			// todo 명언 보기의 경우 어떻게 api를 호출해서 사용해야 하는지 정리가 필요하다.
+			return;
+		}
+
+		CommunityServiceManager.search(pageNum, name, searchKeyword)
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnTerminate(new Action0() {
 					@Override
@@ -135,6 +156,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		this.communityList = communityList;
 		adapter.addAll(communityList.mResult.mData);
 		page = communityList.mResult.mPageCurrentCnt;
+		pageCount = communityList.mResult.mPageCnt;
 		links = communityList.mResult.mLinks;
 		adapter.notifyDataSetChanged();
 	}
@@ -163,9 +185,13 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
-		// TODO 더보기
-//		adapter.add(new Volunteer());
-		recyclerView.hideMoreProgress();
+		if (links == null
+				|| links.mNextId == page
+				|| links.mNextId >= pageCount) {
+			return;
+		}
+
+		requestCommunityList(links.mNextId, searchKeyword);
 	}
 
 	RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {
@@ -364,13 +390,27 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		shareDialog.show(content, ShareDialog.Mode.FEED);
 	}
 
-	@Override
-	public void onResume(){
-		super.onResume();
-		communityListPgCnt = 0;
-		requestCommunityList(communityListPgCnt++,null);
-	}
+//	@Override
+//	public void onResume(){
+//		super.onResume();
+//		communityListPgCnt = 0;
+//		requestCommunityList(communityListPgCnt++, null);
+//	}
 
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		if (TextUtils.isEmpty(query)) {
+			Toast.makeText(getContext(), R.string.hint_search, Toast.LENGTH_SHORT).show();
+			searchKeyword = null;
+			return false;
+		}
+
+		searchKeyword = query;
+		page = 1;
+
+		requestCommunityList(page, searchKeyword);
+		return true;
+	}
 
 	/**
 	private void refreshFavoriteCount(int page, int postId) {

@@ -27,16 +27,6 @@ public final class VocketServiceManager {
 
     }
 
-//    public static Observable<Response<BaseResponse<Volunteer>>> getVocketList(Category category, int page) {
-//        return search((Category.All == category) ? null : category,
-//                null,
-//                null,
-//                0,
-//                false,
-//                null,
-//                page);
-//    }
-
     public static Observable<Response<BaseResponse<Volunteer>>> search(Category category,
                                                                        String startDate,
                                                                        String endDate,

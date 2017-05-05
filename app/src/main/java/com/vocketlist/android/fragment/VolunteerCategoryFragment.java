@@ -53,7 +53,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 	private boolean useVocketList = false;
 	private Link link;
 
-	private int pageSize = 1;
+	private int pageCount = 1;
 	private int page = 1;
 
 	/**
@@ -165,7 +165,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 
 		if (link == null
 				|| link.mNextId == page
-				|| link.mNextId > pageSize) {
+				|| link.mNextId >= pageCount) {
 			return;
 		}
 
@@ -190,8 +190,9 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		if (volunteerList.mResult.mPageCurrent == 1) {
 			adapter.clear();
 		}
+
 		adapter.addAll(volunteerList.mResult.mDataList);
-		pageSize = volunteerList.mResult.mPageSize;
+		pageCount = volunteerList.mResult.mPageCount;
 		page = volunteerList.mResult.mPageCurrent;
 		link = volunteerList.mResult.mLink;
 	}

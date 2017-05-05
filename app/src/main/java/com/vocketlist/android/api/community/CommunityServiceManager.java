@@ -32,12 +32,12 @@ public final class CommunityServiceManager {
 
     }
 
-    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo, String userName) {
-        return search(pageNo, userName);
-    }
+//    public static Observable<Response<BaseResponse<CommunityList>>> list(int pageNo, String userName) {
+//        return search(pageNo, userName);
+//    }
 
-    public static Observable<Response<BaseResponse<CommunityList>>> search(int pageNo, String searchKeyword) {
-        return service.list(pageNo, DEAULT_PAGE_SIZE, searchKeyword)
+    public static Observable<Response<BaseResponse<CommunityList>>> search(int pageNo, String userId, String searchKeyword) {
+        return service.list(pageNo, DEAULT_PAGE_SIZE, userId, searchKeyword)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityList>()));
     }
