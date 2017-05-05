@@ -99,5 +99,6 @@ public class VolunteerFragment extends BaseFragment {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             dialog.show(ft, "TimeDialog");
         });
+
     }
 }
