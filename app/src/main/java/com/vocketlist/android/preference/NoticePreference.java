@@ -12,7 +12,7 @@ import com.vocketlist.android.AppApplication;
  */
 public class NoticePreference extends BasePreference {
     public static final String PREF_KEY = "Notice";
-    private static final String KEY_TODAY = "key_today";
+    private static final String KEY_SHOW_GUIDE_POPUP = "key_today";
 
     private static NoticePreference instance;
 
@@ -36,11 +36,11 @@ public class NoticePreference extends BasePreference {
         return NoticePreference.instance;
     }
 
-    public void setToday(boolean use) {
-        setPreference(KEY_TODAY, use);
+    public void setGuidePopup(boolean show) {
+        setPreference(KEY_SHOW_GUIDE_POPUP, show);
     }
 
-    public boolean isToday() {
-        return getPreferenceBoolean(KEY_TODAY, false);
+    public boolean showGuidePopup() {
+        return getPreferenceBoolean(KEY_SHOW_GUIDE_POPUP, true);
     }
 }

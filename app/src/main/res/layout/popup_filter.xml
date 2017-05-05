@@ -1,92 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:paddingTop="20dp"
-              android:paddingBottom="20dp"
-              android:paddingRight="10dp"
-              android:paddingLeft="10dp"
-              android:background="@drawable/layout_border"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/layout_border"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingLeft="18.7dp"
+    android:paddingRight="19.7dp"
+    android:paddingBottom="15dp">
 
     <LinearLayout
-        android:weightSum="3"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_weight="1"
-            android:text="봉사날짜"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="@string/popup_filter_volunteer_date"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:textSize="13.3dp"
+            android:textColor="#5fb0da"
+            android:layout_marginRight="24.7dp"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:layout_weight="1"
             android:hint="시작 날짜 정하기"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="23.3dp"
+            android:gravity="center"
+            android:textSize="11.7dp"
+            android:textColor="#808080"
+            android:background="@drawable/edittextbackground"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:layout_weight="1"
             android:hint="종료 날짜 정하기"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="23.3dp"
+            android:layout_marginLeft="13.3dp"
+            android:gravity="center"
+            android:textSize="11.7dp"
+            android:textColor="#808080"
+            android:background="@drawable/edittextbackground"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:weightSum="3"
+        android:layout_marginTop="11.7dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_weight="1"
-            android:text="지역"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="@string/popup_filter_volunteer_place"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:textSize="13.3dp"
+            android:textColor="#5fb0da"
+            android:layout_marginRight="24.7dp"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:layout_weight="1"
             android:hint="지역 정하기"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="23.3dp"
+            android:gravity="center"
+            android:textSize="11.7dp"
+            android:textColor="#808080"
+            android:background="@drawable/edittextbackground"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:layout_weight="1"
             android:hint="지역 세분화"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="23.3dp"
+            android:layout_marginLeft="13.3dp"
+            android:gravity="center"
+            android:textSize="11.7dp"
+            android:textColor="#808080"
+            android:background="@drawable/edittextbackground"/>
     </LinearLayout>
 
     <LinearLayout
-        android:weightSum="5"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10.7dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:text="보킷만 모아보기"
+            android:textColor="#808080"
+            android:textSize="10dp"
+            android:layout_gravity="center_horizontal"/>
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_weight="2"
-            android:text="보킷만 모아보기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <android.support.v7.widget.AppCompatButton
-            android:gravity="center_horizontal"
-            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="right|center"
             android:textStyle="bold"
             android:text="적용하기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:textColor="#5fb0da"
+            android:textSize="14dp"
+            android:paddingLeft="10dp"/>
     </LinearLayout>
 
 

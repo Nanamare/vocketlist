@@ -24,7 +24,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 public final class ServiceDefine {
 	public static final LazyMockInterceptor mockInterceptor = new LazyMockInterceptor();
 
-	private static final String BASE_URL = AppApplication.getInstance().getString(R.string.vocketBaseUrl);
+	private static final String BASE_URL = AppApplication.getInstance().getString(R.string.vocket_base_api);
 
 	private ServiceDefine() {
 

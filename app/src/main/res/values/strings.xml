@@ -108,6 +108,10 @@
     <string name="volunteer_title">봉사활동 이름</string>
     <string name="volunteer_description">봉사활동 설명</string>
 
+    <!-- popup filter -->
+    <string name="popup_filter_volunteer_date">봉사 날짜</string>
+    <string name="popup_filter_volunteer_place">지역</string>
+
     <!-- 힌트 -->
     <string name="hint_search">검색어를 입력하세요</string>
     <string name="hint_write_post">오늘의 봉사활동은 어땠나요?</string>

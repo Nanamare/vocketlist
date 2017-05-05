@@ -1,8 +1,10 @@
 package com.vocketlist.android.adapter.viewholder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -25,10 +27,10 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
     @BindView(R.id.ivThumbnail) AppCompatImageView ivThumbnail;
     @BindView(R.id.tvTitle) AppCompatTextView tvTitle;
     @BindView(R.id.is_recruit_tv) AppCompatTextView tvRecruit;
-    @BindView(R.id.start_date_tv) AppCompatTextView tvStartDate;
-    @BindView(R.id.address_tv) AppCompatTextView tvAddress;
+    @BindView(R.id.start_date_and_place_tv) AppCompatTextView tvStartDate;
     @BindView(R.id.item_volunteer_ll) LinearLayout item_volunteer_ll;
 
+    private Context mContext;
     private Volunteer.Data mData;
 
     /**
@@ -37,17 +39,16 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
      */
     public VolunteerCategoryViewHolder(View itemView) {
         super(itemView);
-
+        mContext = itemView.getContext();
     }
 
     @Override
     public void bind(Volunteer.Data data) {
         mData = (Volunteer.Data)data;
         tvTitle.setText(mData.mTitle);
-        tvStartDate.setText(getDate(mData.mStartDate));
-        tvAddress.setText(mData.mFirstOffice);
+        tvStartDate.setText(getDate(mData.mStartDate) + (TextUtils.isEmpty(mData.mFirstOffice) ? "" : (" / " + mData.mFirstOffice)));
         tvRecruit.setVisibility(mData.mIsActive ? View.VISIBLE : View.GONE);
-        Glide.with(context).load("http://www.vocketlist.com"+mData.mImageUrl).into(ivThumbnail);
+        Glide.with(context).load(mContext.getString(R.string.vocket_base_url) + mData.mImageUrl).into(ivThumbnail);
     }
 
     private String getDate(String date) {

@@ -68,23 +68,13 @@
 
         <!-- 설명 -->
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/start_date_tv"
+            android:id="@+id/start_date_and_place_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="2017-02-25"
-            android:textSize="11.7dp"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/address_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="서울시 서초구"
             android:textSize="11.7dp"/>
 
     </LinearLayout>
