@@ -16,7 +16,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -85,7 +84,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		initViews();
 
 		//런칭시 팝업창
-		if (!NoticePreference.getInstance().isToday()) {
+		if (NoticePreference.getInstance().showGuidePopup()) {
 			dialogIntroduce();
 		}
 	}
@@ -95,15 +94,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	 */
 	private void dialogIntroduce() {
 		View v = LayoutInflater.from(this).inflate(R.layout.dialog_launch_custom, null, false);
-		final AppCompatCheckBox cbToday = ButterKnife.findById(v, R.id.cbToday);
 
 		new MaterialDialog.Builder(this)
 				.customView(v, false)
-				.positiveText(R.string.close)
-				.negativeText(R.string.detail_view).negativeColorRes(R.color.point_5FA9D0)
+				.positiveText(R.string.close).positiveColorRes(R.color.btn_positive_guide_popup)
+				.negativeText(R.string.detail_view).negativeColorRes(R.color.btn_negative_guide_popup)
 				.onAny((dialog, which) -> {
-                    if (which == DialogAction.NEGATIVE) goToActivity(IntroduceActivity.class);
-                    if (cbToday.isChecked()) NoticePreference.getInstance().setToday(true);
+					NoticePreference.getInstance().setGuidePopup(false);
+
+                    if (which == DialogAction.NEGATIVE) {
+						goToActivity(IntroduceActivity.class);
+						return;
+					}
                 })
 				.show();
 	}

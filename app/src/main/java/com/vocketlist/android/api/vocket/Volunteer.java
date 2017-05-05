@@ -29,6 +29,7 @@ public class Volunteer implements Serializable {
 		@SerializedName("title") public String mTitle;
 		@SerializedName("start_date") public String mStartDate;
 		@SerializedName("first_register_office") public String mFirstOffice;
+		@SerializedName("second_register_office") public String mSecondOffice;
 		@SerializedName("image")public String mImageUrl;
 	}
 

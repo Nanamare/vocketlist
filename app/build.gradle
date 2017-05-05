@@ -21,6 +21,7 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true;
     }
 
     productFlavors {
@@ -110,7 +111,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-//    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
@@ -158,12 +159,14 @@ dependencies {
     // Circle Image : https://github.com/hdodenhof/CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // Bottom Navigation : https://github.com/roughike/BottomBar
-    compile 'com.roughike:bottom-bar:2.1.1'
+    compile 'com.roughike:bottom-bar:2.3.1'
 
     // Recycler View : https://github.com/Malinskiy/SuperRecyclerView
     compile 'com.malinskiy:superrecyclerview:1.1.4'
     // 확장 리스트 : https://github.com/bignerdranch/expandable-recycler-view
     compile 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
+    // 스티키 헤더 : https://github.com/ShamylZakariya/StickyHeaders
+    compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
 
     //badge
     compile 'me.leolin:ShortcutBadger:1.1.13@aar'

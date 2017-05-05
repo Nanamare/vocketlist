@@ -114,7 +114,7 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 		} else {
 			mIsActiveDayText.setVisibility(View.GONE);
 		}
-		Glide.with(this).load("http://www.vocketlist.com" + volunteerDetails.mResult.mImageUrl).into(mVolunteerImageView);
+		Glide.with(this).load(getString(R.string.vocket_base_url) + volunteerDetails.mResult.mImageUrl).into(mVolunteerImageView);
 		//dialog 타이틀
 		title = volunteerDetails.mResult.mTitle;
 		isInternalApply = volunteerDetails.mResult.mIsParticipate;

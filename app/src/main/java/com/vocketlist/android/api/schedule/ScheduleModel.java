@@ -16,7 +16,7 @@ public class ScheduleModel {
     @SerializedName("page_current") public int mPageCurrent;
     @SerializedName("page_size") public int mPageSize;
 
-    @SerializedName("data") List<Schedule> mScheduleList;
+    @SerializedName("data") public List<Schedule> mScheduleList;
 
     public static class Schedule {
         @SerializedName("id") public int mId;

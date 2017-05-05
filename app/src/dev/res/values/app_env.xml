@@ -9,6 +9,7 @@
     <string name="facebook_app_id">248904008891516</string>
     <string name="fb_login_protocol_scheme">fbAPP_ID</string>
 
-    <string name="vocketBaseUrl">http://vocketlist.com/api/</string>
+    <string name="vocket_base_api">http://vocketlist.com/api/</string>
+    <string name="vocket_base_url">http://vocketlist.com</string>
 
 </resources>

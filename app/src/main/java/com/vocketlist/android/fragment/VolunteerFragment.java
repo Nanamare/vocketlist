@@ -2,7 +2,6 @@ package com.vocketlist.android.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
@@ -74,6 +73,7 @@ public class VolunteerFragment extends BaseFragment {
         LayoutInflater layoutInflater
             = LayoutInflater.from(getContext());
         View popupView = layoutInflater.inflate(R.layout.popup_filter, null);
+
         final PopupWindow popupWindow = new PopupWindow(popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT, true);
@@ -84,7 +84,7 @@ public class VolunteerFragment extends BaseFragment {
 
         AppCompatTextView startTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_start_date_tv);
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
-        LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
+//        LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
         LocalSelectView localSelectView = (LocalSelectView) popupView.findViewById(R.id.local_select_view);
         startTv.setOnClickListener(view -> {
             com.vocketlist.android.util.TimePickerDialog dialog =
@@ -99,7 +99,6 @@ public class VolunteerFragment extends BaseFragment {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             dialog.show(ft, "TimeDialog");
         });
-
 
     }
 }
