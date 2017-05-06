@@ -1,204 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="20dp"
-              android:paddingRight="20dp"
-              android:paddingTop="20dp">
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="27dp"
+    android:paddingBottom="27dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/volunteer_apply_dialog_title"
+        android:textSize="13.3sp"
+        android:textStyle="bold"
+        android:textColor="#5fb0da"/>
+
+    <TextView
+        android:id="@+id/dialog_vocket_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16.3dp"
+        android:text="글로벌 지식 교류 NGO 편집 및 디자인 작업"
+        android:textSize="13.3sp"
+        android:textStyle="bold"
+        android:textColor="#5fb0da"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5.7dp"
+        android:layout_marginBottom="19.7dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="["
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:text="2017.01.24"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="봉사활동 신청하기"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:text="-"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="]"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:text="2017.02.08"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" - "
+            android:textSize="10dp"
+            android:textColor="#808080"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
+            android:textSize="10dp"
+            android:textColor="#808080"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/material_grey300"/>
+        android:layout_height="1.7dp"
+        android:layout_marginBottom="16.7dp"
+        android:background="#5fb0da"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/dialog_vocket_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="글로벌 지식 교류 NGO 편집 및 디자인 작업"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017.01.24"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2017.02.08"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="/"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="09"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" - "/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="16"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/material_grey300"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginRight="20dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="이름  "
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"/>
+            android:textSize="11.7sp"
+            android:textColor="#808080"
+            android:text="@string/volunteer_apply_dialog_name"
+            android:layout_centerVertical="true"/>
 
         <EditText
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="@drawable/edittextbackground"
             android:id="@+id/dialog_apply_name_edt"
+            android:layout_width="183.3dp"
+            android:layout_height="23.3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/edittextbackground"
             android:textSize="15sp"
-            android:hint="ex) 신현성"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:hint="ex) 신현성"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_marginTop="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8.3dp"
+        android:layout_marginBottom="8.3dp">
+
         <TextView
-            android:layout_marginRight="13dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="이메일 "
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="11.7sp"
+            android:textColor="#808080"
+            android:text="@string/volunteer_apply_dialog_email"/>
 
         <EditText
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="@drawable/edittextbackground"
             android:id="@+id/dialog_apply_email_edt"
+            android:layout_width="183.3dp"
+            android:layout_height="23.3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/edittextbackground"
             android:textSize="15sp"
-            android:hint="ex) bong@bong.me"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:hint="ex) bong@bong.me"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_marginTop="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
-            android:layout_marginRight="7dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="휴대전화"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="11.7sp"
+            android:textColor="#808080"
+            android:text="@string/volunteer_apply_dialog_tel"/>
 
         <EditText
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="@drawable/edittextbackground"
             android:id="@+id/dialog_apply_phone_edt"
+            android:layout_width="183.3dp"
+            android:layout_height="23.3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/edittextbackground"
             android:textSize="15sp"
-            android:hint="ex) 01098252322"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:hint="ex) 01098252322"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginTop="11dp"
+        android:orientation="horizontal">
+
+        <TextView
             android:id="@+id/dialog_apply_done_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:text="신청"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
+            android:textSize="14dp"
+            android:textColor="#5fb0da"
+            android:padding="6dp"
+            android:layout_marginRight="44.7dp"/>
+
+        <TextView
             android:id="@+id/dialog_apply_cancel_btn"
-            android:text="취소"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:text="취소"
+            android:textSize="14dp"
+            android:textColor="#808080"/>
 
     </LinearLayout>
 

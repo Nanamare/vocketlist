@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -128,8 +127,8 @@ public class VolunteerReadActivity extends DepthBaseActivity implements IVolunte
 			EditText name = (EditText) innerView.findViewById(R.id.dialog_apply_name_edt);
 			EditText email = (EditText) innerView.findViewById(R.id.dialog_apply_email_edt);
 			EditText phone = (EditText) innerView.findViewById(R.id.dialog_apply_phone_edt);
-			Button doneBtn = (Button) innerView.findViewById(R.id.dialog_apply_done_btn);
-			Button cancelBtn = (Button) innerView.findViewById(R.id.dialog_apply_cancel_btn);
+			TextView doneBtn = (TextView) innerView.findViewById(R.id.dialog_apply_done_btn);
+			TextView cancelBtn = (TextView) innerView.findViewById(R.id.dialog_apply_cancel_btn);
 			TextView textView = (TextView) innerView.findViewById(R.id.dialog_vocket_title);
 			AlertDialog.Builder alert = new AlertDialog.Builder(VolunteerReadActivity.this);
 			alert.setView(innerView);

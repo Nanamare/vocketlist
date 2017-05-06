@@ -86,6 +86,12 @@
     <string name="volunteer_read_toolbar_title">봉사활동 상세정보</string>
     <string name="volunteer_read_period">봉사기간</string>
 
+    <!-- 봉사활동 신청 Dialog (외부) -->
+    <string name="volunteer_apply_dialog_title">봉사활동 신청하기</string>
+    <string name="volunteer_apply_dialog_name">이름</string>
+    <string name="volunteer_apply_dialog_email">이메일</string>
+    <string name="volunteer_apply_dialog_tel">휴대전화</string>
+
     <!-- -->
     <string name="profile_manage">프로필관리</string>
     <string name="schedule_manage">스케쥴관리</string>
