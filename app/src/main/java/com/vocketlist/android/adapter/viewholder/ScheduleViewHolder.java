@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.vocketlist.android.R;
-import com.vocketlist.android.api.schedule.ScheduleModel;
+import com.vocketlist.android.api.schedule.ScheduleListModel;
 import com.vocketlist.android.util.DateUtil;
 
 import butterknife.BindView;
@@ -14,7 +14,7 @@ import butterknife.BindView;
 /**
  * 뷰홀더 : 스케쥴
  */
-public class ScheduleViewHolder extends BaseViewHolder<ScheduleModel.Schedule> {
+public class ScheduleViewHolder extends BaseViewHolder<ScheduleListModel.Schedule> {
 
     @BindView(R.id.tvDate) AppCompatTextView tvDate;
     @BindView(R.id.llInfo) LinearLayout llInfo;
@@ -31,7 +31,7 @@ public class ScheduleViewHolder extends BaseViewHolder<ScheduleModel.Schedule> {
     }
 
     @Override
-    public void bind(ScheduleModel.Schedule data) {
+    public void bind(ScheduleListModel.Schedule data) {
         super.bind(data);
 
         //

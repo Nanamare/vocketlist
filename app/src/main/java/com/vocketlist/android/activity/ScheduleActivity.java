@@ -11,7 +11,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.ScheduleAdapter;
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.schedule.ScheduleModel;
+import com.vocketlist.android.api.schedule.ScheduleListModel;
 import com.vocketlist.android.api.schedule.ScheduleServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.service.EmptySubscriber;
@@ -119,7 +119,7 @@ public class ScheduleActivity extends DepthBaseActivity implements
                         "  \"message\": \"OK\"\n" +
                         "}");
 
-        ScheduleServiceManager.getScheduleList()
+        ScheduleServiceManager.list()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
                     @Override
@@ -127,9 +127,9 @@ public class ScheduleActivity extends DepthBaseActivity implements
                         ServiceDefine.mockInterceptor.setResponse(null);
                     }
                 })
-                .subscribe(new EmptySubscriber<Response<BaseResponse<ScheduleModel>>>() {
+                .subscribe(new EmptySubscriber<Response<BaseResponse<ScheduleListModel>>>() {
                     @Override
-                    public void onNext(Response<BaseResponse<ScheduleModel>> baseResponseResponse) {
+                    public void onNext(Response<BaseResponse<ScheduleListModel>> baseResponseResponse) {
                         resList(baseResponseResponse.body());
                     }
                 });
@@ -140,7 +140,7 @@ public class ScheduleActivity extends DepthBaseActivity implements
      *
      * @param response
      */
-    private void resList(BaseResponse<ScheduleModel> response) {
+    private void resList(BaseResponse<ScheduleListModel> response) {
         recyclerView.setAdapter(new ScheduleAdapter(response.mResult.mScheduleList));
     }
 

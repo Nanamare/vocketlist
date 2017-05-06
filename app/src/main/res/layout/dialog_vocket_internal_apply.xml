@@ -19,7 +19,7 @@
         android:textColor="#5fb0da"/>
 
     <TextView
-        android:id="@+id/dialog_vocket_title"
+        android:id="@+id/dialog_apply_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

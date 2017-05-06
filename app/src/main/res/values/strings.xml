@@ -91,6 +91,10 @@
     <string name="volunteer_apply_dialog_name">이름</string>
     <string name="volunteer_apply_dialog_email">이메일</string>
     <string name="volunteer_apply_dialog_tel">휴대전화</string>
+    <string name="volunteer_apply_dialog_date_time_format">%1$s ~ %2$s / %3$s ~ %4$s</string>
+
+    <string name="toast_volunteer_apply_dialog_success_message">서버 등록 완료 &amp;&amp;스케줄 등록 완료.</string>
+    <string name="toast_volunteer_apply_dialog_check_data">입력되지 않은 데이터가 존재합니다</string>
 
     <!-- -->
     <string name="profile_manage">프로필관리</string>
@@ -199,4 +203,7 @@
     <!-- 스케쥴-->
     <string name="schedule_desc">내가 신청한 봉사활동의 일정을 관리합니다.</string>
 
+
+    <!-- common error message -->
+    <string name="error_message_network">네트워크 상태가 좋지 않습니다.</string>
 </resources>

@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.ScheduleViewHolder;
-import com.vocketlist.android.api.schedule.ScheduleModel;
+import com.vocketlist.android.api.schedule.ScheduleListModel;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import java.util.List;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 4. 29.
  */
-public class ScheduleAdapter extends BaseAdapter<ScheduleModel.Schedule, ScheduleViewHolder> {
+public class ScheduleAdapter extends BaseAdapter<ScheduleListModel.Schedule, ScheduleViewHolder> {
 
     /**
      * 생성자
      *
      * @param data
      */
-    public ScheduleAdapter(List<ScheduleModel.Schedule> data) {
+    public ScheduleAdapter(List<ScheduleListModel.Schedule> data) {
         super(data);
     }
 
