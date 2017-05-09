@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,23 +30,22 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerSearchAdapter;
+import com.vocketlist.android.api.Parameters;
 import com.vocketlist.android.api.community.CommunityServiceManager;
 import com.vocketlist.android.api.community.model.CommunityWrite;
+import com.vocketlist.android.api.vocket.VocketServiceManager;
+import com.vocketlist.android.api.vocket.Volunteer;
+import com.vocketlist.android.common.helper.AttachmentHelper;
 import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.MyList;
-import com.vocketlist.android.api.vocket.Volunteer;
-import com.vocketlist.android.common.helper.AttachmentHelper;
-import com.vocketlist.android.fragment.CommunityCategoryFragment;
-import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.manager.ToastManager;
-import com.vocketlist.android.api.Parameters;
+import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.view.AttachmentSingleView;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +59,6 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 
 /**
  * 커뮤니티 : 작성 + 수정
@@ -76,9 +73,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	private static final int REQUEST_IMAGE_CAPTURE = 1;
 	private static final int RUQUEST_IMAGE_FROM_ALBUM = 5;
 
-	@BindView(R.id.toolbar)
-	Toolbar toolbar;
-
+	@BindView(R.id.toolbar) Toolbar toolbar;
 	@BindView(R.id.rlAttachment) RelativeLayout rlAttachment;
 	@BindView(R.id.metVolunteer) MaterialEditText metVolunteer;
 	@BindView(R.id.metMyList) MaterialEditText metMyList;
@@ -86,12 +81,35 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	@BindDimen(R.dimen.font_42) int searchFontSize;
 
+    private VolunteerSearchAdapter mSearchAdapter;
+
 	/**
 	 * 봉사활동
 	 */
 	@OnClick(R.id.btnVolunteer)
 	void onActionVolunteer() {
-		dialogVolunteer();
+		MaterialDialog md = new MaterialDialog.Builder(this)
+				.customView(R.layout.dialog_search, false)
+				.show();
+
+		View cv = md.getCustomView();
+		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
+		SuperRecyclerView rv = ButterKnife.findById(md, R.id.activity_post_comment_recyclerView);
+
+		// 검색뷰 폰트 크기
+		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);
+		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
+		theTextArea.requestFocus();
+		sv.requestFocus();
+		sv.setOnQueryTextListener(onSearchQueryTextListener);
+
+//		 더미
+//		List<Volunteer.Data> dummy = new ArrayList<>();
+//		for (int i = 0; i < 20; i++) dummy.add(new Volunteer.Data());
+
+		// 데이터 설정
+        mSearchAdapter = new VolunteerSearchAdapter(null);
+		rv.setAdapter(mSearchAdapter);
 	}
 
 	/**
@@ -130,10 +148,13 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		@Override
 		public boolean onQueryTextChange(String newText) {
 			// 실시간으로 처리하지 말고 재입력 시간 Delay 후에 서버에 쿼리 요청
-			if(mSearchQueryRunnable != null) searchQueryHandler.removeCallbacks(mSearchQueryRunnable);
+			if(mSearchQueryRunnable != null) {
+                searchQueryHandler.removeCallbacks(mSearchQueryRunnable);
+            }
+
 			searchQueryHandler.postDelayed(
 					mSearchQueryRunnable = new SearchQueryRunnable(newText),
-					300
+					500
 			);
 
 			return false;
@@ -205,7 +226,10 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_create_update);
 		ButterKnife.bind(this);
+
 		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		checkThePemission();
 
@@ -231,7 +255,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if(id == R.id.action_done) {
-			doDone();
+			requestWrite();
 			return true;
 		}
 		else return super.onOptionsItemSelected(item);
@@ -344,94 +368,34 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * 완료
 	 * TODO validation
 	 */
-	private void doDone() {
-		if(mChosenFile!=null) {
-			CommunityServiceManager.write(1, mChosenFile.getOriginalPath(), metContent.getText().toString())
-					.doOnTerminate(new Action0() {
-						@Override
-						public void call() {
+	private void requestWrite() {
+		String filePath = mChosenFile != null ? mChosenFile.getOriginalPath() : null;
+		int serviceId = 0;
 
-						}
-					})
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
-						@Override
-						public void onCompleted() {
+		CommunityServiceManager.write(serviceId, filePath, metContent.getText().toString())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
+					@Override
+					public void onCompleted() {
 
-						}
+					}
 
-						@Override
-						public void onError(Throwable e) {
-							e.printStackTrace();
-						}
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
+					}
 
-						@Override
-						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
-							mWriteResponse = baseResponseResponse.body();
-							moveToCommunityFmt();
-
-						}
-					});
-		} else {
-			CommunityServiceManager.write(1, null, metContent.getText().toString())
-					.doOnTerminate(new Action0() {
-						@Override
-						public void call() {
-
-						}
-					})
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe(new Subscriber<Response<BaseResponse<CommunityWrite>>>() {
-						@Override
-						public void onCompleted() {
-
-						}
-
-						@Override
-						public void onError(Throwable e) {
-							e.printStackTrace();
-						}
-
-						@Override
-						public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
-							mWriteResponse = baseResponseResponse.body();
-							moveToCommunityFmt();
-						}
-					});
-
-			Toast.makeText(PostCUActivity.this, "등록 완료", Toast.LENGTH_SHORT).show();
-
-		}
+					@Override
+					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+						mWriteResponse = baseResponseResponse.body();
+						moveToCommunityFmt();
+						Toast.makeText(PostCUActivity.this, "등록 완료", Toast.LENGTH_SHORT).show();
+					}
+				});
 	}
 
 	private void moveToCommunityFmt() {
 		finish();
-	}
-
-	/**
-	 * 다이얼로그 : 봉사활동 목록
-	 */
-	private void dialogVolunteer() {
-		MaterialDialog md = new MaterialDialog.Builder(this)
-				.customView(R.layout.dialog_search, false)
-				.show();
-		View cv = md.getCustomView();
-		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
-		SuperRecyclerView rv = ButterKnife.findById(md, R.id.activity_post_comment_recyclerView);
-
-		// 검색뷰 폰트 크기
-		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);
-		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
-		theTextArea.requestFocus();
-		sv.requestFocus();
-		sv.setOnQueryTextListener(onSearchQueryTextListener);
-
-		// 더미
-		List<Volunteer.Data> dummy = new ArrayList<>();
-		for (int i = 0; i < 20; i++) dummy.add(new Volunteer.Data());
-
-		// 데이터 설정
-		rv.setAdapter(new VolunteerSearchAdapter(dummy));
 	}
 
 	/**
@@ -464,7 +428,19 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * TODO 요청 : 봉사활동 검색
 	 */
 	private void reqVolunteers(String query) {
-		Log.d(TAG, "reqVolunteers: query : " + query);
+        VocketServiceManager.search(null, null, null, 0, false, query, 1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new EmptySubscriber<Response<BaseResponse<Volunteer>>>() {
+                    @Override
+                    public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
+                        if (mSearchAdapter == null) {
+                            return;
+                        }
+
+                        mSearchAdapter.setList(baseResponseResponse.body().mResult.mDataList);
+						mSearchAdapter.notifyDataSetChanged();
+                    }
+                });
 	}
 
 	/**

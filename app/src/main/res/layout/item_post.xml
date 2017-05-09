@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!-- 상단 -->
     <RelativeLayout
         android:id="@+id/rlTop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_height="46.7dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <!-- 사진 -->
         <de.hdodenhof.circleimageview.CircleImageView
@@ -28,26 +30,12 @@
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/civPhoto"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="7.3dp"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/civPhoto"
             android:text="작성자"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_36"
-            android:textStyle="bold"/>
-
-        <!-- 봉사활동 이름 -->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tvVolunteer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/civPhoto"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/civPhoto"
-            android:text="봉사활동 이름"
-            android:textSize="@dimen/font_33"/>
+            android:textColor="#e47d75"
+            android:textSize="13.3dp"/>
 
         <!-- 메뉴 -->
         <android.support.v7.widget.AppCompatImageButton
@@ -56,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
             android:tint="@android:color/black"
@@ -63,75 +52,154 @@
 
     </RelativeLayout>
 
-    <!-- 이미지 -->
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/ivPhoto"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlTop"
-        android:background="@color/black_7"
-        android:maxHeight="400dp"
-        android:minHeight="200dp"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content">
 
-    <!-- 컨트롤러 -->
-    <LinearLayout
-        android:id="@+id/llController"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPhoto"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-
-        <!-- 하트뿅뿅 -->
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/btnFavorite"
-            android:layout_width="wrap_content"
+        <!-- 이미지 -->
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_action_favorite_border"/>
-
-        <!-- 댓글달기 -->
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/btnComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_action_chat_bubble_outline"/>
-
-        <!-- 여백 -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <!-- 공유하기 : 페이스북 -->
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/btnFacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:padding="6dp"
-            android:tint="#aaaaaa"
-            app:srcCompat="@drawable/ic_action_f"/>
+            android:background="@color/black_7"
+            android:maxHeight="400dp"
+            android:minHeight="200dp"
+            android:scaleType="centerCrop"/>
 
         <!-- 공유하기 : 카카오링크 -->
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/btnKakaolink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/ivPhoto"
             android:background="?attr/selectableItemBackground"
             android:padding="6dp"
             android:tint="#aaaaaa"
             app:srcCompat="@drawable/ic_action_k"/>
 
+        <!-- 공유하기 : 페이스북 -->
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/btnFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btnKakaolink"
+            android:layout_alignBottom="@+id/ivPhoto"
+            android:background="?attr/selectableItemBackground"
+            android:padding="6dp"
+            android:tint="#aaaaaa"
+            app:srcCompat="@drawable/ic_action_f"/>
+    </RelativeLayout>
+
+    <!-- 봉사활동 이름 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvVolunteer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11.7dp"
+        android:layout_marginLeft="19.3dp"
+        android:layout_marginRight="19.3dp"
+        android:ellipsize="end"
+        android:text="봉사활동 이름"
+        android:textSize="13.3dp"
+        android:textColor="#7f7f7f"
+        android:textStyle="bold"/>
+
+    <!-- 내용 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvContents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:maxLines="3"
+        android:text="너무 즐거운 봉사활동이었어요 신난당 깍-"
+        android:textColor="#7f7f7f"
+        android:textSize="11.7dp"/>
+
+    <!-- 컨트롤러 -->
+    <LinearLayout
+        android:id="@+id/llController"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="11dp"
+        android:paddingLeft="18.3dp"
+        android:paddingRight="18.3dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- 하트뿅뿅 -->
+            <ImageView
+                android:id="@+id/btnFavorite"
+                android:layout_width="11.7dp"
+                android:layout_height="11.7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_favorite_border"/>
+
+            <!-- 카운트 -->
+            <TextView
+                android:id="@+id/community_list_item_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4.3dp"
+                android:text="좋아요 12,345개"
+                android:textColor="#e47d75"
+                android:textSize="11.7dp"/>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="#808080"
+            android:layout_marginLeft="26.7dp"
+            android:layout_marginRight="26.7dp"/>
+
+
+        <!-- 댓글달기 -->
+        <LinearLayout
+            android:id="@+id/community_list_item_comment_layer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/btnComment"
+                android:layout_width="11.7dp"
+                android:layout_height="11.7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_chat_bubble_outline"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4.3dp"
+                android:textSize="11.7dp"
+                android:textColor="#5fb0da"
+                android:text="@string/community_list_item_comment"/>
+        </LinearLayout>
     </LinearLayout>
+
+    <!-- 댓글 더보기 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvCommentMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19.7dp"
+        android:layout_marginRight="19.7dp"
+        android:text="댓글 12,345개 모두 보기"
+        android:textColor="#b3b3b3"
+        android:textSize="10dp"/>
 
     <!-- 내용 -->
     <LinearLayout
@@ -139,133 +207,72 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/llController"
         android:orientation="vertical"
+        android:layout_marginTop="6.3dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <!-- 라인 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black_7"
-            android:orientation="vertical"/>
-
-        <!-- 좋아요 / 조회 -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp">
-
-            <!-- 아이콘 -->
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/ivCountIcon"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:tint="@android:color/black"
-                app:srcCompat="@drawable/ic_favorite"/>
-
-            <!-- 카운트 -->
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:text="좋아요 12,345개"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_33"/>
-
-        </LinearLayout>
-
-        <!-- 내용 -->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tvContents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="0dp"
-            android:maxLines="3"
-            android:text="너무 즐거운 봉사활동이었어요 신난당 깍-"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_36"/>
-
-        <LinearLayout
-            android:weightSum="10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <!-- 댓글 -->
             <android.support.v7.widget.AppCompatTextView
-                android:layout_weight="1"
                 android:id="@+id/CommentUserNm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
+                android:maxWidth="100dp"
+                android:layout_marginRight="6dp"
                 android:text="신현성"
                 android:textStyle="bold"
-                android:textColor="@color/black_38"
-                android:textSize="@dimen/font_36"/>
+                android:textColor="#7f7f7f"
+                android:textSize="10dp"
+                android:ellipsize="end"/>
 
             <!-- 댓글 -->
             <android.support.v7.widget.AppCompatTextView
-                android:layout_weight="3"
                 android:id="@+id/tvComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
                 android:text="나도 진짜 가고 싶었는데! 담에 같이 ㄱ"
-                android:textColor="@color/black_38"
-                android:textSize="@dimen/font_36"/>
+                android:textColor="#7f7f7f"
+                android:textSize="10dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:weightSum="10"
+            android:id="@+id/community_list_item_comment_item2_layer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <!-- 댓글 -->
             <android.support.v7.widget.AppCompatTextView
-                android:layout_weight="1"
                 android:id="@+id/CommentUserNm2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
+                android:maxWidth="100dp"
+                android:layout_marginRight="6dp"
                 android:text="신현성"
                 android:textStyle="bold"
-                android:textColor="@color/black_38"
-                android:textSize="@dimen/font_36"/>
+                android:textColor="#7f7f7f"
+                android:textSize="10dp"
+                android:ellipsize="end"/>
 
             <!-- 댓글 -->
             <android.support.v7.widget.AppCompatTextView
-                android:layout_weight="3"
                 android:id="@+id/tvComment2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
                 android:text="나도 진짜 가고 싶었는데! 담에 같이 ㄱ"
-                android:textColor="@color/black_38"
-                android:textSize="@dimen/font_36"/>
+                android:textColor="#7f7f7f"
+                android:textSize="10dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
         </LinearLayout>
-
-        <!-- 댓글 더보기 -->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tvCommentMore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:text="댓글 12,345개 모두 보기"
-            android:textColor="@color/black_38"
-            android:textSize="@dimen/font_36"/>
 
         <!-- 시간 -->
         <android.support.v7.widget.AppCompatTextView
@@ -276,11 +283,8 @@
             android:layout_marginTop="6dp"
             android:text="7시간 전"
             android:textColor="@color/black_38"
-            android:textSize="@dimen/font_30"/>
+            android:textSize="@dimen/font_30"
+            android:visibility="gone"/>
 
     </LinearLayout>
-
-
-    <!-- 댓글 : 첫번째 댓글은 작성자가 작성한 글 -->
-
-</RelativeLayout>
+</LinearLayout>

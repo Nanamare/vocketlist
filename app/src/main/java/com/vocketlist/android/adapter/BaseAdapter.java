@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.vocketlist.android.adapter.viewholder.BaseViewHolder;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,11 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
      * @param data
      */
     public BaseAdapter(List<T> data) {
+        addAll(data);
+    }
+
+    public void setList(List<T> data) {
+        clear();
         addAll(data);
     }
 

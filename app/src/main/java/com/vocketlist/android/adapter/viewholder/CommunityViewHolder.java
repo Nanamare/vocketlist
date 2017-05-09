@@ -3,7 +3,6 @@ package com.vocketlist.android.adapter.viewholder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
@@ -16,6 +15,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
@@ -24,12 +25,12 @@ import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.preference.FacebookPreperence;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -45,24 +46,24 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
     @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
     @BindView(R.id.btnMore) AppCompatImageButton btnMore;
     @BindView(R.id.ivPhoto) AppCompatImageView ivPhoto;
-    @BindView(R.id.btnFavorite) AppCompatImageButton btnFavorite;
-    @BindView(R.id.btnComment) AppCompatImageButton btnComment;
+    @BindView(R.id.btnFavorite) ImageView btnFavorite;
+    @BindView(R.id.btnComment) ImageView btnComment;
     @BindView(R.id.btnFacebook) AppCompatImageButton btnFacebook;
     @BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
-    @BindView(R.id.ivCountIcon) AppCompatImageView ivCountIcon;
-    @BindView(R.id.tvCount) AppCompatTextView tvCount;
-		@BindView(R.id.CommentUserNm) AppCompatTextView tvCommentUserNm;
-		@BindView(R.id.tvComment) AppCompatTextView tvComment;
-		@BindView(R.id.CommentUserNm2) AppCompatTextView tvCommentUserNm2;
-		@BindView(R.id.tvComment2) AppCompatTextView tvComment2;
+    @BindView(R.id.community_list_item_count) TextView tvCount;
+	@BindView(R.id.CommentUserNm) AppCompatTextView tvCommentUserNm;
+	@BindView(R.id.tvComment) AppCompatTextView tvComment;
+	@BindView(R.id.CommentUserNm2) AppCompatTextView tvCommentUserNm2;
+	@BindView(R.id.community_list_item_comment_item2_layer) LinearLayout mCommentItem2Layer;
+	@BindView(R.id.tvComment2) AppCompatTextView tvComment2;
     @BindView(R.id.tvContents) AppCompatTextView tvContents;
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
 
-		private CommunityList.CommunityData communityData;
+	private CommunityList.CommunityData communityData;
     private RecyclerViewItemClickListener mListener;
-		private AlertDialog dialog;
+	private AlertDialog dialog;
 
     /**
      * 생성자
@@ -76,102 +77,109 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 
 	@Override
 	public void bind(CommunityList.CommunityData data) {
-		if (data instanceof CommunityList.CommunityData) {
-			communityData = (CommunityList.CommunityData) data;
-			if (!TextUtils.isEmpty(FacebookPreperence.getInstance().getUserImageUrl())) {
-				// 작성자 : 프로필 : 사진
-				Glide.with(context)
-						.load("")
-						.centerCrop()
-						.placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
-						.crossFade()
-						.into(civPhoto);
+		communityData = data;
+		if (!TextUtils.isEmpty(FacebookPreperence.getInstance().getUserImageUrl())) {
+			// 작성자 : 프로필 : 사진
+			Glide.with(context)
+					.load("")
+					.centerCrop()
+					.placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
+					.crossFade()
+					.into(civPhoto);
+		}
+		tvName.setText(communityData.mUser.mName);
+		//tvVolunteer.setText(communityData.);
+		if (!TextUtils.isEmpty(communityData.mImageUrl)) {
+			Glide.with(context)
+					.load(context.getString(R.string.vocket_base_url) + communityData.mImageUrl)
+					.into(ivPhoto);
+		}
+
+		//수정, 삭제 스피너
+		btnMore.setOnClickListener(this);
+
+
+		ivPhoto.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				createCommunityDetailDialog();
 			}
-			tvName.setText(communityData.mUser.mName);
-			//tvVolunteer.setText(communityData.);
-			if (!TextUtils.isEmpty(communityData.mImageUrl)) {
-				Glide.with(context)
-						.load("http://vocketlist.com"+communityData.mImageUrl)
-						.into(ivPhoto);
-			}
+		});
 
-			//수정, 삭제 스피너
-			btnMore.setOnClickListener(this);
+		if(communityData.mIsLike){
+			//좋아요 상태
 
-
-			ivPhoto.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					createCommunityDetailDialog();
-				}
-			});
-
-			if(communityData.mIsLike){
-				//좋아요 상태
-
-			} else {
-				//좋아요 취소 상태
-
-			}
-
-			btnFavorite.setOnClickListener(this);
-
-			btnComment.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					goToCommentActivity(view);
-				}
-			});
-
-			btnFacebook.setOnClickListener(this);
-
-			btnKakaolink.setOnClickListener(this);
-
-			tvCount.setText("좋아요 " + communityData.mLikeCount);
-
-			tvContents.setText(communityData.mContent);
-
-			//댓글 보여주기
-			if(communityData.mComment != null) {
-				if (communityData.mComment.size() == 1) {
-					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 보기");
-					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
-					tvComment.setText(communityData.mComment.get(1).mContent);
-				} else if (communityData.mComment.size() >= 2) {
-					tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 모두 보기");
-					tvCommentUserNm.setText(communityData.mComment.get(1).mUserInfo.mName);
-					tvCommentUserNm2.setText(communityData.mComment.get(2).mUserInfo.mName);
-					tvComment.setText(communityData.mComment.get(1).mContent);
-					tvComment2.setText(communityData.mComment.get(2).mContent);
-				}
-			} else {
-				tvCommentMore.setText("댓글을 등록해보세요.");
-				tvComment.setVisibility(View.GONE);
-				tvComment2.setVisibility(View.GONE);
-				tvCommentUserNm.setVisibility(View.GONE);
-				tvCommentUserNm2.setVisibility(View.GONE);
-			}
-
-			tvCommentMore.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					goToCommentActivity(view);
-				}
-			});
-
-			String createdDate = communityData.mCreateDate;
-			DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			try {
-				Date time = format.parse(createdDate);
-				tvCreated.setText(calculateTime(time));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		} else {
+			//좋아요 취소 상태
 
 		}
+
+		btnFavorite.setOnClickListener(this);
+
+		btnComment.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				goToCommentActivity(view);
+			}
+		});
+
+		btnFacebook.setOnClickListener(this);
+
+		btnKakaolink.setOnClickListener(this);
+
+		tvCount.setText(Integer.toString(communityData.mLikeCount));
+		tvContents.setText(communityData.mContent);
+
+		//댓글 보여주기
+		if(communityData.mComment != null && communityData.mComment.size() > 0) {
+			if (communityData.mComment.size() == 1) {
+				tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 보기");
+				if (communityData.mComment.get(0).mUserInfo != null) {
+					tvCommentUserNm.setText(communityData.mComment.get(0).mUserInfo.mName);
+				}
+				tvComment.setText(communityData.mComment.get(0).mContent);
+				mCommentItem2Layer.setVisibility(View.GONE);
+
+			} else if (communityData.mComment.size() >= 2) {
+				tvCommentMore.setText("댓글"+ communityData.mComment.size()+ "개 모두 보기");
+				if (communityData.mComment.get(0).mUserInfo != null) {
+					tvCommentUserNm.setText(communityData.mComment.get(0).mUserInfo.mName);
+				}
+
+				if (communityData.mComment.get(1).mUserInfo != null) {
+					tvCommentUserNm2.setText(communityData.mComment.get(1).mUserInfo.mName);
+				}
+				tvComment.setText(communityData.mComment.get(0).mContent);
+				tvComment2.setText(communityData.mComment.get(1).mContent);
+			}
+		} else {
+			tvCommentMore.setText("댓글을 등록해보세요.");
+			tvComment.setVisibility(View.GONE);
+			tvCommentUserNm.setVisibility(View.GONE);
+
+			mCommentItem2Layer.setVisibility(View.GONE);
+		}
+
+//		tvCommentMore.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				goToCommentActivity(view);
+//			}
+//		});
+
+		String createdDate = communityData.mCreateDate;
+		DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		try {
+			Date time = format.parse(createdDate);
+			tvCreated.setText(calculateTime(time));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	private void goToCommentActivity(View view) {
+	@OnClick({R.id.community_list_item_comment_layer, R.id.tvCommentMore})
+	protected void goToCommentActivity(View view) {
 		Intent goToCommentActivity = new Intent(context, PostCommentActivity.class);
 		if(communityData.mComment != null) {
 			goToCommentActivity.putExtra("commentList",communityData.mComment);

@@ -5,7 +5,6 @@ import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.comment.model.CommentListModel;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class CommunityList implements Serializable {
         @SerializedName("content") public String mContent;
         @SerializedName("like_count") public int mLikeCount;
         @SerializedName("like") public boolean mIsLike;
-        @SerializedName("comment") public ArrayList<CommentListModel.Comment> mComment;
+        @SerializedName("comments") public ArrayList<CommentListModel.Comment> mComment;
         @SerializedName("updated") public String mUpdateDate;
         @SerializedName("created") public String mCreateDate;
     }

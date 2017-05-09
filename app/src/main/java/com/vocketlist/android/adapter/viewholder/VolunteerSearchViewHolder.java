@@ -1,13 +1,10 @@
 package com.vocketlist.android.adapter.viewholder;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.vocket.Volunteer;
-
-import java.io.Serializable;
 
 import butterknife.BindView;
 
@@ -31,10 +28,7 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @Override
     public void bind(Volunteer.Data data) {
-        if (data instanceof Volunteer.Data) {
-            Volunteer.Data volunteer = (Volunteer.Data) data;
-
-            tvVolunteer.setText(volunteer.mTitle);
-        }
+        Volunteer.Data volunteer = data;
+        tvVolunteer.setText(volunteer.mTitle);
     }
 }

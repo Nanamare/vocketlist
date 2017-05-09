@@ -164,7 +164,6 @@
         <!-- 커뮤니티 : 글 : 작성 & 수정 -->
         <activity
             android:name=".activity.PostCUActivity"
-            android:label="@string/write"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"

@@ -56,7 +56,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	private String searchKeyword;
 	private int page = 1;
 
-
 	private  BaseResponse<CommunityList> communityList;
 	private BaseResponse<CommunityLike> communityLike;
 	private int communityPosition;
@@ -98,13 +97,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 
 			requestCommunityList(communityListPgCnt++, null);
 		}
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-
 	}
 
 	private void resetSearch() {
