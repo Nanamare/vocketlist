@@ -34,6 +34,8 @@ import rx.android.schedulers.AndroidSchedulers;
  * @since 2017. 2. 13.
  */
 public class VolunteerReadActivity extends DepthBaseActivity {
+	private static final int REQUEST_WRITE_COMMUNITY = 1000;
+
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.volunteer_read_title) protected TextView mVocketTitleText;
 	@BindView(R.id.start_date_tv) protected TextView mStartDateText;
@@ -167,5 +169,12 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 		//todo cancel schuedule logic
 
 //		ScheduleServiceManager.
+	}
+
+	@OnClick(R.id.write_diary_btn)
+	void onClickWriteDiary() {
+		Intent intent = new Intent(this, PostCUActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivityForResult(intent, REQUEST_WRITE_COMMUNITY);
 	}
 }

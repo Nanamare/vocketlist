@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "704639126712",
+    "firebase_url": "https://notification-16e81.firebaseio.com",
+    "project_id": "notification-16e81",
+    "storage_bucket": "notification-16e81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704639126712:android:47083a35abe7661b",
+        "android_client_info": {
+          "package_name": "com.vocketlist.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704639126712-s6g4kbil00vbgrp6pgvrh97223s90tjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWuKIgaJRP1jvcafGt4Jtk8kmfIR0IbO4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704639126712-s6g4kbil00vbgrp6pgvrh97223s90tjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -98,14 +98,6 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 		//수정, 삭제 스피너
 		btnMore.setOnClickListener(this);
 
-
-		ivPhoto.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				createCommunityDetailDialog();
-			}
-		});
-
 		if(communityData.mIsLike){
 			//좋아요 상태
 
