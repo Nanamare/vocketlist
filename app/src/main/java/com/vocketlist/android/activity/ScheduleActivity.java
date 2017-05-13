@@ -10,7 +10,6 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.ScheduleAdapter;
-import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.schedule.ScheduleListModel;
 import com.vocketlist.android.api.schedule.ScheduleServiceManager;
 import com.vocketlist.android.dto.BaseResponse;
@@ -81,50 +80,14 @@ public class ScheduleActivity extends DepthBaseActivity implements
      * @param page
      */
     private void reqList(int page) {
-        ServiceDefine.mockInterceptor
-                .setResponse("{\n" +
-                        "  \"result\": {\n" +
-                        "    \"links\": {\n" +
-                        "      \"next\": 2,\n" +
-                        "      \"previous\": -1\n" +
-                        "    },\n" +
-                        "    \"count\": 2,\n" +
-                        "    \"page_count\": 1,\n" +
-                        "    \"page_current\": 1,\n" +
-                        "    \"page_size\": 20,\n" +
-                        "    \"data\": [\n" +
-                        "      {\n" +
-                        "        \"id\": 1,\n" +
-                        "        \"is_done\": false,\n" +
-                        "        \"title\": \"볼런톤\",\n" +
-                        "        \"start_date\": \"2017-12-30T14:00:23Z\",\n" +
-                        "        \"end_date\": \"2017-12-30T15:00:00Z\",\n" +
-                        "        \"start_time\": \"00:00:10\",\n" +
-                        "        \"end_time\": \"00:00:15\",\n" +
-                        "        \"place\" : \"한남동\"\n" +
-                        "      },\n" +
-                        "      {\n" +
-                        "        \"id\": 3,\n" +
-                        "        \"is_done\": true,\n" +
-                        "        \"title\": \"청주문암장애인파크골프장 환경정리 및 주변정리\",\n" +
-                        "        \"start_date\": \"2017-01-05T00:00:00Z\",\n" +
-                        "        \"end_date\": \"2017-02-28T00:00:00Z\",\n" +
-                        "        \"start_time\": \"00:00:10\",\n" +
-                        "        \"end_time\": \"00:00:15\",\n" +
-                        "        \"place\" : \"정자\"\n" +
-                        "      }\n" +
-                        "    ]\n" +
-                        "  },\n" +
-                        "  \"success\": true,\n" +
-                        "  \"message\": \"OK\"\n" +
-                        "}");
+        showProgressDialog(true);
 
         ScheduleServiceManager.list()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
                     @Override
                     public void call() {
-                        ServiceDefine.mockInterceptor.setResponse(null);
+                        hideProgressDialog(true);
                     }
                 })
                 .subscribe(new EmptySubscriber<Response<BaseResponse<ScheduleListModel>>>() {

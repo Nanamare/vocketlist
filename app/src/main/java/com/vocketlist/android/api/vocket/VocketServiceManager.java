@@ -54,10 +54,14 @@ public final class VocketServiceManager {
     }
 
     // 봉사 신청 또는 신청 취소
-    public static Observable<Response<BaseResponse<Participate>>> applyVolunteer(int service_id, String name, String phone){
+    public static Observable<Response<BaseResponse<Participate>>> applyVolunteer(int service_id,
+                                                                                 boolean isParticipate,
+                                                                                 String name,
+                                                                                 String phone,
+                                                                                 String email) {
 
         return service
-                .participate(service_id, name, phone)
+                .participate(service_id, isParticipate, name, phone, email)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker()));
 

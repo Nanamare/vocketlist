@@ -20,6 +20,7 @@ public class ScheduleListModel {
 
     public static class Schedule {
         @SerializedName("id") public int mId;
+        @SerializedName("service_id") public int mServiceId;
         @SerializedName("is_done") public boolean mIsDone;
         @SerializedName("title") public String mTitle;
         @SerializedName("start_date") public String mStartDate;

@@ -33,6 +33,8 @@ interface VocketService {
 	@FormUrlEncoded
 	@POST("services/participate/{service_id}/")
 	Observable<Response<BaseResponse<Participate>>> participate(@Path("service_id")int service_id,
+																@Field("participate") boolean isParticipate,
 																@Field("name")String name,
-																@Field("phone")String phone);
+																@Field("phone")String phone,
+																@Field("email") String email);
 }

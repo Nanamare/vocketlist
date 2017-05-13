@@ -17,11 +17,11 @@ import rx.Observable;
  */
 
 public interface ScheduleService {
-	@GET("api/schedules/")
+	@GET("schedules/")
 	Observable<Response<BaseResponse<ScheduleListModel>>> list();
 
 	@FormUrlEncoded
-	@POST("api/schedules/")
+	@POST("schedules/")
 	Observable<Response<BaseResponse<ScheduleWriteModel>>> write(@Field("title") String title,
 																 @Field("start_date") String startDate,
 																 @Field("end_date") String endDate,
@@ -30,14 +30,14 @@ public interface ScheduleService {
 																 @Field("place") String place,
 																 @Field("is_done") boolean isDone);
 
-	@DELETE("api/schedules/{id}/")
+	@DELETE("schedules/{id}/")
 	Observable<Response<BaseResponse<ScheduleDeleteModel>>> delete(@Path("id") int id);
 
-	@GET("api/schedules/{id}/")
+	@GET("schedules/{id}/")
 	Observable<Response<BaseResponse<ScheduleModel>>> detail(@Path("id") int id);
 
 	@FormUrlEncoded
-	@PATCH("api/schedules/{id}/")
+	@PATCH("schedules/{id}/")
 	Observable<Response<BaseResponse<ScheduleWriteModel>>> modify(@Field("title") String title,
 																  @Field("start_date") String startDate,
 																  @Field("end_date") String endDate,
