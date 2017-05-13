@@ -24,11 +24,12 @@ import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
+import com.vocketlist.android.api.user.LoginModel;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
-import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.presenter.IView.ICommunityView;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -104,14 +105,20 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 	}
 
 	private void requestCommunityList(int pageNum, String searchKeyword) {
-		String name = (category.getResId() == R.string.com_myWriting) ? FacebookPreperence.getInstance().getUserName() : null;
+        LoginModel loginModel = UserServiceManager.getLoginInfo();
+        String userId = null;
+
+        if (category.getResId() == R.string.com_myWriting
+                && loginModel != null) {
+            userId = Integer.toString(loginModel.mUserInfo.mUserId);
+        }
 
 		if (category.getResId() == R.string.com_wisdom) {
 			// todo 명언 보기의 경우 어떻게 api를 호출해서 사용해야 하는지 정리가 필요하다.
 			return;
 		}
 
-		CommunityServiceManager.search(pageNum, name, searchKeyword)
+		CommunityServiceManager.search(pageNum, userId, searchKeyword)
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnTerminate(new Action0() {
 					@Override
