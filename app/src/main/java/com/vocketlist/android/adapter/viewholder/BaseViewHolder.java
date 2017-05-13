@@ -1,11 +1,8 @@
 package com.vocketlist.android.adapter.viewholder;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import java.io.Serializable;
 
 import butterknife.ButterKnife;
 
@@ -19,6 +16,7 @@ import butterknife.ButterKnife;
 public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     protected Context context;
+    protected T data;
 
     /**
      * 생성자
@@ -36,6 +34,6 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
      * @param data
      */
     public void bind(T data){
-        // Do nothing
+        this.data = data;
     }
 }

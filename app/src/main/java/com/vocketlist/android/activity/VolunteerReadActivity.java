@@ -39,6 +39,7 @@ import rx.functions.Action0;
  */
 public class VolunteerReadActivity extends DepthBaseActivity {
 	private static final int REQUEST_WRITE_COMMUNITY = 1000;
+	public static final String EXTRA_KEY_VOCKET_ID = "vocketId";
 
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.volunteer_read_title) protected TextView mVocketTitleText;
