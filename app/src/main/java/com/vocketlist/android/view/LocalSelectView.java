@@ -1,6 +1,7 @@
 package com.vocketlist.android.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
@@ -14,7 +15,9 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.api.address.AddressModel;
 import com.vocketlist.android.api.address.AddressServiceManager;
 import com.vocketlist.android.api.address.FirstAddress;
+import com.vocketlist.android.api.user.FavoritListModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -127,6 +130,30 @@ public class LocalSelectView extends LinearLayout {
 	public int getLocalDetailId(){
 		return localDetailId;
 	}
-	
+
+	public void setInitValue(FavoritListModel.Region mAddress){
+
+		int firstPosition = 0;
+		int secondPosition = 0;
+		List<Integer> array = new ArrayList<>();
+
+		array.add(mAddress.mFirstAddressId);
+		array.add(mAddress.mSecondAddressId);
+
+		for(int i = 0; i< sFirstAddress.size(); i++){
+			if(array.get(0)==sFirstAddress.get(i).mId){
+				firstPosition = i;
+			}
+		}
+
+		for(int i = 0; i< getSecondAddress.size(); i++){
+			if(array.get(1)==getSecondAddress.get(i).mId){
+				secondPosition = i;
+			}
+		}
+
+		local_spinner.setSelection(firstPosition);
+		local_detail_spinner.setSelection(secondPosition);
+	}
 
 }

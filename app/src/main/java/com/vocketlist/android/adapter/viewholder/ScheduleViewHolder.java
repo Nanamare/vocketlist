@@ -52,8 +52,10 @@ public class ScheduleViewHolder extends BaseViewHolder<ScheduleListModel.Schedul
         context.startActivity(intent);
     }
 
+    /*
     @OnLongClick
     protected void onLongClickInfoLayer(View view) {
 
     }
+    */
 }

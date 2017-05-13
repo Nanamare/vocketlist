@@ -263,12 +263,20 @@ public class ProfileActivity extends DepthBaseActivity implements
 					public void onNext(Response<BaseResponse<FavoritListModel>> baseResponseResponse) {
 						FavoritListModel model = baseResponseResponse.body().mResult;
 
+						setLocalData(model.mAddress);
+
 						mAdapter.clearSelections();
 						for (String name : model.mFavoriteList) {
 							mAdapter.setSelection(name, true);
 						}
 					}
 				});
+	}
+
+	//데이터가 항상 두개다 들어있는 것은 아닐수 있음
+	private void setLocalData(List<FavoritListModel.Region> mAddress) {
+		localFirstView.setInitValue(mAddress.get(0));
+		localSecondView.setInitValue(mAddress.get(1));
 	}
 
 	private void saveFavoriteList() {
@@ -279,7 +287,9 @@ public class ProfileActivity extends DepthBaseActivity implements
 		List<String> favoriteList = mAdapter.getSelectedItems();
 
 		// todo : 0은 차후에 시군구 선택하는 다이얼로그를 통해 값을 넘겨야 함.
+		/*
 		UserServiceManager.setFavorite(favoriteList, null)
 				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>());
+		*/
 	}
 }
