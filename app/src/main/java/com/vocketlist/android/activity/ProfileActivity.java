@@ -276,7 +276,7 @@ public class ProfileActivity extends DepthBaseActivity implements
 				});
 	}
 
-	//데이터가 항상 두개다 들어있는 것은 아닐수 있음
+	//데이터가 항상 두개 다 들어있는 것은 아닐수 있음
 	private void setLocalData(List<FavoritListModel.Region> mAddress) {
 		localFirstView.setInitValue(mAddress.get(0));
 		localSecondView.setInitValue(mAddress.get(1));
@@ -289,6 +289,7 @@ public class ProfileActivity extends DepthBaseActivity implements
 
 		List<String> favoriteList = mAdapter.getSelectedItems();
 		List<Integer> localList = new ArrayList<>();
+
 		localList.add(localFirstView.getLocalDetailId());
 		localList.add(localSecondView.getLocalDetailId());
 

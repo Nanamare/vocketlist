@@ -10,9 +10,10 @@ import com.vocketlist.android.api.my.MyListModel;
 public class UserInfoModel {
     @SerializedName("id") public int mUserId;
     @SerializedName("schedule") public ScheduleInfo mScheduleInfo;
-    @SerializedName("mylist") public MyListModel.MyList mMyListInfo;
+    @SerializedName("mylist") public MyListInfo mMyListInfo;
 
     public static class ScheduleInfo {
         @SerializedName("total_schedule") public int mTotalSchedule;
     }
+
 }

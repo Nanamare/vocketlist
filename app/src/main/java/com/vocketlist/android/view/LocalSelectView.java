@@ -26,7 +26,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by kinamare on 2017-04-29.
- * @author kinamare
+ * @author kinamare nanamare.tistory.com
  * 지역 선택 뷰
  */
 
@@ -130,7 +130,7 @@ public class LocalSelectView extends LinearLayout {
 		return localDetailId;
 	}
 
-	public void setInitValue(FavoritListModel.Region mAddress){
+	public void setInitValue(FavoritListModel.Region mAddress) {
 
 		int firstPosition = 0;
 		int secondPosition = 0;
@@ -139,15 +139,15 @@ public class LocalSelectView extends LinearLayout {
 		array.add(mAddress.mFirstAddressId);
 		array.add(mAddress.mSecondAddressId);
 
-		for(int i = 0; i< sFirstAddress.size(); i++){
-			if(array.get(0)==sFirstAddress.get(i).mId){
-				firstPosition = i;
+		for (int position = 0; position < sFirstAddress.size(); position++) {
+			if (array.get(0) == sFirstAddress.get(position).mId) {
+				firstPosition = position;
 			}
 		}
 
-		for(int i = 0; i< getSecondAddress.size(); i++){
-			if(array.get(1)==getSecondAddress.get(i).mId){
-				secondPosition = i;
+		for (int position = 0; position < getSecondAddress.size(); position++) {
+			if (array.get(1) == getSecondAddress.get(position).mId) {
+				secondPosition = position;
 			}
 		}
 

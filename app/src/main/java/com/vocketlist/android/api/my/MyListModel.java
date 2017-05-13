@@ -12,6 +12,8 @@ import java.util.List;
 public final class MyListModel implements Serializable {
     @SerializedName("data") public List<MyList> mMyListList;
 
+
+
     public static class MyList implements Serializable {
         @SerializedName("id") public int mId;
         @SerializedName("content") public String mContent;
