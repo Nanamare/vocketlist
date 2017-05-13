@@ -43,23 +43,27 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
     @BindView(R.id.tvName) AppCompatTextView tvName;
+	@BindView(R.id.btnMore) AppCompatImageButton btnMore;
+
+	@BindView(R.id.ivPhoto) AppCompatImageView ivPhoto;
+	@BindView(R.id.btnFacebook) AppCompatImageButton btnFacebook;
+	@BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
+
     @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
-    @BindView(R.id.btnMore) AppCompatImageButton btnMore;
-    @BindView(R.id.ivPhoto) AppCompatImageView ivPhoto;
-    @BindView(R.id.btnFavorite) ImageView btnFavorite;
-    @BindView(R.id.btnComment) ImageView btnComment;
-    @BindView(R.id.btnFacebook) AppCompatImageButton btnFacebook;
-    @BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
+	@BindView(R.id.tvContents) AppCompatTextView tvContents;
+
+	@BindView(R.id.btnFavorite) ImageView btnFavorite;
+	@BindView(R.id.btnComment) ImageView btnComment;
+
     @BindView(R.id.community_list_item_count) TextView tvCount;
 	@BindView(R.id.CommentUserNm) AppCompatTextView tvCommentUserNm;
 	@BindView(R.id.tvComment) AppCompatTextView tvComment;
 	@BindView(R.id.CommentUserNm2) AppCompatTextView tvCommentUserNm2;
 	@BindView(R.id.community_list_item_comment_item2_layer) LinearLayout mCommentItem2Layer;
 	@BindView(R.id.tvComment2) AppCompatTextView tvComment2;
-    @BindView(R.id.tvContents) AppCompatTextView tvContents;
+
     @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
     @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
-
 
 	private CommunityList.CommunityData communityData;
     private RecyclerViewItemClickListener mListener;
@@ -78,36 +82,51 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 	@Override
 	public void bind(CommunityList.CommunityData data) {
 		communityData = data;
-		if (!TextUtils.isEmpty(FacebookPreperence.getInstance().getUserImageUrl())) {
-			// 작성자 : 프로필 : 사진
+
+		// 작성자 : 프로필 : 사진
+		if (!TextUtils.isEmpty(data.mUser.mImageUrl)) {
 			Glide.with(context)
-					.load("")
+					.load(context.getString(R.string.vocket_base_url) + data.mUser.mImageUrl)
 					.centerCrop()
 					.placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
 					.crossFade()
 					.into(civPhoto);
 		}
+		// 작성자 : 프로필 : 이름
 		tvName.setText(communityData.mUser.mName);
-		//tvVolunteer.setText(communityData.);
-		if (!TextUtils.isEmpty(communityData.mImageUrl)) {
-			Glide.with(context)
-					.load(context.getString(R.string.vocket_base_url) + communityData.mImageUrl)
-					.into(ivPhoto);
-		}
 
 		//수정, 삭제 스피너
 		btnMore.setOnClickListener(this);
 
-		if(communityData.mIsLike){
+		// 이미지
+		if (!TextUtils.isEmpty(communityData.mImageUrl)) {
+			Glide.with(context)
+					.load(context.getString(R.string.vocket_base_url) + communityData.mImageUrl)
+					.centerCrop()
+					.crossFade()
+					.into(civPhoto);
+		}
+		// 공유
+		btnFacebook.setOnClickListener(this);
+		btnKakaolink.setOnClickListener(this);
+
+		// 봉사활동
+		tvVolunteer.setText(context.getString(R.string.community_volunteer, ));
+
+		// 내용
+		tvCount.setText(Integer.toString(communityData.mLikeCount));
+
+		// 좋아요
+		if(communityData.mIsLike) {
 			//좋아요 상태
-
-		} else {
+		}
+		else {
 			//좋아요 취소 상태
-
 		}
 
 		btnFavorite.setOnClickListener(this);
 
+		// 댓글쓰기
 		btnComment.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -115,11 +134,7 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 			}
 		});
 
-		btnFacebook.setOnClickListener(this);
 
-		btnKakaolink.setOnClickListener(this);
-
-		tvCount.setText(Integer.toString(communityData.mLikeCount));
 		tvContents.setText(communityData.mContent);
 
 		//댓글 보여주기
@@ -255,5 +270,4 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 	public void onClick(View v) {
 		if(mListener != null) mListener.onItemClick(v, getAdapterPosition());
 	}
-
 }

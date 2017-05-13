@@ -100,23 +100,70 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		}
 	}
 
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		if (TextUtils.isEmpty(query)) {
+			Toast.makeText(getContext(), R.string.hint_search, Toast.LENGTH_SHORT).show();
+			searchKeyword = null;
+			return false;
+		}
+
+		searchKeyword = query;
+		page = 1;
+
+		requestCommunityList(page, searchKeyword);
+		return true;
+	}
+
+	@Override
+	protected int getLayoutId() {
+		return R.layout.fragment_community_category;
+	}
+
+	@Override
+	protected RecyclerView.LayoutManager getLayoutManager() {
+		return new LinearLayoutManager(getContext());
+	}
+
+	@Override
+	public void onRefresh() {
+		super.onRefresh();
+
+		// TODO 리프레시
+//		recyclerView.setRefreshing(false);
+		requestCommunityList(page = 1, searchKeyword);
+	}
+
+	@Override
+	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
+
+		if (links == null
+				|| links.mNextId == page
+				|| links.mNextId >= pageCount) {
+			 recyclerView.hideMoreProgress();
+			return;
+		}
+
+		requestCommunityList(links.mNextId, searchKeyword);
+	}
+
 	private void resetSearch() {
 		searchKeyword = null;
 	}
 
 	private void requestCommunityList(int pageNum, String searchKeyword) {
-        LoginModel loginModel = UserServiceManager.getLoginInfo();
-        String userId = null;
+		LoginModel loginModel = UserServiceManager.getLoginInfo();
+		String userId = null;
 
-        if (category.getResId() == R.string.com_myWriting
-                && loginModel != null) {
-            userId = Integer.toString(loginModel.mUserInfo.mUserId);
-        }
-
-		if (category.getResId() == R.string.com_wisdom) {
-			// todo 명언 보기의 경우 어떻게 api를 호출해서 사용해야 하는지 정리가 필요하다.
-			return;
+		if (category == CommunityCategory.MyPost && loginModel != null) {
+			userId = Integer.toString(loginModel.mUserInfo.mUserId);
 		}
+
+		// todo 명언 보기의 경우 어떻게 api를 호출해서 사용해야 하는지 정리가 필요하다.
+//		if (category == CommunityCategory.Wisdom) {
+//			return;
+//		}
 
 		CommunityServiceManager.search(pageNum, userId, searchKeyword)
 				.observeOn(AndroidSchedulers.mainThread())
@@ -158,39 +205,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 		pageCount = communityList.mResult.mPageCnt;
 		links = communityList.mResult.mLinks;
 		adapter.notifyDataSetChanged();
-	}
-
-
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_community_category;
-	}
-
-	@Override
-	protected RecyclerView.LayoutManager getLayoutManager() {
-		return new LinearLayoutManager(getContext());
-	}
-
-	@Override
-	public void onRefresh() {
-		super.onRefresh();
-
-		// TODO 리프레시
-//		adapter.addAll(new ArrayList<Volunteer>());
-		recyclerView.setRefreshing(false);
-	}
-
-	@Override
-	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
-
-		if (links == null
-				|| links.mNextId == page
-				|| links.mNextId >= pageCount) {
-			return;
-		}
-
-		requestCommunityList(links.mNextId, searchKeyword);
 	}
 
 	RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {
@@ -395,21 +409,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements IComm
 //		communityListPgCnt = 0;
 //		requestCommunityList(communityListPgCnt++, null);
 //	}
-
-	@Override
-	public boolean onQueryTextSubmit(String query) {
-		if (TextUtils.isEmpty(query)) {
-			Toast.makeText(getContext(), R.string.hint_search, Toast.LENGTH_SHORT).show();
-			searchKeyword = null;
-			return false;
-		}
-
-		searchKeyword = query;
-		page = 1;
-
-		requestCommunityList(page, searchKeyword);
-		return true;
-	}
 
 	/**
 	private void refreshFavoriteCount(int page, int postId) {
