@@ -85,6 +85,7 @@
     <!-- 봉사 상세 정보 -->
     <string name="volunteer_read_toolbar_title">봉사활동 상세정보</string>
     <string name="volunteer_read_period">봉사기간</string>
+    <string name="volunteer_read_apply_cancel_message">신청이 취소되었습니다.</string>
 
     <!-- 봉사활동 신청 Dialog (외부) -->
     <string name="volunteer_apply_dialog_title">봉사활동 신청하기</string>
@@ -93,7 +94,7 @@
     <string name="volunteer_apply_dialog_tel">휴대전화</string>
     <string name="volunteer_apply_dialog_date_time_format">%1$s ~ %2$s / %3$s ~ %4$s</string>
 
-    <string name="toast_volunteer_apply_dialog_success_message">서버 등록 완료 &amp;&amp;스케줄 등록 완료.</string>
+    <string name="toast_volunteer_apply_dialog_success_message">신청이 완료되었습니다.</string>
     <string name="toast_volunteer_apply_dialog_check_data">입력되지 않은 데이터가 존재합니다</string>
 
     <!-- -->

@@ -35,9 +35,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 
 public class VolunteerApplyDialog extends Dialog {
-    private final boolean mIsInternal;
-    protected final VolunteerDetail mVolunteerDetail;
-
     @BindView(R.id.dialog_apply_name_layer) protected RelativeLayout mNameLayer;
     @BindView(R.id.dialog_apply_email_layer) protected RelativeLayout mEmailLayer;
     @BindView(R.id.dialog_apply_phone_layer) protected RelativeLayout mPhoneLayer;
@@ -46,6 +43,10 @@ public class VolunteerApplyDialog extends Dialog {
     @BindView(R.id.dialog_apply_phone_edt) protected EditText mPhoneView;
     @BindView(R.id.dialog_apply_date_time) protected TextView mDateTimeView;
     @BindView(R.id.dialog_apply_title) protected TextView mTitleView;
+
+    private final boolean mIsInternal;
+    private final VolunteerDetail mVolunteerDetail;
+    private VolunteerApplyListener mVolunteerApplyListener = null;
 
     public VolunteerApplyDialog(@NonNull Context context, boolean isInternal, VolunteerDetail volunteerDetail) {
         super(context);
@@ -92,8 +93,10 @@ public class VolunteerApplyDialog extends Dialog {
         }
 
         VocketServiceManager.applyVolunteer(mVolunteerDetail.mOrganzationId,
+                                            true,
                                             TextUtils.isEmpty(mNameView.getText()) ? null : mNameView.getText().toString(),
-                                            TextUtils.isEmpty(mPhoneView.getText()) ? null : mPhoneView.getText().toString())
+                                            TextUtils.isEmpty(mPhoneView.getText()) ? null : mPhoneView.getText().toString(),
+                                            TextUtils.isEmpty(mEmailView.getText()) ? null : mEmailView.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new EmptySubscriber<Response<BaseResponse<Participate>>>() {
                     @Override
@@ -107,6 +110,11 @@ public class VolunteerApplyDialog extends Dialog {
                     @Override
                     public void onNext(Response<BaseResponse<Participate>> baseResponseResponse) {
                         Toast.makeText(getContext(), R.string.toast_volunteer_apply_dialog_success_message, Toast.LENGTH_SHORT).show();
+
+                        if (mVolunteerApplyListener != null) {
+                            mVolunteerApplyListener.onVolunteerApply();
+                        }
+
                         dismiss();
                     }
                 });
@@ -170,6 +178,19 @@ public class VolunteerApplyDialog extends Dialog {
 
     @OnClick(R.id.dialog_apply_cancel_btn)
     protected void onClickApplyCancelBtn(View view) {
+        if (mVolunteerApplyListener != null) {
+            mVolunteerApplyListener.onCancel();
+        }
+
         cancel();
+    }
+
+    public void setListener(VolunteerApplyListener listener) {
+        mVolunteerApplyListener = listener;
+    }
+
+    public interface VolunteerApplyListener {
+        void onVolunteerApply();
+        void onCancel();
     }
 }
