@@ -26,6 +26,9 @@ interface UserService {
 	@POST("users/auth/facebook/")
 	Observable<Response<BaseResponse<LoginModel>>> loginFb(@Field("userInfo") String userInfo, @Field("token") String token, @Field("userId") String userId);
 
+	@GET("users/user_info/")
+	Observable<Response<BaseResponse<UserInfoModel>>> getUserInfo();
+
 	@FormUrlEncoded
 	@PUT("users/token/verify/")
 	Observable<Response<BaseResponse<LoginModel>>> tokenVerify(@Field("token") String token);

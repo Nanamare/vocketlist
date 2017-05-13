@@ -106,7 +106,13 @@ public final class UserServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<FavoritListModel>()));
     }
 
-    public static LoginModel getLoginInfo(){
+    public static Observable<Response<BaseResponse<UserInfoModel>>> getUserInfo() {
+        return SERVICE.getUserInfo()
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<UserInfoModel>()));
+    }
+
+    public static LoginModel getLoginInfo() {
         return loginModel;
     }
 }
