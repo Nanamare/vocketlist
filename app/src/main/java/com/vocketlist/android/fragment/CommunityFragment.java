@@ -36,7 +36,7 @@ public class CommunityFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_volunteer, container, false);
+        return inflater.inflate(R.layout.fragment_community, container, false);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CommunityFragment extends BaseFragment {
         TabLayout tabLayout = ButterKnife.findById(act, R.id.tlCommunity);
         tabLayout.setupWithViewPager(viewPager);
 
-        // TODO : 글쓰기
+        // 글쓰기
         AppCompatTextView btnFilter = ButterKnife.findById(getActivity(), R.id.btnWrite);
         btnFilter.setOnClickListener(v -> goToPostCreate());
     }

@@ -29,9 +29,13 @@ public class PostAdapter extends BaseAdapter<CommunityList.CommunityData, Commun
         mListener = listener;
     }
 
-
     @Override
     public CommunityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CommunityViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false), mListener);
+    }
+
+    @Override
+    public void onBindViewHolder(CommunityViewHolder holder, int position) {
+        holder.bind(getItem(position));
     }
 }

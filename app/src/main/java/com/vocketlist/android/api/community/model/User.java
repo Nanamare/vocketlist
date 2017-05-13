@@ -8,5 +8,5 @@ public class User implements Serializable {
     @SerializedName("id") public int mId;
     @SerializedName("email") public String mEmail;
     @SerializedName("name") public String mName = "";
-//    @SerializedName("image") public String mImageUrl;
+    @SerializedName("image") public String mImageUrl;
 }

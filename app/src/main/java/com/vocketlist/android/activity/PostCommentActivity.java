@@ -87,7 +87,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
         //댓글아이콘을 클릭했을때는 포커스온
         Intent intent = getIntent();
         if(intent != null){
-            if(R.id.btnComment == intent.getExtras().getInt("viewId")){
+            if(R.id.llCommentWrite == intent.getExtras().getInt("viewId")){
                 contentsEdt.requestFocus();
             }
         }

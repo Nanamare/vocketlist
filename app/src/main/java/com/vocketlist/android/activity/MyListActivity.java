@@ -231,7 +231,6 @@ public class MyListActivity extends DepthBaseActivity implements
 				.subscribe(new Subscriber<Response<BaseResponse<MyListModel>>>() {
 					@Override
 					public void onCompleted() {
-
 					}
 
 					@Override
