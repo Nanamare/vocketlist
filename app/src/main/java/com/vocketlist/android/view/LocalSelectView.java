@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +38,7 @@ public class LocalSelectView extends LinearLayout {
 
 	private List<AddressModel.SecondAddress> getSecondAddress;
 	private List<FirstAddress> sFirstAddress;
+	private int localDetailId;
 
 	public LocalSelectView(Context context) {
 		this(context, null);
@@ -88,6 +88,7 @@ public class LocalSelectView extends LinearLayout {
 			}
 		});
 
+
 	}
 
 	private void initSecondSpinner(int position) {
@@ -108,8 +109,24 @@ public class LocalSelectView extends LinearLayout {
 		local_detail_spinner.setAdapter(localAdapter);
 		local_detail_spinner.setPrompt("지역 세부 설정");
 
+		local_detail_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				localDetailId = getSecondAddress.get(i).mId;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+		});
+
+
 	}
 
-
+	public int getLocalDetailId(){
+		return localDetailId;
+	}
+	
 
 }

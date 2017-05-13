@@ -8,20 +8,29 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
+import com.vocketlist.android.api.vocket.VocketServiceManager;
+import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.defined.Category;
+import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.util.RxEventManager;
 import com.vocketlist.android.view.LocalSelectView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * 플래그먼트 : 봉사활동
@@ -69,7 +78,6 @@ public class VolunteerFragment extends BaseFragment {
 
     private void generateFilterLayout(View filterView) {
 
-
         LayoutInflater layoutInflater
             = LayoutInflater.from(getContext());
         View popupView = layoutInflater.inflate(R.layout.popup_filter, null);
@@ -86,6 +94,8 @@ public class VolunteerFragment extends BaseFragment {
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
 //        LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
         LocalSelectView localSelectView = (LocalSelectView) popupView.findViewById(R.id.local_select_view);
+        AppCompatTextView localDoneBtn = (AppCompatTextView) popupView.findViewById(R.id.popup_filter_done_btn);
+
         startTv.setOnClickListener(view -> {
             com.vocketlist.android.util.TimePickerDialog dialog =
                 com.vocketlist.android.util.TimePickerDialog.newInstance(view);
@@ -100,6 +110,49 @@ public class VolunteerFragment extends BaseFragment {
             dialog.show(ft, "TimeDialog");
         });
 
+        localDoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int localDetailId =localSelectView.getLocalDetailId();
+                String startDate = startTv.getText().toString();
+                String endDate = endTv.getText().toString();
+                int page = 1;
+                if(isValid(localDetailId, startDate, endDate)){
+                    VocketServiceManager.search(null, startDate,
+                        endDate, localDetailId, true, null, page)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
+                                RxEventManager.getInstance().sendData(baseResponseResponse.body());
+                            }
+                        });
+                } else {
+                    Toast.makeText(getContext(), "채워지지 않은 값 존재", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
+
+    private boolean isValid(int localDeatilNm, String startDate, String endDate) {
+        if( localDeatilNm != 0
+            && TextUtils.isEmpty(startDate) && TextUtils.isEmpty(endDate)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
 }

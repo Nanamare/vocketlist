@@ -20,6 +20,7 @@ import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.Category;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.util.RxEventManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -157,6 +158,25 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 	public void onRefresh() {
 		page = 1;
 		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, page);
+
+		RxEventManager.getInstance().getObjectObservable()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Object>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(Object object) {
+							setVocketList((BaseResponse<Volunteer>) object);
+					}
+				});
 	}
 
 	@Override
