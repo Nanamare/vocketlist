@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 //봉사 상세페이지
 public class VolunteerDetail implements Serializable {
+	@SerializedName("id") public int mId;
 	@SerializedName("title") public String mTitle;
 	@SerializedName("start_date") public String mStartDate;
 	@SerializedName("end_date") public String mEndDate;

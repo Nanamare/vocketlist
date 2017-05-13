@@ -185,7 +185,7 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 	@OnClick(R.id.apply_cancel_btn)
 	void apply_cancel_onClick() {
 		showProgressDialog(false);
-		VocketServiceManager.applyVolunteer(mVolunteerDetail.mResult.mOrganzationId,
+		VocketServiceManager.applyVolunteer(mVolunteerDetail.mResult.mId,
 											false,
 											null,
 											null,

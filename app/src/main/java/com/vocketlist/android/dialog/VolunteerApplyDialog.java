@@ -59,7 +59,6 @@ public class VolunteerApplyDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setContentView(mIsInternal ? R.layout.dialog_vocket_apply : R.layout.dialog_vocket_internal_apply);
         setContentView(R.layout.dialog_vocket_apply);
 
         ButterKnife.bind(this);
@@ -79,7 +78,9 @@ public class VolunteerApplyDialog extends Dialog {
             mEmailLayer.setVisibility(View.GONE);
             mPhoneLayer.setVisibility(View.GONE);
         } else {
-
+            mNameLayer.setVisibility(View.VISIBLE);
+            mEmailLayer.setVisibility(View.VISIBLE);
+            mPhoneLayer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -92,7 +93,7 @@ public class VolunteerApplyDialog extends Dialog {
             return;
         }
 
-        VocketServiceManager.applyVolunteer(mVolunteerDetail.mOrganzationId,
+        VocketServiceManager.applyVolunteer(mVolunteerDetail.mId,
                                             true,
                                             TextUtils.isEmpty(mNameView.getText()) ? null : mNameView.getText().toString(),
                                             TextUtils.isEmpty(mPhoneView.getText()) ? null : mPhoneView.getText().toString(),
