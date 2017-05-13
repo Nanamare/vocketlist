@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e8e8e8"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:background="#e8e8e8">
+    android:orientation="vertical">
 
     <!-- 콘텐츠 -->
     <FrameLayout
@@ -23,10 +23,10 @@
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
-                android:paddingTop="9.7dp"
+                android:paddingBottom="9.7dp"
                 android:paddingLeft="19.3dp"
                 android:paddingRight="19.3dp"
-                android:paddingBottom="9.7dp">
+                android:paddingTop="9.7dp">
 
                 <!-- 첨부파일 -->
                 <RelativeLayout
@@ -62,10 +62,10 @@
 
                 <!-- 내용 -->
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:background="@color/transparent"
                     android:id="@+id/metContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:hint="@string/hint_write_post"
                     android:textColor="#808080"
                     android:textSize="11.7dp"
@@ -154,20 +154,20 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/community_write_toolbar_background"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:background="@drawable/community_write_toolbar_background">
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/community_write_title"
-                android:textSize="13.3dp"
+                android:text="@string/com_writing"
                 android:textColor="#e47d75"
-                android:textStyle="bold"/>
+                android:textSize="13.3dp"
+                android:textStyle="bold" />
 
         </android.support.v7.widget.Toolbar>
 

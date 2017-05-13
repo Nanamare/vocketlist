@@ -12,7 +12,7 @@
     <dimen name="bottom_bar_height">60dp</dimen>
 
     <!-- 메인 컨텐츠 -->
-    <dimen name="content_margin_bottom">56dp</dimen>
+    <dimen name="content_margin_bottom">50dp</dimen>
 
     <!-- 봉사활동 : 목록 -->
     <dimen name="volunteer_category_grid_space">3.3dp</dimen>

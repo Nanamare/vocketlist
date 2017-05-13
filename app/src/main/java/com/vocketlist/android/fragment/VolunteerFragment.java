@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,8 +63,8 @@ public class VolunteerFragment extends BaseFragment {
         TabLayout tabLayout = ButterKnife.findById(act, R.id.tlVolunteer);
         tabLayout.setupWithViewPager(viewPager);
 
-        // TODO : 필터
-        AppCompatImageButton btnFilter = ButterKnife.findById(getActivity(), R.id.btnFilter);
+        // 필터
+        AppCompatImageView btnFilter = ButterKnife.findById(act, R.id.btnFilter);
         btnFilter.setOnClickListener(v -> generateFilterLayout(v));
     }
 

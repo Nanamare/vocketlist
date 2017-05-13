@@ -28,17 +28,17 @@
 
     <!-- 탭 -->
     <string name="tab_all">전체</string>
-    <string name="tab_act">활동\n지원</string>
-    <string name="tab_edu">교육\n상담</string>
-    <string name="tab_cul">문화\n체육</string>
+    <string name="tab_act">활동지원</string>
+    <string name="tab_edu">교육상담</string>
+    <string name="tab_cul">문화체육</string>
     <string name="tab_env">환경</string>
     <string name="tab_etc">기타</string>
 
     <!-- 커뮤니티 탭 -->
-    <string name="com_all">전체\n보기</string>
-    <string name="com_myWriting">내가\n쓴글</string>
-    <string name="com_wisdom">명언\n보기</string>
-    <string name="com_writing">글\n작성</string>
+    <string name="com_all">전체</string>
+    <string name="com_myWriting">내가쓴글</string>
+    <string name="com_wisdom">명언보기</string>
+    <string name="com_writing">글쓰기</string>
 
     <!-- 카테고리 -->
     <string-array name="categories">
@@ -105,12 +105,6 @@
     <string name="terms">이용약관</string>
     <string name="license">라이센스</string>
     <string name="my_posts">내 후기 모아보기</string>
-
-    <string name="all">전체\n보기</string>
-    <string name="my_post">내가\n쓴글</string>
-    <string name="wise">명언\n보기</string>
-
-    <string name="write">글쓰기</string>
 
     <!-- -->
     <string name="heart">하트뿅뿅</string>
@@ -204,10 +198,8 @@
     <string name="schedule_desc">내가 신청한 봉사활동의 일정을 관리합니다.</string>
 
     <!-- 커뮤니티 목록 -->
-    <string name="community_list_item_comment">글쓰기</string>
 
     <!-- 커뮤니티 글쓰기 -->
-    <string name="community_write_title">글쓰기</string>
 
     <!-- common error message -->
     <string name="error_message_network">네트워크 상태가 좋지 않습니다.</string>

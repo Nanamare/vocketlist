@@ -28,6 +28,7 @@
     <style name="Button" />
     <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/font_36</item>
+        <item name="android:padding">0dp</item>
     </style>
 
     <!-- 탭레이아웃 -->

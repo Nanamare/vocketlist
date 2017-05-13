@@ -11,7 +11,7 @@ import com.vocketlist.android.R;
 public enum  CommunityCategory {
 	All(R.string.com_all),
 	myHome(R.string.com_myWriting),
-	wisdom(R.string.com_wisdom)
+//	wisdom(R.string.com_wisdom)
 	;
 
 	private final int resId;

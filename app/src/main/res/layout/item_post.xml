@@ -186,7 +186,7 @@
                 android:layout_marginLeft="4.3dp"
                 android:textSize="11.7dp"
                 android:textColor="#5fb0da"
-                android:text="@string/community_list_item_comment"/>
+                android:text="@string/com_writing"/>
         </LinearLayout>
     </LinearLayout>
 
