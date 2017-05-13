@@ -16,6 +16,7 @@
     <string name="confirm">확인</string>
     <string name="register">등록</string>
 
+    <string name="police">신고</string>
     <string name="certification">인증</string>
     <string name="modify">수정</string>
     <string name="delete">삭제</string>
@@ -97,6 +98,8 @@
     <string name="toast_volunteer_apply_dialog_success_message">신청이 완료되었습니다.</string>
     <string name="toast_volunteer_apply_dialog_check_data">입력되지 않은 데이터가 존재합니다</string>
 
+
+
     <!-- -->
     <string name="profile_manage">프로필관리</string>
     <string name="schedule_manage">스케쥴관리</string>
@@ -143,6 +146,8 @@
     <!-- 토스트 -->
     <string name="toast_invalid_content">내용을 입력해 주세요</string>
     <string name="toast_add_schedule">이 스케줄관리에 추가되었습니다.</string>
+
+    <string name="toast_police">신고 접수되었습니다.</string>
 
     <!-- 다이얼로그 -->
     <string name="dialog_introduce_title">나만을 위한 봉사 큐레이터</string>
@@ -199,8 +204,11 @@
     <string name="schedule_desc">내가 신청한 봉사활동의 일정을 관리합니다.</string>
 
     <!-- 커뮤니티 목록 -->
-    <string name="community_comment">댓글쓰기</string>
-    <string name="community_volunteer">\#\%1$s</string>
+    <string name="community_comment_write">댓글쓰기</string>
+    <string name="community_comment">댓글을 등록해보세요</string>
+    <string name="community_comment_one">댓글 1개 보기</string>
+    <string name="community_comment_more">댓글 %1$d개 모두 보기</string>
+    <string name="community_volunteer">\#%1$s</string>
 
     <!-- 커뮤니티 글쓰기 -->
 
