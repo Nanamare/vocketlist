@@ -166,7 +166,7 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 			@Override
 			public void onVolunteerApply() {
 				if (isInternalApply == false
-						&& TextUtils.isEmpty(mVolunteerDetail.mResult.mInternalLinkUrl)) {
+						&& TextUtils.isEmpty(mVolunteerDetail.mResult.mInternalLinkUrl) == false) {
 					moveToWebSite(mVolunteerDetail.mResult.mInternalLinkUrl);
 				}
 
