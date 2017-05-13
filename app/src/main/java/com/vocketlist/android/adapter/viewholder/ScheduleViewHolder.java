@@ -48,12 +48,12 @@ public class ScheduleViewHolder extends BaseViewHolder<ScheduleListModel.Schedul
     @OnClick(R.id.llInfo)
     protected void onClickInfoLayer(View view) {
         Intent intent = new Intent(view.getContext(), VolunteerReadActivity.class);
-        intent.putExtra(VolunteerReadActivity.EXTRA_KEY_VOCKET_ID, String.valueOf(data.mId));
+        intent.putExtra(VolunteerReadActivity.EXTRA_KEY_VOCKET_ID, String.valueOf(data.mServiceId));
         context.startActivity(intent);
     }
 
-    @OnLongClick
-    protected void onLongClickInfoLayer(View view) {
-
+    @OnLongClick(R.id.llInfo)
+    protected boolean onLongClickInfoLayer(View view) {
+        return false;
     }
 }
