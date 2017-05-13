@@ -113,13 +113,14 @@ public class VolunteerFragment extends BaseFragment {
         localDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //카테고리 getter만들기 mAdapter.getItem(viewPager.getCurrentItem());
                 int localDetailId =localSelectView.getLocalDetailId();
                 String startDate = startTv.getText().toString();
                 String endDate = endTv.getText().toString();
                 int page = 1;
                 if(isValid(localDetailId, startDate, endDate)){
-                    VocketServiceManager.search(null, startDate,
-                        endDate, localDetailId, true, null, page)
+                    VocketServiceManager.search(Category.All, startDate,
+                        endDate, localDetailId, false, null, page)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
                             @Override
@@ -138,7 +139,7 @@ public class VolunteerFragment extends BaseFragment {
                             }
                         });
                 } else {
-                    Toast.makeText(getContext(), "채워지지 않은 값 존재", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.popup_filter_blank_alert), Toast.LENGTH_SHORT).show();
                 }
             }
         });

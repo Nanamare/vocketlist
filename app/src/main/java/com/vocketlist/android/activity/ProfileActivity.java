@@ -27,6 +27,7 @@ import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.preference.FacebookPreperence;
+import com.vocketlist.android.view.LocalSelectView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +70,10 @@ public class ProfileActivity extends DepthBaseActivity implements
 	@BindView(R.id.rgGender) RadioGroup rgGender;
 
 	@BindView(R.id.rvCategory) RecyclerView rvCategory;
+
+	@BindView(R.id.local_select_first_view) LocalSelectView localFirstView;
+	@BindView(R.id.local_select_second_view) LocalSelectView localSecondView;
+
 
 	@BindDimen(R.dimen.category_grid_spacing) int categoryGridSpacing;
 	@BindArray(R.array.categories) String[] categories;
