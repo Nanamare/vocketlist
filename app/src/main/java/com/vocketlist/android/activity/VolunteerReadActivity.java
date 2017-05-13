@@ -23,6 +23,7 @@ import com.vocketlist.android.network.error.ExceptionHelper;
 import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
 import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,6 +104,8 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 
 					@Override
 					public void onError(Throwable e) {
+						Ln.e(e, "onError : " + e.toString());
+
 						if (ExceptionHelper.isNetworkError(e)) {
 							Toast.makeText(VolunteerReadActivity.this, R.string.error_message_network, Toast.LENGTH_SHORT).show();
 							finish();
