@@ -23,6 +23,7 @@ public class VolunteerDetail implements Serializable {
 	@SerializedName("place") public String mPlace;
 	@SerializedName("content") public String mContent;
 	@SerializedName("is_active") public boolean mIsActive;
+	@SerializedName("is_direct") public boolean mIsDirect;
 	@SerializedName("first_category") public Category mFirstCategory;
 	@SerializedName("second_category") public String mSecondCategory;
 	@SerializedName("first_register_office") public String mFirstRegisterOffice;

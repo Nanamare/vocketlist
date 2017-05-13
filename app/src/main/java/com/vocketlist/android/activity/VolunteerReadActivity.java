@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.api.vocket.Participate;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.VolunteerDetail;
@@ -21,8 +21,6 @@ import com.vocketlist.android.dialog.VolunteerApplyDialog;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.error.ExceptionHelper;
 import com.vocketlist.android.network.service.EmptySubscriber;
-import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
-import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
@@ -41,6 +39,7 @@ import rx.functions.Action0;
  */
 public class VolunteerReadActivity extends DepthBaseActivity {
 	private static final int REQUEST_WRITE_COMMUNITY = 1000;
+	public static final String EXTRA_KEY_VOCKET_ID = "vocketId";
 
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.volunteer_read_title) protected TextView mVocketTitleText;
@@ -61,16 +60,9 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 	@BindView(R.id.isActiveDayTv) protected TextView mIsActiveDayText;
 	@BindView(R.id.volunteer_read_detail_content) protected TextView mContentText;
 	@BindView(R.id.volunteer_iv) protected ImageView mVolunteerImageView;
-
-	private IVolunteerCategoryPresenter presenter;
-
-	private IVolunteerReadPresenter volunteerReadPresenter;
-
-	private AlertDialog dialog;
+	@BindView(R.id.volunteer_read_internal_noti_text) protected TextView mInternalNotiTextView;
 
 	private int vocketIndex;
-
-	private String title;
 
 	private BaseResponse<VolunteerDetail> mVolunteerDetail;
 
@@ -149,8 +141,8 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 		}
 		Glide.with(this).load(getString(R.string.vocket_base_url) + volunteerDetails.mResult.mImageUrl).into(mVolunteerImageView);
 		//dialog 타이틀
-		title = volunteerDetails.mResult.mTitle;
-		isInternalApply = volunteerDetails.mResult.mIsParticipate;
+		isInternalApply = volunteerDetails.mResult.mIsDirect;
+		mInternalNotiTextView.setVisibility(isInternalApply ? View.GONE : View.VISIBLE);
 
 
 		if (volunteerDetails.mResult.mIsParticipate) {
@@ -164,12 +156,17 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 
 	@OnClick(R.id.apply_btn)
 	void apply_onClick() {
+		if (UserServiceManager.isLogin() == false) {
+			Toast.makeText(this, R.string.error_message_login, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		final VolunteerApplyDialog dialog = new VolunteerApplyDialog(this, isInternalApply, mVolunteerDetail.mResult);
 		dialog.setListener(new VolunteerApplyDialog.VolunteerApplyListener() {
 			@Override
 			public void onVolunteerApply() {
-				if (isInternalApply
-						&& TextUtils.isEmpty(mVolunteerDetail.mResult.mInternalLinkUrl)) {
+				if (isInternalApply == false
+						&& TextUtils.isEmpty(mVolunteerDetail.mResult.mInternalLinkUrl) == false) {
 					moveToWebSite(mVolunteerDetail.mResult.mInternalLinkUrl);
 				}
 

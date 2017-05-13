@@ -61,7 +61,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
     void tvTitleOnClick(){
       // 전달할값  mData.mId
         Intent intent = new Intent(context, VolunteerReadActivity.class);
-        intent.putExtra("vocketId", String.valueOf(mData.mId));
+        intent.putExtra(VolunteerReadActivity.EXTRA_KEY_VOCKET_ID, String.valueOf(mData.mId));
         context.startActivity(intent);
 
     }

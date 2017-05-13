@@ -59,4 +59,5 @@ import rx.functions.Func1;
     public static List<AddressModel.SecondAddress> getSecondAddress(String firstAddressName) {
         return sSecondAddress.get(firstAddressName);
     }
+
 }

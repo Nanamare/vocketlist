@@ -25,6 +25,7 @@ public class CommunityList implements Serializable {
         @SerializedName("id") public int mId;
         @SerializedName("author") public User mUser;
         @SerializedName("image") public String mImageUrl;
+        @SerializedName("origin_image") public String mOriginImage;
         @SerializedName("content") public String mContent;
         @SerializedName("like_count") public int mLikeCount;
         @SerializedName("like") public boolean mIsLike;

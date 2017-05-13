@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.vocket.Volunteer;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 
@@ -28,6 +29,7 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @Override
     public void bind(Volunteer.Data data) {
+        Ln.d("VolunteerSearchViewHolder.bind()");
         Volunteer.Data volunteer = data;
         tvVolunteer.setText(volunteer.mTitle);
     }

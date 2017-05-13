@@ -6,27 +6,22 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerSearchAdapter;
@@ -37,6 +32,7 @@ import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.common.helper.AttachmentHelper;
 import com.vocketlist.android.defined.Extras;
+import com.vocketlist.android.dialog.SearchVolunteerDialog;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.dto.MyList;
 import com.vocketlist.android.manager.ToastManager;
@@ -81,35 +77,34 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	@BindDimen(R.dimen.font_42) int searchFontSize;
 
-    private VolunteerSearchAdapter mSearchAdapter;
+	private VolunteerSearchAdapter mSearchAdapter;
 
 	/**
 	 * 봉사활동
 	 */
 	@OnClick(R.id.btnVolunteer)
 	void onActionVolunteer() {
-		MaterialDialog md = new MaterialDialog.Builder(this)
-				.customView(R.layout.dialog_search, false)
-				.show();
+//		MaterialDialog md = new MaterialDialog.Builder(this)
+//				.customView(R.layout.dialog_search, false)
+//				.show();
+//
+//		View cv = md.getCustomView();
+//		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
+//		SuperRecyclerView rv = ButterKnife.findById(md, R.id.activity_post_comment_recyclerView);
+//
+//		// 검색뷰 폰트 크기
+//		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);
+//		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
+//		theTextArea.requestFocus();
+//		sv.requestFocus();
+//		sv.setOnQueryTextListener(onSearchQueryTextListener);
+//
+//		// 데이터 설정
+//		mSearchAdapter = new VolunteerSearchAdapter(null);
+//		rv.setAdapter(mSearchAdapter);
 
-		View cv = md.getCustomView();
-		SearchView sv = ButterKnife.findById(md, R.id.svVolunteer);
-		SuperRecyclerView rv = ButterKnife.findById(md, R.id.activity_post_comment_recyclerView);
-
-		// 검색뷰 폰트 크기
-		SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) sv.findViewById(R.id.search_src_text);
-		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
-		theTextArea.requestFocus();
-		sv.requestFocus();
-		sv.setOnQueryTextListener(onSearchQueryTextListener);
-
-//		 더미
-//		List<Volunteer.Data> dummy = new ArrayList<>();
-//		for (int i = 0; i < 20; i++) dummy.add(new Volunteer.Data());
-
-		// 데이터 설정
-        mSearchAdapter = new VolunteerSearchAdapter(null);
-		rv.setAdapter(mSearchAdapter);
+		SearchVolunteerDialog dialog = new SearchVolunteerDialog(this);
+		dialog.show();
 	}
 
 	/**
@@ -136,56 +131,58 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		shareToFacebook();
 	}
 
-	/**
-	 * 봉사활동 검색어 수신
-	 */
-	private SearchView.OnQueryTextListener onSearchQueryTextListener = new SearchView.OnQueryTextListener() {
-		@Override
-		public boolean onQueryTextSubmit(String query) {
-			return false;
-		}
+//	/**
+//	 * 봉사활동 검색어 수신
+//	 */
+//	private SearchView.OnQueryTextListener onSearchQueryTextListener = new SearchView.OnQueryTextListener() {
+//		@Override
+//		public boolean onQueryTextSubmit(String query) {
+//			return false;
+//		}
+//
+//		@Override
+//		public boolean onQueryTextChange(String newText) {
+//			// 실시간으로 처리하지 말고 재입력 시간 Delay 후에 서버에 쿼리 요청
+//			if (mSearchQueryRunnable != null) {
+//				searchQueryHandler.removeCallbacks(mSearchQueryRunnable);
+//			}
+//
+//			searchQueryHandler.postDelayed(
+//					mSearchQueryRunnable = new SearchQueryRunnable(newText),
+//					500
+//			);
+//
+//			return false;
+//		}
+//	};
 
-		@Override
-		public boolean onQueryTextChange(String newText) {
-			// 실시간으로 처리하지 말고 재입력 시간 Delay 후에 서버에 쿼리 요청
-			if(mSearchQueryRunnable != null) {
-                searchQueryHandler.removeCallbacks(mSearchQueryRunnable);
-            }
+//	/**
+//	 * 핸들러 : 검색
+//	 */
+//	private Handler searchQueryHandler = new Handler();
+//
+//	/**
+//	 * 실행자 : 검색
+//	 */
+//	private class SearchQueryRunnable implements Runnable {
+//		private String query;
+//
+//		/**
+//		 * 생성자
+//		 *
+//		 * @param query
+//		 */
+//		public SearchQueryRunnable(String query) {
+//			this.query = query;
+//		}
+//
+//		@Override
+//		public void run() {
+//			reqVolunteers(query);
+//		}
+//	}
 
-			searchQueryHandler.postDelayed(
-					mSearchQueryRunnable = new SearchQueryRunnable(newText),
-					500
-			);
-
-			return false;
-		}
-	};
-
-	/**
-	 * 핸들러 : 검색
-	 */
-	private Handler searchQueryHandler = new Handler();
-
-	/**
-	 * 실행자 : 검색
-	 */
-	private class SearchQueryRunnable implements Runnable {
-		private String query;
-
-		/**
-		 * 생성자
-		 * @param query
-		 */
-		public SearchQueryRunnable(String query) {
-			this.query = query;
-		}
-
-		@Override
-		public void run() {
-			reqVolunteers(query);
-		}
-	}
-	private SearchQueryRunnable mSearchQueryRunnable;
+//	private SearchQueryRunnable mSearchQueryRunnable;
 
 	private AttachmentHelper mAttachmentHelper;
 	private ChosenFile mChosenFile;
@@ -254,17 +251,17 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if(id == R.id.action_done) {
+		if (id == R.id.action_done) {
 			requestWrite();
 			return true;
-		}
-		else return super.onOptionsItemSelected(item);
+		} else return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(mAttachmentHelper != null) mAttachmentHelper.onActivityResult(requestCode, resultCode, data);
+		if (mAttachmentHelper != null)
+			mAttachmentHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -306,16 +303,17 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		Intent intent = getIntent();
 		if (intent != null) {
 			Bundle extras = intent.getExtras();
-			if(extras != null) {
+			if (extras != null) {
 				Serializable v = extras.getSerializable(Extras.VOLUNTEER);
 				Serializable m = extras.getSerializable(Extras.MY_LIST);
 
 				// 봉사활동 -> 후기작성
-				if(v != null && v instanceof Volunteer.Data) initVolunteer((Volunteer.Data) v);
-				// 마이리스트 -> 인증하기
-				else if(m != null && m instanceof MyList.Data) initMyList((MyList.Data) m);
-				// 커뮤니티 -> 글작성
-				else {}
+				if (v != null && v instanceof Volunteer.Data) initVolunteer((Volunteer.Data) v);
+					// 마이리스트 -> 인증하기
+				else if (m != null && m instanceof MyList.Data) initMyList((MyList.Data) m);
+					// 커뮤니티 -> 글작성
+				else {
+				}
 
 				//
 				initView();
@@ -335,7 +333,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * 첨부파일 설정
 	 *
 	 * @param chosenFile
-     */
+	 */
 	private void initAttachment(ChosenFile chosenFile) {
 		mChosenFile = chosenFile;
 
@@ -343,9 +341,9 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		rlAttachment.addView(attach);
 		attach.setThumb(mChosenFile.getOriginalPath());
 		attach.setOnDeleteListener(v -> {
-            mChosenFile = null;
-            rlAttachment.removeView(attach);
-        });
+			mChosenFile = null;
+			rlAttachment.removeView(attach);
+		});
 	}
 
 	/**
@@ -404,7 +402,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	private void shareToFacebook() {
 		ShareLinkContent content = new ShareLinkContent.Builder()
 				//링크의 콘텐츠 제목
-				.setContentTitle(FacebookPreperence.getInstance().getUserName()+"님이 작성하신 글입니다.")
+				.setContentTitle(FacebookPreperence.getInstance().getUserName() + "님이 작성하신 글입니다.")
 				//게시물에 표시될 썸네일 이미지의 URL
 				.setImageUrl(Uri.parse("https://i.vimeocdn.com/video/620559869_1280.jpg"))
 				//공유될 링크 (봉사 활동에 대한 내용)
@@ -428,19 +426,19 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	 * TODO 요청 : 봉사활동 검색
 	 */
 	private void reqVolunteers(String query) {
-        VocketServiceManager.search(null, null, null, 0, false, query, 1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new EmptySubscriber<Response<BaseResponse<Volunteer>>>() {
-                    @Override
-                    public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
-                        if (mSearchAdapter == null) {
-                            return;
-                        }
+		VocketServiceManager.search(null, null, null, 0, false, query, 1)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new EmptySubscriber<Response<BaseResponse<Volunteer>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
+						if (mSearchAdapter == null) {
+							return;
+						}
 
-                        mSearchAdapter.setList(baseResponseResponse.body().mResult.mDataList);
+						mSearchAdapter.setList(baseResponseResponse.body().mResult.mDataList);
 						mSearchAdapter.notifyDataSetChanged();
-                    }
-                });
+					}
+				});
 	}
 
 	/**
@@ -452,43 +450,25 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		String content = metContent.getText().toString();
 
 		// 유효성 체크
-		if(TextUtils.isEmpty(content.trim()) && mChosenFile == null) {
+		if (TextUtils.isEmpty(content.trim()) && mChosenFile == null) {
 			ToastManager.show(R.string.toast_invalid_content);
 		}
 
 		// 내용
 		fields.put(Parameters.CONTENT, RequestBody.create(okhttp3.MultipartBody.FORM, content));
 		// 첨부파일
-		if(mChosenFile != null) {
+		if (mChosenFile != null) {
 			File file = new File(mChosenFile.getOriginalPath());
 			RequestBody requestFile = RequestBody.create(MediaType.parse(mChosenFile.getMimeType()), file);
 			fields.put(Parameters.ATTACH + "\"; filename=\"" + file.getName(), requestFile);
 		}
 		// 봉사활동
-		if(mVolunteer != null) fields.put(Parameters.VOLUNTEER_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mVolunteer.mId)));
+		if (mVolunteer != null)
+			fields.put(Parameters.VOLUNTEER_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mVolunteer.mId)));
 		// 마이리스트
-		if(mMyList != null) fields.put(Parameters.MY_LIST_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mMyList.id)));
+		if (mMyList != null)
+			fields.put(Parameters.MY_LIST_ID, RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(mMyList.id)));
 
 		// TODO 서버요청
 	}
-
-	/**
-	private void shareToFacebook() {
-		ShareLinkContent content = new ShareLinkContent.Builder()
-				//링크의 콘텐츠 제목
-				.setContentTitle("봉사활동 후기")
-				//게시물에 표시될 썸네일 이미지의 URL
-				.setImageUrl(Uri.parse("https://4310b1a9-a-5b13c88f-s-sites.googlegroups.com/a/j2edu.co.kr/home/bongsa-hwaldong/%EB%B4%89%EC%82%AC.jpg?attachauth=ANoY7crzTtirlQHaUHt2tEZ7WSgQn_Tws7PC3oHFMh-kRkg64THIgwKT5wYar1sbt-aNqWWb5hCZnQvAm3mxppJFpXZoHhfwUoERcyyiVXuEWYnKeLaawhd22lVdSRcKwhAiKS5CfN7Sy1WOhDFEsLJQPJSW-RD_xgNgo_Ny2NbCTGeCqUkroOoqt0oRCZbAWyLP7vkr2E9UZXW9USgy0psElpPqa3lNrbOw_nGxbhPKaFtuDTIeF6o%3D&attredirects=0"))
-				//공유될 링크
-				.setContentUrl(Uri.parse("http://52.78.106.73:8080/kozy/"))
-				//게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
-				.setContentDescription("지난 금요일 봉사활동 다녀온 후기입니다 ^^")
-				.build();
-
-		ShareDialog shareDialog = new ShareDialog(this);
-		shareDialog.show(content, ShareDialog.Mode.FEED);
-
-
-	}
-	 **/
 }

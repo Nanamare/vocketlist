@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FavoritListModel {
     @SerializedName("favorite") public List<String> mFavoriteList;
-    @SerializedName("region") public Region mAddress;
+    @SerializedName("region") public List<Region> mAddress;
 
     public static final class Region {
         @SerializedName("first_register_office") public int mFirstAddressId;

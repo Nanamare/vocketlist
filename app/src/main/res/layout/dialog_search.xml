@@ -7,7 +7,7 @@
 
     <!-- 검색 -->
     <android.support.v7.widget.SearchView
-        android:id="@+id/svVolunteer"
+        android:id="@+id/dialog_volunteer_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:iconifiedByDefault="false"
@@ -15,7 +15,7 @@
 
     <!-- 결과 -->
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/activity_post_comment_recyclerView"
+        android:id="@+id/dialog_volunteer_search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:layout_empty="@layout/empty_dialog_search"

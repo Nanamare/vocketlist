@@ -73,7 +73,7 @@ public class VolunteerApplyDialog extends Dialog {
                                                         mVolunteerDetail.mStartTime,
                                                         mVolunteerDetail.mEndTime));
 
-        if (mIsInternal == false) {
+        if (mIsInternal) {
             mNameLayer.setVisibility(View.GONE);
             mEmailLayer.setVisibility(View.GONE);
             mPhoneLayer.setVisibility(View.GONE);
@@ -122,7 +122,7 @@ public class VolunteerApplyDialog extends Dialog {
     }
 
     private boolean isValid(String name, String email, String phoneNumber) {
-        if (mIsInternal == false) {
+        if (mIsInternal) {
             return true;
         }
 
@@ -150,17 +150,7 @@ public class VolunteerApplyDialog extends Dialog {
     }
 
     private boolean isPhoneValid(String phoneNumber) {
-        boolean isValid = false;
-
-        String expression = "(01[016789])(\\d{3,4})(\\d{4})";
-
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        if (matcher.matches()) {
-            isValid = true;
-        }
-        return isValid;
-
+        return true;
     }
 
 
