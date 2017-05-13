@@ -53,7 +53,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/volunteer_read_title"
@@ -466,6 +467,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/volunteer_read_internal_noti_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15.7dp"
