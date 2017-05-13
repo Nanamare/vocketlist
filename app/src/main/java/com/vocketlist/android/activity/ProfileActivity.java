@@ -31,6 +31,7 @@ import com.vocketlist.android.view.LocalSelectView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -131,6 +132,8 @@ public class ProfileActivity extends DepthBaseActivity implements
 
 		//
 		handleIntent();
+
+		//
 	}
 
 	@Override
@@ -285,11 +288,13 @@ public class ProfileActivity extends DepthBaseActivity implements
 		}
 
 		List<String> favoriteList = mAdapter.getSelectedItems();
+		List<Integer> localList = new ArrayList<>();
+		localList.add(localFirstView.getLocalDetailId());
+		localList.add(localSecondView.getLocalDetailId());
 
 		// todo : 0은 차후에 시군구 선택하는 다이얼로그를 통해 값을 넘겨야 함.
-		/*
-		UserServiceManager.setFavorite(favoriteList, null)
+		UserServiceManager.setFavorite(favoriteList, localList)
 				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>());
-		*/
+
 	}
 }

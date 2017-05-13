@@ -1,7 +1,6 @@
 package com.vocketlist.android.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
@@ -155,5 +154,6 @@ public class LocalSelectView extends LinearLayout {
 		local_spinner.setSelection(firstPosition);
 		local_detail_spinner.setSelection(secondPosition);
 	}
+
 
 }
