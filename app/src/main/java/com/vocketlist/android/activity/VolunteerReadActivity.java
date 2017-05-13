@@ -1,11 +1,11 @@
 package com.vocketlist.android.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,12 +13,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
+import com.vocketlist.android.api.user.UserServiceManager;
+import com.vocketlist.android.api.vocket.Participate;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.VolunteerDetail;
 import com.vocketlist.android.dialog.VolunteerApplyDialog;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.presenter.ipresenter.IVolunteerCategoryPresenter;
-import com.vocketlist.android.presenter.ipresenter.IVolunteerReadPresenter;
+import com.vocketlist.android.network.error.ExceptionHelper;
+import com.vocketlist.android.network.service.EmptySubscriber;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +29,7 @@ import butterknife.OnClick;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * 봉사활동 : 보기
@@ -35,6 +39,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class VolunteerReadActivity extends DepthBaseActivity {
 	private static final int REQUEST_WRITE_COMMUNITY = 1000;
+	public static final String EXTRA_KEY_VOCKET_ID = "vocketId";
 
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.volunteer_read_title) protected TextView mVocketTitleText;
@@ -55,16 +60,9 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 	@BindView(R.id.isActiveDayTv) protected TextView mIsActiveDayText;
 	@BindView(R.id.volunteer_read_detail_content) protected TextView mContentText;
 	@BindView(R.id.volunteer_iv) protected ImageView mVolunteerImageView;
-
-	private IVolunteerCategoryPresenter presenter;
-
-	private IVolunteerReadPresenter volunteerReadPresenter;
-
-	private AlertDialog dialog;
+	@BindView(R.id.volunteer_read_internal_noti_text) protected TextView mInternalNotiTextView;
 
 	private int vocketIndex;
-
-	private String title;
 
 	private BaseResponse<VolunteerDetail> mVolunteerDetail;
 
@@ -84,11 +82,6 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 		}
 
 		setSupportActionBar(toolbar);
-
-//		presenter = new VolunteerCategoryPresenter(this);
-//		volunteerReadPresenter = new VolunteerReadPresenter(this);
-///
-//		presenter.getVocketDetail(vocketIndex);
 		requestVolunteerDetail(vocketIndex);
 	}
 
@@ -103,7 +96,18 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 
 					@Override
 					public void onError(Throwable e) {
-						e.printStackTrace();
+						Ln.e(e, "onError : " + e.toString());
+
+						if (ExceptionHelper.isNetworkError(e)) {
+							Toast.makeText(VolunteerReadActivity.this, R.string.error_message_network, Toast.LENGTH_SHORT).show();
+							finish();
+							return;
+						}
+
+						String errorMessage = ExceptionHelper.getFirstErrorMessage(e);
+						Toast.makeText(VolunteerReadActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+						finish();
+						return;
 					}
 
 					@Override
@@ -137,24 +141,41 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 		}
 		Glide.with(this).load(getString(R.string.vocket_base_url) + volunteerDetails.mResult.mImageUrl).into(mVolunteerImageView);
 		//dialog 타이틀
-		title = volunteerDetails.mResult.mTitle;
-		isInternalApply = volunteerDetails.mResult.mIsParticipate;
+		isInternalApply = volunteerDetails.mResult.mIsDirect;
+		mInternalNotiTextView.setVisibility(isInternalApply ? View.GONE : View.VISIBLE);
 
+
+		if (volunteerDetails.mResult.mIsParticipate) {
+			mApplyBtn.setVisibility(View.GONE);
+			mApplyCancelBtn.setVisibility(View.VISIBLE);
+		} else {
+			mApplyBtn.setVisibility(View.VISIBLE);
+			mApplyCancelBtn.setVisibility(View.GONE);
+		}
 	}
 
 	@OnClick(R.id.apply_btn)
 	void apply_onClick() {
-		final VolunteerApplyDialog dialog = new VolunteerApplyDialog(this, isInternalApply, mVolunteerDetail.mResult);
-		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dlg) {
-				finish();
-			}
-		});
+		if (UserServiceManager.isLogin() == false) {
+			Toast.makeText(this, R.string.error_message_login, Toast.LENGTH_SHORT).show();
+			return;
+		}
 
-		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+		final VolunteerApplyDialog dialog = new VolunteerApplyDialog(this, isInternalApply, mVolunteerDetail.mResult);
+		dialog.setListener(new VolunteerApplyDialog.VolunteerApplyListener() {
 			@Override
-			public void onCancel(DialogInterface dialog) {
+			public void onVolunteerApply() {
+				if (isInternalApply == false
+						&& TextUtils.isEmpty(mVolunteerDetail.mResult.mInternalLinkUrl)) {
+					moveToWebSite(mVolunteerDetail.mResult.mInternalLinkUrl);
+				}
+
+				mApplyBtn.setVisibility(View.GONE);
+				mApplyCancelBtn.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onCancel() {
 
 			}
 		});
@@ -163,12 +184,41 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 
 	@OnClick(R.id.apply_cancel_btn)
 	void apply_cancel_onClick() {
-		Toast.makeText(this, "신청이 취소 되었습니다.", Toast.LENGTH_SHORT).show();
-		mApplyBtn.setVisibility(View.VISIBLE);
-		mApplyCancelBtn.setVisibility(View.GONE);
-		//todo cancel schuedule logic
+		showProgressDialog(false);
+		VocketServiceManager.applyVolunteer(mVolunteerDetail.mResult.mId,
+											false,
+											null,
+											null,
+											null)
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
+				.subscribe(new EmptySubscriber<Response<BaseResponse<Participate>>>() {
+					@Override
+					public void onError(Throwable e) {
+						if (ExceptionHelper.isNetworkError(e)) {
+							Toast.makeText(VolunteerReadActivity.this, R.string.error_message_network, Toast.LENGTH_SHORT).show();
+							return;
+						}
+					}
 
-//		ScheduleServiceManager.
+					@Override
+					public void onNext(Response<BaseResponse<Participate>> baseResponseResponse) {
+						Toast.makeText(VolunteerReadActivity.this, R.string.volunteer_read_apply_cancel_message, Toast.LENGTH_SHORT).show();
+
+						mApplyBtn.setVisibility(View.VISIBLE);
+						mApplyCancelBtn.setVisibility(View.GONE);
+					}
+				});
+	}
+
+	private void moveToWebSite(String url) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+		startActivity(intent);
 	}
 
 	@OnClick(R.id.write_diary_btn)

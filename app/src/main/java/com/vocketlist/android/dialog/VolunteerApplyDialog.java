@@ -35,9 +35,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 
 public class VolunteerApplyDialog extends Dialog {
-    private final boolean mIsInternal;
-    protected final VolunteerDetail mVolunteerDetail;
-
     @BindView(R.id.dialog_apply_name_layer) protected RelativeLayout mNameLayer;
     @BindView(R.id.dialog_apply_email_layer) protected RelativeLayout mEmailLayer;
     @BindView(R.id.dialog_apply_phone_layer) protected RelativeLayout mPhoneLayer;
@@ -46,6 +43,10 @@ public class VolunteerApplyDialog extends Dialog {
     @BindView(R.id.dialog_apply_phone_edt) protected EditText mPhoneView;
     @BindView(R.id.dialog_apply_date_time) protected TextView mDateTimeView;
     @BindView(R.id.dialog_apply_title) protected TextView mTitleView;
+
+    private final boolean mIsInternal;
+    private final VolunteerDetail mVolunteerDetail;
+    private VolunteerApplyListener mVolunteerApplyListener = null;
 
     public VolunteerApplyDialog(@NonNull Context context, boolean isInternal, VolunteerDetail volunteerDetail) {
         super(context);
@@ -58,7 +59,6 @@ public class VolunteerApplyDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setContentView(mIsInternal ? R.layout.dialog_vocket_apply : R.layout.dialog_vocket_internal_apply);
         setContentView(R.layout.dialog_vocket_apply);
 
         ButterKnife.bind(this);
@@ -73,12 +73,14 @@ public class VolunteerApplyDialog extends Dialog {
                                                         mVolunteerDetail.mStartTime,
                                                         mVolunteerDetail.mEndTime));
 
-        if (mIsInternal == false) {
+        if (mIsInternal) {
             mNameLayer.setVisibility(View.GONE);
             mEmailLayer.setVisibility(View.GONE);
             mPhoneLayer.setVisibility(View.GONE);
         } else {
-
+            mNameLayer.setVisibility(View.VISIBLE);
+            mEmailLayer.setVisibility(View.VISIBLE);
+            mPhoneLayer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -91,9 +93,11 @@ public class VolunteerApplyDialog extends Dialog {
             return;
         }
 
-        VocketServiceManager.applyVolunteer(mVolunteerDetail.mOrganzationId,
+        VocketServiceManager.applyVolunteer(mVolunteerDetail.mId,
+                                            true,
                                             TextUtils.isEmpty(mNameView.getText()) ? null : mNameView.getText().toString(),
-                                            TextUtils.isEmpty(mPhoneView.getText()) ? null : mPhoneView.getText().toString())
+                                            TextUtils.isEmpty(mPhoneView.getText()) ? null : mPhoneView.getText().toString(),
+                                            TextUtils.isEmpty(mEmailView.getText()) ? null : mEmailView.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new EmptySubscriber<Response<BaseResponse<Participate>>>() {
                     @Override
@@ -107,13 +111,18 @@ public class VolunteerApplyDialog extends Dialog {
                     @Override
                     public void onNext(Response<BaseResponse<Participate>> baseResponseResponse) {
                         Toast.makeText(getContext(), R.string.toast_volunteer_apply_dialog_success_message, Toast.LENGTH_SHORT).show();
+
+                        if (mVolunteerApplyListener != null) {
+                            mVolunteerApplyListener.onVolunteerApply();
+                        }
+
                         dismiss();
                     }
                 });
     }
 
     private boolean isValid(String name, String email, String phoneNumber) {
-        if (mIsInternal == false) {
+        if (mIsInternal) {
             return true;
         }
 
@@ -141,17 +150,7 @@ public class VolunteerApplyDialog extends Dialog {
     }
 
     private boolean isPhoneValid(String phoneNumber) {
-        boolean isValid = false;
-
-        String expression = "(01[016789])(\\d{3,4})(\\d{4})";
-
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        if (matcher.matches()) {
-            isValid = true;
-        }
-        return isValid;
-
+        return true;
     }
 
 
@@ -170,6 +169,19 @@ public class VolunteerApplyDialog extends Dialog {
 
     @OnClick(R.id.dialog_apply_cancel_btn)
     protected void onClickApplyCancelBtn(View view) {
+        if (mVolunteerApplyListener != null) {
+            mVolunteerApplyListener.onCancel();
+        }
+
         cancel();
+    }
+
+    public void setListener(VolunteerApplyListener listener) {
+        mVolunteerApplyListener = listener;
+    }
+
+    public interface VolunteerApplyListener {
+        void onVolunteerApply();
+        void onCancel();
     }
 }

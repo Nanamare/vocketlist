@@ -279,7 +279,7 @@ public class ProfileActivity extends DepthBaseActivity implements
 		List<String> favoriteList = mAdapter.getSelectedItems();
 
 		// todo : 0은 차후에 시군구 선택하는 다이얼로그를 통해 값을 넘겨야 함.
-		UserServiceManager.setFavorite(favoriteList, 0)
+		UserServiceManager.setFavorite(favoriteList, null)
 				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>());
 	}
 }
