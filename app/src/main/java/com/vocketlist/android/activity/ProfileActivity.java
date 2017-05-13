@@ -27,9 +27,11 @@ import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.preference.FacebookPreperence;
+import com.vocketlist.android.view.LocalSelectView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,6 +71,10 @@ public class ProfileActivity extends DepthBaseActivity implements
 	@BindView(R.id.rgGender) RadioGroup rgGender;
 
 	@BindView(R.id.rvCategory) RecyclerView rvCategory;
+
+	@BindView(R.id.local_select_first_view) LocalSelectView localFirstView;
+	@BindView(R.id.local_select_second_view) LocalSelectView localSecondView;
+
 
 	@BindDimen(R.dimen.category_grid_spacing) int categoryGridSpacing;
 	@BindArray(R.array.categories) String[] categories;
@@ -126,6 +132,8 @@ public class ProfileActivity extends DepthBaseActivity implements
 
 		//
 		handleIntent();
+
+		//
 	}
 
 	@Override
@@ -258,6 +266,8 @@ public class ProfileActivity extends DepthBaseActivity implements
 					public void onNext(Response<BaseResponse<FavoritListModel>> baseResponseResponse) {
 						FavoritListModel model = baseResponseResponse.body().mResult;
 
+						setLocalData(model.mAddress);
+
 						mAdapter.clearSelections();
 						for (String name : model.mFavoriteList) {
 							mAdapter.setSelection(name, true);
@@ -266,15 +276,25 @@ public class ProfileActivity extends DepthBaseActivity implements
 				});
 	}
 
+	//데이터가 항상 두개다 들어있는 것은 아닐수 있음
+	private void setLocalData(List<FavoritListModel.Region> mAddress) {
+		localFirstView.setInitValue(mAddress.get(0));
+		localSecondView.setInitValue(mAddress.get(1));
+	}
+
 	private void saveFavoriteList() {
 		if (mAdapter == null) {
 			return;
 		}
 
 		List<String> favoriteList = mAdapter.getSelectedItems();
+		List<Integer> localList = new ArrayList<>();
+		localList.add(localFirstView.getLocalDetailId());
+		localList.add(localSecondView.getLocalDetailId());
 
 		// todo : 0은 차후에 시군구 선택하는 다이얼로그를 통해 값을 넘겨야 함.
-		UserServiceManager.setFavorite(favoriteList, null)
+		UserServiceManager.setFavorite(favoriteList, localList)
 				.subscribe(new EmptySubscriber<Response<BaseResponse<FavoritListModel>>>());
+
 	}
 }

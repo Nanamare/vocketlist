@@ -302,64 +302,33 @@
             <!-- 지역 : 선택 -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittextbackground"
-                    android:gravity="center"
-                    android:text="도"
-                    android:textColor="@color/material_black"
-                    android:textSize="@dimen/font_30" />
 
-                <View
-                    android:layout_width="6.7dp"
-                    android:layout_height="match_parent" />
+                <com.vocketlist.android.view.LocalSelectView
+                    android:id="@+id/local_select_first_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.vocketlist.android.view.LocalSelectView>
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittextbackground"
-                    android:gravity="center"
-                    android:text="시군구"
-                    android:textColor="@color/material_black"
-                    android:textSize="@dimen/font_30" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittextbackground"
-                    android:gravity="center"
-                    android:text="도"
-                    android:textColor="@color/material_black"
-                    android:textSize="@dimen/font_30" />
 
-                <View
-                    android:layout_width="6.7dp"
-                    android:layout_height="match_parent" />
+                <com.vocketlist.android.view.LocalSelectView
+                    android:id="@+id/local_select_second_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.vocketlist.android.view.LocalSelectView>
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittextbackground"
-                    android:gravity="center"
-                    android:text="시군구"
-                    android:textColor="@color/material_black"
-                    android:textSize="@dimen/font_30" />
             </LinearLayout>
 
         </LinearLayout>

@@ -126,6 +126,7 @@
     <!-- popup filter -->
     <string name="popup_filter_volunteer_date">봉사 날짜</string>
     <string name="popup_filter_volunteer_place">지역</string>
+    <string name="popup_filter_blank_alert">선택되지 않은 항목이 있습니다.</string>
 
     <!-- 힌트 -->
     <string name="hint_search">검색어를 입력하세요</string>
