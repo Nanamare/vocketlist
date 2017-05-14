@@ -17,6 +17,7 @@ import java.util.List;
  * @since 2017. 2. 14.
  */
 public class VolunteerSearchAdapter extends BaseAdapter<Volunteer.Data, VolunteerSearchViewHolder> {
+    private VolunteerSearchViewHolder.VolunteerSearchItemClickListener mListener;
 
     /**
      * 생성자
@@ -29,6 +30,13 @@ public class VolunteerSearchAdapter extends BaseAdapter<Volunteer.Data, Voluntee
     @Override
     public VolunteerSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Ln.d("VolunteerSearchAdapter");
-        return new VolunteerSearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_search, parent, false));
+        VolunteerSearchViewHolder view =  new VolunteerSearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_search, parent, false));
+        view.setListener(mListener);
+
+        return view;
+    }
+
+    public void setListener(VolunteerSearchViewHolder.VolunteerSearchItemClickListener listener) {
+        mListener = listener;
     }
 }

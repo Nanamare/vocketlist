@@ -19,12 +19,23 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
 
+    private VolunteerSearchItemClickListener mListener;
+
     /**
      * 생성자
      * @param itemView
      */
     public VolunteerSearchViewHolder(View itemView) {
         super(itemView);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener !=null) {
+                    mListener.onClickVolunteerItem(data);
+                }
+            }
+        });
     }
 
     @Override
@@ -32,5 +43,13 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
         Ln.d("VolunteerSearchViewHolder.bind()");
         Volunteer.Data volunteer = data;
         tvVolunteer.setText(volunteer.mTitle);
+    }
+
+    public void setListener(VolunteerSearchItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface VolunteerSearchItemClickListener {
+        void onClickVolunteerItem(Volunteer.Data data);
     }
 }

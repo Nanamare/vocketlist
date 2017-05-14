@@ -12,11 +12,13 @@ import android.util.TypedValue;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerSearchAdapter;
+import com.vocketlist.android.adapter.viewholder.VolunteerSearchViewHolder;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
-import com.vocketlist.android.decoration.DividerInItemDecoration;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.service.EmptySubscriber;
+
+import java.util.ArrayList;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -28,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by SeungTaek.Lim on 2017. 5. 13..
  */
 
-public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryTextListener {
+public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryTextListener, VolunteerSearchViewHolder.VolunteerSearchItemClickListener {
     @BindView(R.id.dialog_volunteer_search_recyclerView) protected SuperRecyclerView mSearchRecycleView;
     @BindView(R.id.dialog_volunteer_search_view) protected SearchView mSearchView;
 
@@ -63,10 +65,11 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mSearchRecycleView.setLayoutManager(layoutManager);
-        mSearchRecycleView.addItemDecoration(new DividerInItemDecoration(getContext(), layoutManager.getOrientation())); // 구분선
+//        mSearchRecycleView.addItemDecoration(new DividerInItemDecoration(getContext(), layoutManager.getOrientation())); // 구분선
 
         // 데이터 설정
-        mSearchAdapter = new VolunteerSearchAdapter(null);
+        mSearchAdapter = new VolunteerSearchAdapter(new ArrayList<>());
+        mSearchAdapter.setListener(this);
         mSearchRecycleView.setAdapter(mSearchAdapter);
     }
 
@@ -124,9 +127,14 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
                         }
 
                         mSearchAdapter.setList(baseResponseResponse.body().mResult.mDataList);
-                        mSearchAdapter.notifyDataSetChanged();
                     }
                 });
     }
+
+    @Override
+    public void onClickVolunteerItem(Volunteer.Data data) {
+
+    }
+
 
 }
