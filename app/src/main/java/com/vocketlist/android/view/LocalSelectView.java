@@ -6,7 +6,6 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
@@ -21,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -42,6 +42,11 @@ public class LocalSelectView extends LinearLayout {
 	private List<FirstAddress> sFirstAddress;
 	private int localDetailId;
 
+	private String formerLocalNm;
+
+	private int firstPosition;
+	private int secondPosition;
+
 	public LocalSelectView(Context context) {
 		this(context, null);
 	}
@@ -56,7 +61,8 @@ public class LocalSelectView extends LinearLayout {
 		ButterKnife.bind(this,v);
 
 		initFirstSpinner();
-		initSecondSpinner(BASEVALUE);
+
+
 	}
 
 
@@ -78,19 +84,11 @@ public class LocalSelectView extends LinearLayout {
 		local_spinner.setAdapter(localAdapter);
 		local_spinner.setPrompt("지역 설정");
 
-		local_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-				initSecondSpinner(position);
-			}
+	}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> adapterView) {
-
-			}
-		});
-
-
+	@OnItemSelected(R.id.local_spinner)
+	void spinnerOnCick(int position){
+		initSecondSpinner(position);
 	}
 
 	private void initSecondSpinner(int position) {
@@ -110,20 +108,17 @@ public class LocalSelectView extends LinearLayout {
 
 		local_detail_spinner.setAdapter(localAdapter);
 		local_detail_spinner.setPrompt("지역 세부 설정");
+		if(sFirstAddress.get(position).mName.equals(formerLocalNm)) {
+			local_detail_spinner.setSelection(secondPosition);
+		} else {
+			local_detail_spinner.setSelection(0);
+		}
 
-		local_detail_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				localDetailId = getSecondAddress.get(i).mId;
-			}
+	}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> adapterView) {
-
-			}
-		});
-
-
+	@OnItemSelected(R.id.local_detail_spinner)
+	void detailSpinerOnclick(int position){
+		localDetailId = getSecondAddress.get(position).mId;
 	}
 
 	public int getLocalDetailId(){
@@ -132,8 +127,6 @@ public class LocalSelectView extends LinearLayout {
 
 	public void setInitValue(FavoritListModel.Region mAddress) {
 
-		int firstPosition = 0;
-		int secondPosition = 0;
 		List<Integer> array = new ArrayList<>();
 
 		array.add(mAddress.mFirstAddressId);
@@ -144,6 +137,8 @@ public class LocalSelectView extends LinearLayout {
 				firstPosition = position;
 			}
 		}
+		formerLocalNm = sFirstAddress.get(firstPosition).mName;
+		getSecondAddress = AddressServiceManager.getSecondAddress(sFirstAddress.get(firstPosition).mName);
 
 		for (int position = 0; position < getSecondAddress.size(); position++) {
 			if (array.get(1) == getSecondAddress.get(position).mId) {
@@ -151,9 +146,9 @@ public class LocalSelectView extends LinearLayout {
 			}
 		}
 
-		local_spinner.setSelection(firstPosition);
-		local_detail_spinner.setSelection(secondPosition);
-	}
 
+		local_spinner.setSelection(firstPosition);
+
+	}
 
 }
