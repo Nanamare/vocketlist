@@ -1,9 +1,6 @@
 package com.vocketlist.android.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -11,14 +8,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,7 +40,6 @@ import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -335,31 +329,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		}
 	}
 
-	private BroadcastReceiver badgeReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// Get the received random number
-			int badgeCount = intent.getIntExtra("badgeCount", 0);
-			updateBadge(badgeCount);
-		}
-	};
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		LocalBroadcastManager.getInstance(this).registerReceiver(
-				badgeReceiver,
-				new IntentFilter("badgeCount")
-		);
+
 	}
 
-	private void updateBadge(int count) {
-		ShortcutBadger.applyCount(this, count); //for 1.1.4+
-	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(badgeReceiver);
 	}
 }

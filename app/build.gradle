@@ -168,9 +168,6 @@ dependencies {
     // 스티키 헤더 : https://github.com/ShamylZakariya/StickyHeaders
     compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
 
-    //badge
-    compile 'me.leolin:ShortcutBadger:1.1.13@aar'
-
     //firebase-auth
     compile 'com.google.firebase:firebase-auth:10.0.1'
 
