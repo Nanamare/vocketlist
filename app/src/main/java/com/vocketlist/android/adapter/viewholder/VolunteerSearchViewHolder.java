@@ -1,11 +1,12 @@
 package com.vocketlist.android.adapter.viewholder;
 
 import android.support.v7.widget.AppCompatTextView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.vocket.Volunteer;
-import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
 
@@ -21,11 +22,15 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     private VolunteerSearchItemClickListener mListener;
 
+    public static VolunteerSearchViewHolder create(ViewGroup parent) {
+        return new VolunteerSearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_search, parent, false));
+    }
+
     /**
      * 생성자
      * @param itemView
      */
-    public VolunteerSearchViewHolder(View itemView) {
+    private VolunteerSearchViewHolder(View itemView) {
         super(itemView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -40,9 +45,9 @@ public class VolunteerSearchViewHolder extends BaseViewHolder<Volunteer.Data> {
 
     @Override
     public void bind(Volunteer.Data data) {
-        Ln.d("VolunteerSearchViewHolder.bind()");
-        Volunteer.Data volunteer = data;
-        tvVolunteer.setText(volunteer.mTitle);
+        super.bind(data);
+
+        tvVolunteer.setText(data.mTitle);
     }
 
     public void setListener(VolunteerSearchItemClickListener listener) {

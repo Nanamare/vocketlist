@@ -1,9 +1,7 @@
 package com.vocketlist.android.adapter;
 
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.VolunteerSearchViewHolder;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -30,7 +28,7 @@ public class VolunteerSearchAdapter extends BaseAdapter<Volunteer.Data, Voluntee
     @Override
     public VolunteerSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Ln.d("VolunteerSearchAdapter");
-        VolunteerSearchViewHolder view =  new VolunteerSearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_search, parent, false));
+        VolunteerSearchViewHolder view =  VolunteerSearchViewHolder.create(parent);
         view.setListener(mListener);
 
         return view;
