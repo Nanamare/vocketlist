@@ -1,28 +1,16 @@
 package com.vocketlist.android.fragment;
 
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
-import com.kakao.kakaolink.KakaoLink;
-import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
@@ -45,7 +33,6 @@ import java.util.ArrayList;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 
 /**
  * Created by kinamare on 2017-02-20.
@@ -123,6 +110,17 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 
 		reqList(page, searchKeyword);
 		return true;
+	}
+
+	@Override
+	public void closeSearchView() {
+		super.closeSearchView();
+
+		searchKeyword = null;
+		page = 1;
+
+		reqList(page, searchKeyword);
+
 	}
 
 	@Override

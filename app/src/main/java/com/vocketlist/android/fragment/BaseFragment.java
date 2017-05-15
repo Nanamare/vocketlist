@@ -2,10 +2,12 @@ package com.vocketlist.android.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.vocketlist.android.R;
 import com.vocketlist.android.roboguice.log.Ln;
@@ -17,7 +19,12 @@ import com.vocketlist.android.roboguice.log.Ln;
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
-public class BaseFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class BaseFragment extends Fragment implements SearchView.OnQueryTextListener,
+View.OnClickListener {
+
+    private MenuItem mi;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -30,10 +37,28 @@ public class BaseFragment extends Fragment implements SearchView.OnQueryTextList
         inflater.inflate(R.menu.search, menu);
 
         // 검색
-        MenuItem mi = menu.findItem(R.id.action_search);
+        mi = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(mi, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                //setOnQueryTextListener의 문제로 여기서 searchView를 보여주지 않음
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                closeSearchView();
+                return true;
+            }
+        });
+
         SearchView sv = (SearchView) mi.getActionView();
         sv.setQueryHint(getString(R.string.hint_search));
         sv.setOnQueryTextListener(this);
+
+        View closeButton = sv.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+        closeButton.setOnClickListener(this);
+
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -48,5 +73,21 @@ public class BaseFragment extends Fragment implements SearchView.OnQueryTextList
     public boolean onQueryTextChange(String newText) {
         Ln.d("onQueryTextChange : " + newText + ", class : " + this.getClass().getSimpleName());
         return true;
+    }
+
+    public void closeSearchView() {
+        //before request server, if you need to add code Todo
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case android.support.v7.appcompat.R.id.search_close_btn : {
+                mi.collapseActionView();
+                closeSearchView();
+                break;
+            }
+        }
     }
 }

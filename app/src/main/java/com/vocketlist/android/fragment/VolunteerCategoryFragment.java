@@ -236,4 +236,16 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, page);
 		return true;
 	}
+
+	@Override
+	public void closeSearchView() {
+		super.closeSearchView();
+
+		page = 1;
+		searchKeyword = null;
+		requestVocketList(category, startDate, endDate, secondAddressId, useVocketList, searchKeyword, page);
+
+	}
+
+
 }
