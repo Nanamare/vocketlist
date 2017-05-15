@@ -3,6 +3,7 @@ package com.vocketlist.android.fragment;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -91,9 +92,9 @@ public class VolunteerFragment extends BaseFragment {
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAsDropDown(filterView,0,0);
 
+
         AppCompatTextView startTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_start_date_tv);
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
-//        LinearLayout layout = (LinearLayout)popupView.findViewById(R.id.popup_filter_layout);
         LocalSelectView localSelectView = (LocalSelectView) popupView.findViewById(R.id.local_select_view);
         AppCompatTextView localDoneBtn = (AppCompatTextView) popupView.findViewById(R.id.popup_filter_done_btn);
 

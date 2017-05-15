@@ -61,7 +61,7 @@ public class LocalSelectView extends LinearLayout {
 		ButterKnife.bind(this,v);
 
 		initFirstSpinner();
-
+		initSecondSpinner(BASEVALUE);
 
 	}
 
