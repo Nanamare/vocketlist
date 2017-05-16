@@ -1,7 +1,8 @@
 package com.vocketlist.android.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
@@ -43,6 +43,7 @@ import butterknife.OnTextChanged;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * 목표관리
@@ -56,6 +57,7 @@ public class MyListActivity extends DepthBaseActivity implements
 	, RecyclerViewItemClickListener
 {
 	private static final String TAG = MyListActivity.class.getSimpleName();
+	private static final int REQUEST_WRITE_COMMUNITY = 1000;
 
 	@BindView(R.id.toolbar)	Toolbar toolbar;
 	@BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
@@ -181,7 +183,10 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param data
 	 */
 	private void doCertification(MyListModel.MyList data) {
-		// TODO 인증하러가기
+		Intent intent = new Intent(this, PostCUActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(PostCUActivity.EXTRA_KEY_MYLIST_DATA, data);
+		startActivityForResult(intent, REQUEST_WRITE_COMMUNITY);
 	}
 
 	/**
@@ -245,15 +250,31 @@ public class MyListActivity extends DepthBaseActivity implements
 				});
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode != REQUEST_WRITE_COMMUNITY
+				|| resultCode != Activity.RESULT_OK) {
+			return;
+		}
+
+		reqList(mCalendar.get(Calendar.YEAR), 1);
+	}
+
 	/**
 	 * 응답 : 목록
 	 * @param response
 	 */
 	private void resList(BaseResponse<MyListModel> response) {
 		List<MyListModel.MyList> myLists = response.mResult.mMyListList;
-		if (myLists != null)
+		if (myLists != null) {
 			recyclerView.setAdapter(mAdapter = new MyListAdapter(myLists, this));
-		else recyclerView.hideProgress();
+			mAdapter.notifyDataSetChanged();
+
+		} else {
+			recyclerView.hideProgress();
+		}
 	}
 
 	/**
@@ -261,8 +282,16 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param content
 	 */
 	private void reqAdd(int year, String content) {
+		showProgressDialog(true);
+
 		MyListServiceManager.write(year, content, false)
 				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
 				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
 					@Override
 					public void onNext(Response<BaseResponse<MyListModel.MyList>> baseResponseResponse) {
@@ -276,8 +305,16 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param id
 	 */
 	private void reqDelete(int id) {
+		showProgressDialog(true);
+
 		MyListServiceManager.delete(id)
 				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
 				.subscribe(new EmptySubscriber<Response<BaseResponse<Void>>>() {
 					@Override
 					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
@@ -292,8 +329,16 @@ public class MyListActivity extends DepthBaseActivity implements
 	 * @param contents
 	 */
 	private void reqModify(int id, String contents) {
+		showProgressDialog(true);
+
 		MyListServiceManager.modify(id, contents, false)
 				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
 				.subscribe(new EmptySubscriber<Response<BaseResponse<MyListModel.MyList>>>() {
 					@Override
 					public void onNext(Response<BaseResponse<MyListModel.MyList>> baseResponseResponse) {

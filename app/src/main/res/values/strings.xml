@@ -216,6 +216,7 @@
     <string name="community_volunteer">\#%1$s</string>
 
     <!-- 커뮤니티 글쓰기 -->
+    <string name="community_write_empty_contents_message">입력된 내용이 없습니다.</string>
 
     <!-- common error message -->
     <string name="error_message_network">네트워크 상태가 좋지 않습니다.</string>

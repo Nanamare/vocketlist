@@ -3,6 +3,7 @@ package com.vocketlist.android.util;
 import rx.subjects.PublishSubject;
 
 /**
+ * description nanamare.tistory.com/8
  * Created by kinamare on 2017-05-12.
  */
 

@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@drawable/layout_border"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="20dp">
+              android:id="@+id/popup_filter_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/layout_border"
+              android:orientation="vertical"
+              android:paddingBottom="20dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="20dp">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
         <android.support.v7.widget.AppCompatTextView
-            android:text="@string/popup_filter_volunteer_date"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="13.3dp"
-            android:textColor="#5fb0da"/>
+            android:layout_weight="1"
+            android:text="@string/popup_filter_volunteer_date"
+            android:textColor="#5fb0da"
+            android:textSize="13.3dp"/>
 
         <android.support.v7.widget.AppCompatTextView
-            android:gravity="center_horizontal"
-            android:background="@drawable/bg_rectangle"
             android:id="@+id/popup_filter_start_date_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.25"
+            android:background="@drawable/bg_rectangle"
+            android:gravity="center_horizontal"
             android:hint="시작 날짜 정하기"/>
 
         <View
-            android:layout_weight="0.5"
             android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
 
         <android.support.v7.widget.AppCompatTextView
-            android:gravity="center_horizontal"
-            android:background="@drawable/bg_rectangle"
             android:id="@+id/popup_filter_end_date_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.25"
+            android:background="@drawable/bg_rectangle"
+            android:gravity="center_horizontal"
             android:hint="종료 날짜 정하기"/>
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:weightSum="6"
-        android:id="@+id/popup_filter_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:weightSum="6">
 
         <android.support.v7.widget.AppCompatTextView
-            android:text="@string/popup_filter_volunteer_place"
-            android:textSize="13.3dp"
-            android:textColor="#5fb0da"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/popup_filter_volunteer_place"
+            android:textColor="#5fb0da"
+            android:textSize="13.3dp"/>
 
         <com.vocketlist.android.view.LocalSelectView
             android:id="@+id/local_select_view"
-            android:layout_weight="5"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
         </com.vocketlist.android.view.LocalSelectView>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10.7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="10.7dp"
+        android:orientation="horizontal"
+        android:padding="0dp">
 
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="0dp"
+            android:padding="0dp"
             android:text="보킷만 모아보기"
             android:textColor="#808080"
-            android:textSize="10dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="10dp"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/popup_filter_done_btn"
@@ -97,11 +97,11 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="right|center"
-            android:textStyle="bold"
+            android:paddingLeft="10dp"
             android:text="적용하기"
             android:textColor="#5fb0da"
             android:textSize="14dp"
-            android:paddingLeft="10dp"/>
+            android:textStyle="bold"/>
     </LinearLayout>
 
 

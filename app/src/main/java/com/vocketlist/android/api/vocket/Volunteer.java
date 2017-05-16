@@ -7,14 +7,12 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 데이터 : 봉사활동리스트 : 더미
+ * 데이터 : 봉사활동리스트
  *
  * @author Jungho Song (dev@threeword.com)
  * @since 2017. 2. 14.
  */
 public class Volunteer implements Serializable {
-
-
 	@SerializedName("page_count") public int mPageCount;
 	@SerializedName("page_current") public int mPageCurrent;
 	@SerializedName("links") public Link mLink;
@@ -32,7 +30,4 @@ public class Volunteer implements Serializable {
 		@SerializedName("second_register_office") public String mSecondOffice;
 		@SerializedName("image")public String mImageUrl;
 	}
-
-
-	
 }

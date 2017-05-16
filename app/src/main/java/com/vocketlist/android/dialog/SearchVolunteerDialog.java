@@ -12,11 +12,14 @@ import android.util.TypedValue;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.VolunteerSearchAdapter;
+import com.vocketlist.android.adapter.viewholder.VolunteerSearchViewHolder;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
-import com.vocketlist.android.decoration.DividerInItemDecoration;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.service.EmptySubscriber;
+import com.vocketlist.android.roboguice.log.Ln;
+
+import java.util.ArrayList;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -28,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by SeungTaek.Lim on 2017. 5. 13..
  */
 
-public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryTextListener {
+public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryTextListener, VolunteerSearchViewHolder.VolunteerSearchItemClickListener {
     @BindView(R.id.dialog_volunteer_search_recyclerView) protected SuperRecyclerView mSearchRecycleView;
     @BindView(R.id.dialog_volunteer_search_view) protected SearchView mSearchView;
 
@@ -37,13 +40,19 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
     protected VolunteerSearchAdapter mSearchAdapter;
     private SearchQueryRunnable mSearchQueryRunnable;
     private Handler mSearchQueryHandler = new Handler();
+    private SearchDialogListener mListener;
 
     public SearchVolunteerDialog(@NonNull Context context) {
         super(context);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.dialog_search);
 
         ButterKnife.bind(this);
-
         initViews();
     }
 
@@ -63,36 +72,36 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mSearchRecycleView.setLayoutManager(layoutManager);
-        mSearchRecycleView.addItemDecoration(new DividerInItemDecoration(getContext(), layoutManager.getOrientation())); // 구분선
 
         // 데이터 설정
-        mSearchAdapter = new VolunteerSearchAdapter(null);
+        mSearchAdapter = new VolunteerSearchAdapter(new ArrayList<>());
+        mSearchAdapter.setListener(this);
         mSearchRecycleView.setAdapter(mSearchAdapter);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        serch(query);
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        serch(newText);
+
+        return false;
+    }
+
+    private void serch(String keyword) {
         // 실시간으로 처리하지 말고 재입력 시간 Delay 후에 서버에 쿼리 요청
         if (mSearchQueryRunnable != null) {
             mSearchQueryHandler.removeCallbacks(mSearchQueryRunnable);
         }
 
         mSearchQueryHandler.postDelayed(
-                mSearchQueryRunnable = new SearchQueryRunnable(newText),
+                mSearchQueryRunnable = new SearchQueryRunnable(keyword),
                 500
         );
-
-        return false;
     }
 
     private class SearchQueryRunnable implements Runnable {
@@ -123,10 +132,25 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
                             return;
                         }
 
+                        Ln.d("reqVolunteers() size : " + baseResponseResponse.body().mResult.mDataList.size());
                         mSearchAdapter.setList(baseResponseResponse.body().mResult.mDataList);
-                        mSearchAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
+    @Override
+    public void onClickVolunteerItem(Volunteer.Data data) {
+        if (mListener != null) {
+            mListener.onSelectedItem(data);
+        }
+        dismiss();
+    }
+
+    public void setListener(SearchDialogListener listener) {
+        mListener = listener;
+    }
+
+    public interface SearchDialogListener {
+        void onSelectedItem(Volunteer.Data data);
+    }
 }

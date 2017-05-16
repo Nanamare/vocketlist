@@ -16,6 +16,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.api.vocket.Participate;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
+import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.api.vocket.VolunteerDetail;
 import com.vocketlist.android.dialog.VolunteerApplyDialog;
 import com.vocketlist.android.dto.BaseResponse;
@@ -225,6 +226,22 @@ public class VolunteerReadActivity extends DepthBaseActivity {
 	void onClickWriteDiary() {
 		Intent intent = new Intent(this, PostCUActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(PostCUActivity.EXTRA_KEY_VOLUNTEER_DATA, getVolunteerData(mVolunteerDetail.mResult));
 		startActivityForResult(intent, REQUEST_WRITE_COMMUNITY);
+	}
+
+	private Volunteer.Data getVolunteerData(VolunteerDetail detail) {
+		Volunteer.Data data = new Volunteer.Data();
+
+		data.mTitle = detail.mTitle;
+		data.mId = detail.mId;
+		data.mOrganizationId = detail.mOrganzationId;
+		data.mFirstOffice = detail.mFirstRegisterOffice;
+		data.mSecondOffice = detail.mSecondRegisterOffice;
+		data.mImageUrl = detail.mImageUrl;
+		data.mIsActive = detail.mIsActive;
+		data.mStartDate = detail.mStartDate;
+
+		return data;
 	}
 }
