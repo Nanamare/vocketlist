@@ -31,8 +31,8 @@ public final class CommentServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentListModel>()));
     }
 
-    public static Observable<Response<BaseResponse<CommentWriteModel>>> write(int postId, int parentCommentId, String content) {
-        Observable<Response<BaseResponse<CommentWriteModel>>> observable;
+    public static Observable<Response<BaseResponse<CommentListModel.Comment>>> write(int postId, int parentCommentId, String content) {
+        Observable<Response<BaseResponse<CommentListModel.Comment>>> observable;
 
         if (parentCommentId > 0) {
             observable = SERVICE.write(postId, parentCommentId, content);
@@ -41,7 +41,7 @@ public final class CommentServiceManager {
         }
 
         return observable.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentWriteModel>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentListModel.Comment>()));
     }
 
     public static Observable<Response<BaseResponse<Void>>> delete(int commentId) {
@@ -56,20 +56,20 @@ public final class CommentServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentDetailModel>()));
     }
 
-    public static Observable<Response<BaseResponse<CommentWriteModel>>> modify(int commentId, String content) {
-        return modify(commentId, 0, content);
+    public static Observable<Response<BaseResponse<CommentListModel.Comment>>> modify(int commentId, int postId, String content) {
+        return modify(commentId, postId, 0, content);
     }
 
-    public static Observable<Response<BaseResponse<CommentWriteModel>>> modify(int commentId, int parentCommentId, String content) {
-        Observable<Response<BaseResponse<CommentWriteModel>>> observable;
+    public static Observable<Response<BaseResponse<CommentListModel.Comment>>> modify(int commentId, int postId, int parentCommentId, String content) {
+        Observable<Response<BaseResponse<CommentListModel.Comment>>> observable;
 
         if (parentCommentId > 0) {
-            observable = SERVICE.modify(commentId, parentCommentId, content);
+            observable = SERVICE.modify(commentId, postId, parentCommentId, content);
         } else {
-            observable = SERVICE.modify(commentId, content);
+            observable = SERVICE.modify(commentId, postId, content);
         }
 
         return observable.subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentWriteModel>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommentListModel.Comment>()));
     }
 }

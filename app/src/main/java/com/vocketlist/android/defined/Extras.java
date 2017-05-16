@@ -13,4 +13,10 @@ public class Extras {
     public static final String FB_PROFILE = "fbProfile";
     public static final String FB_FIRST_NAME = "fbFirstName";
     public static final String FB_LAST_NAME = "fbFirstName";
+
+    public static final String DATA = "data";
+    public static final String IS_WRITE = "isWrite";
+
+    public static final String SAVED = "save";
+    public static final String IS_CHANGED = "isChanged";
 }

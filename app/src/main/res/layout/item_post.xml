@@ -103,10 +103,11 @@
         android:layout_marginRight="19.3dp"
         android:layout_marginTop="11.7dp"
         android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="#7f7f7f"
         android:textSize="@dimen/font_40"
         android:textStyle="bold"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:text="봉사활동 이름" />
 
     <!-- 내용 -->
@@ -115,12 +116,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
         android:layout_marginTop="6dp"
+        android:ellipsize="end"
         android:maxLines="3"
         android:textColor="#7f7f7f"
-        android:textSize="11.7dp"
+        android:textSize="@dimen/font_39"
+        android:visibility="visible"
         tools:text="너무 즐거운 봉사활동이었어요 신난당 깍-" />
 
     <!-- 컨트롤러 -->
@@ -132,8 +135,8 @@
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="18.3dp"
-        android:paddingRight="18.3dp">
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
 
         <!-- 좋아요 -->
         <LinearLayout
@@ -159,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4.3dp"
                 android:textColor="@color/point_E47B75"
-                android:textSize="11.7dp"
+                android:textSize="@dimen/font_36"
                 android:textStyle="bold"
                 tools:text="10" />
         </LinearLayout>
@@ -186,13 +189,14 @@
                 android:src="@drawable/ic_action_chat_bubble_outline"
                 android:tint="@color/point_5FA9D0" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4.3dp"
                 android:text="@string/community_comment_write"
                 android:textColor="@color/point_5FA9D0"
-                android:textSize="11.7dp" />
+                android:textSize="@dimen/font_36"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -213,7 +217,7 @@
             android:layout_height="wrap_content"
             android:text="@string/community_comment"
             android:textColor="#b3b3b3"
-            android:textSize="@dimen/font_30" />
+            android:textSize="@dimen/font_36" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tvComment_1"
@@ -224,7 +228,7 @@
             android:maxLines="3"
             android:textColor="#7f7f7f"
             android:textSize="@dimen/font_30"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="신현성  나도 진짜 가고 싶었는데! 담에 같이 ㄱ iashdkalshdfkjhaskjdhfjklashdkljfha lsdhfjknasnzdjklfcnjklahfkjhaskjdhfkjlashkjlhakjshdkjfhasjdkhfajkshkjfhksjdhfjak" />
 
         <android.support.v7.widget.AppCompatTextView
@@ -236,71 +240,8 @@
             android:maxLines="3"
             android:textColor="#7f7f7f"
             android:textSize="@dimen/font_30"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="신현성  나도 진짜 가고 싶었는데! 담에 같이 ㄱ" />
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/llComment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<android.support.v7.widget.AppCompatTextView-->
-        <!--android:id="@+id/CommentUserNm"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="6dp"-->
-        <!--android:ellipsize="end"-->
-        <!--android:maxWidth="100dp"-->
-        <!--android:textColor="#7f7f7f"-->
-        <!--android:textSize="@dimen/font_30"-->
-        <!--android:textStyle="bold"-->
-        <!--tools:text="신현성" />-->
-
-        <!--&lt;!&ndash; 댓글 &ndash;&gt;-->
-        <!--<android.support.v7.widget.AppCompatTextView-->
-        <!--android:id="@+id/tvComment"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:ellipsize="end"-->
-        <!--android:maxLines="1"-->
-        <!--android:textColor="#7f7f7f"-->
-        <!--android:textSize="@dimen/font_30"-->
-        <!--tools:text="나도 진짜 가고 싶었는데! 담에 같이 ㄱ" />-->
-
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/community_list_item_comment_item2_layer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--&lt;!&ndash; 댓글 &ndash;&gt;-->
-        <!--<android.support.v7.widget.AppCompatTextView-->
-        <!--android:id="@+id/CommentUserNm2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="6dp"-->
-        <!--android:ellipsize="end"-->
-        <!--android:maxWidth="100dp"-->
-        <!--android:textColor="#7f7f7f"-->
-        <!--android:textSize="@dimen/font_30"-->
-        <!--android:textStyle="bold"-->
-        <!--tools:text="신현성" />-->
-
-        <!--&lt;!&ndash; 댓글 &ndash;&gt;-->
-        <!--<android.support.v7.widget.AppCompatTextView-->
-        <!--android:id="@+id/tvComment2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:ellipsize="end"-->
-        <!--android:maxLines="1"-->
-        <!--android:textColor="#7f7f7f"-->
-        <!--android:textSize="@dimen/font_30"-->
-        <!--tools:text="나도 진짜 가고 싶었는데! 담에 같이 ㄱ" />-->
-
-        <!--</LinearLayout>-->
 
         <!-- 시간 -->
         <!--<android.support.v7.widget.AppCompatTextView-->

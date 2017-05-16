@@ -1,5 +1,6 @@
 package com.vocketlist.android.api.community.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.comment.model.CommentListModel;
@@ -33,5 +34,7 @@ public class CommunityList implements Serializable {
         @SerializedName("updated") public String mUpdateDate;
         @SerializedName("created") public String mCreateDate;
         @SerializedName("service") public VolunteerDetail mService;
+
+        @Expose public int position;
     }
 }

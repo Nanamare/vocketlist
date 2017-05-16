@@ -1,6 +1,9 @@
 package com.vocketlist.android.api.community.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.vocketlist.android.api.comment.model.CommentListModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 26..
@@ -13,6 +16,7 @@ public class CommunityDetail {
     @SerializedName("content") public String mContent;
     @SerializedName("like_count") public int mLikeCount;
     @SerializedName("like") public boolean mIsLiked;
+    @SerializedName("comments") public ArrayList<CommentListModel.Comment> mComment;
     @SerializedName("updated") public String mUpdated;
     @SerializedName("created") public String mCreated;
 
@@ -39,6 +43,5 @@ public class CommunityDetail {
         @SerializedName("organization_id") public int mOrganiztionId;
         @SerializedName("url") public String mUrl;
         @SerializedName("is_participate") public boolean mIsParticipate;
-
     }
 }

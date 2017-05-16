@@ -42,10 +42,10 @@ public final class CommunityServiceManager {
                 .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityList>()));
     }
 
-    public static Observable<Response<BaseResponse<CommunityDetail>>> detail(int postId) {
+    public static Observable<Response<BaseResponse<CommunityList.CommunityData>>> detail(int postId) {
         return service.detail(postId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityDetail>()));
+                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<CommunityList.CommunityData>()));
     }
 
     public static Observable<Response<BaseResponse<CommunityWrite>>> write(int vocketServiceId, String imagePath, String content) {
@@ -105,8 +105,8 @@ public final class CommunityServiceManager {
 
     public static Observable<Response<BaseResponse<Void>>> delete(int postId) {
         return service.delete(postId)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
+//                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
     }
 
     public static Observable<Response<BaseResponse<CommunityLike>>> like(int postId) {

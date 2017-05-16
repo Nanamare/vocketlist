@@ -36,29 +36,24 @@
                     android:animateLayoutChanges="true"
                     android:gravity="center" />
 
-                <!-- 봉사활동 정보 -->
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/metVolunteer"
+                <!-- 마이 리스트 정보 -->
+                <TextView
+                    android:id="@+id/activity_post_create_mylist_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:hint="@string/hint_join_volunteer"
-                    android:visibility="gone"
-                    app:met_floatingLabel="highlight"
-                    app:met_hideUnderline="true"
-                    app:met_primaryColor="@color/point_5FA9D0" />
+                    android:textSize="13dp"
+                    android:textColor="#e47d75"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
 
-                <!-- 마이리스트 정보 -->
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/metMyList"
+                <!-- 참여 봉사 정보 -->
+                <TextView
+                    android:id="@+id/activity_post_create_volunteer_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="@string/hint_my_list"
-                    android:visibility="gone"
-                    app:met_floatingLabel="highlight"
-                    app:met_hideUnderline="true"
-                    app:met_primaryColor="@color/point_5FA9D0" />
+                    android:textSize="13dp"
+                    android:textColor="#5fb0da"/>
 
                 <!-- 내용 -->
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -127,17 +122,6 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_action_photo_camera"
                     android:textColor="@color/colorPrimary" />
-
-                <!-- 페이스북 자동 포스팅 -->
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/btnFacebook"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_action_facebook2"
-                    android:textColor="@color/colorPrimary" />
-
             </android.support.v7.widget.ButtonBarLayout>
 
         </LinearLayout>

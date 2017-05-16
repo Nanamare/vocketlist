@@ -28,14 +28,14 @@ public interface CommentService {
 
     @FormUrlEncoded
     @POST("comments/")
-    Observable<Response<BaseResponse<CommentWriteModel>>> write(@Field("post_id") int postId,
-                                                                @Field("content") String content);
+    Observable<Response<BaseResponse<CommentListModel.Comment>>> write(@Field("post_id") int postId,
+                                                                        @Field("content") String content);
 
     @FormUrlEncoded
     @POST("comments/")
-    Observable<Response<BaseResponse<CommentWriteModel>>> write(@Field("post_id") int postId,
-                                                                @Field("parent_id") int parentCommentId,
-                                                                @Field("content") String content);
+    Observable<Response<BaseResponse<CommentListModel.Comment>>> write(@Field("post_id") int postId,
+                                                                        @Field("parent_id") int parentCommentId,
+                                                                        @Field("content") String content);
 
     @DELETE("comments/{id}/")
     Observable<Response<BaseResponse<Void>>> delete(@Path("id") int commentId);
@@ -45,19 +45,19 @@ public interface CommentService {
 
     @FormUrlEncoded
     @PATCH("comments/{id}/")
-    Observable<Response<BaseResponse<CommentWriteModel>>> modify(@Path("id") int commentId,
-                                                                 @Field("content") String content);
+    Observable<Response<BaseResponse<CommentListModel.Comment>>> modify(@Path("id") int commentId,
+                                                                        @Field("content") String content);
 
     @FormUrlEncoded
     @PATCH("comments/{id}/")
-    Observable<Response<BaseResponse<CommentWriteModel>>> modify(@Path("id") int commentId,
-                                                                 @Field("post_id") int postId,
-                                                                 @Field("content") String content);
+    Observable<Response<BaseResponse<CommentListModel.Comment>>> modify(@Path("id") int commentId,
+                                                                         @Field("post_id") int postId,
+                                                                         @Field("content") String content);
 
     @FormUrlEncoded
     @PATCH("comments/{id}/")
-    Observable<Response<BaseResponse<CommentWriteModel>>> modify(@Path("id") int commentId,
-                                                                 @Field("post_id") int postId,
-                                                                 @Field("parent_id") int parentCommentId,
-                                                                 @Field("content") String content);
+    Observable<Response<BaseResponse<CommentListModel.Comment>>> modify(@Path("id") int commentId,
+                                                                         @Field("post_id") int postId,
+                                                                         @Field("parent_id") int parentCommentId,
+                                                                         @Field("content") String content);
 }

@@ -5,10 +5,10 @@
               android:layout_height="wrap_content"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
-              android:paddingLeft="20dp"
-              android:paddingRight="20dp"
-              android:paddingTop="27dp"
-              android:paddingBottom="27dp">
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="17dp"
+              android:paddingBottom="17dp">
 
     <TextView
         android:layout_width="wrap_content"

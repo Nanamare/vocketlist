@@ -23,8 +23,12 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
 
     @Override
     public int getItemCount() {
-        if(mData != null) return mData.size();
-        else return 0;
+        if(mData != null) {
+            return mData.size();
+
+        } else {
+            return 0;
+        }
     }
 
     /**
