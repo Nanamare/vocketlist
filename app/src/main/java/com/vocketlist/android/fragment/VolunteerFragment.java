@@ -137,7 +137,7 @@ public class VolunteerFragment extends BaseFragment {
 
                             @Override
                             public void onNext(Response<BaseResponse<Volunteer>> baseResponseResponse) {
-                                RxEventManager.getInstance().sendData(baseResponseResponse.body());
+                                RxEventManager.getInstance().sendData(baseResponseResponse.body().mResult);
                             }
                         });
                 } else {

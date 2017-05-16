@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +17,20 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.FacebookLoginActivity;
+import com.vocketlist.android.api.user.MyListInfo;
+import com.vocketlist.android.api.user.UserInfoModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.RequestCode;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
+import com.vocketlist.android.util.RxEventManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by SeungTaek.Lim on 2017. 2. 22..
@@ -122,6 +126,36 @@ public class DrawerMenuFragment extends Fragment {
         pbGoal.setProgress(doneCount);
         tvProgress.setText(getString(R.string.my_list_progress, totalCount, doneCount));
 
+        RxEventManager.getInstance().getObjectObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Object>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Object o) {
+                    if(o instanceof MyListInfo) refreshMyListCnt((MyListInfo)o);
+
+                }
+            });
+
+    }
+
+    private void refreshMyListCnt(MyListInfo object) {
+
+        int totalCount = object.mTotal;
+        int doneCount = object.mFinish;
+
+        pbGoal.setMax(totalCount);
+        pbGoal.setProgress(doneCount);
+        tvProgress.setText(getString(R.string.my_list_progress, totalCount, doneCount));
     }
 
     private void switchLogin() {

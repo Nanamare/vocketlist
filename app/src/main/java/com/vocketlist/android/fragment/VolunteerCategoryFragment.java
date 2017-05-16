@@ -139,7 +139,7 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 
 					@Override
 					public void onNext(Response<BaseResponse<Volunteer>> baseResposeResponse) {
-						setVocketList(baseResposeResponse.body());
+						setVocketList(baseResposeResponse.body().mResult);
 					}
 				});
 	}
@@ -174,7 +174,8 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 
 					@Override
 					public void onNext(Object object) {
-							setVocketList((BaseResponse<Volunteer>) object);
+						if(object instanceof Volunteer)
+							setVocketList((Volunteer) object);
 					}
 				});
 	}
@@ -206,15 +207,15 @@ public class VolunteerCategoryFragment extends RecyclerFragment {
 		searchKeyword = null;
 	}
 
-	public void setVocketList(BaseResponse<Volunteer> volunteerList) {
-		if (volunteerList.mResult.mPageCurrent == 1) {
+	public void setVocketList(Volunteer volunteerList) {
+		if (volunteerList.mPageCurrent == 1) {
 			adapter.clear();
 		}
 
-		adapter.addAll(volunteerList.mResult.mDataList);
-		pageCount = volunteerList.mResult.mPageCount;
-		page = volunteerList.mResult.mPageCurrent;
-		link = volunteerList.mResult.mLink;
+		adapter.addAll(volunteerList.mDataList);
+		pageCount = volunteerList.mPageCount;
+		page = volunteerList.mPageCurrent;
+		link = volunteerList.mLink;
 	}
 
 	private void hideRefreshView() {

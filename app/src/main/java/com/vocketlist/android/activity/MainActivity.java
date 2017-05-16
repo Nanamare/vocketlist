@@ -36,6 +36,7 @@ import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
 import com.vocketlist.android.preference.NoticePreference;
+import com.vocketlist.android.util.RxEventManager;
 import com.vocketlist.android.view.NavigationDrawerView;
 
 import butterknife.BindView;
@@ -162,6 +163,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 					@Override
 					public void onNext(Response<BaseResponse<UserInfoModel>> baseResponseResponse) {
 						initMenuCnt(baseResponseResponse.body());
+						RxEventManager.getInstance().sendData(baseResponseResponse.body().mResult.mMyListInfo);
 					}
 				});
 	}

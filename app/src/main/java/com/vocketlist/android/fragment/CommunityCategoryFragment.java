@@ -19,7 +19,6 @@ import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
-import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.user.LoginModel;
