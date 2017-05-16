@@ -44,11 +44,22 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
 
     @Override
     public void bind(Volunteer.Data data) {
-        mData = (Volunteer.Data)data;
-        tvTitle.setText(mData.mTitle);
-        tvStartDate.setText(getDate(mData.mStartDate) + (TextUtils.isEmpty(mData.mFirstOffice) ? "" : (" / " + mData.mFirstOffice)));
+        mData = data;
+
+        // 이미지
+        if(!TextUtils.isEmpty(data.mImageUrl)) {
+            Glide.with(ivThumbnail.getContext())
+                    .load(mContext.getString(R.string.vocket_base_url) + mData.mImageUrl)
+                    .crossFade()
+                    .centerCrop()
+                    .into(ivThumbnail);
+        }
+        // 모집중 표시
         tvRecruit.setVisibility(mData.mIsActive ? View.VISIBLE : View.GONE);
-        Glide.with(context).load(mContext.getString(R.string.vocket_base_url) + mData.mImageUrl).into(ivThumbnail);
+        // 제목
+        tvTitle.setText(mData.mTitle);
+        // 날짝
+        tvStartDate.setText(getDate(mData.mStartDate) + (TextUtils.isEmpty(mData.mFirstOffice) ? "" : (" / " + mData.mFirstOffice)));
     }
 
     private String getDate(String date) {

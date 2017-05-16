@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/item_volunteer_ll"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:id="@+id/item_volunteer_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!-- 이미지 -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@mipmap/ic_launcher">
+        android:layout_height="150dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ci_gray_small" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivThumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/black_7"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <!-- TODO 내/외 컨텐츠 구분 뱃지 추가 -->
 
@@ -24,14 +29,19 @@
             android:id="@+id/is_recruit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="4dp"
-            android:layout_marginBottom="4dp"
-            android:text="모집중"
-            android:textSize="13.3dp"
-            android:textStyle="bold"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="4dp"
+            android:background="@drawable/shape_badge_bg"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:paddingTop="2dp"
+            android:text="@string/recruiting"
+            android:textColor="@color/md_white"
+            android:textSize="@dimen/font_30"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -39,9 +49,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="11.7dp"
-        android:paddingLeft="16dp"
         android:paddingBottom="6.7dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="11.7dp"
         android:weightSum="10">
 
         <!-- 이름 -->
@@ -50,11 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/volunteer_title"
             android:textSize="13.3dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -62,8 +72,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
         android:paddingBottom="11.3dp"
+        android:paddingLeft="16dp"
         android:weightSum="10">
 
         <!-- 설명 -->
@@ -72,10 +82,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="2017-02-25"
-            android:textSize="11.7dp"/>
+            android:textSize="11.7dp" />
 
     </LinearLayout>
 </LinearLayout>
