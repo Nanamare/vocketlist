@@ -129,6 +129,13 @@ public class MyListActivity extends DepthBaseActivity implements
 	}
 
 	@Override
+	protected void onResume(){
+		super.onResume();
+
+		reqList(mCalendar.get(Calendar.YEAR), 1);
+	}
+
+	@Override
 	public void onRefresh() {
 		recyclerView.setRefreshing(false);
 		recyclerView.hideProgress();
