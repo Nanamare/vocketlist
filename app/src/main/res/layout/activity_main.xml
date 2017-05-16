@@ -50,11 +50,11 @@
                         android:id="@+id/tlVolunteer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7.5"
-                        app:tabGravity="fill"
+                        android:layout_weight="1"
                         app:tabIndicatorColor="@color/transparent"
-                        app:tabMode="fixed"
-                        app:tabPadding="0dp"
+                        app:tabMode="scrollable"
+                        app:tabGravity="center"
+                        app:tabMinWidth="0dp"
                         app:tabSelectedTextColor="@color/point_5FA9D0"
                         app:tabTextAppearance="@style/TabLayout.Label"
                         app:tabTextColor="#7f7f7f" />
@@ -63,9 +63,8 @@
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/btnFilter"
                         style="@style/Button.Tab"
-                        android:layout_width="0dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.1"
                         android:layout_gravity="center"
                         android:padding="13dp"
                         android:scaleType="centerInside"
@@ -87,27 +86,23 @@
                         android:id="@+id/tlCommunity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        app:tabGravity="fill"
+                        android:layout_weight="1"
                         app:tabIndicatorColor="@color/transparent"
-                        app:tabMode="fixed"
+                        app:tabMode="scrollable"
+                        app:tabGravity="center"
                         app:tabPadding="0dp"
                         app:tabSelectedTextColor="@color/point_E47B75"
                         app:tabTextAppearance="@style/TabLayout.Label"
                         app:tabTextColor="#7f7f7f" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4" />
-
                     <!-- 글작성 -->
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/btnWrite"
                         style="@style/Button.Tab"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.6"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="@string/com_writing"
                         android:textStyle="bold" />
 
