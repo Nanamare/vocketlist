@@ -134,6 +134,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		getMenuUserInfo();
 	}
 
+
 	/**
 	 * 가이드 다이얼로그
 	 */
@@ -369,6 +370,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		getMenuUserInfo();
 
 	}
 
