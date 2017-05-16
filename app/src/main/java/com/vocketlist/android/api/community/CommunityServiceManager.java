@@ -2,7 +2,6 @@ package com.vocketlist.android.api.community;
 
 import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.api.ServiceDefine;
-import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
@@ -106,7 +105,6 @@ public final class CommunityServiceManager {
     public static Observable<Response<BaseResponse<Void>>> delete(int postId) {
         return service.delete(postId)
                 .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
-//                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
     }
 
     public static Observable<Response<BaseResponse<CommunityLike>>> like(int postId) {

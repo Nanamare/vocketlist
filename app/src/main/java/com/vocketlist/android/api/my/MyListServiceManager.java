@@ -39,7 +39,6 @@ public final class MyListServiceManager {
 
     public static Observable<Response<BaseResponse<Void>>> delete(int id) {
         return SERVICE.delete(id)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
     }
 }

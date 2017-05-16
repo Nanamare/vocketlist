@@ -254,7 +254,7 @@ public class MyListActivity extends DepthBaseActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (resultCode != REQUEST_WRITE_COMMUNITY
+		if (requestCode != REQUEST_WRITE_COMMUNITY
 				|| resultCode != Activity.RESULT_OK) {
 			return;
 		}
@@ -268,13 +268,12 @@ public class MyListActivity extends DepthBaseActivity implements
 	 */
 	private void resList(BaseResponse<MyListModel> response) {
 		List<MyListModel.MyList> myLists = response.mResult.mMyListList;
+
 		if (myLists != null) {
 			recyclerView.setAdapter(mAdapter = new MyListAdapter(myLists, this));
-			mAdapter.notifyDataSetChanged();
-
-		} else {
-			recyclerView.hideProgress();
 		}
+
+		recyclerView.hideProgress();
 	}
 
 	/**

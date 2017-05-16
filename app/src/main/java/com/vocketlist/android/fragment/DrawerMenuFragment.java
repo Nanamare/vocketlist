@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +32,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class DrawerMenuFragment extends Fragment {
-    private static final String TAG = DrawerMenuFragment.class.getSimpleName();
-
     @BindView(R.id.llLogin) protected LinearLayout mLoginView;
     @BindView(R.id.rlLogout) protected RelativeLayout mLogoutView;
 
