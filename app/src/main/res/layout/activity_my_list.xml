@@ -111,13 +111,13 @@
         </android.support.v4.widget.NestedScrollView>
 
 
-        <!-- 댓글 입력창-->
+        <!-- 입력 -->
         <LinearLayout
             android:id="@+id/bblComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/material_grey100"
+            android:background="@drawable/layer_bottom_bar_bg"
             android:minHeight="40dp"
             android:orientation="horizontal">
 

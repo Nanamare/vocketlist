@@ -38,7 +38,7 @@ interface CommunityService {
 
 	// 특정 커뮤니티 상세 조회
 	@GET("posts/{id}/")
-	Observable<Response<BaseResponse<CommunityDetail>>> detail(@Path("id") int id);
+	Observable<Response<BaseResponse<CommunityList.CommunityData>>> detail(@Path("id") int id);
 
 	//커뮤니티 글작성
 	@Multipart

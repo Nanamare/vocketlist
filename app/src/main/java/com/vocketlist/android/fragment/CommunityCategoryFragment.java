@@ -1,38 +1,33 @@
 package com.vocketlist.android.fragment;
 
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
-import com.kakao.kakaolink.KakaoLink;
-import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.vocketlist.android.R;
+import com.vocketlist.android.activity.PostCUActivity;
+import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.user.LoginModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.Args;
 import com.vocketlist.android.defined.CommunityCategory;
+import com.vocketlist.android.defined.Extras;
+import com.vocketlist.android.defined.RequestCode;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
 import com.vocketlist.android.manager.ToastManager;
@@ -42,22 +37,22 @@ import com.vocketlist.android.roboguice.log.Ln;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import butterknife.BindColor;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-
-/**
- * Created by kinamare on 2017-02-20.
- */
 
 /**
  * 커뮤니티 : 카테고리
+ *
+ * @author Jungho Song (dev@threeword.com)
+ * @since 2017. 5. 13.
  */
 public class CommunityCategoryFragment extends RecyclerFragment implements
 		ICommunityView,
 		RecyclerViewItemClickListener
 {
+	@BindColor(R.color.point_E47B75) int pointE47B75;
 
 	private PostAdapter adapter;
 	private Link links;
@@ -66,15 +61,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	private String searchKeyword;
 
 	private int page = 1;
-	private int pageCount = 1;
-
-//	private BaseResponse<CommunityList> communityList;
-//	private BaseResponse<CommunityLike> communityLike;
-//	private int communityPosition;
-
-
-//	private ArrayAdapter<String> menuList;
-
+	private int pageTotal = 1;
 
 	/**
 	 * 인스턴스
@@ -107,6 +94,33 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 
 			//
 			reqList(page, searchKeyword);
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			// 글 수정 후
+			case RequestCode.POST_MODIFY: {
+				// TODO 업데이트
+			}
+			break;
+
+			// 댓글 보기 or 작성 후
+			case RequestCode.POST_COMMENT: {
+				if(Activity.RESULT_OK == resultCode) {
+					if(data != null && data.hasExtra(Extras.DATA)) {
+						Serializable s = data.getExtras().getSerializable(Extras.DATA);
+						if(s != null && s instanceof CommunityList.CommunityData) {
+							CommunityList.CommunityData post = (CommunityList.CommunityData) s;
+							reqPost(post);
+						}
+					}
+				}
+			}
+			break;
+
+			default: super.onActivityResult(requestCode, resultCode, data); break;
 		}
 	}
 
@@ -145,14 +159,12 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 		super.onMoreAsked(overallItemsCount, itemsBeforeMore, maxLastVisiblePosition);
 
-		if (links == null
-				|| links.mNextId == page
-				|| links.mNextId >= pageCount) {
-			 recyclerView.hideMoreProgress();
+		if(page < pageTotal) {
+			reqList(++page, searchKeyword);
 			return;
 		}
 
-		reqList(links.mNextId, searchKeyword);
+		recyclerView.hideMoreProgress();
 	}
 
 	@Override
@@ -163,13 +175,14 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
             return;
         }
 
-		Object o = v.getTag();
-
+        //
 		switch (v.getId()) {
 			// 더보기
 			case R.id.btnMore: {
+				Object o = v.getTag();
 				if (o != null && o instanceof CommunityList.CommunityData) {
 					CommunityList.CommunityData data = (CommunityList.CommunityData) o;
+					data.position = position;
 
 					int menuId = R.menu.police;
 
@@ -183,9 +196,9 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 					popup.setOnMenuItemClickListener(item -> {
 						int id = item.getItemId();
 						switch (id) {
-							case R.id.action_police: doPolice(data, position); break;
-							case R.id.action_modify: doModify(data, position); break;
-							case R.id.action_delete: doDelete(data, position); break;
+							case R.id.action_police: doPolice(data); break;
+							case R.id.action_modify: doModify(data); break;
+							case R.id.action_delete: doDelete(data); break;
 						}
 						return true;
 					});
@@ -195,6 +208,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 
 			// 하트뿅뿅
 			case R.id.llLike: {
+				Object o = v.getTag();
 				if (o != null && o instanceof CommunityList.CommunityData) {
 					CommunityList.CommunityData data = (CommunityList.CommunityData) o;
 					//
@@ -203,19 +217,20 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 			} break;
 
 			// 댓글쓰기
-			case R.id.llCommentWrite: {
-
-			} break;
-
+			case R.id.llCommentWrite:
 			// 댓글보기
-			case R.id.llComments: {
-
-			} break;
-
+			case R.id.llComments:
 			// 댓글
 			case R.id.tvCommentMore: {
+				Object d = v.getTag(R.id.TAG_DATA);
+				Object b = v.getTag(R.id.TAG_IS_WRITE);
 
-
+				if (d != null && d instanceof CommunityList.CommunityData && b != null && b instanceof Boolean) {
+					CommunityList.CommunityData data = (CommunityList.CommunityData) d;
+					data.position = position;
+					boolean isWrite = (Boolean) b;
+					doComment(data, isWrite);
+				}
 			} break;
 		}
 	}
@@ -226,45 +241,90 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 
 	/**
 	 * 신고
+	 *
 	 * @param data
 	 */
-	private void doPolice(CommunityList.CommunityData data, int position) {
+	private void doPolice(CommunityList.CommunityData data) {
 		// TODO 신고처리를 정말로 할지
 		ToastManager.show(R.string.toast_police);
 	}
 
 	/**
 	 * 수정
+	 *
 	 * @param data
 	 */
-	private void doModify(CommunityList.CommunityData data, int position) {
-
+	private void doModify(CommunityList.CommunityData data) {
+		// TODO 포스트 액티비티 호출
+		goToPostCreate(data);
 	}
 
 	/**
 	 * 삭제
+	 *
 	 * @param data
 	 */
-	private void doDelete(CommunityList.CommunityData data, int position) {
-		dialogDelete(data, position);
+	private void doDelete(CommunityList.CommunityData data) {
+		dialogDelete(data);
 	}
 
+	/**
+	 * 하트뿅뿅
+	 *
+	 * @param data
+	 * @param position
+	 */
 	private void doLike(CommunityList.CommunityData data, int position) {
 		reqLike(data, position);
 	}
 
-	private void doComment() {
-
+	/**
+	 * 댓글
+	 *
+	 * @param data
+	 * @param isWrite
+	 */
+	private void doComment(CommunityList.CommunityData data, boolean isWrite) {
+		goToComment(data, isWrite);
 	}
 
-	private void dialogDelete(CommunityList.CommunityData data, int position) {
+	/**
+	 * 다이얼로그 : 삭제확인
+	 *
+	 * @param data
+	 */
+	private void dialogDelete(CommunityList.CommunityData data) {
 		new MaterialDialog.Builder(getActivity())
 				.content(R.string.delete_communityList)
 				.negativeText(R.string.cancel)
-				.positiveText(R.string.delete).onPositive((dialog, which) -> {
-					reqDelete(data.mId, position);
+				.positiveText(R.string.delete).positiveColor(pointE47B75).onPositive((dialog, which) -> {
+					reqDelete(data.mId, data.position);
                 })
 				.show();
+	}
+
+	/**
+	 * 글수정
+	 */
+	private void goToPostCreate(CommunityList.CommunityData data) {
+		Intent intent = new Intent(getActivity(), PostCUActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(Extras.DATA, data);
+		startActivityForResult(intent, RequestCode.POST_MODIFY);
+	}
+
+	/**
+	 * 댓글 보기 or 작성
+	 *
+	 * @param  data
+	 * @param isWrite
+	 */
+	private void goToComment(CommunityList.CommunityData data, boolean isWrite) {
+		Intent intent = new Intent(getActivity(), PostCommentActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(Extras.DATA, data);
+		intent.putExtra(Extras.IS_WRITE, isWrite);
+		startActivityForResult(intent, RequestCode.POST_COMMENT);
 	}
 
 	/**
@@ -317,11 +377,47 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	private void resList(BaseResponse<CommunityList> response) {
 		if (response != null) {
 			page = response.mResult.mPageCurrentCnt;
-			pageCount = response.mResult.mPageCnt;
-			links = response.mResult.mLinks;
+			pageTotal = response.mResult.mPageCnt;
 
 			if(page == 1) adapter.setList(response.mResult.mData);
 			else adapter.addAll(response.mResult.mData);
+		}
+	}
+
+	/**
+	 * 요청 : 상세
+	 *
+	 * @param data
+	 */
+	private void reqPost(CommunityList.CommunityData data) {
+		CommunityServiceManager.detail(data.mId)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Response<BaseResponse<CommunityList.CommunityData>>>() {
+					@Override
+					public void onCompleted() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						Ln.e(e, "onError");
+					}
+
+					@Override
+					public void onNext(Response<BaseResponse<CommunityList.CommunityData>> baseResponseResponse) {
+						resPost(baseResponseResponse.body(), data.position);
+					}
+				});
+	}
+
+	/**
+	 * 응답 : 상세
+	 *
+	 * @param response
+	 * @param position
+	 */
+	private void resPost(BaseResponse<CommunityList.CommunityData> response, int position) {
+		if(response != null && response.mResult != null) {
+			adapter.change(position, response.mResult);
 		}
 	}
 
@@ -404,30 +500,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 		adapter.remove(position);
 	}
 
-//	RecyclerViewItemClickListener listener = new RecyclerViewItemClickListener() {
-//		@Override
-//		public void onItemClick(View v, int position) {
-//			switch (v.getId()){
-//				case R.id.llLike : {
-//					communityPosition = position;
-//					requestFavorite();
-//					break;
-//				}
-//				case R.id.btnMore : {
-//					setSpinner(v, position);
-//					break;
-//				}
-//				case R.id.btnKakaolink : {
-//					shareKakaoLink(position);
-//					break;
-//				}
-//				case R.id.btnFacebook : {
-//					shareToFacebook(position);
-//					break;
-//				}
-//			}
-//		}
-//	};
 //
 //	private void shareKakaoLink(int position) {
 //		try{
@@ -455,125 +527,6 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 //
 //	}
 //
-//	private void setSpinner(View btnMore, int position) {
-//
-//		LayoutInflater layoutInflater
-//				= LayoutInflater.from(getContext());
-//		View popupView = layoutInflater.inflate(R.layout.popup_community, null);
-//		final PopupWindow popupWindow = new PopupWindow(popupView,
-//				LinearLayout.LayoutParams.WRAP_CONTENT,
-//				LinearLayout.LayoutParams.WRAP_CONTENT, true);
-//
-//		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-//		popupWindow.setOutsideTouchable(true);
-//		popupWindow.showAsDropDown(btnMore, 0, 20);
-//
-//		LinearLayout llDelete = (LinearLayout) popupView.findViewById(R.id.popup_delete);
-//		llDelete.setOnClickListener(v1 -> {
-//			android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(getContext())
-//					.setPositiveButton(android.R.string.ok, (dialog, which) -> {
-//
-//						//삭제하고 데이터 제거후 업데이트
-//
-//						deleteCommunityRoom(position);
-//						adapter.remove(position);
-//
-//						dialog.dismiss();
-//
-//						popupWindow.dismiss();
-//
-//					}).setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-//						dialog.dismiss();     //닫기
-//						popupWindow.dismiss();
-//
-//					}).setMessage(R.string.delete_communityList);
-//
-//			alert.show();
-//		});
-//
-//		LinearLayout llModify = (LinearLayout) popupView.findViewById(R.id.popup_modify);
-//
-//		llModify.setOnClickListener(v1 -> {
-//
-//			popupWindow.dismiss();
-//			Toast.makeText(getContext() ,"수정" , Toast.LENGTH_SHORT)
-//					.show();
-//		});
-//
-//	}
-//
-//	private void deleteCommunityRoom(int position) {
-//		CommunityServiceManager.delete(communityList.mResult.mData.get(position).mId)
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.doOnTerminate(new Action0() {
-//					@Override
-//					public void call() {
-//
-//					}
-//				})
-//				.subscribe(new Subscriber<Response<BaseResponse<Void>>>() {
-//					@Override
-//					public void onCompleted() {
-//
-//					}
-//
-//					@Override
-//					public void onError(Throwable e) {
-//						e.printStackTrace();
-//						adapter.notifyDataSetChanged();
-//					}
-//
-//					@Override
-//					public void onNext(Response<BaseResponse<Void>> baseResponseResponse) {
-//						adapter.notifyDataSetChanged();
-//					}
-//				});
-//	}
-//
-//
-//	private void requestFavorite() {
-//		CommunityServiceManager.like(communityList.mResult.mData.get(communityPosition).mId)
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.doOnTerminate(new Action0() {
-//					@Override
-//					public void call() {
-//
-//					}
-//				})
-//				.subscribe(new Subscriber<Response<BaseResponse<CommunityLike>>>() {
-//					@Override
-//					public void onCompleted() {
-//
-//					}
-//
-//					@Override
-//					public void onError(Throwable e) {
-//            e.printStackTrace();
-//					}
-//
-//					@Override
-//					public void onNext(Response<BaseResponse<CommunityLike>> baseResponseResponse) {
-//						communityLike = baseResponseResponse.body();
-//						refreshFavoriteBtn();
-//					}
-//				});
-//	}
-//
-//	private void refreshFavoriteBtn() {
-//		if(communityLike.mResult.mIsLike){
-//			//좋아요 이미지
-//			Toast.makeText(getContext(),"좋아요" , Toast.LENGTH_SHORT).show();
-//		} else {
-//			//좋아요 취소 이미지
-//			Toast.makeText(getContext(),"좋아요 취소" , Toast.LENGTH_SHORT).show();
-//		}
-//		//좋아요 갯수 업데이트
-////		communityLike.mResult.mLikeCnt
-//
-//
-//	}
-
-
 
 //	private void shareToFacebook(int position) {
 //		String mImageUrl = "";
@@ -596,46 +549,4 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 //		ShareDialog shareDialog = new ShareDialog(CommunityCategoryFragment.this);
 //		shareDialog.show(content, ShareDialog.Mode.FEED);
 //	}
-
-//	@Override
-//	public void onResume(){
-//		super.onResume();
-//		communityListPgCnt = 0;
-//		reqList(communityListPgCnt++, null);
-//	}
-
-	/**
-	private void refreshFavoriteCount(int page, int postId) {
-		CommunityServiceManager.list(page)
-				.map(new Func1<Response<BaseResponse<CommunityList>>, Integer>() {
-					@Override
-					public Integer call(Response<BaseResponse<CommunityList>> baseResponseResponse) {
-						return baseResponseResponse.body().mResult.mData.get(postId).mLikeCount;
-					}
-				})
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnTerminate(new Action0() {
-					@Override
-					public void call() {
-
-					}
-				})
-				.subscribe(new Subscriber<Integer>() {
-					@Override
-					public void onCompleted() {
-
-					}
-
-					@Override
-					public void onError(Throwable e) {
-
-					}
-
-					@Override
-					public void onNext(Integer integer) {
-						Ln.i("좋아요 갯수", integer);
-					}
-				});
-	}
-	**/
 }

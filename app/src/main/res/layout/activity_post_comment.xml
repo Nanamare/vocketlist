@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <!-- 앱바 -->
     <android.support.design.widget.AppBarLayout
@@ -21,7 +22,7 @@
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -33,50 +34,85 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:weightSum="10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!-- 목록 -->
             <com.malinskiy.superrecyclerview.SuperRecyclerView
-                android:layout_weight="9"
-                android:id="@+id/activity_post_comment_recyclerView"
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-
-            <LinearLayout
-                android:paddingTop="10dp"
-                android:paddingBottom="15dp"
+                android:layout_height="0dp"
                 android:layout_weight="1"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_empty="@layout/empty_comment"
+                app:layout_moreProgress="@layout/layout_more_progress"
+                app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+                app:recyclerClipToPadding="false"
+                app:recyclerPadding="0dp"
+                app:scrollbarStyle="outsideOverlay" />
+
+            <!-- 대댓글 : 수신자표시 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvCommentTarget"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/layer_bottom_bar_bg"
+                android:drawableEnd="@drawable/ic_clear"
+                android:gravity="center_vertical"
+                android:letterSpacing="-0.08"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/material_grey500"
+                android:textSize="@dimen/font_33"
+                android:visibility="gone"
+                tools:text="현성군에게 답글 남기는 중">
+
+            </android.support.v7.widget.AppCompatTextView>
+
+            <!-- 입력-->
+            <LinearLayout
+                android:id="@+id/bblComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_gravity="bottom"
+                android:background="@drawable/layer_bottom_bar_bg"
+                android:minHeight="40dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_action_expand_more"/>
+                <!-- 더미 터치 -->
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
 
+                <!-- 입력창 -->
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/activity_post_comment_tv"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/etComment"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="8"
-                    android:background="@null"
-                    android:hint="댓글 달기..."/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/activity_post_comment_sendBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
-                    android:text="게시"
-                    android:textColor="@color/point_5FA9D0"
-                    android:textSize="20sp"/>
+                    android:background="@null"
+                    android:hint="@string/hint_comment"
+                    android:lineSpacingMultiplier="1.05"
+                    android:maxHeight="100dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textSize="@dimen/font_39"
+                    tools:text="" />
+
+                <!-- 게시 -->
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btnComment"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:enabled="false"
+                    android:text="@string/post" />
 
             </LinearLayout>
 

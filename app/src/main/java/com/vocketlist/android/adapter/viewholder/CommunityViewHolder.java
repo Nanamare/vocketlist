@@ -30,39 +30,57 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityData> implements View.OnClickListener {
 
-    @BindView(R.id.civPhoto) CircleImageView civPhoto;
-    @BindView(R.id.tvName) AppCompatTextView tvName;
-	@BindView(R.id.btnMore) AppCompatImageButton btnMore;
+    @BindView(R.id.civPhoto)
+    CircleImageView civPhoto;
+    @BindView(R.id.tvName)
+    AppCompatTextView tvName;
+    @BindView(R.id.btnMore)
+    AppCompatImageButton btnMore;
 
-	@BindView(R.id.ivPhoto) AppCompatImageView ivPhoto;
+    @BindView(R.id.ivPhoto)
+    AppCompatImageView ivPhoto;
 //	@BindView(R.id.btnFacebook) AppCompatImageButton btnFacebook;
 //	@BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
 
-    @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
-	@BindView(R.id.tvContents) AppCompatTextView tvContents;
+    @BindView(R.id.tvVolunteer)
+    AppCompatTextView tvVolunteer;
+    @BindView(R.id.tvContents)
+    AppCompatTextView tvContents;
 
-	@BindView(R.id.llLike) LinearLayout llLike;
-	@BindView(R.id.ivLike) AppCompatImageView ivLike;
-	@BindView(R.id.tvLikeCount) AppCompatTextView tvLikeCount;
+    @BindView(R.id.llLike)
+    LinearLayout llLike;
+    @BindView(R.id.ivLike)
+    AppCompatImageView ivLike;
+    @BindView(R.id.tvLikeCount)
+    AppCompatTextView tvLikeCount;
 
-	@BindView(R.id.llCommentWrite) LinearLayout llCommentWrite;
+    @BindView(R.id.llCommentWrite)
+    LinearLayout llCommentWrite;
 
-	@BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
+    @BindView(R.id.tvCommentMore)
+    AppCompatTextView tvCommentMore;
 
-	@BindView(R.id.llComments) LinearLayout llComments;
-	@BindView(R.id.tvComment_1) AppCompatTextView tvComment_1;
-	@BindView(R.id.tvComment_2) AppCompatTextView tvComment_2;
+    @BindView(R.id.llComments)
+    LinearLayout llComments;
+    @BindView(R.id.tvComment_1)
+    AppCompatTextView tvComment_1;
+    @BindView(R.id.tvComment_2)
+    AppCompatTextView tvComment_2;
 
 //    @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
-	@BindString(R.string.community_volunteer) String title;
-	@BindString(R.string.vocket_base_url) String BASE_URL;
-	@BindString(R.string.community_comment_more) String commentMore;
+    @BindString(R.string.community_volunteer)
+    String title;
+    @BindString(R.string.vocket_base_url)
+    String BASE_URL;
+    @BindString(R.string.community_comment_more)
+    String commentMore;
 
     private RecyclerViewItemClickListener mListener;
 
     /**
      * 생성자
+     *
      * @param itemView
      */
     public CommunityViewHolder(View itemView, RecyclerViewItemClickListener listener) {
@@ -71,97 +89,108 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
         itemView.setOnClickListener(this);
     }
 
-	@Override
-	public void bind(CommunityList.CommunityData data) {
-		// 작성자 : 프로필 : 사진
-		if (!TextUtils.isEmpty(data.mUser.mImageUrl)) {
-			Glide.with(context)
-					.load(data.mUser.mImageUrl)
-					.centerCrop()
-					.crossFade()
-					.into(civPhoto);
-		}
-		// 작성자 : 프로필 : 이름
-		tvName.setText(data.mUser.mName);
+    @Override
+    public void bind(CommunityList.CommunityData data) {
+        // 작성자 : 프로필 : 사진
+        if (!TextUtils.isEmpty(data.mUser.mImageUrl)) {
+            Glide.with(context)
+                    .load(data.mUser.mImageUrl)
+                    .centerCrop()
+                    .crossFade()
+                    .into(civPhoto);
+        }
+        // 작성자 : 프로필 : 이름
+        tvName.setText(data.mUser.mName);
 
-		//수정, 삭제 스피너
-		btnMore.setTag(data);
-		btnMore.setOnClickListener(this);
+        //수정, 삭제 스피너
+        btnMore.setTag(data);
+        btnMore.setOnClickListener(this);
 
-		// 이미지
-		if (!TextUtils.isEmpty(data.mImageUrl)) {
-			Glide.with(context)
-					.load(BASE_URL + data.mImageUrl)
-					.centerCrop()
-					.crossFade()
-					.into(ivPhoto);
-		}
-		// 공유
+        // 이미지
+        if (!TextUtils.isEmpty(data.mImageUrl)) {
+            Glide.with(context)
+                    .load(BASE_URL + data.mImageUrl)
+                    .centerCrop()
+                    .crossFade()
+                    .into(ivPhoto);
+        }
+        // 공유
 //		btnFacebook.setOnClickListener(this);
 //		btnKakaolink.setOnClickListener(this);
 
-		// 봉사활동
-		tvVolunteer.setVisibility(View.GONE);
-		if (data.mService != null && data.mService.mTitle != null) {
-			tvVolunteer.setVisibility(View.VISIBLE);
-			tvVolunteer.setText(String.format(Locale.getDefault(), title, data.mService.mTitle));
-		}
-		// 내용
-		tvContents.setText(data.mContent);
+        // 봉사활동
+        tvVolunteer.setVisibility(View.GONE);
+        if (data.mService != null && data.mService.mTitle != null) {
+            tvVolunteer.setVisibility(View.VISIBLE);
+            tvVolunteer.setText(String.format(Locale.getDefault(), title, data.mService.mTitle));
+        }
+        // 내용
+        tvContents.setVisibility(View.GONE);
+        if(!TextUtils.isEmpty(data.mContent)){
+            tvContents.setVisibility(View.VISIBLE);
+            tvContents.setText(data.mContent);
+        }
 
-		// 좋아요
-		ivLike.setSelected(data.mIsLike);
-		tvLikeCount.setText(String.valueOf(data.mLikeCount));
-		llLike.setTag(data);
-		llLike.setOnClickListener(this);
+        // 좋아요
+        ivLike.setSelected(data.mIsLike);
+        tvLikeCount.setText(String.valueOf(data.mLikeCount));
+        llLike.setTag(data);
+        llLike.setOnClickListener(this);
 
-		// 댓글쓰기
-		llCommentWrite.setTag(llLike);
-		llCommentWrite.setOnClickListener(this);
+        // 댓글쓰기
+        llCommentWrite.setTag(R.id.TAG_DATA, data);
+        llCommentWrite.setTag(R.id.TAG_IS_WRITE, true);
+        llCommentWrite.setOnClickListener(this);
 
-		// 댓글
-		tvCommentMore.setTag(null);
-		tvCommentMore.setText(R.string.community_comment);
-		tvComment_1.setVisibility(View.GONE);
-		tvComment_2.setVisibility(View.GONE);
+        // 댓글
+        tvCommentMore.setTag(R.id.TAG_DATA, data);
+        tvCommentMore.setTag(R.id.TAG_IS_WRITE, true);
+        tvCommentMore.setText(R.string.community_comment);
+        tvCommentMore.setOnClickListener(this);
 
-		// 댓글 : 있음
-		if(data.mComment != null && data.mComment.size() > 0) {
-			tvCommentMore.setTag(data);
-			int commentSize = data.mComment.size();
+        llComments.setTag(R.id.TAG_DATA, data);
+        llComments.setTag(R.id.TAG_IS_WRITE, false);
+        llComments.setOnClickListener(this);
+        tvComment_1.setVisibility(View.GONE);
+        tvComment_2.setVisibility(View.GONE);
 
-			// 1개
-			if (commentSize == 1) {
-				tvCommentMore.setText(R.string.community_comment_one);
+        // 댓글 : 있음
+        if (data.mComment != null && data.mComment.size() > 0) {
+            tvCommentMore.setTag(R.id.TAG_IS_WRITE, false);
+            int commentSize = data.mComment.size();
 
-				CommentListModel.Comment comment = data.mComment.get(0);
-				String userName = (comment.mUserInfo != null) ? comment.mUserInfo.mName : "";
+            // 1개 이상
+            if (commentSize >= 1) {
+                tvCommentMore.setText(R.string.community_comment_one);
 
-				tvComment_1.setText(new Spanny()
-						.append(userName, new StyleSpan(Typeface.BOLD))
-						.append("   ")
-						.append(comment.mContent)
-				);
+                CommentListModel.Comment comment = data.mComment.get(0);
+                String userName = (comment.mUserInfo != null) ? comment.mUserInfo.mName : "";
 
-				tvComment_1.setVisibility(View.VISIBLE);
-			}
+                tvComment_1.setText(new Spanny()
+                        .append(userName, new StyleSpan(Typeface.BOLD))
+                        .append("   ")
+                        .append(comment.mContent)
+                );
 
-			// 2개
-			if (commentSize >= 2) {
-				tvCommentMore.setText(String.format(Locale.getDefault(), commentMore, commentSize));
+                tvComment_1.setVisibility(View.VISIBLE);
+            }
 
-				CommentListModel.Comment comment = data.mComment.get(1);
-				String userName = (comment.mUserInfo != null) ? comment.mUserInfo.mName : "";
+            // 2개 이상
+            if (commentSize >= 2) {
+                tvCommentMore.setText(String.format(Locale.getDefault(), commentMore, commentSize));
 
-				tvComment_2.setText(new Spanny()
-						.append(userName, new StyleSpan(Typeface.BOLD))
-						.append("   ")
-						.append(comment.mContent)
-				);
+                CommentListModel.Comment comment = data.mComment.get(1);
+                String userName = (comment.mUserInfo != null) ? comment.mUserInfo.mName : "";
 
-				tvComment_2.setVisibility(View.VISIBLE);
-			}
-		}
+                tvComment_2.setText(new Spanny()
+                        .append(userName, new StyleSpan(Typeface.BOLD))
+                        .append("   ")
+                        .append(comment.mContent)
+                );
+
+                tvComment_2.setVisibility(View.VISIBLE);
+            }
+        }
 
 //		tvCommentMore.setOnClickListener(new View.OnClickListener() {
 //			@Override
@@ -170,7 +199,7 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 //			}
 //		});
 
-		// 시간
+        // 시간
 //		String createdDate = communityData.mCreateDate;
 //		DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 //		try {
@@ -179,12 +208,12 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
 //		} catch (ParseException e) {
 //			e.printStackTrace();
 //		}
-	}
+    }
 
-	@Override
-	public void onClick(View v) {
-		if(mListener != null) mListener.onItemClick(v, getAdapterPosition());
-	}
+    @Override
+    public void onClick(View v) {
+        if (mListener != null) mListener.onItemClick(v, getAdapterPosition());
+    }
 
 //	@OnClick({R.id.community_list_item_comment_layer, R.id.tvCommentMore})
 //	protected void goToCommentActivity(View view) {

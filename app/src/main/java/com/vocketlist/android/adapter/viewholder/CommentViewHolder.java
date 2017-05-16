@@ -1,13 +1,19 @@
 package com.vocketlist.android.adapter.viewholder;
 
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.View;
 
+import com.binaryfork.spanny.Spanny;
 import com.bumptech.glide.Glide;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.comment.model.CommentListModel;
+import com.vocketlist.android.api.community.model.User;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.util.DateUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,10 +27,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> implements View.OnClickListener{
 
     @BindView(R.id.civPhoto) CircleImageView civPhoto;
-    @BindView(R.id.tvName) AppCompatTextView tvName;
+    @BindView(R.id.tvNameNContent) AppCompatTextView tvNameNContent;
+    @BindView(R.id.tvTime) AppCompatTextView tvTime;
+    @BindView(R.id.btnComment) AppCompatTextView btnComment;
+    @BindView(R.id.btnEdit) AppCompatTextView btnEdit;
+    @BindView(R.id.btnDelete) AppCompatTextView btnDelete;
 
-    private CommentListModel.Comment commentList;
     private RecyclerViewItemClickListener mListener;
+
     /**
      * 생성자
      * @param itemView
@@ -37,23 +47,54 @@ public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> 
 
     @Override
     public void bind(CommentListModel.Comment data) {
-        if(data instanceof CommentListModel.Comment){
-            commentList = (CommentListModel.Comment) data;
+        User user = data.mUserInfo;
+        if(user == null) user = data.mUser;
 
+        // 이름 + 내용
+        Spanny msg = new Spanny();
+        if(user != null) {
             // 작성자 : 프로필 : 사진
-            Glide.with(context)
-                .load(R.drawable.dummy_profile)
-                .centerCrop()
-                .placeholder(new ColorDrawable(context.getResources().getColor(R.color.black_7)))
-                .crossFade()
-                .into(civPhoto);
-            civPhoto.setOnClickListener(this);
+            if (!TextUtils.isEmpty(user.mImageUrl)) {
+                Glide.with(context)
+                        .load(user.mImageUrl)
+                        .centerCrop()
+                        .crossFade()
+                        .into(civPhoto);
+            }
 
-            //이름 + 내용
-            tvName.setText(commentList.mUserInfo.mName+" - "+commentList.mContent);
-            tvName.setOnClickListener(this);
+            // 이름
+            msg.append(user.mName, new StyleSpan(Typeface.BOLD));
         }
+        // 이름
+        else msg.append(user.mName, new StyleSpan(Typeface.BOLD));
 
+        // 이름 + 내용
+        tvNameNContent.setText(msg.append("  ").append(data.mContent));
+
+        // 시간
+        tvTime.setText(DateUtil.convertForComment(data.mTimestamp));
+
+        // 답글달기
+        btnComment.setTag(data);
+        btnComment.setOnClickListener(this);
+
+        // 내 댓글만 수정/삭제 가능
+        if(UserServiceManager.getLoginInfo() != null && UserServiceManager.getLoginInfo().mUserInfo.mUserId == user.mId) {
+            // 수정
+            btnEdit.setVisibility(View.VISIBLE);
+            btnEdit.setTag(data);
+            btnEdit.setOnClickListener(this);
+            // 삭제
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setTag(data);
+            btnDelete.setOnClickListener(this);
+        }
+        else {
+            // 수정
+            btnEdit.setVisibility(View.GONE);
+            // 삭제
+            btnDelete.setVisibility(View.GONE);
+        }
     }
 
     @Override

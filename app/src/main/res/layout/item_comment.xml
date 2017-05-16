@@ -1,44 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp">
 
     <!-- 사진 -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civPhoto"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/dummy_profile"
-        app:civ_border_color="@color/black_50"
-        app:civ_border_overlay="true"
-        app:civ_border_width="1dp"/>
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ci_inset"
+        app:civ_border_color="@color/black_12"
+        app:civ_border_overlay="false"
+        app:civ_border_width="1dp"
+        app:civ_fill_color="@color/md_white" />
 
     <!-- 내용 : 이름 + 본문 -->
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvNameNContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/civPhoto"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/civPhoto"
-        android:gravity="center_vertical"
-        android:minHeight="35dp"
-        android:text="송정호"
-        android:textSize="@dimen/font_36"/>
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/civPhoto"
+        android:gravity="top"
+        android:textColor="@color/material_grey800"
+        android:textSize="@dimen/font_36"
+        tools:text="송정호 " />
+
+    <!-- 시간 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvNameNContent"
+        android:layout_below="@+id/tvNameNContent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:letterSpacing="-0.08"
+        android:textColor="@color/material_grey400"
+        android:textSize="@dimen/font_33"
+        tools:text="1일전" />
+
+    <View
+        android:id="@+id/space"
+        android:layout_width="14dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvTime" />
+
+    <!-- 답글달기 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/btnComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTime"
+        android:layout_marginStart="2dp"
+        android:layout_toEndOf="@+id/space"
+        android:background="?selectableItemBackground"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:text="@string/comment"
+        android:textColor="@color/material_grey400"
+        android:textSize="@dimen/font_33"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- 수정 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/btnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTime"
+        android:layout_marginStart="2dp"
+        android:layout_toEndOf="@+id/btnComment"
+        android:background="?selectableItemBackground"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:text="@string/modify"
+        android:textColor="@color/material_grey400"
+        android:textSize="@dimen/font_33"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- 삭제 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTime"
+        android:layout_marginStart="2dp"
+        android:layout_toEndOf="@+id/btnEdit"
+        android:background="?selectableItemBackground"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:text="@string/delete"
+        android:textColor="@color/material_grey400"
+        android:textSize="@dimen/font_33"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <!-- 라인 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/tvName"
-        android:layout_marginLeft="43dp"
+        android:layout_alignStart="@+id/tvNameNContent"
+        android:layout_below="@+id/tvTime"
         android:background="@color/black_12"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
 
 </RelativeLayout>
