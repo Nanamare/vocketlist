@@ -7,6 +7,7 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.CommunityViewHolder;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.listener.RecyclerViewItemClickListener;
+import com.vocketlist.android.roboguice.log.Ln;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PostAdapter extends BaseAdapter<CommunityList.CommunityData, Commun
 
     @Override
     public void onBindViewHolder(CommunityViewHolder holder, int position) {
+        Ln.d("onBindViewHolder : position = " + position);
         holder.bind(getItem(position));
     }
 }

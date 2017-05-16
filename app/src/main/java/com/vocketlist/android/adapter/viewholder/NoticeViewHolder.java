@@ -52,6 +52,7 @@ public class NoticeViewHolder extends ChildViewHolder<NoticeModel.Notice> {
         } else tvContent.setVisibility(View.GONE);
 
         // 사진
+        ivPhoto.setImageDrawable(null);
         if (!TextUtils.isEmpty(notice.mPhoto)) {
             ivPhoto.setVisibility(View.VISIBLE);
             Glide.with(ivPhoto.getContext())

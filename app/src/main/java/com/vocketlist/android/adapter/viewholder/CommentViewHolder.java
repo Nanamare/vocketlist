@@ -52,6 +52,7 @@ public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> 
 
         // 이름 + 내용
         Spanny msg = new Spanny();
+        civPhoto.setImageDrawable(null);
         if(user != null) {
             // 작성자 : 프로필 : 사진
             if (!TextUtils.isEmpty(user.mImageUrl)) {

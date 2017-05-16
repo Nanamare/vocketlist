@@ -19,7 +19,6 @@ import com.vocketlist.android.activity.PostCommentActivity;
 import com.vocketlist.android.adapter.PostAdapter;
 import com.vocketlist.android.api.Link;
 import com.vocketlist.android.api.community.CommunityServiceManager;
-import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.user.LoginModel;
@@ -390,8 +389,12 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 			page = response.mResult.mPageCurrentCnt;
 			pageTotal = response.mResult.mPageCnt;
 
-			if(page == 1) adapter.setList(response.mResult.mData);
-			else adapter.addAll(response.mResult.mData);
+			if(page == 1) {
+				adapter.setList(response.mResult.mData);
+
+			} else {
+				adapter.addAll(response.mResult.mData);
+			}
 		}
 	}
 

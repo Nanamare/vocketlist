@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +39,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
      * 생성자
      * @param itemView
      */
-    public VolunteerCategoryViewHolder(View itemView) {
+    private VolunteerCategoryViewHolder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
     }
@@ -47,6 +49,7 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
         mData = data;
 
         // 이미지
+        ivThumbnail.setImageDrawable(null);
         if(!TextUtils.isEmpty(data.mImageUrl)) {
             Glide.with(ivThumbnail.getContext())
                     .load(mContext.getString(R.string.vocket_base_url) + mData.mImageUrl)
@@ -78,4 +81,8 @@ public class VolunteerCategoryViewHolder extends BaseViewHolder<Volunteer.Data> 
     }
 
 
+    public static VolunteerCategoryViewHolder create(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false);
+        return new VolunteerCategoryViewHolder(view);
+    }
 }

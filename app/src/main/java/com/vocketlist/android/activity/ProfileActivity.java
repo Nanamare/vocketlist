@@ -175,6 +175,7 @@ public class ProfileActivity extends DepthBaseActivity implements
 	private void initProfile() {
 		FacebookPreperence fp = FacebookPreperence.getInstance();
 
+		civPhoto.setImageDrawable(null);
 		// 사진
 		if(!TextUtils.isEmpty(fp.getUserImageUrl())) {
 			Glide.with(this)

@@ -99,6 +99,7 @@ public class DrawerMenuFragment extends Fragment {
         String fullName = FacebookPreperence.getInstance().getUserName();
 
         // 사진
+        civPhoto.setImageDrawable(null);
         if(!TextUtils.isEmpty(profile)) {
             Glide.with(this)
                     .load(profile)
