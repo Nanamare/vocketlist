@@ -1,5 +1,6 @@
 package com.vocketlist.android.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
@@ -40,12 +41,13 @@ public class LocalSelectView extends LinearLayout {
 
 	private List<AddressModel.SecondAddress> getSecondAddress;
 	private List<FirstAddress> sFirstAddress;
-	private int localDetailId;
 
 	private String formerLocalNm;
 
 	private int firstPosition;
 	private int secondPosition;
+	private int localDetailId;
+
 
 	public LocalSelectView(Context context) {
 		this(context, null);
@@ -64,7 +66,6 @@ public class LocalSelectView extends LinearLayout {
 		initSecondSpinner(BASEVALUE);
 
 	}
-
 
 	private void initFirstSpinner() {
 
@@ -150,5 +151,6 @@ public class LocalSelectView extends LinearLayout {
 		local_spinner.setSelection(firstPosition);
 
 	}
+
 
 }
