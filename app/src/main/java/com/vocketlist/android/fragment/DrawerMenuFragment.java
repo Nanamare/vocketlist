@@ -21,6 +21,7 @@ import com.vocketlist.android.api.user.MyListInfo;
 import com.vocketlist.android.api.user.UserInfoModel;
 import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.RequestCode;
+import com.vocketlist.android.preference.CommonPreference;
 import com.vocketlist.android.preference.FacebookPreperence;
 import com.vocketlist.android.roboguice.log.Ln;
 import com.vocketlist.android.util.RxEventManager;
@@ -39,6 +40,9 @@ import rx.android.schedulers.AndroidSchedulers;
 public class DrawerMenuFragment extends Fragment {
     private static final String TAG = DrawerMenuFragment.class.getSimpleName();
 
+    public static final String MYLIST_TOTAL = "MYLIST_TOTAL";
+    public static final String MYLIST_FINISH = "MYLIST_FINISH";
+
     @BindView(R.id.llLogin) protected LinearLayout mLoginView;
     @BindView(R.id.rlLogout) protected RelativeLayout mLogoutView;
 
@@ -48,6 +52,9 @@ public class DrawerMenuFragment extends Fragment {
     @BindView(R.id.pbGoal) ProgressBar pbGoal;
 
 //    protected CallbackManager mCallbackManager;
+
+    private int totalCount;
+    private int doneCount;
 
     @OnClick(R.id.login_button)
     protected void onClickFacebookLoginBtn() {
@@ -117,9 +124,16 @@ public class DrawerMenuFragment extends Fragment {
         // 이름
         tvName.setText(fullName);
 
+
         // 전체 갯수 / 완료 개수
-        int totalCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mTotal;
-        int doneCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mFinish;
+
+        if(checkPreference()){
+            totalCount = Integer.valueOf(CommonPreference.getInstance().getPreferenceString(MYLIST_TOTAL, null));
+            doneCount = Integer.valueOf(CommonPreference.getInstance().getPreferenceString(MYLIST_FINISH, null));
+        } else {
+            totalCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mTotal;
+            doneCount = UserServiceManager.getLoginInfo().mUserInfo.mMyList.mFinish;
+        }
 
         // 진행률
         pbGoal.setMax(totalCount);
@@ -148,10 +162,25 @@ public class DrawerMenuFragment extends Fragment {
 
     }
 
+    private boolean checkPreference() {
+        String total = CommonPreference.getInstance().getPreferenceString(MYLIST_TOTAL, null);
+        String finish = CommonPreference.getInstance().getPreferenceString(MYLIST_FINISH, null);
+
+        if(!TextUtils.isEmpty(total) && !TextUtils.isEmpty(finish)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void refreshMyListCnt(MyListInfo object) {
 
-        int totalCount = object.mTotal;
-        int doneCount = object.mFinish;
+        totalCount = object.mTotal;
+        doneCount = object.mFinish;
+
+        //저장
+        CommonPreference.getInstance().setPreference(MYLIST_TOTAL,String.valueOf(totalCount));
+        CommonPreference.getInstance().setPreference(MYLIST_FINISH, String.valueOf(doneCount));
 
         pbGoal.setMax(totalCount);
         pbGoal.setProgress(doneCount);
@@ -168,6 +197,11 @@ public class DrawerMenuFragment extends Fragment {
     private void switchLogout() {
         mLoginView.setVisibility(View.GONE);
         mLogoutView.setVisibility(View.VISIBLE);
+        clearDrawerFragement();
+    }
+
+    private void clearDrawerFragement() {
+        RxEventManager.getInstance().sendData(TAG);
     }
 
     private void refreshUserInfo() {

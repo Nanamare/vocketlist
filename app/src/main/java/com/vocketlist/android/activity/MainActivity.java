@@ -61,6 +61,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 	@BindView(R.id.llVolunteerTab) LinearLayout llVolunteerTab;
 	@BindView(R.id.llCommunityTab) LinearLayout llCommunityTab;
 
+
+	private AppCompatTextView myListTv;
+	private AppCompatTextView scheduleTv;
+
 	// Event
 	private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
 		@Override
@@ -92,7 +96,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		if (NoticePreference.getInstance().showGuidePopup()) {
 			dialogIntroduce();
 		}
+
+		clearDrawerFragment();
+
 	}
+
+	private void clearDrawerFragment() {
+		RxEventManager.getInstance().getObjectObservable()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<Object>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(Object o) {
+						if(o instanceof String){
+							if(o.equals("DrawerMenuFragment")){
+								myListTv.setText("");
+								scheduleTv.setText("");
+							}
+						}
+					}
+				});
+	}
+
 	@Override
 	protected void onStart(){
 		super.onStart();
@@ -136,13 +170,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		Menu myMenu = mNavigationView.getMenu();
 		View myView = MenuItemCompat.getActionView(myMenu.findItem(R.id.naviMyList));
-		AppCompatTextView myListTv = (AppCompatTextView) myView.findViewById(R.id.tvLabel);
-		myListTv.setText(""+userInfo.mResult.mMyListInfo.mTotal);
+	  myListTv = (AppCompatTextView) myView.findViewById(R.id.tvLabel);
+		myListTv.setText(userInfo.mResult.mMyListInfo.mTotal+" 건");
 
 		Menu scheduleMenu = mNavigationView.getMenu();
 		View scheduleView = MenuItemCompat.getActionView(scheduleMenu.findItem(R.id.naviSchedule));
-		AppCompatTextView scheduleTv = (AppCompatTextView) scheduleView.findViewById(R.id.tvLabel);
-		scheduleTv.setText(""+userInfo.mResult.mScheduleInfo.mTotalSchedule);
+		scheduleTv = (AppCompatTextView) scheduleView.findViewById(R.id.tvLabel);
+		scheduleTv.setText(userInfo.mResult.mScheduleInfo.mTotalSchedule+" 건");
 
 	}
 
