@@ -25,7 +25,7 @@
     <string name="count">%1$d 건</string>
 
     <!-- 인증 -->
-    <string name="logout">로그아웃</string>
+    <string name="logout">LOG-OUT</string>
     <string name="login">로그인 후 이용하세요.</string>
 
     <string name="my_list_progress">마이리스트 %1$d건 중 %2$d건 완료</string>
