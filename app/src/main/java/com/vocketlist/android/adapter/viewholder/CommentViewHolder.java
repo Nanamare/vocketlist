@@ -58,8 +58,8 @@ public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> 
             if (!TextUtils.isEmpty(user.mImageUrl)) {
                 Glide.with(context)
                         .load(user.mImageUrl)
+                        .error(R.drawable.ci_inset)
                         .centerCrop()
-                        .crossFade()
                         .into(civPhoto);
             }
 
