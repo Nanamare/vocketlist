@@ -100,11 +100,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 			// 글 수정 후
-			case RequestCode.POST_MODIFY: {
-				// TODO 업데이트
-			}
-			break;
-
+			case RequestCode.POST_MODIFY:
 			// 댓글 보기 or 작성 후
 			case RequestCode.POST_COMMENT: {
 				if(Activity.RESULT_OK == resultCode) {
