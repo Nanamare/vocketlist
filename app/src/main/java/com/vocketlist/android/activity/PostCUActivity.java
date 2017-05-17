@@ -218,6 +218,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 				refreshAttendVolunteerView();
 			}
 		});
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 	}
 
