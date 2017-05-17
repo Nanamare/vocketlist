@@ -1,6 +1,5 @@
 package com.vocketlist.android.api.community;
 
-import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
@@ -48,6 +47,7 @@ interface CommunityService {
 											, @Part("service_id") RequestBody serviceId);
 
 	// 커뮤니티 글 수정
+	@Multipart
 	@PUT("posts/{id}/")
 	Observable<Response<BaseResponse<CommunityWrite>>> modify(@Path("id") int contentId,
 													  @Part MultipartBody.Part image

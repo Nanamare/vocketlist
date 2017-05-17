@@ -49,8 +49,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class CommunityCategoryFragment extends RecyclerFragment implements
 		ICommunityView,
-		RecyclerViewItemClickListener
-{
+		RecyclerViewItemClickListener {
 	@BindColor(R.color.point_E47B75) int pointE47B75;
 
 	private PostAdapter adapter;

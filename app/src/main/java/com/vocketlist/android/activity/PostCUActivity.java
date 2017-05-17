@@ -25,11 +25,13 @@ import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
 import com.vocketlist.android.api.my.MyListModel;
 import com.vocketlist.android.api.my.MyListServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.common.helper.AttachmentHelper;
+import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dialog.SearchVolunteerDialog;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.manager.ToastManager;
@@ -76,6 +78,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	private MyListModel.MyList mMyListData;
 	private Volunteer.Data mVolunteerData;
+	private CommunityList.CommunityData mModifyData;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -138,6 +141,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 		mVolunteerData = (Volunteer.Data) bundle.getSerializable(EXTRA_KEY_VOLUNTEER_DATA);
 		mMyListData = (MyListModel.MyList) bundle.getSerializable(EXTRA_KEY_MYLIST_DATA);
+		mModifyData = (CommunityList.CommunityData) bundle.getSerializable(Extras.DATA);
 	}
 
 	@Override
@@ -158,9 +162,16 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_done) {
-			requestWrite();
+			if (mModifyData == null) {
+				requestWrite();
+			} else {
+				requestModify();
+			}
+
 			return true;
-		} else return super.onOptionsItemSelected(item);
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -242,6 +253,10 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		refreshMyListContents();
 		initToolbar();
 		metContent.requestFocus();
+
+		if (mModifyData != null) {
+
+		}
 	}
 
 	/**
@@ -278,6 +293,46 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 		mMyListContentView.setVisibility(View.VISIBLE);
 		mMyListContentView.setText(mMyListData.mContent);
+	}
+
+	private void requestModify() {
+		if (TextUtils.isEmpty(metContent.getText().toString())) {
+			Toast.makeText(this, R.string.community_write_empty_contents_message, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		showProgressDialog(true);
+
+		String filePath = mChosenFile != null ? mChosenFile.getOriginalPath() : null;
+		int serviceId = (mModifyData.mService != null) ? mModifyData.mService.mId : 0;
+
+		CommunityServiceManager.modify(mModifyData.mId, serviceId, filePath, metContent.getText().toString())
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
+				.subscribe(new EmptySubscriber<Response<BaseResponse<CommunityWrite>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+						CommunityWrite communityWrite = baseResponseResponse.body().mResult;
+						mModifyData.mId = communityWrite.mCommunityId;
+						mModifyData.mImageUrl = communityWrite.mImagePath;
+						mModifyData.mContent = communityWrite.mContent;
+						if (mModifyData.mService != null) {
+							mModifyData.mService.mId = communityWrite.mVocketServiceId;
+						}
+
+
+						Intent intent = new Intent();
+						intent.putExtra(Extras.DATA, mModifyData);
+
+						setResult(Activity.RESULT_OK, intent);
+						finish();
+					}
+				});
 	}
 
 	/**

@@ -70,9 +70,16 @@ public final class CommunityServiceManager {
     }
 
     public static Observable<Response<BaseResponse<CommunityWrite>>> modify(int communityId, int vocketServiceId, String imagePath, String content) {
-        MultipartBody.Part image = getMultipartBody(imagePath);
+        RequestBody contentId;
+        MultipartBody.Part image = null;
         RequestBody description = null;
         RequestBody serviceId = null;
+
+//        contentId = RequestBody.create(okhttp3.MultipartBody.FORM, Integer.toString(communityId));
+
+        if(imagePath != null){
+            image = getMultipartBody(imagePath);
+        }
 
         if (content != null) {
             description = RequestBody.create(okhttp3.MultipartBody.FORM, content);
