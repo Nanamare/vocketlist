@@ -21,8 +21,43 @@ public class EmptyRecyclerView extends RecyclerView {
     private AdapterDataObserver adapterDataObserver = new AdapterDataObserver() {
         @Override
         public void onChanged() {
+            super.onChanged();
+            update();
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            update();
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            update();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+            update();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            super.onItemRangeChanged(positionStart, itemCount, payload);
+            update();
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
+            update();
+        }
+
+        private void update() {
             Adapter<?> adapter =  getAdapter();
-            if(adapter != null && emptyView != null) {
+            if(emptyView != null) {
                 if(adapter.getItemCount() == 0) {
                     emptyView.setVisibility(View.VISIBLE);
                     EmptyRecyclerView.this.setVisibility(View.GONE);
@@ -34,7 +69,6 @@ public class EmptyRecyclerView extends RecyclerView {
             }
         }
     };
-
 
     /**
      * 생성자
