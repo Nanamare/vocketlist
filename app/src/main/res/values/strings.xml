@@ -22,9 +22,10 @@
     <string name="delete">삭제</string>
     <string name="post">게시</string>
     <string name="recruiting">모집중</string>
+    <string name="count">%1$d 건</string>
 
     <!-- 인증 -->
-    <string name="logout">로그아웃</string>
+    <string name="logout">LOG-OUT</string>
     <string name="login">로그인 후 이용하세요.</string>
 
     <string name="my_list_progress">마이리스트 %1$d건 중 %2$d건 완료</string>
@@ -76,9 +77,6 @@
     <string name="volunteer">봉사활동</string>
     <string name="community">커뮤니티</string>
     <string name="comment">답글 달기</string>
-
-    <!-- -->
-    <string name="progress">달성률 %1$d / 커뮤니티 %2$d건</string>
 
     <!-- -->
     <string name="notification">알림설정</string>

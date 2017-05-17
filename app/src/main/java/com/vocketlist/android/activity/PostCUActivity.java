@@ -4,19 +4,21 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.inputmethodservice.Keyboard;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.entity.ChosenFile;
@@ -34,6 +36,7 @@ import com.vocketlist.android.common.helper.AttachmentHelper;
 import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dialog.SearchVolunteerDialog;
 import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.helper.KeyboardHelper;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.network.error.ExceptionHelper;
 import com.vocketlist.android.network.service.EmptySubscriber;
@@ -67,8 +70,8 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.rlAttachment) RelativeLayout rlAttachment;
-	@BindView(R.id.activity_post_create_mylist_content) protected TextView mMyListContentView;
-	@BindView(R.id.activity_post_create_volunteer_title) protected TextView mAttendVoluntterView;
+	@BindView(R.id.activity_post_create_mylist_content) protected AppCompatTextView mMyListContentView;
+	@BindView(R.id.activity_post_create_volunteer_title) protected AppCompatTextView mAttendVolunteerView;
 	@BindView(R.id.metContent) protected MaterialEditText metContent;
 
 	@BindDimen(R.dimen.font_42) protected int searchFontSize;
@@ -226,6 +229,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 				refreshAttendVolunteerView();
 			}
 		});
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 	}
 
@@ -278,12 +282,12 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	private void refreshAttendVolunteerView() {
 		if (mVolunteerData == null) {
-			mAttendVoluntterView.setVisibility(View.GONE);
+			mAttendVolunteerView.setVisibility(View.GONE);
 			return;
 		}
 
-		mAttendVoluntterView.setVisibility(View.VISIBLE);
-		mAttendVoluntterView.setText(mVolunteerData.mTitle);
+		mAttendVolunteerView.setVisibility(View.VISIBLE);
+		mAttendVolunteerView.setText("#" + mVolunteerData.mTitle);
 	}
 	private void refreshMyListContents() {
 		if (mMyListData == null) {
@@ -292,7 +296,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		}
 
 		mMyListContentView.setVisibility(View.VISIBLE);
-		mMyListContentView.setText(mMyListData.mContent);
+		mMyListContentView.setText("#" + mMyListData.mContent);
 	}
 
 	private void requestModify() {

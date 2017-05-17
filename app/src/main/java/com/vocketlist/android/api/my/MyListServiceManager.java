@@ -15,7 +15,7 @@ import rx.Observable;
  */
 
 public final class MyListServiceManager {
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 100;
 
     private static final MyListService SERVICE = ServiceDefine.retrofit.create(MyListService.class);
 

@@ -35,12 +35,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             android:paddingTop="20dp">
 
             <!-- 내정보 : 상단 -->
@@ -59,8 +59,7 @@
                     app:civ_border_color="@color/material_black"
                     app:civ_border_overlay="true"
                     app:civ_border_width="0.3dp"
-                    app:civ_fill_color="@color/material_grey100"
-                    tools:src="@drawable/dummy_profile" />
+                    app:civ_fill_color="@color/material_grey100" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,6 +73,8 @@
                         android:layout_height="0dp"
                         android:layout_gravity="top"
                         android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:gravity="top">
 
                         <android.support.v7.widget.AppCompatTextView
@@ -93,14 +94,16 @@
                             tools:text="bongbongbong" />
 
                         <!-- 로그아웃 -->
-                        <android.support.v7.widget.AppCompatButton
+                        <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/btnLogout"
                             style="?selectableItemBackground"
                             android:layout_width="50dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_height="20dp"
                             android:background="@drawable/bg_logout"
+                            android:gravity="center"
+                            android:letterSpacing="-0.02"
                             android:padding="5dp"
+                            android:paddingTop="-6dp"
                             android:text="@string/logout"
                             android:textColor="#808080"
                             android:textSize="@dimen/font_25" />
@@ -286,8 +289,8 @@
                 android:id="@+id/rvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-6dp"
                 android:layout_marginEnd="-6dp"
+                android:layout_marginStart="-6dp"
                 android:layout_marginTop="16dp"
                 tools:background="@color/black_7" />
 
@@ -312,8 +315,7 @@
                 <com.vocketlist.android.view.LocalSelectView
                     android:id="@+id/local_select_first_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.vocketlist.android.view.LocalSelectView>
+                    android:layout_height="wrap_content"></com.vocketlist.android.view.LocalSelectView>
 
 
             </LinearLayout>
@@ -328,8 +330,7 @@
                 <com.vocketlist.android.view.LocalSelectView
                     android:id="@+id/local_select_second_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.vocketlist.android.view.LocalSelectView>
+                    android:layout_height="wrap_content"></com.vocketlist.android.view.LocalSelectView>
 
             </LinearLayout>
 

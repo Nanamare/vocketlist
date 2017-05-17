@@ -99,14 +99,15 @@ public class DrawerMenuFragment extends Fragment {
         String fullName = FacebookPreperence.getInstance().getUserName();
 
         // 사진
-        civPhoto.setImageDrawable(null);
         if(!TextUtils.isEmpty(profile)) {
             Glide.with(this)
                     .load(profile)
+                    .error(R.drawable.ci_inset)
                     .centerCrop()
                     .crossFade()
                     .into(civPhoto);
         }
+        else civPhoto.setImageResource(R.drawable.ci_inset);
 
         // 이름
         tvName.setText(fullName);

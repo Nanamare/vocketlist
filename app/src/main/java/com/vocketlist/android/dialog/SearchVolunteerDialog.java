@@ -16,6 +16,7 @@ import com.vocketlist.android.adapter.viewholder.VolunteerSearchViewHolder;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.dto.BaseResponse;
+import com.vocketlist.android.helper.KeyboardHelper;
 import com.vocketlist.android.network.service.EmptySubscriber;
 import com.vocketlist.android.roboguice.log.Ln;
 
@@ -61,7 +62,6 @@ public class SearchVolunteerDialog extends Dialog implements SearchView.OnQueryT
 		theTextArea.setTextSize(TypedValue.COMPLEX_UNIT_PX, searchFontSize);
 		theTextArea.requestFocus();
         mSearchView.requestFocus();
-
 
         mSearchView.setOnQueryTextListener(this);
         initRecyclerView();
