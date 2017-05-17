@@ -48,297 +48,305 @@ import rx.android.schedulers.AndroidSchedulers;
  * 메인
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
-		BottomNavigationView.OnNavigationItemSelectedListener,
-		OnTabSelectListener {
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        OnTabSelectListener {
 
-	@BindView(R.id.toolbar) protected Toolbar mToolbar;
-	@BindView(R.id.drawer_layout) protected DrawerLayout mDrawer;
-	@BindView(R.id.navigationView) protected NavigationView mNavigationView;
+    @BindView(R.id.toolbar)
+    protected Toolbar mToolbar;
+    @BindView(R.id.drawer_layout)
+    protected DrawerLayout mDrawer;
+    @BindView(R.id.navigationView)
+    protected NavigationView mNavigationView;
 
-	@BindView(R.id.bottomBar) BottomBar bottomBar;
+    @BindView(R.id.bottomBar)
+    BottomBar bottomBar;
 
-	@BindView(R.id.llVolunteerTab) LinearLayout llVolunteerTab;
-	@BindView(R.id.llCommunityTab) LinearLayout llCommunityTab;
+    @BindView(R.id.llVolunteerTab)
+    LinearLayout llVolunteerTab;
+    @BindView(R.id.llCommunityTab)
+    LinearLayout llCommunityTab;
 
-	// Event
-	private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (mDrawer.isDrawerVisible(GravityCompat.START)) {
-				mDrawer.closeDrawer(GravityCompat.START);
-			} else {
-				mDrawer.openDrawer(GravityCompat.START);
-			}
-		}
-	};
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    // Event
+    private View.OnClickListener onToolbarNavigationClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mDrawer.isDrawerVisible(GravityCompat.START)) {
+                mDrawer.closeDrawer(GravityCompat.START);
+            } else {
+                mDrawer.openDrawer(GravityCompat.START);
+            }
+        }
+    };
 
-		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		FirebaseCrash.log("Activity created");
-		FirebaseMessaging.getInstance().subscribeToTopic("news");
-		FirebaseMessaging.getInstance().subscribeToTopic("reports");
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-		setRootActivity(true);
+        FirebaseCrash.log("Activity created");
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+        FirebaseMessaging.getInstance().subscribeToTopic("reports");
 
-		initViews();
+        setRootActivity(true);
 
-		//런칭시 팝업창
-		if (NoticePreference.getInstance().showGuidePopup()) {
-			dialogIntroduce();
-		}
-	}
-	@Override
-	protected void onStart(){
-		super.onStart();
+        initViews();
 
-		getMenuUserInfo();
-	}
+        //런칭시 팝업창
+        if (NoticePreference.getInstance().showGuidePopup()) {
+            dialogIntroduce();
+        }
+    }
 
-	/**
-	 * 가이드 다이얼로그
-	 */
-	private void dialogIntroduce() {
-		View v = LayoutInflater.from(this).inflate(R.layout.dialog_launch_custom, null, false);
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-		new MaterialDialog.Builder(this)
-				.customView(v, false)
-				.positiveText(R.string.close).positiveColorRes(R.color.btn_positive_guide_popup)
-				.negativeText(R.string.detail_view).negativeColorRes(R.color.btn_negative_guide_popup)
-				.onAny((dialog, which) -> {
-					NoticePreference.getInstance().setGuidePopup(false);
+        getMenuUserInfo();
+    }
+
+    /**
+     * 가이드 다이얼로그
+     */
+    private void dialogIntroduce() {
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_launch_custom, null, false);
+
+        new MaterialDialog.Builder(this)
+                .customView(v, false)
+                .positiveText(R.string.close).positiveColorRes(R.color.btn_positive_guide_popup)
+                .negativeText(R.string.detail_view).negativeColorRes(R.color.btn_negative_guide_popup)
+                .onAny((dialog, which) -> {
+                    NoticePreference.getInstance().setGuidePopup(false);
 
                     if (which == DialogAction.NEGATIVE) {
-						goToActivity(IntroduceActivity.class);
-						return;
-					}
+                        goToActivity(IntroduceActivity.class);
+                        return;
+                    }
                 })
-				.show();
-	}
+                .show();
+    }
 
-	private void initViews() {
-		initToolbar();
-		initDrawer();
-		initBottomNavigation();
-		mNavigationView.setNavigationItemSelectedListener(this);
-		NavigationDrawerView headerView = (NavigationDrawerView) mNavigationView.getHeaderView(0);
-		headerView.setFragmentManager(getSupportFragmentManager(), new DrawerMenuFragment());
+    private void initViews() {
+        initToolbar();
+        initDrawer();
+        initBottomNavigation();
+        mNavigationView.setNavigationItemSelectedListener(this);
+        NavigationDrawerView headerView = (NavigationDrawerView) mNavigationView.getHeaderView(0);
+        headerView.setFragmentManager(getSupportFragmentManager(), new DrawerMenuFragment());
 
-		getMenuUserInfo();
-	}
+        getMenuUserInfo();
+    }
 
-	private void initMenuCnt(BaseResponse<UserInfoModel> userInfo) {
+    private void initMenuCnt(BaseResponse<UserInfoModel> userInfo) {
 
-		Menu myMenu = mNavigationView.getMenu();
-		View myView = MenuItemCompat.getActionView(myMenu.findItem(R.id.naviMyList));
-		AppCompatTextView myListTv = (AppCompatTextView) myView.findViewById(R.id.tvLabel);
-		myListTv.setText(""+userInfo.mResult.mMyListInfo.mTotal);
+        Menu myMenu = mNavigationView.getMenu();
+        View myView = MenuItemCompat.getActionView(myMenu.findItem(R.id.naviMyList));
+        AppCompatTextView myListTv = (AppCompatTextView) myView.findViewById(R.id.tvLabel);
+        myListTv.setText(getString(R.string.count, userInfo.mResult.mMyListInfo.mTotal));
 
-		Menu scheduleMenu = mNavigationView.getMenu();
-		View scheduleView = MenuItemCompat.getActionView(scheduleMenu.findItem(R.id.naviSchedule));
-		AppCompatTextView scheduleTv = (AppCompatTextView) scheduleView.findViewById(R.id.tvLabel);
-		scheduleTv.setText(""+userInfo.mResult.mScheduleInfo.mTotalSchedule);
+        Menu scheduleMenu = mNavigationView.getMenu();
+        View scheduleView = MenuItemCompat.getActionView(scheduleMenu.findItem(R.id.naviSchedule));
+        AppCompatTextView scheduleTv = (AppCompatTextView) scheduleView.findViewById(R.id.tvLabel);
+        scheduleTv.setText(getString(R.string.count, userInfo.mResult.mScheduleInfo.mTotalSchedule));
 
-	}
+    }
 
-	private void getMenuUserInfo() {
-		UserServiceManager.getUserInfo()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response<BaseResponse<UserInfoModel>>>() {
-					@Override
-					public void onCompleted() {
+    private void getMenuUserInfo() {
+        UserServiceManager.getUserInfo()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<BaseResponse<UserInfoModel>>>() {
+                    @Override
+                    public void onCompleted() {
 
-					}
+                    }
 
-					@Override
-					public void onError(Throwable e) {
-						e.printStackTrace();
-					}
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-					@Override
-					public void onNext(Response<BaseResponse<UserInfoModel>> baseResponseResponse) {
-						initMenuCnt(baseResponseResponse.body());
-					}
-				});
-	}
+                    @Override
+                    public void onNext(Response<BaseResponse<UserInfoModel>> baseResponseResponse) {
+                        initMenuCnt(baseResponseResponse.body());
+                    }
+                });
+    }
 
-	private void initToolbar() {
-		// 헤더 CI 적용
-		setSupportActionBar(mToolbar);
+    private void initToolbar() {
+        // 헤더 CI 적용
+        setSupportActionBar(mToolbar);
 
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
-		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		getSupportActionBar().setCustomView(
-				getLayoutInflater().inflate(R.layout.appbar_title, null),
-				new ActionBar.LayoutParams(
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						ActionBar.LayoutParams.WRAP_CONTENT,
-						Gravity.CENTER
-				)
-		);
-	}
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(
+                getLayoutInflater().inflate(R.layout.appbar_title, null),
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER
+                )
+        );
+    }
 
-	private void initDrawer() {
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		toggle.setDrawerIndicatorEnabled(false);
-		toggle.setHomeAsUpIndicator(R.drawable.ic_action_perm_identity);
-		toggle.setToolbarNavigationClickListener(onToolbarNavigationClickListener);
-		mDrawer.setDrawerListener(toggle);
-		toggle.syncState();
-	}
+    private void initDrawer() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_action_perm_identity);
+        toggle.setToolbarNavigationClickListener(onToolbarNavigationClickListener);
+        mDrawer.setDrawerListener(toggle);
+        toggle.syncState();
+    }
 
-	private void initBottomNavigation() {
-		bottomBar.setOnTabSelectListener(this, true);
+    private void initBottomNavigation() {
+        bottomBar.setOnTabSelectListener(this, true);
 
-		goToFragment(VolunteerFragment.class);
-	}
+        goToFragment(VolunteerFragment.class);
+    }
 
-	@SuppressWarnings("StatementWithEmptyBody")
-	@Override
-	public boolean onNavigationItemSelected(MenuItem item) {
-		int id = item.getItemId();
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
-		switch (id) {
-			// 알림설정
-			case R.id.naviNotification:
-				goToActivity(NotificationActivity.class);
-				break;
+        // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
+        switch (id) {
+            // 알림설정
+            case R.id.naviNotification:
+                goToActivity(NotificationActivity.class);
+                break;
 
 //			// 관심정보 모아보기
 //			case R.id.naviFavorite:
 //				goToActivity(FavoriteActivity.class);
 //				break;
 
-			// 마이리스트
-			case R.id.naviMyList:
-				goToActivity(MyListActivity.class);
-				break;
+            // 마이리스트
+            case R.id.naviMyList:
+                goToActivity(MyListActivity.class);
+                break;
 
-			//-----------------------------------------------//
+            //-----------------------------------------------//
 
-			// 프로필관리
-			case R.id.naviProfile:
-				goToActivity(ProfileActivity.class);
-				break;
+            // 프로필관리
+            case R.id.naviProfile:
+                goToActivity(ProfileActivity.class);
+                break;
 
-			// 스케줄관리
-			case R.id.naviSchedule:
-				goToActivity(ScheduleActivity.class);
-				break;
+            // 스케줄관리
+            case R.id.naviSchedule:
+                goToActivity(ScheduleActivity.class);
+                break;
 
-			// 공지사항
-			case R.id.naviNotice:
-				goToActivity(NoticeActivity.class);
-				break;
+            // 공지사항
+            case R.id.naviNotice:
+                goToActivity(NoticeActivity.class);
+                break;
 
-			// 서비스소개
-			case R.id.naviIntroduce:
-				goToActivity(IntroduceActivity.class);
-				break;
+            // 서비스소개
+            case R.id.naviIntroduce:
+                goToActivity(IntroduceActivity.class);
+                break;
 
-			//-----------------------------------------------//
+            //-----------------------------------------------//
 
-			// 문의/도움말
-			case R.id.naviHelp:
-				goToActivity(HelpActivity.class);
-				break;
+            // 문의/도움말
+            case R.id.naviHelp:
+                goToActivity(HelpActivity.class);
+                break;
 
-			// 정책
-			case R.id.naviTerms:
-				goToActivity(TermsActivity.class);
-				break;
+            // 정책
+            case R.id.naviTerms:
+                goToActivity(TermsActivity.class);
+                break;
 
-			// 라이센스
-			case R.id.naviLicense:
-				goToActivity(LicenseActivity.class);
-				break;
-		}
+            // 라이센스
+            case R.id.naviLicense:
+                goToActivity(LicenseActivity.class);
+                break;
+        }
 
 //        mDrawer.closeDrawer(GravityCompat.START);
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public void onTabSelected(@IdRes int tabId) {
-		// TODO 전달할 값이 있으면 extras 파라미터에 담아서...
-		switch (tabId) {
-			// 봉사활동
-			case R.id.action_volunteer:
-				llVolunteerTab.setVisibility(View.VISIBLE);
-				llCommunityTab.setVisibility(View.INVISIBLE);
-				goToFragment(VolunteerFragment.class);
-				break;
-			// 커뮤니티
-			case R.id.action_community:
-				llVolunteerTab.setVisibility(View.INVISIBLE);
-				llCommunityTab.setVisibility(View.VISIBLE);
-				goToFragment(CommunityFragment.class);
-				break;
-		}
-	}
+    @Override
+    public void onTabSelected(@IdRes int tabId) {
+        // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
+        switch (tabId) {
+            // 봉사활동
+            case R.id.action_volunteer:
+                llVolunteerTab.setVisibility(View.VISIBLE);
+                llCommunityTab.setVisibility(View.INVISIBLE);
+                goToFragment(VolunteerFragment.class);
+                break;
+            // 커뮤니티
+            case R.id.action_community:
+                llVolunteerTab.setVisibility(View.INVISIBLE);
+                llCommunityTab.setVisibility(View.VISIBLE);
+                goToFragment(CommunityFragment.class);
+                break;
+        }
+    }
 
-	/**
-	 * 액티비티 호출
-	 *
-	 * @param cls
-	 */
-	private void goToActivity(Class<?> cls) {
-		goToActivity(cls, null);
-	}
+    /**
+     * 액티비티 호출
+     *
+     * @param cls
+     */
+    private void goToActivity(Class<?> cls) {
+        goToActivity(cls, null);
+    }
 
-	/**
-	 * 액티비티 호출
-	 *
-	 * @param cls
-	 * @param extras
-	 */
-	private void goToActivity(Class<?> cls, @Nullable Bundle extras) {
-		Intent intent = new Intent(this, cls);
-		if (extras != null) intent.putExtras(extras);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(intent);
-	}
+    /**
+     * 액티비티 호출
+     *
+     * @param cls
+     * @param extras
+     */
+    private void goToActivity(Class<?> cls, @Nullable Bundle extras) {
+        Intent intent = new Intent(this, cls);
+        if (extras != null) intent.putExtras(extras);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 
-	/**
-	 * 플래그먼트
-	 *
-	 * @param cls
-	 */
-	private void goToFragment(Class<?> cls) {
-		goToFragment(cls, null);
-	}
+    /**
+     * 플래그먼트
+     *
+     * @param cls
+     */
+    private void goToFragment(Class<?> cls) {
+        goToFragment(cls, null);
+    }
 
-	/**
-	 * 플래그먼트
-	 *
-	 * @param cls
-	 * @param args
-	 */
-	private void goToFragment(Class<?> cls, @Nullable Bundle args) {
-		try {
-			Fragment fragment = (Fragment) cls.newInstance();
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-	}
+    /**
+     * 플래그먼트
+     *
+     * @param cls
+     * @param args
+     */
+    private void goToFragment(Class<?> cls, @Nullable Bundle args) {
+        try {
+            Fragment fragment = (Fragment) cls.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
