@@ -13,7 +13,6 @@ import com.vocketlist.android.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 뷰 : 첨부파일 : 단일
@@ -22,20 +21,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @since 2017. 2. 24.
  */
 public class AttachmentSingleView extends RelativeLayout {
-    private static final String TAG = AttachmentSingleView.class.getSimpleName();
-
     //
-    @BindView(R.id.ivThumb)
-    AppCompatImageView ivThumb;
-    @BindView(R.id.civDelete)
-    CircleImageView civDelete;
+    @BindView(R.id.ivThumb) AppCompatImageView ivThumb;
 
     //
     private String thumb;
 
     //
-    @OnClick(R.id.civDelete)
-    void onDeleteClick(CircleImageView v) {
+    @OnClick(R.id.btnDelete)
+    void onDeleteClick() {
         if (mListener != null) mListener.onClick(this);
     }
 
@@ -53,9 +47,6 @@ public class AttachmentSingleView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         View v = LayoutInflater.from(context).inflate(R.layout.attachment_single, this, true);
         ButterKnife.bind(this, v);
-
-        //
-        civDelete.setColorFilter(R.color.material_grey200);
     }
 
     @Override
