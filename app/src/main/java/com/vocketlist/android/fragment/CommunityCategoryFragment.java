@@ -266,7 +266,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	 */
 	private void doModify(CommunityList.CommunityData data) {
 		// TODO 포스트 액티비티 호출
-		goToPostCreate(data);
+		goToPostUpdate(data);
 	}
 
 	/**
@@ -316,7 +316,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	/**
 	 * 글수정
 	 */
-	private void goToPostCreate(CommunityList.CommunityData data) {
+	private void goToPostUpdate(CommunityList.CommunityData data) {
 		Intent intent = new Intent(getActivity(), PostCUActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		intent.putExtra(Extras.DATA, data);
