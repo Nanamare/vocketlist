@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.inputmethodservice.Keyboard;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -36,7 +35,6 @@ import com.vocketlist.android.common.helper.AttachmentHelper;
 import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dialog.SearchVolunteerDialog;
 import com.vocketlist.android.dto.BaseResponse;
-import com.vocketlist.android.helper.KeyboardHelper;
 import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.network.error.ExceptionHelper;
 import com.vocketlist.android.network.service.EmptySubscriber;
@@ -259,7 +257,21 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		metContent.requestFocus();
 
 		if (mModifyData != null) {
+			metContent.setText(mModifyData.mContent);
 
+			if (mModifyData.mService != null) {
+				mAttendVolunteerView.setText(mModifyData.mService.mTitle);
+			}
+
+			if (TextUtils.isEmpty(mModifyData.mImageUrl) == false) {
+				final AttachmentSingleView attach = new AttachmentSingleView(this);
+                rlAttachment.removeAllViews();
+				rlAttachment.addView(attach);
+				attach.setThumb(getString(R.string.vocket_base_url) + mModifyData.mImageUrl);
+				attach.setOnDeleteListener(v -> {
+					rlAttachment.removeView(attach);
+				});
+			}
 		}
 	}
 
@@ -272,6 +284,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		mChosenFile = chosenFile;
 
 		final AttachmentSingleView attach = new AttachmentSingleView(this);
+		rlAttachment.removeAllViews();
 		rlAttachment.addView(attach);
 		attach.setThumb(mChosenFile.getOriginalPath());
 		attach.setOnDeleteListener(v -> {
@@ -327,6 +340,10 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 						mModifyData.mContent = communityWrite.mContent;
 						if (mModifyData.mService != null) {
 							mModifyData.mService.mId = communityWrite.mVocketServiceId;
+						}
+
+						if (TextUtils.isEmpty(mModifyData.mImageUrl) == false) {
+							mModifyData.mImageUrl.replace(getString(R.string.vocket_base_url), "");
 						}
 
 

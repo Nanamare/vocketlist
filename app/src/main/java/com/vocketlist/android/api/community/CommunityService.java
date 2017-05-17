@@ -11,8 +11,8 @@ import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -48,7 +48,7 @@ interface CommunityService {
 
 	// 커뮤니티 글 수정
 	@Multipart
-	@PUT("posts/{id}/")
+	@PATCH("posts/{id}/")
 	Observable<Response<BaseResponse<CommunityWrite>>> modify(@Path("id") int contentId,
 													  @Part MultipartBody.Part image
 													, @Part("content") RequestBody content
