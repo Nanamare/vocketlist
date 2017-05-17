@@ -209,6 +209,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     @Override
                     public void onNext(Response<BaseResponse<UserInfoModel>> baseResponseResponse) {
                         initMenuCnt(baseResponseResponse.body());
+                        RxEventManager.getInstance().sendData(baseResponseResponse.body().mResult.mMyListInfo);
                     }
                 });
     }
