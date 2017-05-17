@@ -373,6 +373,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 		getMenuUserInfo();
 
+		clearDrawerFragment();
+
 	}
 
 

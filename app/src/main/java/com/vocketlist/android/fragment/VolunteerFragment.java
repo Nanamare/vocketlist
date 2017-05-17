@@ -7,6 +7,7 @@ import android.support.annotation.UiThread;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.adapter.VolunteerAdapter;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.api.vocket.VocketServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.defined.Category;
@@ -97,6 +99,14 @@ public class VolunteerFragment extends BaseFragment {
         AppCompatTextView endTv  = (AppCompatTextView)popupView.findViewById(R.id.popup_filter_end_date_tv);
         LocalSelectView localSelectView = (LocalSelectView) popupView.findViewById(R.id.local_select_view);
         AppCompatTextView localDoneBtn = (AppCompatTextView) popupView.findViewById(R.id.popup_filter_done_btn);
+        AppCompatCheckBox collectionCb = (AppCompatCheckBox) popupView.findViewById(R.id.popup_filter_collect_tv);
+
+        if(UserServiceManager.isLogin()){
+            collectionCb.setVisibility(View.VISIBLE);
+        } else {
+            collectionCb.setVisibility(View.GONE);
+            collectionCb.setChecked(false);
+        }
 
         startTv.setOnClickListener(view -> {
             com.vocketlist.android.util.TimePickerDialog dialog =
@@ -115,14 +125,21 @@ public class VolunteerFragment extends BaseFragment {
         localDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //카테고리 getter만들기 mAdapter.getItem(viewPager.getCurrentItem());
+
+                String s = mAdapter.getPageTitle(viewPager.getCurrentItem()).toString();
+                Category category = Category.All;
+                for(Category c : Category.values()){
+                    if(c.getTabString().equals(s)){
+                        category = c;
+                    }
+                }
                 int localDetailId =localSelectView.getLocalDetailId();
                 String startDate = startTv.getText().toString();
                 String endDate = endTv.getText().toString();
                 int page = 1;
                 if(isValid(localDetailId, startDate, endDate)){
-                    VocketServiceManager.search(Category.All, startDate,
-                        endDate, localDetailId, false, null, page)
+                    VocketServiceManager.search(category, startDate,
+                        endDate, localDetailId, collectionCb.isChecked(), null, page)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<Response<BaseResponse<Volunteer>>>() {
                             @Override

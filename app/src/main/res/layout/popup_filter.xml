@@ -81,6 +81,7 @@
         android:padding="0dp">
 
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/popup_filter_collect_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
