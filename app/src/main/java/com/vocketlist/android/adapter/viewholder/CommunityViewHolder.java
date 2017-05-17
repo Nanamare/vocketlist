@@ -30,51 +30,34 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityData> implements View.OnClickListener {
 
-    @BindView(R.id.civPhoto)
-    CircleImageView civPhoto;
-    @BindView(R.id.tvName)
-    AppCompatTextView tvName;
-    @BindView(R.id.btnMore)
-    AppCompatImageButton btnMore;
+    @BindView(R.id.civPhoto) CircleImageView civPhoto;
+    @BindView(R.id.tvName) AppCompatTextView tvName;
+    @BindView(R.id.btnMore) AppCompatImageButton btnMore;
 
-    @BindView(R.id.ivPhoto)
-    AppCompatImageView ivPhoto;
+    @BindView(R.id.ivPhoto) AppCompatImageView ivPhoto;
 //	@BindView(R.id.btnFacebook) AppCompatImageButton btnFacebook;
 //	@BindView(R.id.btnKakaolink) AppCompatImageButton btnKakaolink;
 
-    @BindView(R.id.tvVolunteer)
-    AppCompatTextView tvVolunteer;
-    @BindView(R.id.tvContents)
-    AppCompatTextView tvContents;
+    @BindView(R.id.tvVolunteer) AppCompatTextView tvVolunteer;
+    @BindView(R.id.tvContents) AppCompatTextView tvContents;
 
-    @BindView(R.id.llLike)
-    LinearLayout llLike;
-    @BindView(R.id.ivLike)
-    AppCompatImageView ivLike;
-    @BindView(R.id.tvLikeCount)
-    AppCompatTextView tvLikeCount;
+    @BindView(R.id.llLike) LinearLayout llLike;
+    @BindView(R.id.ivLike) AppCompatImageView ivLike;
+    @BindView(R.id.tvLikeCount) AppCompatTextView tvLikeCount;
 
-    @BindView(R.id.llCommentWrite)
-    LinearLayout llCommentWrite;
+    @BindView(R.id.llCommentWrite) LinearLayout llCommentWrite;
 
-    @BindView(R.id.tvCommentMore)
-    AppCompatTextView tvCommentMore;
+    @BindView(R.id.tvCommentMore) AppCompatTextView tvCommentMore;
 
-    @BindView(R.id.llComments)
-    LinearLayout llComments;
-    @BindView(R.id.tvComment_1)
-    AppCompatTextView tvComment_1;
-    @BindView(R.id.tvComment_2)
-    AppCompatTextView tvComment_2;
+    @BindView(R.id.llComments) LinearLayout llComments;
+    @BindView(R.id.tvComment_1) AppCompatTextView tvComment_1;
+    @BindView(R.id.tvComment_2) AppCompatTextView tvComment_2;
 
 //    @BindView(R.id.tvCreated) AppCompatTextView tvCreated;
 
-    @BindString(R.string.community_volunteer)
-    String title;
-    @BindString(R.string.vocket_base_url)
-    String BASE_URL;
-    @BindString(R.string.community_comment_more)
-    String commentMore;
+    @BindString(R.string.community_volunteer) String title;
+    @BindString(R.string.vocket_base_url) String BASE_URL;
+    @BindString(R.string.community_comment_more) String commentMore;
 
     private RecyclerViewItemClickListener mListener;
 
@@ -92,13 +75,17 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
     @Override
     public void bind(CommunityList.CommunityData data) {
         // 작성자 : 프로필 : 사진
+        civPhoto.setImageDrawable(null);
         if (!TextUtils.isEmpty(data.mUser.mImageUrl)) {
             Glide.with(context)
                     .load(data.mUser.mImageUrl)
+                    .error(R.drawable.ci_inset)
                     .centerCrop()
                     .crossFade()
                     .into(civPhoto);
+
         }
+        else civPhoto.setImageResource(R.drawable.ci_inset);
         // 작성자 : 프로필 : 이름
         tvName.setText(data.mUser.mName);
 
@@ -107,6 +94,7 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
         btnMore.setOnClickListener(this);
 
         // 이미지
+        ivPhoto.setImageDrawable(null);
         if (!TextUtils.isEmpty(data.mImageUrl)) {
             Glide.with(context)
                     .load(BASE_URL + data.mImageUrl)

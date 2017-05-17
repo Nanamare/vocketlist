@@ -10,13 +10,14 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.entity.ChosenFile;
@@ -25,11 +26,13 @@ import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vocketlist.android.R;
 import com.vocketlist.android.api.community.CommunityServiceManager;
+import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
 import com.vocketlist.android.api.my.MyListModel;
 import com.vocketlist.android.api.my.MyListServiceManager;
 import com.vocketlist.android.api.vocket.Volunteer;
 import com.vocketlist.android.common.helper.AttachmentHelper;
+import com.vocketlist.android.defined.Extras;
 import com.vocketlist.android.dialog.SearchVolunteerDialog;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.manager.ToastManager;
@@ -65,8 +68,8 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	@BindView(R.id.toolbar) protected Toolbar toolbar;
 	@BindView(R.id.rlAttachment) RelativeLayout rlAttachment;
-	@BindView(R.id.activity_post_create_mylist_content) protected TextView mMyListContentView;
-	@BindView(R.id.activity_post_create_volunteer_title) protected TextView mAttendVoluntterView;
+	@BindView(R.id.activity_post_create_mylist_content) protected AppCompatTextView mMyListContentView;
+	@BindView(R.id.activity_post_create_volunteer_title) protected AppCompatTextView mAttendVolunteerView;
 	@BindView(R.id.metContent) protected MaterialEditText metContent;
 
 	@BindDimen(R.dimen.font_42) protected int searchFontSize;
@@ -76,6 +79,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	private MyListModel.MyList mMyListData;
 	private Volunteer.Data mVolunteerData;
+	private CommunityList.CommunityData mModifyData;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -138,6 +142,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 		mVolunteerData = (Volunteer.Data) bundle.getSerializable(EXTRA_KEY_VOLUNTEER_DATA);
 		mMyListData = (MyListModel.MyList) bundle.getSerializable(EXTRA_KEY_MYLIST_DATA);
+		mModifyData = (CommunityList.CommunityData) bundle.getSerializable(Extras.DATA);
 	}
 
 	@Override
@@ -158,9 +163,16 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_done) {
-			requestWrite();
+			if (mModifyData == null) {
+				requestWrite();
+			} else {
+				requestModify();
+			}
+
 			return true;
-		} else return super.onOptionsItemSelected(item);
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -215,6 +227,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 				refreshAttendVolunteerView();
 			}
 		});
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 	}
 
@@ -242,6 +255,24 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		refreshMyListContents();
 		initToolbar();
 		metContent.requestFocus();
+
+		if (mModifyData != null) {
+			metContent.setText(mModifyData.mContent);
+
+			if (mModifyData.mService != null) {
+				mAttendVolunteerView.setText(mModifyData.mService.mTitle);
+			}
+
+			if (TextUtils.isEmpty(mModifyData.mImageUrl) == false) {
+				final AttachmentSingleView attach = new AttachmentSingleView(this);
+                rlAttachment.removeAllViews();
+				rlAttachment.addView(attach);
+				attach.setThumb(getString(R.string.vocket_base_url) + mModifyData.mImageUrl);
+				attach.setOnDeleteListener(v -> {
+					rlAttachment.removeView(attach);
+				});
+			}
+		}
 	}
 
 	/**
@@ -253,6 +284,7 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		mChosenFile = chosenFile;
 
 		final AttachmentSingleView attach = new AttachmentSingleView(this);
+		rlAttachment.removeAllViews();
 		rlAttachment.addView(attach);
 		attach.setThumb(mChosenFile.getOriginalPath());
 		attach.setOnDeleteListener(v -> {
@@ -263,12 +295,12 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 
 	private void refreshAttendVolunteerView() {
 		if (mVolunteerData == null) {
-			mAttendVoluntterView.setVisibility(View.GONE);
+			mAttendVolunteerView.setVisibility(View.GONE);
 			return;
 		}
 
-		mAttendVoluntterView.setVisibility(View.VISIBLE);
-		mAttendVoluntterView.setText(mVolunteerData.mTitle);
+		mAttendVolunteerView.setVisibility(View.VISIBLE);
+		mAttendVolunteerView.setText("#" + mVolunteerData.mTitle);
 	}
 	private void refreshMyListContents() {
 		if (mMyListData == null) {
@@ -277,7 +309,51 @@ public class PostCUActivity extends DepthBaseActivity implements AttachmentHelpe
 		}
 
 		mMyListContentView.setVisibility(View.VISIBLE);
-		mMyListContentView.setText(mMyListData.mContent);
+		mMyListContentView.setText("#" + mMyListData.mContent);
+	}
+
+	private void requestModify() {
+		if (TextUtils.isEmpty(metContent.getText().toString())) {
+			Toast.makeText(this, R.string.community_write_empty_contents_message, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		showProgressDialog(true);
+
+		String filePath = mChosenFile != null ? mChosenFile.getOriginalPath() : null;
+		int serviceId = (mModifyData.mService != null) ? mModifyData.mService.mId : 0;
+
+		CommunityServiceManager.modify(mModifyData.mId, serviceId, filePath, metContent.getText().toString())
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnTerminate(new Action0() {
+					@Override
+					public void call() {
+						hideProgressDialog(true);
+					}
+				})
+				.subscribe(new EmptySubscriber<Response<BaseResponse<CommunityWrite>>>() {
+					@Override
+					public void onNext(Response<BaseResponse<CommunityWrite>> baseResponseResponse) {
+						CommunityWrite communityWrite = baseResponseResponse.body().mResult;
+						mModifyData.mId = communityWrite.mCommunityId;
+						mModifyData.mImageUrl = communityWrite.mImagePath;
+						mModifyData.mContent = communityWrite.mContent;
+						if (mModifyData.mService != null) {
+							mModifyData.mService.mId = communityWrite.mVocketServiceId;
+						}
+
+						if (TextUtils.isEmpty(mModifyData.mImageUrl) == false) {
+							mModifyData.mImageUrl.replace(getString(R.string.vocket_base_url), "");
+						}
+
+
+						Intent intent = new Intent();
+						intent.putExtra(Extras.DATA, mModifyData);
+
+						setResult(Activity.RESULT_OK, intent);
+						finish();
+					}
+				});
 	}
 
 	/**

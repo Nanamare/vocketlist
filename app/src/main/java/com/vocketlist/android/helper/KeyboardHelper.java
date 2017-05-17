@@ -1,6 +1,7 @@
 package com.vocketlist.android.helper;
 
 import android.app.Activity;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -43,5 +44,15 @@ public class KeyboardHelper {
     public static void hide(EditText et) {
         InputMethodManager imm = (InputMethodManager) et.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+    }
+
+    public static void show(SearchView sv) {
+        InputMethodManager imm = (InputMethodManager) sv.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(sv, 0);
+    }
+
+    public static void hide(SearchView sv) {
+        InputMethodManager imm = (InputMethodManager) sv.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
     }
 }

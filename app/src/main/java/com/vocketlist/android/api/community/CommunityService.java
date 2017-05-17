@@ -1,6 +1,5 @@
 package com.vocketlist.android.api.community;
 
-import com.vocketlist.android.api.community.model.CommunityDetail;
 import com.vocketlist.android.api.community.model.CommunityLike;
 import com.vocketlist.android.api.community.model.CommunityList;
 import com.vocketlist.android.api.community.model.CommunityWrite;
@@ -12,8 +11,8 @@ import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -48,7 +47,8 @@ interface CommunityService {
 											, @Part("service_id") RequestBody serviceId);
 
 	// 커뮤니티 글 수정
-	@PUT("posts/{id}/")
+	@Multipart
+	@PATCH("posts/{id}/")
 	Observable<Response<BaseResponse<CommunityWrite>>> modify(@Path("id") int contentId,
 													  @Part MultipartBody.Part image
 													, @Part("content") RequestBody content

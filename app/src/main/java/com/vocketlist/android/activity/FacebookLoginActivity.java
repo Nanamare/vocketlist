@@ -160,18 +160,14 @@ public class FacebookLoginActivity extends BaseActivity {
 
 							UserServiceManager.loginWithFacebook(userInfo, token, userId)
 									.observeOn(AndroidSchedulers.mainThread())
-									.doOnTerminate(new Action0() {
-										@Override
-										public void call() {
-											setResult(RESULT_OK);
-											finish();
-										}
-									})
+									.doOnTerminate(() -> {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    })
 									.subscribe(new Subscriber<Response<BaseResponse<LoginModel>>>() {
 										@Override
 										public void onCompleted() {
 											//완료되었을시 fcm 토큰을 발행하고 서버에 등록시킨다.
-
 										}
 
 										@Override

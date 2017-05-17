@@ -49,8 +49,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class CommunityCategoryFragment extends RecyclerFragment implements
 		ICommunityView,
-		RecyclerViewItemClickListener
-{
+		RecyclerViewItemClickListener {
 	@BindColor(R.color.point_E47B75) int pointE47B75;
 
 	private PostAdapter adapter;
@@ -100,11 +99,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 			// 글 수정 후
-			case RequestCode.POST_MODIFY: {
-				// TODO 업데이트
-			}
-			break;
-
+			case RequestCode.POST_MODIFY:
 			// 댓글 보기 or 작성 후
 			case RequestCode.POST_COMMENT: {
 				if(Activity.RESULT_OK == resultCode) {
@@ -266,7 +261,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	 */
 	private void doModify(CommunityList.CommunityData data) {
 		// TODO 포스트 액티비티 호출
-		goToPostCreate(data);
+		goToPostUpdate(data);
 	}
 
 	/**
@@ -316,7 +311,7 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	/**
 	 * 글수정
 	 */
-	private void goToPostCreate(CommunityList.CommunityData data) {
+	private void goToPostUpdate(CommunityList.CommunityData data) {
 		Intent intent = new Intent(getActivity(), PostCUActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		intent.putExtra(Extras.DATA, data);
@@ -389,8 +384,12 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 			page = response.mResult.mPageCurrentCnt;
 			pageTotal = response.mResult.mPageCnt;
 
-			if(page == 1) adapter.setList(response.mResult.mData);
-			else adapter.addAll(response.mResult.mData);
+			if(page == 1) {
+				adapter.setList(response.mResult.mData);
+
+			} else {
+				adapter.addAll(response.mResult.mData);
+			}
 		}
 	}
 

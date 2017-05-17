@@ -82,17 +82,18 @@
                 tools:text="Full name" />
 
             <!-- 로그아웃 -->
-            <android.support.v7.widget.AppCompatButton
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/btnLogout"
                 style="?selectableItemBackground"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="20dp"
                 android:layout_above="@+id/tvProgress"
                 android:layout_alignBottom="@+id/tvName"
                 android:layout_alignEnd="@+id/pbGoal"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="22dp"
                 android:background="@drawable/bg_logout"
-                android:padding="5dp"
+                android:gravity="center"
+                android:letterSpacing="-0.02"
                 android:text="@string/logout"
                 android:textColor="#808080"
                 android:textSize="@dimen/font_25" />

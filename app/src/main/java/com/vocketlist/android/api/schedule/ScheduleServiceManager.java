@@ -43,8 +43,7 @@ public final class ScheduleServiceManager {
 
     public static Observable<Response<BaseResponse<ScheduleDeleteModel>>> delete(int id) {
         return SERVICE.delete(id)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<>()));
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
     }
 
     public static Observable<Response<BaseResponse<ScheduleModel>>> detail(int id) {

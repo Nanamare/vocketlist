@@ -38,6 +38,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 
 public class DrawerMenuFragment extends Fragment {
+
     private static final String TAG = DrawerMenuFragment.class.getSimpleName();
 
     public static final String MYLIST_TOTAL = "MYLIST_TOTAL";
@@ -116,10 +117,12 @@ public class DrawerMenuFragment extends Fragment {
         if(!TextUtils.isEmpty(profile)) {
             Glide.with(this)
                     .load(profile)
+                    .error(R.drawable.ci_inset)
                     .centerCrop()
                     .crossFade()
                     .into(civPhoto);
         }
+        else civPhoto.setImageResource(R.drawable.ci_inset);
 
         // 이름
         tvName.setText(fullName);

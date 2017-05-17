@@ -1,9 +1,7 @@
 package com.vocketlist.android.adapter;
 
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.vocketlist.android.R;
 import com.vocketlist.android.adapter.viewholder.VolunteerCategoryViewHolder;
 import com.vocketlist.android.api.vocket.Volunteer;
 
@@ -26,6 +24,6 @@ public class VolunteerCategoryAdapter extends BaseAdapter<Volunteer.Data, Volunt
 
     @Override
     public VolunteerCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new VolunteerCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
+        return VolunteerCategoryViewHolder.create(parent);
     }
 }

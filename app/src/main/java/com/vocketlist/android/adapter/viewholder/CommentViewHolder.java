@@ -52,15 +52,18 @@ public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> 
 
         // 이름 + 내용
         Spanny msg = new Spanny();
+        civPhoto.setImageDrawable(null);
         if(user != null) {
             // 작성자 : 프로필 : 사진
             if (!TextUtils.isEmpty(user.mImageUrl)) {
                 Glide.with(context)
                         .load(user.mImageUrl)
+                        .error(R.drawable.ci_inset)
                         .centerCrop()
                         .crossFade()
                         .into(civPhoto);
             }
+            else civPhoto.setImageResource(R.drawable.ci_inset);
 
             // 이름
             msg.append(user.mName, new StyleSpan(Typeface.BOLD));

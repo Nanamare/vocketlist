@@ -15,7 +15,7 @@ import rx.Observable;
  */
 
 public final class MyListServiceManager {
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 100;
 
     private static final MyListService SERVICE = ServiceDefine.retrofit.create(MyListService.class);
 
@@ -39,7 +39,6 @@ public final class MyListServiceManager {
 
     public static Observable<Response<BaseResponse<Void>>> delete(int id) {
         return SERVICE.delete(id)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
     }
 }

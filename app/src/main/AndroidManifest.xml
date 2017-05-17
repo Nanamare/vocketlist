@@ -87,6 +87,7 @@
             android:label="@string/my_list"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- 프로필관리 -->

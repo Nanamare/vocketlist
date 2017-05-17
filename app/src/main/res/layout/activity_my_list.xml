@@ -93,18 +93,20 @@
                         android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
                 </LinearLayout>
 
+                <!-- 빈화면 -->
+                <com.vocketlist.android.view.EmptyView
+                    android:id="@+id/emptyView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/empty_my_list" />
+
                 <!-- 목록 -->
-                <com.malinskiy.superrecyclerview.SuperRecyclerView
+                <com.vocketlist.android.view.EmptyRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_empty="@layout/empty_my_list"
-                    app:layout_moreProgress="@layout/layout_more_progress"
-                    app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
-                    app:recyclerClipToPadding="false"
-                    app:recyclerPadding="0dp"
-                    app:scrollbarStyle="outsideOverlay" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 

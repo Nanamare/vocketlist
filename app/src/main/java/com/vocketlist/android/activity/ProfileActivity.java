@@ -75,13 +75,18 @@ public class ProfileActivity extends DepthBaseActivity implements
 	@BindView(R.id.local_select_first_view) LocalSelectView localFirstView;
 	@BindView(R.id.local_select_second_view) LocalSelectView localSecondView;
 
-
 	@BindDimen(R.dimen.category_grid_spacing) int categoryGridSpacing;
 	@BindArray(R.array.categories) String[] categories;
 	@BindArray(R.array.gender) String[] genders;
 
 	private Calendar mBirth;
 	private CategoryGridAdapter mAdapter;
+
+	@OnClick(R.id.btnLogout)
+	protected void onClickLogoutBtn() {
+		UserServiceManager.logout();
+		finish();
+	}
 
 	@OnClick(R.id.tvForgot)
 	void onForgotClick(AppCompatTextView v) {
@@ -179,10 +184,12 @@ public class ProfileActivity extends DepthBaseActivity implements
 		if(!TextUtils.isEmpty(fp.getUserImageUrl())) {
 			Glide.with(this)
 					.load(fp.getUserImageUrl())
+					.error(R.drawable.ci_inset)
 					.centerCrop()
 					.crossFade()
 					.into(civPhoto);
 		}
+		else civPhoto.setImageResource(R.drawable.ci_inset);
 		// 이름
 		tvDisplayName.setText(fp.getUserName());
 		// 이메일

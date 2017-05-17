@@ -4,7 +4,6 @@ import com.vocketlist.android.api.BaseServiceErrorChecker;
 import com.vocketlist.android.api.ServiceDefine;
 import com.vocketlist.android.api.comment.model.CommentDetailModel;
 import com.vocketlist.android.api.comment.model.CommentListModel;
-import com.vocketlist.android.api.comment.model.CommentWriteModel;
 import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.network.executor.Priority;
 import com.vocketlist.android.network.service.ServiceErrorChecker;
@@ -46,8 +45,7 @@ public final class CommentServiceManager {
 
     public static Observable<Response<BaseResponse<Void>>> delete(int commentId) {
         return SERVICE.delete(commentId)
-                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM))
-                .lift(new ServiceErrorChecker<>(new BaseServiceErrorChecker<Void>()));
+                .subscribeOn(ServiceHelper.getPriorityScheduler(Priority.MEDIUM));
     }
 
     public static Observable<Response<BaseResponse<CommentDetailModel>>> detail(int commentId) {

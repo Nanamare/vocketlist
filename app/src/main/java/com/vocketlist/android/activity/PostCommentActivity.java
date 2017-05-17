@@ -30,6 +30,7 @@ import com.vocketlist.android.manager.ToastManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -223,6 +224,7 @@ public class PostCommentActivity extends DepthBaseActivity implements
 
                     // 답글 있음
                     if(data.mComment != null && !data.mComment.isEmpty()) {
+                        Collections.reverse(data.mComment);
                         adapter = new CommentAdapter(data.mComment, this);
                         reqList(1);
                     }
