@@ -60,8 +60,10 @@ public class CommentViewHolder extends BaseViewHolder<CommentListModel.Comment> 
                         .load(user.mImageUrl)
                         .error(R.drawable.ci_inset)
                         .centerCrop()
+                        .crossFade()
                         .into(civPhoto);
             }
+            else civPhoto.setImageResource(R.drawable.ci_inset);
 
             // 이름
             msg.append(user.mName, new StyleSpan(Typeface.BOLD));

@@ -79,10 +79,13 @@ public class CommunityViewHolder extends BaseViewHolder<CommunityList.CommunityD
         if (!TextUtils.isEmpty(data.mUser.mImageUrl)) {
             Glide.with(context)
                     .load(data.mUser.mImageUrl)
+                    .error(R.drawable.ci_inset)
                     .centerCrop()
                     .crossFade()
                     .into(civPhoto);
+
         }
+        else civPhoto.setImageResource(R.drawable.ci_inset);
         // 작성자 : 프로필 : 이름
         tvName.setText(data.mUser.mName);
 
