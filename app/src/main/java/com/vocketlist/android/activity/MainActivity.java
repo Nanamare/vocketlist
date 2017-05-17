@@ -35,6 +35,7 @@ import com.vocketlist.android.dto.BaseResponse;
 import com.vocketlist.android.fragment.CommunityFragment;
 import com.vocketlist.android.fragment.DrawerMenuFragment;
 import com.vocketlist.android.fragment.VolunteerFragment;
+import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.preference.NoticePreference;
 import com.vocketlist.android.view.NavigationDrawerView;
 
@@ -212,11 +213,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
         switch (id) {
-            // 알림설정
-            case R.id.naviNotification:
-                goToActivity(NotificationActivity.class);
-                break;
-
 //			// 관심정보 모아보기
 //			case R.id.naviFavorite:
 //				goToActivity(FavoriteActivity.class);
@@ -224,19 +220,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             // 마이리스트
             case R.id.naviMyList:
-                goToActivity(MyListActivity.class);
-                break;
-
-            //-----------------------------------------------//
-
-            // 프로필관리
-            case R.id.naviProfile:
-                goToActivity(ProfileActivity.class);
+                if(checkedLogin()) goToActivity(MyListActivity.class);
                 break;
 
             // 스케줄관리
             case R.id.naviSchedule:
-                goToActivity(ScheduleActivity.class);
+                if(checkedLogin()) goToActivity(ScheduleActivity.class);
+                break;
+
+            //-----------------------------------------------//
+
+            // 알림설정
+            case R.id.naviNotification:
+                goToActivity(NotificationActivity.class);
+                break;
+
+            // 프로필관리
+            case R.id.naviProfile:
+                if(checkedLogin()) goToActivity(ProfileActivity.class);
                 break;
 
             // 공지사항
@@ -256,7 +257,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 goToActivity(HelpActivity.class);
                 break;
 
-            // 정책
+            // 이용약관
             case R.id.naviTerms:
                 goToActivity(TermsActivity.class);
                 break;
@@ -337,16 +338,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    /**
+     * 로그인 체크 > 비로그인 시 토스트
+     *
+     * @return
+     */
+    private boolean checkedLogin() {
+        boolean isLogin = UserServiceManager.isLogin();
+        if(!isLogin) ToastManager.show(R.string.login);
+        return isLogin;
     }
 }
