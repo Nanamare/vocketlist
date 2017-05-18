@@ -14,7 +14,9 @@ import com.vocketlist.android.R;
 import com.vocketlist.android.activity.MainActivity;
 import com.vocketlist.android.activity.PostCUActivity;
 import com.vocketlist.android.adapter.CommunityAdapter;
+import com.vocketlist.android.api.user.UserServiceManager;
 import com.vocketlist.android.defined.CommunityCategory;
+import com.vocketlist.android.manager.ToastManager;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import butterknife.BindView;
@@ -61,7 +63,7 @@ public class CommunityFragment extends BaseFragment {
 
         // 글쓰기
         AppCompatTextView btnFilter = ButterKnife.findById(getActivity(), R.id.btnWrite);
-        btnFilter.setOnClickListener(v -> goToPostCreate());
+        btnFilter.setOnClickListener(v -> {if(checkedLogin())goToPostCreate();});
     }
 
     /**
@@ -71,5 +73,17 @@ public class CommunityFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), PostCUActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+
+    /**
+     * 로그인 체크 > 비로그인 시 토스트
+     *
+     * @return
+     */
+    private boolean checkedLogin() {
+        boolean isLogin = UserServiceManager.isLogin();
+        if(!isLogin) ToastManager.show(R.string.login);
+        return isLogin;
     }
 }

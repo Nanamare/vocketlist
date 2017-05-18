@@ -90,10 +90,10 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 			category = (CommunityCategory) c;
 			recyclerView.setAdapter(adapter = new PostAdapter(new ArrayList<>(), this));
 
-			//
 			reqList(page, searchKeyword);
 		}
 	}
+
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -157,7 +157,21 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	@Override
 	public void onRefresh() {
 		super.onRefresh();
-		reqList(page = 1, searchKeyword);
+		//전체 일때는 둘다 볼수 있고
+		if (category.getResId() == R.string.com_all) {
+			if (page < pageTotal) {
+				reqList(page = 1, searchKeyword);
+			} // 내가 쓴글 처리
+		} else if (category.getResId() == R.string.com_myWriting) {
+			if (checkedLogin()) {
+				if (page < pageTotal) {
+					reqList(page = 1, searchKeyword);
+				}
+			} else {
+				ToastManager.show(R.string.login);
+				recyclerView.setRefreshing(false);
+			}
+		}
 	}
 
 	@Override
@@ -342,9 +356,14 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 		LoginModel loginModel = UserServiceManager.getLoginInfo();
 		String userId = null;
 
-		if (category == CommunityCategory.MyPost && loginModel != null) {
+		if (category == CommunityCategory.MyPost && loginModel != null && checkedLogin()) {
 			userId = Integer.toString(loginModel.mUserInfo.mUserId);
 		}
+
+		if (category == CommunityCategory.MyPost && loginModel == null && !checkedLogin()) {
+			return;
+		}
+
 
 		// todo 명언 보기의 경우 어떻게 api를 호출해서 사용해야 하는지 정리가 필요하다.
 //		if (category == CommunityCategory.Wisdom) {
@@ -507,6 +526,17 @@ public class CommunityCategoryFragment extends RecyclerFragment implements
 	 */
 	private void resDelete(int position) {
 		adapter.remove(position);
+	}
+
+
+	/**
+	 * 로그인 체크 > 비로그인 시 토스트
+	 *
+	 * @return
+	 */
+	private boolean checkedLogin() {
+		boolean isLogin = UserServiceManager.isLogin();
+		return isLogin;
 	}
 
 //
