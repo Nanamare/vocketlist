@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/naviTop"
+        android:checkableBehavior="none">
+        <!-- 마이 리스트 -->
+        <item
+            android:id="@+id/naviMyList"
+            android:title="@string/my_list"
+            app:actionLayout="@layout/menu_count"/>
+
+        <!-- 스케줄 관리 -->
+        <item
+            android:id="@+id/naviSchedule"
+            android:title="@string/schedule_manage"
+            app:actionLayout="@layout/menu_count"/>
+
+        <!-- 관심정보 모아보기 -->
+        <!--<item-->
+            <!--android:id="@+id/naviFavorite"-->
+            <!--android:actionLayout="@layout/drawer_menu_favorite_list"-->
+            <!--android:title="@string/favorite"-->
+            <!--app:actionLayout="@layout/menu_count"/>-->
+    </group>
+
+    <group
+        android:id="@+id/naviSettings"
+        android:checkableBehavior="none">
+
+        <!-- 알림설정 -->
+        <item
+            android:id="@+id/naviNotification"
+            android:title="@string/notification" />
+
+        <!-- 프로필 관리 -->
+        <item
+            android:id="@+id/naviProfile"
+            android:title="@string/profile_manage" />
+
+        <!-- 공지사항 -->
+        <item
+            android:id="@+id/naviNotice"
+            android:title="@string/notice" />
+        <!-- 서비스 소개 -->
+        <item
+            android:id="@+id/naviIntroduce"
+            android:title="@string/introduce" />
+    </group>
+
+    <group
+        android:id="@+id/naviInfo"
+        android:checkableBehavior="none">
+        <!-- 문의/도움말 -->
+        <item
+            android:id="@+id/naviHelp"
+            android:title="@string/help" />
+        <!-- 이용약관 -->
+        <item
+            android:id="@+id/naviTerms"
+            android:title="@string/terms" />
+        <!-- 라이센스 -->
+        <item
+            android:id="@+id/naviLicense"
+            android:title="@string/license" />
+    </group>
+
+</menu>

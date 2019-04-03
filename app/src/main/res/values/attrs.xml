@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationDrawerHeaderItemView">
+        <attr name="android:text"/>
+    </declare-styleable>
+
+    <declare-styleable name="EmptyView">
+        <attr name="android:icon"/>
+        <attr name="android:text"/>
+    </declare-styleable>
+
+    <!-- single item spinner -->
+    <attr format="reference" name="spinnerDropDownItemStyle"/>
+    <attr format="dimension" name="listPreferredItemHeightSmall"/>
+    <attr format="dimension" name="dropdownListPreferredItemHeight"/>
+
+</resources>

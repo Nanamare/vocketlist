@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/attachment_height">
+
+    <!-- 이미지 -->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivThumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="0dp"
+        android:background="@color/material_grey200"
+        android:scaleType="centerCrop" />
+
+    <!-- 삭제 -->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_clear_shadow" />
+
+</RelativeLayout>

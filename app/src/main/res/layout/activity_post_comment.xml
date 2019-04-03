@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 앱바 -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!-- 툴바 -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- 콘텐츠 -->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 목록 -->
+            <com.malinskiy.superrecyclerview.SuperRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_empty="@layout/empty_comment"
+                app:layout_moreProgress="@layout/layout_more_progress"
+                app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+                app:recyclerClipToPadding="false"
+                app:recyclerPadding="0dp"
+                app:scrollbarStyle="outsideOverlay" />
+
+            <!-- 대댓글 : 수신자표시 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvCommentTarget"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/layer_bottom_bar_bg"
+                android:drawableEnd="@drawable/ic_clear"
+                android:gravity="center_vertical"
+                android:letterSpacing="-0.08"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/material_grey500"
+                android:textSize="@dimen/font_33"
+                android:visibility="gone"
+                tools:text="현성군에게 답글 남기는 중">
+
+            </android.support.v7.widget.AppCompatTextView>
+
+            <!-- 입력-->
+            <LinearLayout
+                android:id="@+id/bblComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/layer_bottom_bar_bg"
+                android:minHeight="40dp"
+                android:orientation="horizontal">
+
+                <!-- 더미 터치 -->
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+                <!-- 입력창 -->
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/etComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/hint_comment"
+                    android:lineSpacingMultiplier="1.05"
+                    android:maxHeight="100dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textSize="@dimen/font_39"
+                    tools:text="" />
+
+                <!-- 게시 -->
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btnComment"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:enabled="false"
+                    android:text="@string/post" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

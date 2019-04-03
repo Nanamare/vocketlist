@@ -1,6 +1,7 @@
 package com.vocketlist.android.network.service;
 
 import com.vocketlist.android.network.error.RetrofitException;
+import com.vocketlist.android.network.error.handler.FirebaseErrorHandler;
 import com.vocketlist.android.roboguice.log.Ln;
 
 import retrofit2.Response;
@@ -63,6 +64,8 @@ public final class ServiceErrorChecker<T> implements Observable.Operator<Respons
                     mErrorChecker.checkError(response.body());
                 } catch (RuntimeException e) {
                     RetrofitException exception = RetrofitException.unexpectedError(response.raw().networkResponse().request().url(), response, e);
+                    new FirebaseErrorHandler().call(exception);
+                    Ln.e(e, "exception");
 
                     onError(exception);
                     return;

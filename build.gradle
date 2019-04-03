@@ -6,9 +6,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'      // ButterKnife (https://github.com/JakeWharton/butterknife)
+        classpath "io.realm:realm-gradle-plugin:3.1.1"     // https://realm.io/kr/docs/java/latest/
     }
 }
 
@@ -16,6 +18,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+        maven { url "https://jitpack.io" }
     }
 }
 

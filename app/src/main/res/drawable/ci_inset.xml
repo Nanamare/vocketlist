@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ci_gray"
+    android:insetBottom="@dimen/ci_gray_inset"
+    android:insetLeft="@dimen/ci_gray_inset"
+    android:insetRight="@dimen/ci_gray_inset"
+    android:insetTop="@dimen/ci_gray_inset" />

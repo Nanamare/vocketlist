@@ -2,10 +2,17 @@ import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'     // ButterKnife (https://github.com/JakeWharton/butterknife)
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'                   // https://realm.io/kr/docs/java/latest/
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.vocketlist.android"
@@ -14,13 +21,14 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled true
+        multiDexEnabled true;
     }
 
     productFlavors {
         // Define separate dev and prod product flavors.
         dev {
+            // 컴파일 시간을 줄이기 위해서...
+            minSdkVersion 19
         }
 
         real {
@@ -31,7 +39,6 @@ android {
         debug {
             zipAlignEnabled true
             debuggable true
-            multiDexEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project-debug.txt'
             signingConfig signingConfigs.debug
@@ -55,10 +62,10 @@ android {
         }
 
         release {
-            storeFile file("nhn.keystore")
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storeFile file("release.keystore")
+            storePassword "volunculture"
+            keyAlias "volunculture.android"
+            keyPassword "volunculture.android"
         }
     }
 
@@ -70,12 +77,6 @@ android {
         exclude 'META-INF/NOTICE' // will not include NOTICE file
         exclude 'META-INF/LICENSE' // will not include LICENSE file
 
-    }
-
-    dexOptions {
-        jumboMode true;
-        javaMaxHeapSize "4g"
-        preDexLibraries = false
     }
 }
 
@@ -93,6 +94,17 @@ android.applicationVariants.all { variant ->
     }
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.1'
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -100,14 +112,15 @@ dependencies {
     })
 
     compile 'com.android.support:multidex:1.0.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 
     // 내부 라이브러리
     compile project(':libraries:logger')
     compile project(':libraries:network')
-    compile project(':libraries:daummap')   // http://apis.map.daum.net/android/guide/
+    compile project(':libraries:daummap')           // http://apis.map.daum.net/android/guide/
+    compile project(':libraries:AwesomeText')     // hash tag widget
 
     // Glide : (Image Load Library)[https://github.com/bumptech/glide]
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -124,6 +137,44 @@ dependencies {
     // Share
     compile group: 'com.kakao.sdk', name: 'kakaolink', version: '1.1.0' // 카카오링크 (https://developers.kakao.com/)
     compile 'com.facebook.android:facebook-android-sdk:4.19.0'          // facebook (https://developers.facebook.com/docs/android/downloads?locale=ko_KR)
+
+    // Chooser : https://github.com/coomar2841/android-multipicker-library
+    compile 'com.kbeanie:multipicker:1.1.31@aar'
+    // 텍스트 : https://github.com/binaryfork/Spanny
+    compile 'com.binaryfork:spanny:1.0.4'
+
+    // 매티리얼 다이얼로그 : https://github.com/afollestad/material-dialogs
+    compile 'com.afollestad.material-dialogs:core:0.9.3.0'
+    // 메티리얼 다이얼로그 : 날짜/시간 선택 : https://github.com/wdullaer/MaterialDateTimePicker
+    compile 'co.infinum:materialdatetimepicker-support:3.1.3'
+//    compile 'com.wdullaer:materialdatetimepicker:3.1.3'
+
+    // Material color : https://github.com/mcginty/material-colors
+    compile 'com.github.mcginty:material-colors:1.1.0'
+    // 에디트 텍스트 : https://github.com/rengwuxian/MaterialEditText
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    // 링크 텍스트 : https://github.com/armcha/AutoLinkTextView
+    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
+
+    // Circle Image : https://github.com/hdodenhof/CircleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    // Bottom Navigation : https://github.com/roughike/BottomBar
+    compile 'com.roughike:bottom-bar:2.3.1'
+
+    // Recycler View : https://github.com/Malinskiy/SuperRecyclerView
+    compile 'com.malinskiy:superrecyclerview:1.1.4'
+    // 확장 리스트 : https://github.com/bignerdranch/expandable-recycler-view
+    compile 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
+    // 스티키 헤더 : https://github.com/ShamylZakariya/StickyHeaders
+    compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
+
+    //firebase-auth
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+
+    //rxBinding
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    // realm
 }
 
 apply plugin: 'com.google.gms.google-services'

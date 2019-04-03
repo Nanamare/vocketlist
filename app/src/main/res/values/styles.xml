@@ -1,11 +1,19 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- remove shadow below action bar -->
+        <!-- <item name="android:elevation">0dp</item> -->
+        <!-- Support library compatibility -->
+        <item name="elevation">0dp</item>
+
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,8 +21,42 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- 버튼 -->
+    <style name="Button" />
+    <style name="Button.Tab" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textSize">@dimen/font_36</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <!-- 탭레이아웃 -->
+    <style name="TabLayout" parent="TextAppearance.Design.Tab"/>
+    <style name="TabLayout.Label">
+        <item name="android:textSize">@dimen/font_33</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="TransparentDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="TransparentProgressDialog" parent="TransparentDialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="DimmedProgressDialog" parent="TransparentDialog">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>

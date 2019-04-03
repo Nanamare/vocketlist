@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 콘텐츠 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/new_post_button_bar_height">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <!-- 첨부파일 -->
+                <RelativeLayout
+                    android:id="@+id/rlAttachment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center" />
+
+                <!-- 마이 리스트 정보 -->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/activity_post_create_mylist_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/point_E47B75"
+                    android:textSize="@dimen/font_39"
+                    tools:text="#오늘은 좋은 일 좀 해볼까?" />
+
+                <!-- 참여 봉사 정보 -->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/activity_post_create_volunteer_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:focusable="false"
+                    android:textColor="@color/point_5FA9D0"
+                    android:textSize="@dimen/font_39"
+                    tools:text="#시각장애인 건강걷기 동행봉사" />
+
+                <!-- 내용 -->
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/metContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/hint_write_post"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/font_39"
+                    app:met_floatingLabel="highlight"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/material_grey400"
+                    tools:text="오늘은 조금 힘들었지만 너무 보람찼어요-" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <!-- 액션 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/new_post_button_bar_height"
+            android:layout_gravity="bottom"
+            android:background="@color/material_grey200"
+            android:orientation="vertical">
+
+            <!-- 라인 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_7" />
+
+            <!-- 버튼 -->
+            <android.support.v7.widget.ButtonBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 봉사활동 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnVolunteer"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:elevation="0dp"
+                    android:src="@drawable/ic_v" />
+
+                <!-- 앨범 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnAlbum"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_photo"
+                    android:textColor="@color/colorPrimary" />
+
+                <!-- 사진촬영 -->
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnCamera"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_photo_camera"
+                    android:textColor="@color/colorPrimary" />
+            </android.support.v7.widget.ButtonBarLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!-- 툴바 -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/community_write_toolbar_background"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/com_writing"
+                android:textColor="#e47d75"
+                android:textSize="13.3dp"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+</android.support.design.widget.CoordinatorLayout>

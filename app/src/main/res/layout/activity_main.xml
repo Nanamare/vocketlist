@@ -6,20 +6,149 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    tools:context=".activity.MainActivity"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/app_bar_main"
+    <!-- 콘텐츠 컨테이너 -->
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
+        <!-- 앱바 -->
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <!--  툴바 -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <!-- 탭들 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 봉사활동 탭-->
+                <LinearLayout
+                    android:id="@+id/llVolunteerTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layer_tab_bg_volunteer"
+                    android:orientation="horizontal">
+
+                    <!-- 탭 -->
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tlVolunteer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        app:tabGravity="center"
+                        app:tabIndicatorColor="@color/transparent"
+                        app:tabMinWidth="0dp"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/point_5FA9D0"
+                        app:tabTextAppearance="@style/TabLayout.Label"
+                        app:tabTextColor="#7f7f7f" />
+
+                    <!-- 필터 아이콘 -->
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/btnFilter"
+                        style="@style/Button.Tab"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="13dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_action_filter_list" />
+                </LinearLayout>
+
+                <!-- 커뮤니티 탭 -->
+                <LinearLayout
+                    android:id="@+id/llCommunityTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layer_tab_bg_community"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
+
+                    <!-- 탭 -->
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tlCommunity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        app:tabGravity="center"
+                        app:tabIndicatorColor="@color/transparent"
+                        app:tabMinWidth="0dp"
+                        app:tabMode="scrollable"
+                        app:tabPadding="0dp"
+                        app:tabSelectedTextColor="@color/point_E47B75"
+                        app:tabTextAppearance="@style/TabLayout.Label"
+                        app:tabTextColor="#7f7f7f" />
+
+                    <!-- 글작성 -->
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/btnWrite"
+                        style="@style/Button.Tab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:minWidth="50dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:text="@string/com_writing"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- 컨텐츠  -->
+        <FrameLayout
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/content_margin_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <!-- 하단 네비게이션 -->
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/content_margin_bottom"
+            android:layout_gravity="bottom"
+            app:bb_activeTabColor="@color/md_white"
+            app:bb_behavior="shifting|underNavbar"
+            app:bb_inActiveTabAlpha="0.3"
+            app:bb_inActiveTabColor="@color/md_white"
+            app:bb_showShadow="false"
+            app:bb_tabXmlResource="@xml/bottom_navigation" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <!-- 네비게이션 드로워 -->
     <android.support.design.widget.NavigationView
-        android:id="@+id/navi_view"
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@drawable/img_navi_bg"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/drawer_menu"
+        app:menu="@menu/navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

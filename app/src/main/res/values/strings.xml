@@ -1,9 +1,223 @@
 <resources>
-    <string name="app_name">VocketList</string>
+    <string name="app_name">보킷리스트</string>
     <string name="finish_application">\‘뒤로\’ 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- -->
+    <string name="action_search">검색</string>
+    <string name="action_done">완료</string>
+
+    <!---->
+    <string name="close">닫기</string>
+    <string name="detail_view">자세히 보기</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+    <string name="register">등록</string>
+
+    <string name="police">신고</string>
+    <string name="certification">인증</string>
+    <string name="modify">수정</string>
+    <string name="delete">삭제</string>
+    <string name="post">게시</string>
+    <string name="recruiting">모집중</string>
+    <string name="count">%1$d 건</string>
+
+    <!-- 인증 -->
+    <string name="logout">LOG-OUT</string>
+    <string name="login">로그인 후 이용하세요.</string>
+
+    <string name="my_list_progress">마이리스트 %1$d건 중 %2$d건 완료</string>
+
+    <!-- 탭 -->
+    <string name="tab_all">전체</string>
+    <string name="tab_act">활동지원</string>
+    <string name="tab_edu">교육상담</string>
+    <string name="tab_cul">문화체육</string>
+    <string name="tab_env">환경</string>
+    <string name="tab_etc">기타</string>
+
+    <!-- 커뮤니티 탭 -->
+    <string name="com_all">전체</string>
+    <string name="com_myWriting">내가쓴글</string>
+    <string name="com_wisdom">명언보기</string>
+    <string name="com_writing">글쓰기</string>
+
+    <!-- 카테고리 -->
+    <string-array name="categories">
+        <item>일손지원</item>
+        <item>주거환경</item>
+        <item>의료관련</item>
+        <item>행정지원</item>
+        <item>안전예방</item>
+        <item>상담봉사</item>
+        <item>교육봉사</item>
+        <item>멘토링</item>
+        <item>문화체육</item>
+        <item>환경</item>
+        <item>국제/해외</item>
+        <item>공익인권</item>
+        <item>이미용</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>여자</item>
+        <item>남자</item>
+    </string-array>
+
+    <string name="desc_all">모든 봉사활동 정보가 바로 여기!</string>
+    <string name="desc_activity">일손이 필요한 주변에 슈퍼파워 으라챠챠!</string>
+    <string name="desc_education">잘 설명하고 잘 들어줄 수 있다면 교육상담을!</string>
+    <string name="desc_culture">흥 에너지가 넘칠 땐 문화체육활동!</string>
+    <string name="desc_environment">잠깐 빌려쓰는 지구별을 지켜보자!</string>
+
+    <!-- -->
+    <string name="volunteer">봉사활동</string>
+    <string name="community">커뮤니티</string>
+    <string name="comment">답글 달기</string>
+
+    <!-- -->
+    <string name="notification">알림설정</string>
+    <string name="favorite">관심정보 모아보기</string>
+    <string name="my_list">마이리스트</string>
+
+    <!-- 봉사 상세 정보 -->
+    <string name="volunteer_read_toolbar_title">봉사활동 상세정보</string>
+    <string name="volunteer_read_period">봉사기간</string>
+    <string name="volunteer_read_apply_cancel_message">신청이 취소되었습니다.</string>
+
+    <!-- 봉사활동 신청 Dialog (외부) -->
+    <string name="volunteer_apply_dialog_title">봉사활동 신청하기</string>
+    <string name="volunteer_apply_dialog_name">이름</string>
+    <string name="volunteer_apply_dialog_email">이메일</string>
+    <string name="volunteer_apply_dialog_tel">휴대전화</string>
+    <string name="volunteer_apply_dialog_date_time_format">%1$s ~ %2$s / %3$s ~ %4$s</string>
+
+    <string name="toast_volunteer_apply_dialog_success_message">신청이 완료되었습니다.</string>
+    <string name="toast_volunteer_apply_dialog_check_data">입력되지 않은 데이터가 존재합니다</string>
+
+
+
+    <!-- -->
+    <string name="profile_manage">프로필관리</string>
+    <string name="schedule_manage">스케쥴관리</string>
+    <string name="notice">공지사항</string>
+    <string name="introduce">서비스 소개</string>
+    <string name="help">문의/도움말</string>
+    <string name="terms">이용약관</string>
+    <string name="license">라이센스</string>
+    <string name="my_posts">내 후기 모아보기</string>
+
+    <!-- -->
+    <string name="heart">하트뿅뿅</string>
+
+    <!-- -->
+    <string name="category_all">전체보기</string>
+    <string name="category">카테고리</string>
+
+    <string name="volunteer_title">봉사활동 이름</string>
+    <string name="volunteer_description">봉사활동 설명</string>
+
+    <!-- popup filter -->
+    <string name="popup_filter_volunteer_date">봉사 날짜</string>
+    <string name="popup_filter_volunteer_place">지역</string>
+    <string name="popup_filter_blank_alert">선택되지 않은 항목이 있습니다.</string>
+
+    <!-- 힌트 -->
+    <string name="hint_search">검색어를 입력하세요</string>
+    <string name="hint_write_post">오늘의 봉사활동은 어땠나요?</string>
+    <string name="hint_join_volunteer">참여한 봉사활동</string>
+    <string name="hint_my_list">나의 보킷리스트</string>
+    <string name="hint_select_my_list">참여한 봉사활동을 선택해주세요</string>
+    <string name="hint_comment">댓글 입력...</string>
+
+    <!-- 가이드 -->
+    <string name="guide_facebook_login">페이스북 계정으로 로그인해주세요.</string>
+
+    <!-- 빈화면 -->
+    <string name="empty_volunteer_category">해당 카테고리에는 봉사활동이 없습니다.\n다른 카테고리에서 찾아보세요.</string>
+    <string name="empty_community">작성된 글이 없습니다..\n지금 바로 작성 해보세요.</string>
+    <string name="empty_community_comment">작성된 댓글이 없습니다.\n지금 바로 작성 해보세요.</string>
+    <string name="empty_my_volunteer">등록된 봉사활동이 없습니다.\n검색해서 찾아보세요.</string>
+    <string name="empty_prepare">봉사하러 들어온 천사같은 당신!\n조금만 기다려 주세요\n\n해당 기능은 곧 이용 가능합니다</string>
+    <string name="empty_notice">등록된 공지사항이 없습니다.</string>
+    <string name="empty_my_list">작성된 버킷이 없습니다.\n지금 바로 작성해 보세요.</string>
+    <string name="empty_schedule">신청한 봉사활동이 없습니다\n지금 바로 선청해 보세요.</string>
+
+    <!-- 토스트 -->
+    <string name="toast_invalid_content">내용을 입력해 주세요</string>
+    <string name="toast_add_schedule">이 스케줄관리에 추가되었습니다.</string>
+
+    <string name="toast_police">신고 접수되었습니다.</string>
+
+    <!-- 다이얼로그 -->
+    <string name="dialog_introduce_title">나만을 위한 봉사 큐레이터</string>
+    <string name="dialog_introduce_message">멀게만 느껴졌던 봉사활동,\n\"보킷리스트\"와 함꼐 시작해 보세요!</string>
+    <string name="dialog_introduce_check">오늘 하루 보지 않기</string>
+
+    <string name="dialog_category_max">관심분야는 최대 5개까지 선택할 수 있습니다.</string>
+
+    <!-- 문의 -->
+    <string name="help_question_email">cs@vocketlist.com</string>
+    <string name="help_question_email_content">- 사용중인 기기 : %1$s \n- 운영체제 버전 : %2$s\n- 보킷리스트 버전 : %3$s</string>
+    <string name="help_question_email_subject">[문의]</string>
+    <string name="help_question_with_email">아래 도움말로도 해소되지 않는 문의사항이 있으시면 cs@vocketlist.com 으로 메일을 보내주세요! 신속하게 답변을 드리겠습니다.</string>
+    <string name="help_title">도움말</string>
+    <string-array name="help_titles">
+        <item>%1$d. ‘보킷 활동’은 무엇인가요?</item>
+        <item>%1$d. ‘커뮤니티’는 무엇인가요?</item>
+        <item>%1$d. ‘마이리스트’는 무엇인가요?</item>
+        <item>%1$d. 마이리스트의 ‘인증’과 ‘달성’은 어떻게 하나요?</item>
+        <item>%1$d. 참여하고 싶은 봉사활동 신청은 어떻게 하나요?</item>
+    </string-array>
+    <string-array name="help_contents">
+        <item>보킷활동은 나의 관심 분야를 바탕으로 큐레이션된 봉사활동 정보입니다. 회원 가입 후 마이페이지에서 관심 분야를 선택해야 ‘보킷 활동’에 반영됩니다.</item>
+        <item>커뮤니티에서는 참여한 봉사활동 및 선행 후기를 사진 혹은 글로 남길 수 있습니다. 다른 사람들의 다양한 후기도 확인할 수 있습니다.</item>
+        <item>마이리스트는 평소 실천하고 싶었던 선행을 작성하고 목표 달성률을 체크할 수 있는 기능입니다.</item>
+        <item>마이리스트 작성 시 ‘인증’ 이라는 버튼이 생깁니다. 인증은 스스로 실천한 선행을 사진과 글로 남기는 것입니다. 인증 버튼을 누르면 후기로 남길 수 있는 커뮤니티* 페이지로 이동하게 되고, 커뮤니티에 사진 및 글 등록 시 ‘달성’으로 바뀌게 됩니다.\n마이리스트에 작성한 목록이 인증에서 달성으로 바뀔 때 마다 달성률도 변화합니다</item>
+        <item>보킷리스트는 봉사활동 정보를 제공하며 신청은 해당 외부 페이지에서 할 수 있습니다.\n다만 보킷리스트 자체적으로 진행하는 활동은 서비스 내에서 바로 신청할 수 있습니다.</item>
+    </string-array>
+
+    <!-- 알림 설정 -->
+    <string name="noti_setting_noti_title">알림설정</string>
+    <string name="noti_setting_recommend_title">맞춤추천</string>
+    <string name="noti_setting_recommend_subtitle">나의 관심사에 맞는 봉사를 추천 받습니다</string>
+    <string name="noti_setting_new_volunteer_title">신규 봉사</string>
+    <string name="noti_setting_new_volunteer_subtitle">오늘 새로 등록된 봉사 활동을 알고 싶습니다</string>
+    <string name="noti_setting_community_title">커뮤니티</string>
+    <string name="noti_setting_community_subtitle">커뮤니티에서 나와 관련된 활동을 알려주세요</string>
+
+    <!--커뮤니티 -->
+    <string name="delete_communityList">커뮤니티 글을 삭제 하시겠습니까?</string>
+    <string name="comment_target">님에게 댓글 남기는 중</string>
+
+
+    <!-- 지역 스피너 -->
+    <string name="local">지역 선택</string>
+    <string name="local_detail">시군구 선택</string>
+
+    <!-- 마이리스트 -->
+    <string name="my_list_desc">일상 속 작은 활동들로\n나만의 선행 버킷리스트를 만들어 목표를 달성하세요!\n인증버튼을 통해 후기 등록 시 ‘달성’처리 됩니다</string>
+    <string name="hint_my_list_add">새로운 버킷리스트 등록하기</string>
+    <string name="dialog_my_list_modify_title">마이리스트 수정</string>
+    <string name="toast_my_list_modify_empty">내용을 입력해 주세요.</string>
+
+    <!-- 스케쥴-->
+    <string name="schedule_desc">내가 신청한 봉사활동의 일정을 관리합니다.</string>
+
+    <!-- 커뮤니티 목록 -->
+    <string name="community_comment_write">댓글쓰기</string>
+    <string name="community_comment">댓글을 등록해보세요</string>
+    <string name="community_comment_one">댓글 1개 보기</string>
+    <string name="community_comment_more">댓글 %1$d개 모두 보기</string>
+    <string name="community_volunteer">\#%1$s</string>
+
+    <!-- 커뮤니티 글쓰기 -->
+    <string name="community_write_empty_contents_message">입력된 내용이 없습니다.</string>
+
+    <!-- common error message -->
+    <string name="error_message_network">네트워크 상태가 좋지 않습니다.</string>
+    <string name="error_message_login">로그인이 필요합니다.</string>
 </resources>

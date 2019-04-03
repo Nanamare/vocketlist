@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="0dp">
+
+    <!-- 요일 -->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="0.9"
+        android:minWidth="35dp"
+        android:textColor="#808080"
+        android:textSize="@dimen/font_39"
+        android:textStyle="bold"
+        tools:text="2017.04.12\n-\n2017.05.12" />
+
+    <!-- 내용 -->
+    <LinearLayout
+        android:id="@+id/llInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/selector_bg_schedule"
+        android:minHeight="47dp"
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="7dp">
+
+        <!-- 봉사활동 명 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:letterSpacing="-0.04"
+            android:maxLines="2"
+            android:textColor="@color/md_white"
+            android:textSize="@dimen/font_39"
+            android:textStyle="bold"
+            tools:text="00 어린이집 봉사" />
+
+        <!-- 시간 -->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:letterSpacing="-0.03"
+            android:maxLines="2"
+            android:textColor="@color/md_white"
+            android:textSize="@dimen/font_36"
+            tools:text="13시 ~ 20시" />
+    </LinearLayout>
+
+</LinearLayout>

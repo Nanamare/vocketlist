@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vocketlist.android">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.vocketlist.android">
+
+    <!-- 카메라 , 외부 저장소 읽고 쓰기 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <!-- 네트워크 사용 권한 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- For FirebaseAnalytics -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".AppApplication"
@@ -13,66 +22,186 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".main.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <!-- kakao link -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/kakao_scheme"
+                      android:host="@string/kakaolink_host" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".login.LoginActivity"
+        <!-- Facebook Login -->
+        <activity
+            android:name=".activity.FacebookLoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"/>
+
+        <!-- 알림설정 -->
+        <activity
+            android:name=".activity.NotificationActivity"
+            android:label="@string/notification"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 관심정보모아보기 -->
+        <activity
+            android:name=".activity.FavoriteActivity"
+            android:label="@string/favorite"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 마이리스트 -->
+        <activity
+            android:name=".activity.MyListActivity"
+            android:label="@string/my_list"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- 프로필관리 -->
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="@string/profile_manage"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" /> -->
+
+
+            <!-- </intent-filter> -->
+        </activity>
+        <!-- 스케줄관리 -->
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:label="@string/schedule_manage"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 공지사항 -->
+        <activity
+            android:name=".activity.NoticeActivity"
+            android:label="@string/notice"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 서비스소개 -->
+        <activity
+            android:name=".activity.IntroduceActivity"
+            android:label="@string/introduce"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- 문의/도움말 -->
+        <activity
+            android:name=".activity.HelpActivity"
+            android:label="@string/help"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 정책 -->
+        <activity
+            android:name=".activity.TermsActivity"
+            android:label="@string/terms"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- 라이센스 -->
+        <activity
+            android:name=".activity.LicenseActivity"
+            android:label="@string/license"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- 봉사활동 : 상세보기 -->
+        <activity
+            android:name=".activity.VolunteerReadActivity"
+            android:label="@string/volunteer_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <!-- 커뮤니티 : 글 : 작성 & 수정 -->
+        <activity
+            android:name=".activity.PostCUActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
+        </activity>
+
+        <!-- 커뮤니티 : 댓글 -->
+        <activity
+            android:name=".activity.PostCommentActivity"
+            android:label="@string/comment"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- FCM 수신 -->
-        <service
-            android:name=".message.PushService">
+        <service android:name=".message.PushService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-        <!-- facebook chrom login -->
+        <!-- facebook chrom setFacebookData -->
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
             </intent-filter>
         </activity>
 
-
         <!-- FCM Token access -->
-        <service
-            android:name=".message.PushInstanceIDService">
+        <service android:name=".message.PushInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
@@ -81,16 +210,24 @@
         <!-- Glide모듈을 Custom하게 변경 -->
         <meta-data
             android:name=".GlideSetup"
-            android:value="GlideModule" />
+            android:value="com.bumptech.glide.module.GlideModule"/>
 
         <!-- Kakao Link -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
+            android:value="@string/kakao_app_key"/>
 
         <!-- facebook -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
+
+        <!-- facebook 공유 -->
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1234567890123456"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

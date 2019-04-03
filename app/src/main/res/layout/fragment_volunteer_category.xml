@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvLabel"
+            android:layout_width="match_parent"
+            android:layout_height="46.7dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textSize="13.33dp"
+            android:textColor="#5fb0da"
+            android:gravity="center_vertical"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            tools:text="@string/desc_all" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:id="@+id/activity_post_comment_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_empty="@layout/empty_volunteer_category"
+        app:layout_moreProgress="@layout/layout_more_progress"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="false"
+        app:recyclerPadding="0dp"
+        app:scrollbarStyle="outsideOverlay" />
+
+</android.support.design.widget.CoordinatorLayout>

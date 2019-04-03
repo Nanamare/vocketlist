@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 앱바 -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!-- 툴바 -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/community_detail_toolbar_background"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="45dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/volunteer_read_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/volunteer_read_toolbar_title"
+                    android:textColor="#5fb0da"
+                    android:textSize="15.3dp" />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- 콘텐츠 -->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/volunteer_read_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="17.3dp"
+                android:gravity="left"
+                android:textColor="#5fb0da"
+                android:textSize="13.3dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="@string/volunteer_read_period"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/start_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017.01.24"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:id="@+id/end_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017.02.28"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  /  "
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:id="@+id/start_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:id="@+id/end_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="모집기간"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recruit_start_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="2017.01.01"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text=" - "
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:id="@+id/recruit_end_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017.01.21"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="활동요일"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/active_day_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="월, 화, 수"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="봉사장소"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/place_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="재택 혹은 내방"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="모집인원"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/num_by_day_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="60명"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="("
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="신청인원수"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="157"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="명"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="/"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+
+                <TextView
+                    android:id="@+id/isActiveDayTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모집중"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="모집기관"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/host_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="조인어스코리아"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginTop="13dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:text="카테고리"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/category_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카테고리"
+                    android:textColor="#808080"
+                    android:textSize="11.8dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17.3dp">
+
+                <ImageView
+                    android:id="@+id/volunteer_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@color/material_grey300" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/volunteer_iv"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="9.3dp"
+                    android:paddingRight="15.3dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_action_f" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_action_k" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_v" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.7dp"
+                android:layout_marginTop="17dp"
+                android:text="상세내용"
+                android:textColor="#808080"
+                android:textSize="11.8dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/volunteer_read_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.7dp"
+                android:layout_marginRight="19.7dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#808080"
+                android:textSize="11.8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23.7dp"
+                android:gravity="right">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/apply_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="신청하기"
+                        android:textColor="#5fb0da"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/apply_cancel_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="신청취소"
+                        android:textColor="#5fb0da"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/write_diary_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="18dp"
+                    android:text="후기등록"
+                    android:textColor="#808080"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/volunteer_read_internal_noti_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15.7dp"
+                android:layout_marginLeft="16.7dp"
+                android:layout_marginTop="15.7dp"
+                android:text="외부 주체 봉사활동으로 해당 웹사이트로 이동합니다."
+                android:textColor="#808080"
+                android:textSize="10dp" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- 앱바 -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!-- 툴바 -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- 콘텐츠 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/md_white"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.2"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/my_list_desc"
+                    android:textSize="@dimen/font_39" />
+
+                <LinearLayout
+                    android:id="@+id/myList_header_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- 이전 년도 -->
+                    <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/ibPrevYear"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+                    <!-- 년도 -->
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textSize="25sp"
+                        tools:text="2017" />
+
+                    <!-- 다음 년도 -->
+                    <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/ibNextYear"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                </LinearLayout>
+
+                <!-- 빈화면 -->
+                <com.vocketlist.android.view.EmptyView
+                    android:id="@+id/emptyView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/empty_my_list" />
+
+                <!-- 목록 -->
+                <com.vocketlist.android.view.EmptyRecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <!-- 입력 -->
+        <LinearLayout
+            android:id="@+id/bblComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/layer_bottom_bar_bg"
+            android:minHeight="40dp"
+            android:orientation="horizontal">
+
+            <!-- 더미 터치 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+            <!-- 입력창 -->
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/etContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/hint_my_list_add"
+                android:lineSpacingMultiplier="1.05"
+                android:maxHeight="100dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:textSize="@dimen/font_39"
+                tools:text="" />
+
+            <!-- 등록 -->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/btnDone"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:enabled="false"
+                android:text="@string/register" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -13,7 +13,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader;
 import com.bumptech.glide.load.model.stream.StreamModelLoader;
 import com.bumptech.glide.module.GlideModule;
-import com.vocketlist.android.common.util.UserAgentUtility;
+import com.vocketlist.android.util.UserAgentUtility;
 
 import java.io.InputStream;
 
