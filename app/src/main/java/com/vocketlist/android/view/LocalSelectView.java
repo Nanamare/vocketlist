@@ -94,6 +94,7 @@ public class LocalSelectView extends LinearLayout {
 
 	private void initSecondSpinner(int position) {
 
+		if(sFirstAddress.size() ==  0) return;
 		getSecondAddress = AddressServiceManager.getSecondAddress(sFirstAddress.get(position).mName);
 		String[] secondArray = new String[getSecondAddress.size()];
 
@@ -138,6 +139,7 @@ public class LocalSelectView extends LinearLayout {
 				firstPosition = position;
 			}
 		}
+		if(sFirstAddress.size() == 0) return;
 		formerLocalNm = sFirstAddress.get(firstPosition).mName;
 		getSecondAddress = AddressServiceManager.getSecondAddress(sFirstAddress.get(firstPosition).mName);
 

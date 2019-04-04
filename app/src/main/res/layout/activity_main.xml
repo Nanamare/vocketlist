@@ -132,11 +132,12 @@
             android:layout_height="@dimen/content_margin_bottom"
             android:layout_gravity="bottom"
             app:bb_activeTabColor="@color/md_white"
-            app:bb_behavior="shifting|underNavbar"
             app:bb_inActiveTabAlpha="0.3"
             app:bb_inActiveTabColor="@color/md_white"
             app:bb_showShadow="false"
             app:bb_tabXmlResource="@xml/bottom_navigation" />
+
+        <!--app:bb_behavior="shifting|underNavbar"-->
 
     </android.support.design.widget.CoordinatorLayout>
 
