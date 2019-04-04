@@ -2,7 +2,7 @@
 <tabs>
     <!-- 봉사화동 -->
     <tab
-        id="@+id/action_volunteer"
+            id="@+id/action_volunteer"
         icon="@drawable/ic_link"
         title="@string/volunteer"
         barColorWhenSelected="@color/point_5FA9D0" />

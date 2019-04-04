@@ -316,7 +316,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // TODO 전달할 값이 있으면 extras 파라미터에 담아서...
         switch (tabId) {
             // 봉사활동
-            case R.id.action_activity: //Todo 
+            case R.id.action_volunteer:
                 llVolunteerTab.setVisibility(View.VISIBLE);
                 llCommunityTab.setVisibility(View.INVISIBLE);
                 goToFragment(VolunteerFragment.class);
